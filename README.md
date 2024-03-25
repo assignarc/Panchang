@@ -17,4 +17,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Uses parts of 
 1. Mudgala Hora / mhora .NET (v0.2) based Vedic Astrology software.  © Ajit Krishnan (http://www.mudgala.com) under GNU General Public License. 
 1. Genghis Integrated WinForms Components by Genghis Group. Portions copyright © 2002-2004 The Genghis Group (http://www.genghisgroup.com/).
+1. Swiss Ephemeris, under GNU Affero General Public License (AGPL) https://www.astro.com/swisseph
+1. SwissEphNet, part of Swiss Ephemeris, Astrodienst Swiss Ephemeris (http://www.astro.com/swisseph/) .Net portage from C (version 2.06) to C# in a PCL/.Net Core project for cross platform usage
 
