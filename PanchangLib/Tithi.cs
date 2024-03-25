@@ -1,0 +1,128 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace org.transliteral.panchang
+{
+    public class Tithi
+    {
+       
+        public string ToUnqualifiedString()
+        {
+            switch (mValue)
+            {
+                case TithiName.KrishnaPratipada:
+                case TithiName.ShuklaPratipada: return "Prathama";
+                case TithiName.KrishnaDvitiya:
+                case TithiName.ShuklaDvitiya: return "Dvitiya";
+                case TithiName.KrishnaTritiya:
+                case TithiName.ShuklaTritiya: return "Tritiya";
+                case TithiName.KrishnaChaturti:
+                case TithiName.ShuklaChaturti: return "Chaturthi";
+                case TithiName.KrishnaPanchami:
+                case TithiName.ShuklaPanchami: return "Panchami";
+                case TithiName.KrishnaShashti:
+                case TithiName.ShuklaShashti: return "Shashti";
+                case TithiName.KrishnaSaptami:
+                case TithiName.ShuklaSaptami: return "Saptami";
+                case TithiName.KrishnaAshtami:
+                case TithiName.ShuklaAshtami: return "Ashtami";
+                case TithiName.KrishnaNavami:
+                case TithiName.ShuklaNavami: return "Navami";
+                case TithiName.KrishnaDasami:
+                case TithiName.ShuklaDasami: return "Dashami";
+                case TithiName.KrishnaEkadasi:
+                case TithiName.ShuklaEkadasi: return "Ekadashi";
+                case TithiName.KrishnaDvadasi:
+                case TithiName.ShuklaDvadasi: return "Dwadashi";
+                case TithiName.KrishnaTrayodasi:
+                case TithiName.ShuklaTrayodasi: return "Trayodashi";
+                case TithiName.KrishnaChaturdasi:
+                case TithiName.ShuklaChaturdasi: return "Chaturdashi";
+                case TithiName.Paurnami: return "Poornima";
+                case TithiName.Amavasya: return "Amavasya";
+            }
+            return "";
+        }
+        public override string ToString()
+        {
+            return EnumDescConverter.GetEnumDescription(mValue);
+        }
+
+
+        private TithiName mValue;
+        public Tithi(TithiName _mValue)
+        {
+            mValue = (TithiName)Basics.normalize_inc(1, 30, (int)_mValue);
+        }
+        public TithiName value
+        {
+            get { return mValue; }
+            set { mValue = value; }
+        }
+        public Tithi add(int i)
+        {
+            int tnum = Basics.normalize_inc(1, 30, (int)this.value + i - 1);
+            return new Tithi((TithiName)tnum);
+        }
+        public Tithi addReverse(int i)
+        {
+            int tnum = Basics.normalize_inc(1, 30, (int)this.value - i + 1);
+            return new Tithi((TithiName)tnum);
+        }
+        public Body.Name getLord()
+        {
+            // 1 based index starting with prathama
+            int t = (int)this.value;
+
+            //Console.WriteLine ("Looking for lord of tithi {0}", t);
+            // check for new moon and full moon 
+            if (t == 30) return Body.Name.Rahu;
+            if (t == 15) return Body.Name.Saturn;
+
+            // coalesce pakshas
+            if (t >= 16) t -= 15;
+            switch (t)
+            {
+                case 1: case 9: return Body.Name.Sun;
+                case 2: case 10: return Body.Name.Moon;
+                case 3: case 11: return Body.Name.Mars;
+                case 4: case 12: return Body.Name.Mercury;
+                case 5: case 13: return Body.Name.Jupiter;
+                case 6: case 14: return Body.Name.Venus;
+                case 7: return Body.Name.Saturn;
+                case 8: return Body.Name.Rahu;
+            }
+            Debug.Assert(false, "Tithi::getLord");
+            return Body.Name.Sun;
+        }
+
+        public NandaType toNandaType()
+        {
+            // 1 based index starting with prathama
+            int t = (int)this.value;
+
+            // check for new moon and full moon 
+
+            if (t == 30 || t == 15) return NandaType.Purna;
+
+            // coalesce pakshas
+            if (t >= 16) t -= 15;
+            switch (t)
+            {
+                case 1: case 6: case 11: return NandaType.Nanda;
+                case 2: case 7: case 12: return NandaType.Bhadra;
+                case 3: case 8: case 13: return NandaType.Jaya;
+                case 4: case 9: case 14: return NandaType.Rikta;
+                case 5: case 10: return NandaType.Purna;
+            }
+            Debug.Assert(false, "Tithi::toNandaType");
+            return NandaType.Nanda;
+        }
+    }
+
+}

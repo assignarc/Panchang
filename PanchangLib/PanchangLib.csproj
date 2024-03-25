@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0EAA9FB0-A773-43CC-91A3-5D90125D9377}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>org.transliteral.panchang</RootNamespace>
+    <AssemblyName>org.transliteral.panchang</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SwissEphNet, Version=2.8.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SwissEphNet.2.8.0.2\lib\net40\SwissEphNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ashtakavarga.cs" />
+    <Compile Include="AshtakavargaOptions.cs" />
+    <Compile Include="Balas.cs" />
+    <Compile Include="Basics\Enumerations.cs" />
+    <Compile Include="Dasas\AshtottariDasa.cs" />
+    <Compile Include="Dasas\CharaDasa.cs" />
+    <Compile Include="Dasas\ChaturashitiSamaDasa.cs" />
+    <Compile Include="Dasas\Dasa.cs" />
+    <Compile Include="Dasas\DasaEntry.cs" />
+    <Compile Include="Dasas\DasaEntryConverter.cs" />
+    <Compile Include="Dasas\DrigDasa.cs" />
+    <Compile Include="Dasas\DwadashottariDasa.cs" />
+    <Compile Include="Dasas\DwisaptatiSamaDasa.cs" />
+    <Compile Include="Dasas\IDasa.cs" />
+    <Compile Include="Dasas\INakshatraDasa.cs" />
+    <Compile Include="Dasas\INakshatraKaranaDasa.cs" />
+    <Compile Include="Dasas\INakshatraTithiDasa.cs" />
+    <Compile Include="Dasas\INakshatraYogaDasa.cs" />
+    <Compile Include="Dasas\KalachakraDasa.cs" />
+    <Compile Include="Dasas\KarakaKendradiGrahaDasa.cs" />
+    <Compile Include="Dasas\KaranaPraveshDasa.cs" />
+    <Compile Include="Dasas\LagnaKendradiRasiDasa.cs" />
+    <Compile Include="Dasas\MandookaDasa.cs" />
+    <Compile Include="Dasas\MoolaDasa.cs" />
+    <Compile Include="Dasas\NaisargikaGrahaDasa.cs" />
+    <Compile Include="Dasas\NaisargikaGrahaDasaSP.cs" />
+    <Compile Include="Dasas\NaisargikaRasiDasa.cs" />
+    <Compile Include="Dasas\NakshatraDasa.cs" />
+    <Compile Include="Dasas\NakshatraPraveshDasa.cs" />
+    <Compile Include="Dasas\NarayanaDasa.cs" />
+    <Compile Include="Dasas\NarayanaSamaDasa.cs" />
+    <Compile Include="Dasas\NavamsaDasa.cs" />
+    <Compile Include="Dasas\NirayaanaShoolaDasa.cs" />
+    <Compile Include="Dasas\PanchottariDasa.cs" />
+    <Compile Include="Dasas\RasiDasaUserOptions.cs" />
+    <Compile Include="Dasas\ShatabdikaDasa.cs" />
+    <Compile Include="Dasas\ShatTrimshaSamaDasa.cs" />
+    <Compile Include="Dasas\ShodashottariDasa.cs" />
+    <Compile Include="Dasas\ShoolaDasa.cs" />
+    <Compile Include="Dasas\SudarshanaChakraDasa.cs" />
+    <Compile Include="Dasas\SuDasa.cs" />
+    <Compile Include="Dasas\TajakaDasa.cs" />
+    <Compile Include="Dasas\TattwaDasa.cs" />
+    <Compile Include="Dasas\TithiAshtottariDasa.cs" />
+    <Compile Include="Dasas\TithiPraveshDasa.cs" />
+    <Compile Include="Dasas\ToDate.cs" />
+    <Compile Include="Dasas\TrikonaDasa.cs" />
+    <Compile Include="Dasas\VimsottariDasa.cs" />
+    <Compile Include="Dasas\YogaPraveshDasa.cs" />
+    <Compile Include="Dasas\YogaVimsottariDasa.cs" />
+    <Compile Include="Dasas\YoginiDasa.cs" />
+    <Compile Include="Strength\BaseStrength.cs" />
+    <Compile Include="Basics\Basics.cs" />
+    <Compile Include="Body.cs" />
+    <Compile Include="BodyKarakaComparer.cs" />
+    <Compile Include="BodyPosition.cs" />
+    <Compile Include="BodyType.cs" />
+    <Compile Include="Crypto.cs" />
+    <Compile Include="CuspTransitSearch.cs" />
+    <Compile Include="Dasas\KaranaChaturashitiSamaDasa.cs" />
+    <Compile Include="Division.cs" />
+    <Compile Include="DivisionConverter.cs" />
+    <Compile Include="DivisionPosition.cs" />
+    <Compile Include="EnumDescConverter.cs" />
+    <Compile Include="Strength\EqualStrength.cs" />
+    <Compile Include="FindStronger.cs" />
+    <Compile Include="FindYogas.cs" />
+    <Compile Include="Ghataka\GhatakaDay.cs" />
+    <Compile Include="Ghataka\GhatakaLagnaOpp.cs" />
+    <Compile Include="Ghataka\GhatakaLagnaSame.cs" />
+    <Compile Include="Ghataka\GhatakaStar.cs" />
+    <Compile Include="Ghataka\GhatakaTithi.cs" />
+    <Compile Include="GlobalOptions.cs" />
+    <Compile Include="Basics\HMSInfo.cs" />
+    <Compile Include="HMSInfoConverter.cs" />
+    <Compile Include="HoraInfo.cs" />
+    <Compile Include="Horoscope.cs" />
+    <Compile Include="HoroscopeOptions.cs" />
+    <Compile Include="IFileToHoraInfo.cs" />
+    <Compile Include="Strength\IStrengthGraha.cs" />
+    <Compile Include="Strength\IStrengthNakshatra.cs" />
+    <Compile Include="Strength\IStrengthRasi.cs" />
+    <Compile Include="IUpdateable.cs" />
+    <Compile Include="Jhd.cs" />
+    <Compile Include="Karana.cs" />
+    <Compile Include="Kutas\KutaNakshatraYoni.cs" />
+    <Compile Include="Kutas\KutaGana.cs" />
+    <Compile Include="Kutas\KutaNadi.cs" />
+    <Compile Include="Kutas\KutaRajju.cs" />
+    <Compile Include="Kutas\KutaRasiYoni.cs" />
+    <Compile Include="Kutas\KutaGotra.cs" />
+    <Compile Include="Kutas\KutaBhutaNakshatra.cs" />
+    <Compile Include="Ghataka\GhatakaMoon.cs" />
+    <Compile Include="Kutas\KutaVihanga.cs" />
+    <Compile Include="Kutas\KutaVarna.cs" />
+    <Compile Include="Kutas\KutaVedha.cs" />
+    <Compile Include="Basics\Longitude.cs" />
+    <Compile Include="LongitudeConverter.cs" />
+    <Compile Include="Mhd.cs" />
+    <Compile Include="MhoraArrayConverter.cs" />
+    <Compile Include="MhoraSerializableOptions.cs" />
+    <Compile Include="Moment.cs" />
+    <Compile Include="MomentConverter.cs" />
+    <Compile Include="Nakshatra.cs" />
+    <Compile Include="Nakshatra28.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NonLinearTransit.cs" />
+    <Compile Include="OrderedGrahas.cs" />
+    <Compile Include="OrderedGrahasConverter.cs" />
+    <Compile Include="OrderedZodiacHouses.cs" />
+    <Compile Include="OrderedZodiacHousesConverter.cs" />
+    <Compile Include="PGDisplayName.cs" />
+    <Compile Include="PGNotVisible.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyOrderAttribute.cs" />
+    <Compile Include="Retrogression.cs" />
+    <Compile Include="SingleDivisionConverter.cs" />
+    <Compile Include="Strength\StrengthByAspectsGraha.cs" />
+    <Compile Include="Strength\StrengthByAspectsRasi.cs" />
+    <Compile Include="Strength\StrengthByAtmaKaraka.cs" />
+    <Compile Include="Strength\StrengthByExaltation.cs" />
+    <Compile Include="Strength\StrengthByFirst.cs" />
+    <Compile Include="Strength\StrengthByKarakaKendradiGrahaDasaLength.cs" />
+    <Compile Include="Strength\StrengthByKendraConjunction.cs" />
+    <Compile Include="Strength\StrengthByLongitude.cs" />
+    <Compile Include="Strength\StrengthByLordInDifferentOddity.cs" />
+    <Compile Include="Strength\StrengthByLordInOwnHouse.cs" />
+    <Compile Include="Strength\StrengthByLordIsAtmaKaraka.cs" />
+    <Compile Include="Strength\StrengthByLordsLongitude.cs" />
+    <Compile Include="Strength\StrengthByLordsNature.cs" />
+    <Compile Include="Strength\StrengthByMoolaTrikona.cs" />
+    <Compile Include="Strength\StrengthByNarayanaDasaLength.cs" />
+    <Compile Include="Strength\StrengthByOwnHouse.cs" />
+    <Compile Include="Strength\StrengthByRasisNature.cs" />
+    <Compile Include="Strength\StrengthByVimsottariDasaLength.cs" />
+    <Compile Include="Strength\StrengthOptions.cs" />
+    <Compile Include="Strength\StrengthByConjunction.cs" />
+    <Compile Include="SunMoonYoga.cs" />
+    <Compile Include="Sweph\Sweph.cs" />
+    <Compile Include="Sweph\SwephException.cs" />
+    <Compile Include="Tithi.cs" />
+    <Compile Include="Transits.cs" />
+    <Compile Include="UserEvent.cs" />
+    <Compile Include="UserOptions.cs" />
+    <Compile Include="XmlYogaNode.cs" />
+    <Compile Include="YogasParseException.cs" />
+    <Compile Include="ZodiacHouse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
