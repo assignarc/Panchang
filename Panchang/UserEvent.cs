@@ -1,13 +1,7 @@
-﻿
-using org.transliteral.panchang;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using BaseUserEvent = org.transliteral.panchang.UserEvent;
 namespace mhora
 {

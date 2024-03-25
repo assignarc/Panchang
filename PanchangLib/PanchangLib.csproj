@@ -184,6 +184,7 @@
     <Compile Include="Strength\StrengthOptions.cs" />
     <Compile Include="Strength\StrengthByConjunction.cs" />
     <Compile Include="SunMoonYoga.cs" />
+    <Compile Include="Sweph\Sweph1.cs" />
     <Compile Include="Sweph\Sweph.cs" />
     <Compile Include="Sweph\SwephException.cs" />
     <Compile Include="Tithi.cs" />

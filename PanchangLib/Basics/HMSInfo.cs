@@ -18,8 +18,7 @@ namespace org.transliteral.panchang
             this.GetObjectData(this.GetType(), info, context);
         }
 
-        protected HMSInfo(SerializationInfo info, StreamingContext context) :
-        this()
+        protected HMSInfo(SerializationInfo info, StreamingContext context) :this()
         {
             this.Constructor(this.GetType(), info, context);
         }
