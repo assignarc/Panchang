@@ -498,7 +498,7 @@ namespace org.transliteral.panchang
 			}
 			catch (SwephException exc)
 			{
-				System.Console.WriteLine ( "Sweph: {0}\n", exc.status);
+				System.Console.WriteLine ( "Sweph: {0}\n", exc.Message);
 				throw new System.Exception("");
 			}
 		}
@@ -530,7 +530,7 @@ namespace org.transliteral.panchang
 			} 
 			catch (SwephException exc) 
 			{
-				System.Console.WriteLine ( "Sweph: {0}\n", exc.status);
+				System.Console.WriteLine ( "Sweph: {0}\n", exc.Message	);
 				throw new System.Exception("");
 			}
 		}

@@ -268,13 +268,13 @@ namespace org.transliteral.panchang
             //Console.WriteLine("LMT: {0}, {1}", lmt_offset_1, lmt_offset_2);
 
             return ret_lmt_offset;
-#if DND
+            #if DND
 			// determine offset from ephemeris time
 			lmt_offset = 0;
 			double tjd_et = baseUT + Sweph.swe_deltat(baseUT);
 			System.Text.StringBuilder s = new System.Text.StringBuilder(256);
 			int ret = Sweph.swe_time_equ(tjd_et, ref lmt_offset, s);
-#endif
+            #endif
         }
         private void populateSunrisetCache()
         {

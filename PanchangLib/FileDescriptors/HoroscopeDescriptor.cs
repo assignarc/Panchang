@@ -14,10 +14,10 @@ namespace org.transliteral.panchang
     /// </summary>
     /// 
 
-    public class Mhd : IFileToHoraInfo
+    public class HoroscopeDescriptor : IFileToHoraInfo
     {
         private string fname;
-        public Mhd(string fileName)
+        public HoroscopeDescriptor(string fileName)
         {
             fname = fileName;
         }

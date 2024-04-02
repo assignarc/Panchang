@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 {
     [Serializable]
     [TypeConverter(typeof(HMSInfoConverter))]
-    public class HMSInfo : MhoraSerializableOptions, ICloneable, ISerializable
+    public class HMSInfo : HoraSerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)

@@ -507,7 +507,7 @@ namespace mhora
 			try 
 			{
 				child.Show();		
-			}
+			} 
 			catch (System.OutOfMemoryException ex)
 			{
 				MessageBox.Show(ex.Message);
@@ -525,7 +525,7 @@ namespace mhora
 				return;
 
 
-			HoraInfo info = (new Jhd(ofd.FileName)).toHoraInfo();
+			HoraInfo info = (new JagannathaHoraDescriptor(ofd.FileName)).toHoraInfo();
 			info.tob = mNow;
 
 			string[] _path_split = ofd.FileName.Split(new Char[]{'/','\\'});
@@ -555,9 +555,9 @@ namespace mhora
 			HoraInfo info = null;
 
 			if (sparts[sparts.Length-1] == "jhd")
-				info = (new Jhd(ofd.FileName)).toHoraInfo();
+				info = (new JagannathaHoraDescriptor(ofd.FileName)).toHoraInfo();
 			else
-				info = (new Mhd(ofd.FileName)).toHoraInfo();
+				info = (new HoroscopeDescriptor(ofd.FileName)).toHoraInfo();
 
 			string[] _path_split = ofd.FileName.Split(new Char[]{'/','\\'});
 			ArrayList path_split = new ArrayList(_path_split);
@@ -701,7 +701,7 @@ namespace mhora
 
 		private bool checkJhd (string fileName)
 		{
-			HoraInfo info = (new Jhd(fileName)).toHoraInfo();
+			HoraInfo info = (new JagannathaHoraDescriptor(fileName)).toHoraInfo();
 			Horoscope h = new Horoscope(info, new HoroscopeOptions());
 			if (h.getPosition(Body.Name.Ketu).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value ==
 				h.getPosition(Body.Name.Lagna).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value)

@@ -15,7 +15,7 @@ namespace org.transliteral.panchang
     /// </summary>
     [XmlRoot("MhoraOptions")]
     [Serializable]
-    public class MhoraGlobalOptions : MhoraSerializableOptions, ISerializable
+    public class MhoraGlobalOptions : HoraSerializableOptions, ISerializable
     {
         //[NonSerialized]	public static object Reference = null;
         [NonSerialized] public static object mainControl = null;

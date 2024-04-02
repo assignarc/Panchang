@@ -15,7 +15,7 @@ namespace org.transliteral.panchang
     /// </summary>
     [Serializable]
     [TypeConverter(typeof(MomentConverter))]
-    public class Moment : MhoraSerializableOptions, ICloneable, ISerializable
+    public class Moment : HoraSerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)

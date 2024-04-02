@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class UserEvent : MhoraSerializableOptions, ICloneable, ISerializable
+    public class UserEvent : HoraSerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)

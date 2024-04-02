@@ -12,14 +12,9 @@ namespace org.transliteral.panchang
      /// </summary>
     public class SwephException : Exception
     {
-        public string status;
-        public SwephException() : base()
-        {
-            status = null;
-        }
-        public SwephException(string message)
-        {
-            status = message;
-        }
+       
+        public SwephException() : base(){}
+        public SwephException(string message) : base(message) {}
+        public SwephException(string message,Exception ex) : base(message, ex) {}
     }
 }

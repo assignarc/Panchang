@@ -372,9 +372,9 @@ namespace mhora
 			try
 			{
 				if (h.info.FileType == EFileType.JagannathaHora)
-					new Jhd(this.mJhdFileName).ToFile(h.info);
+					new JagannathaHoraDescriptor(this.mJhdFileName).ToFile(h.info);
 				else
-					new Mhd(this.mJhdFileName).ToFile(h.info);
+					new HoroscopeDescriptor(this.mJhdFileName).ToFile(h.info);
 			}
 			catch (System.ArgumentNullException)
 			{
@@ -404,12 +404,12 @@ namespace mhora
 				if (sparts[sparts.Length-1] == "jhd")
 				{
 					h.info.FileType = EFileType.JagannathaHora;
-					new Jhd(ofd.FileName).ToFile(h.info);
+					new JagannathaHoraDescriptor(ofd.FileName).ToFile(h.info);
 				}
 				else
 				{
 					h.info.FileType = EFileType.MudgalaHora;
-					new Mhd(ofd.FileName).ToFile(h.info);
+					new HoroscopeDescriptor(ofd.FileName).ToFile(h.info);
 				}
 
 				this.mJhdFileName = ofd.FileName;

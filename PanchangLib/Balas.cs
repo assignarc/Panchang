@@ -10,6 +10,7 @@ namespace org.transliteral.panchang
 	/// </summary>
 	public class ShadBalas
 	{
+        
 		Horoscope h;
 		public ShadBalas(Horoscope _h)
 		{
@@ -105,7 +106,7 @@ namespace org.transliteral.panchang
 			debLon = debLon.add(powerlessHouse[(int)b]*30.0+15.0);
 			Longitude posLon = h.getPosition(b).longitude;
 
-			Console.WriteLine("digBala {0} {1} {2}", b, posLon.value, debLon.value);
+			Logger.Debug(String.Format("digBala {0} {1} {2}", b, posLon.value, debLon.value));
 
 			double diff = posLon.sub(debLon).value;
 			if (diff > 180) diff = 360 - diff;

@@ -17,12 +17,6 @@ namespace org.transliteral.panchang
     /// </summary>
     public class Sweph
     {
-
-        /* public static int SEFLG_SWIEPH = 2;
-         public static int SEFLG_TRUEPOS = 16;
-         public static int SEFLG_SPEED = 256;
-         public static int SEFLG_SIDEREAL = 64 * 1024;*/
-
         public static int SEFLG_SWIEPH = SwissEph.SEFLG_SWIEPH;
         public static int SEFLG_TRUEPOS = SwissEph.SEFLG_TRUEPOS;
         public static int SEFLG_SPEED = SwissEph.SEFLG_SPEED;
@@ -30,25 +24,11 @@ namespace org.transliteral.panchang
 
         public static int iflag = SEFLG_SWIEPH | SEFLG_SPEED | SEFLG_SIDEREAL;
 
-       /* 
-        public static int SE_AYANAMSA_LAHIRI = 1;
-        public static int SE_AYANAMSA_RAMAN = 3;*/
-
         public static int SE_AYANAMSA_LAHIRI = SwissEph.SE_SIDM_LAHIRI;
         public static int SE_AYANAMSA_RAMAN = SwissEph.SE_SIDM_RAMAN;
         public static int SE_AYANAMSA_SURYASIDDHANTA = SwissEph.SE_SIDM_SURYASIDDHANTA;
 
         public static int ayanamsa = SE_AYANAMSA_LAHIRI;
-
-       /* public static int SE_SUN = 0;
-        public static int SE_MOON = 1;
-        public static int SE_MERCURY = 2;
-        public static int SE_VENUS = 3;
-        public static int SE_MARS = 4;
-        public static int SE_JUPITER = 5;
-        public static int SE_SATURN = 6;
-        public static int SE_MEAN_NODE = 10;
-        public static int SE_TRUE_NODE = 11;*/
 
         public static int SE_SUN = SwissEph.SE_SUN;
         public static int SE_MOON = SwissEph.SE_MOON;
@@ -60,13 +40,6 @@ namespace org.transliteral.panchang
         public static int SE_MEAN_NODE = SwissEph.SE_MEAN_NODE;
         public static int SE_TRUE_NODE = SwissEph.SE_TRUE_NODE;
 
-        /* public static int SE_CALC_RISE = 1;
-         public static int SE_CALC_SET = 2;
-         public static int SE_CALC_MTRANSIT = 4;
-         public static int SE_CALC_ITRANSIT = 8;
-         public static int SE_BIT_DISC_CENTER = 256;
-         public static int SE_BIT_NO_REFRACTION = 512;*/
-
         public static int SE_CALC_RISE = SwissEph.SE_CALC_RISE;
         public static int SE_CALC_SET = SwissEph.SE_CALC_SET;
         public static int SE_CALC_MTRANSIT = SwissEph.SE_CALC_MTRANSIT;
@@ -74,14 +47,6 @@ namespace org.transliteral.panchang
         public static int SE_BIT_DISC_CENTER = SwissEph.SE_BIT_DISC_CENTER;
         public static int SE_BIT_NO_REFRACTION = SwissEph.SE_BIT_NO_REFRACTION;
         public static int SE_BIT_HINDU_RISING = SwissEph.SE_BIT_HINDU_RISING;
-
-        /*public static int SE_WK_MONDAY = 0;
-        public static int SE_WK_TUESDAY = 1;
-        public static int SE_WK_WEDNESDAY = 2;
-        public static int SE_WK_THURSDAY = 3;
-        public static int SE_WK_FRIDAY = 4;
-        public static int SE_WK_SATURDAY = 5;
-        public static int SE_WK_SUNDAY = 6;*/
 
         public static int SE_WK_MONDAY = 0;
         public static int SE_WK_TUESDAY = 1;
@@ -96,26 +61,28 @@ namespace org.transliteral.panchang
 
         private static Horoscope mCurrentLockHolder = null;
         private static Object SwephLockObject = null;
-        private static SwissEph sEph;
+        private static SwissEph swissEphemerides = new SwissEph();
+
 
         public static void Initialize()
         {
-            if (sEph == null)
+            if (swissEphemerides == null)
             {
-                sEph = new SwissEph();
-                sEph.OnLoadFile += SwissEph_OnLoadFile;
+                swissEphemerides = new SwissEph();
+                swissEphemerides.OnLoadFile += SwissEph_OnLoadFile;
             }
+            
         }
 
         private static void SwissEph_OnLoadFile(object sender, LoadFileEventArgs e)
         {
             if (File.Exists(e.FileName))
             {
-                Console.Write($"{e.FileName} - Loaded");
+                Console.WriteLine($"{e.FileName} - Loaded");
                 e.File = File.OpenRead(e.FileName);
             }
             else
-                Console.Write($"{e.FileName} - Does not exist");
+                Console.WriteLine($"{e.FileName} - Does not exist");
 
         }
 
@@ -130,6 +97,7 @@ namespace org.transliteral.panchang
         }
         public static void obtainLock(Horoscope h)
         {
+            Sweph.Initialize();
             if (Sweph.SwephLockObject == null)
                 Sweph.SwephLockObject = new Object();
 
@@ -170,49 +138,31 @@ namespace org.transliteral.panchang
             }
         }
 
-       /* 
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_set_ephe_path")]
-        public extern static void xyz_swe_set_ephe_path(string path);
-        */
-        public static void swe_set_ephe_path(string path) => sEph.swe_set_ephe_path(path);
+      
+        public static void swe_set_ephe_path(string path) => swissEphemerides.swe_set_ephe_path(path);
        
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_set_sid_mode")]
-        private extern static void xyz_swe_set_sid_mode(int sid_mode, double t0, double ayan_t0);
-*/
+
         public static void swe_set_sid_mode(int sid_mode, double t0, double ayan_t0)
         {
             Sweph.checkLock();
-            sEph.swe_set_sid_mode(sid_mode, 0.0, 0.0);
+            swissEphemerides.swe_set_sid_mode(sid_mode, 0.0, 0.0);
         }
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_julday")]
-        public extern static double xyz_swe_julday(int year, int month, int day, double hour, int gregflag);
-*/
+
         public static double swe_julday(int year, int month, int day, double hour) 
-            => sEph.swe_julday(year, month, day, hour, SwissEph.SE_GREG_CAL);
+            => swissEphemerides.swe_julday(year, month, day, hour, SwissEph.SE_GREG_CAL);
         
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_revjul")]
-        private extern static double xyz_swe_revjul(double tjd, int gregflag, ref int year, ref int month, ref int day, ref double hour);
-*/
+
         public static double swe_revjul(double tjd, ref int year, ref int month, ref int day, ref double hour)
         {
-            //double d = 0.0;
-            sEph.swe_revjul(tjd,1,ref year,ref month,ref day,ref hour);
+            swissEphemerides.swe_revjul(tjd,1,ref year,ref month,ref day,ref hour);
             return hour;
-            //return xyz_swe_revjul(tjd, 1, ref year, ref month, ref day, ref hour);
-        }
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_calc_ut")]
-        private extern static int xyz_swe_calc_ut(double tjd_ut, int ipl, int iflag, double[] xx, StringBuilder serr);
-*/
+         }
+
         public static void swe_calc_ut(double tjd_ut, int ipl, int addFlags, double[] xx)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
-            int ret = sEph.swe_calc_ut(tjd_ut, ipl, iflag | addFlags, xx, ref serr);
+            int ret = swissEphemerides.swe_calc_ut(tjd_ut, ipl, iflag | addFlags, xx, ref serr);
             if (ret < 0)
             {
                 Console.WriteLine("Sweph Error: {0}", serr);
@@ -220,89 +170,63 @@ namespace org.transliteral.panchang
             }
             xx[0] += Sweph.mCurrentLockHolder.options.AyanamsaOffset.toDouble();
         }
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_sol_eclipse_when_glob")]
-        private extern static int xyz_swe_sol_eclipse_when_glob(double tjd_ut, int iflag, int ifltype, double[] tret, bool backward, StringBuilder s);
-*/
+
         public static void swe_sol_eclipse_when_glob(double tjd_ut, double[] tret, bool forward)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
-            int ret = sEph.swe_sol_eclipse_when_glob(tjd_ut, iflag, 0, tret, !forward, ref serr);
+            int ret = swissEphemerides.swe_sol_eclipse_when_glob(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
                 Console.WriteLine("Sweph Error: {0}", serr);
                 throw new SwephException(serr.ToString());
             }
         }
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_sol_eclipse_when_loc")]
-        private extern static int xyz_swe_sol_eclipse_when_loc(double tjd_ut, int iflag, double[] geopos, double[] tret, double[] attr, bool backward, StringBuilder s);
-*/
+
         public static void swe_sol_eclipse_when_loc(HoraInfo hi, double tjd_ut, double[] tret, double[] attr, bool forward)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
             double[] geopos = new Double[3] { hi.lon.toDouble(), hi.lat.toDouble(), hi.alt };
-            int ret =sEph.swe_sol_eclipse_when_loc(tjd_ut, iflag, geopos, tret, attr, !forward,ref serr);
+            int ret = swissEphemerides.swe_sol_eclipse_when_loc(tjd_ut, iflag, geopos, tret, attr, !forward, ref serr);
             if (ret < 0)
             {
                 Console.WriteLine("Sweph Error: {0}", serr);
                 throw new SwephException(serr.ToString());
             }
         }
-/*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_lun_eclipse_when")]
-        private extern static int xyz_swe_lun_eclipse_when(double tjd_ut, int iflag, int ifltype, double[] tret, bool backward, StringBuilder s);
-*/
         public static void swe_lun_eclipse_when(double tjd_ut, double[] tret, bool forward)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
-            string serr = "";
-            int ret = sEph.swe_lun_eclipse_when(tjd_ut, iflag, 0, tret, !forward, ref serr);
+             string serr = "";
+            int ret = swissEphemerides.swe_lun_eclipse_when(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
                 Console.WriteLine("Sweph Error: {0}", serr);
                 throw new SwephException(serr.ToString());
             }
         }
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_lun_occult_when_loc")]
-                private extern static int xyz_swe_lun_occult_when_loc(
-                    double tjd_ut, int ipl, ref string starname, int iflag,
-                    double[] geopos, double[] tret, double[] attr, bool backward, StringBuilder s);
-        */
-
+      
 
         private static int xyz_swe_lun_occult_when_loc(
            double tjd_ut, int ipl, ref string starname, int iflag,
            double[] geopos, double[] tret, double[] attr, bool backward, ref string s)
-                 => sEph.swe_lun_occult_when_loc(tjd_ut, ipl, starname, iflag, geopos,tret, attr, backward, ref s);
+                 => swissEphemerides.swe_lun_occult_when_loc(tjd_ut, ipl, starname, iflag, geopos,tret, attr, backward, ref s);
 
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_get_ayanamsa_ut")]
-                private extern static double xyz_swe_get_ayanamsa_ut(double tjd_ut);
-        */
+ 
         public static double swe_get_ayanamsa_ut(double tjd_ut)
         {
             Sweph.checkLock();
-            return sEph.swe_get_ayanamsa_ut(tjd_ut);
+            return swissEphemerides.swe_get_ayanamsa_ut(tjd_ut);
         }
 
 
-        /*
-        [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_rise_trans")]
-        private extern static int xyz_swe_rise_trans(double tjd_ut, int ipl, string starname, int epheflag, int rsmi, double[] geopos, double atpress, double attemp, double[] tret, StringBuilder serr);
-         */
+      
         public static void swe_rise(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
-            int ret = sEph.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_RISE | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
+            int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_RISE | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
 
             if (ret < 0)
             {
@@ -313,9 +237,8 @@ namespace org.transliteral.panchang
         public static void swe_set(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
-            int ret = sEph.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_SET | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
+            int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_SET | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
             if (ret < 0)
             {
                 Debug.WriteLine(serr.ToString(), "Sweph");
@@ -325,9 +248,8 @@ namespace org.transliteral.panchang
         public static void swe_lmt(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
             Sweph.checkLock();
-            //StringBuilder serr = new StringBuilder(256);
             string serr = "";
-            int ret = sEph.swe_rise_trans(tjd_ut, ipl, "", iflag, rsflag,geopos, atpress, attemp, ref tret[0],ref serr);
+            int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, rsflag,geopos, atpress, attemp, ref tret[0],ref serr);
 
             if (ret < 0)
             {
@@ -336,16 +258,11 @@ namespace org.transliteral.panchang
             }
         }
 
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_houses_ex")]
-                private extern static int xyz_swe_houses_ex(double tjd_ut, int iflag, double lat, double lon, int hsys, double[] cusps, double[] ascmc);
-        */
-
      
         public static int swe_houses_ex(double tjd_ut, int iflag, double lat, double lon, int hsys, double[] cusps, double[] ascmc)
         {
             Sweph.checkLock();
-            int ret = sEph.swe_houses_ex(tjd_ut, iflag, lat, lon, Convert.ToChar(hsys), cusps, ascmc);
+            int ret = swissEphemerides.swe_houses_ex(tjd_ut, iflag, lat, lon, Convert.ToChar(hsys), cusps, ascmc);
 
             Longitude lOffset = new Longitude(Sweph.mCurrentLockHolder.options.AyanamsaOffset.toDouble());
 
@@ -367,36 +284,22 @@ namespace org.transliteral.panchang
             int ret = swe_houses_ex(tjd_ut, SwissEph.SEFLG_SIDEREAL, hi.lat.toDouble(), hi.lon.toDouble(), 'R', cusps, ascmc);
             return ascmc[0];
         }
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_day_of_week")]
-                public extern static int swe_day_of_week(double jd);
-        */
+     
         public static int swe_day_of_week(double jd)
-            => sEph.swe_day_of_week(jd);
+            => swissEphemerides.swe_day_of_week(jd);
 
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_deltat")]
-                public extern static double swe_deltat(double tjd_et);
-        */
+      
         public static double swe_deltat(double tjd_et)
-            => sEph.swe_deltat(tjd_et);
+            => swissEphemerides.swe_deltat(tjd_et);
 
 
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_set_tid_acc")]
-                private extern static void swe_set_tid_acc(double t_acc);
-        */
         private static void swe_set_tid_acc(double t_acc)
-            => sEph.swe_set_tid_acc(t_acc);
-        /*
-                [DllImport("mhora", CharSet = CharSet.Ansi, EntryPoint = "swe_time_equ")]
-                public extern static int swe_time_equ(double tjd_et, ref double e, StringBuilder s);
-        */
-
+            => swissEphemerides.swe_set_tid_acc(t_acc);
+       
         public static int swe_time_equ(double tjd_et, ref double e, StringBuilder s)
         {
             string serr = "";
-            int ret = sEph.swe_time_equ(tjd_et, out e, ref serr);
+            int ret = swissEphemerides.swe_time_equ(tjd_et, out e, ref serr);
             if (ret < 0)
             {
                 Debug.WriteLine(serr.ToString(), "Sweph");

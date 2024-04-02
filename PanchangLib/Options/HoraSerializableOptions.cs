@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class MhoraSerializableOptions
+    public class HoraSerializableOptions
     {
         protected void Constructor(System.Type ty, SerializationInfo info, StreamingContext context)
         {

@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class HoroscopeOptions : MhoraSerializableOptions, ICloneable, ISerializable
+    public class HoroscopeOptions : HoraSerializableOptions, ICloneable, ISerializable
     {
        
 

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 namespace org.transliteral.panchang
 {
     /// <summary>
-    /// Class deals with reading the Jhd file specification
+    /// Class deals with reading the JagannathaHoraDescriptor/Jhd file specification
     /// used by Jagannatha Hora
     /// </summary>
     /// 
 
 
-    public class Jhd : IFileToHoraInfo
+    public class JagannathaHoraDescriptor : IFileToHoraInfo
     {
         private string fname;
-        public Jhd(string fileName)
+        public JagannathaHoraDescriptor(string fileName)
         {
             fname = fileName;
         }

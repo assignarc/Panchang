@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class StrengthOptions : MhoraSerializableOptions, ISerializable, ICloneable
+    public class StrengthOptions : HoraSerializableOptions, ISerializable, ICloneable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)
@@ -119,7 +119,7 @@ namespace org.transliteral.panchang
         [PGNotVisible]
         [Category("Karaka Kendradi Graha Dasa")]
         [PGDisplayName("CoLord Strengths")]
-        [TypeConverter(typeof(MhoraArrayConverter))]
+        [TypeConverter(typeof(HoraArrayConverter))]
         public EGrahaStrength[] KarakaKendradiGrahaDasaColord
         {
             get { return mKarakaKendradiGrahaDasaColord; }
