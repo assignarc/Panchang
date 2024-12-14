@@ -88,7 +88,7 @@ namespace mhora
 		{
 			if (lBox.SelectedIndex < 0) return null;
 
-			MhoraContainer mc = (MhoraContainer)MhoraGlobalOptions.mainControl;
+			MhoraContainer mc = (MhoraContainer)GlobalOptions.mainControl;
 			foreach (Form c in mc.MdiChildren)
 			{
 				if (c is MhoraChild)
@@ -105,7 +105,7 @@ namespace mhora
 		{
 			if (lBox.SelectedIndex < 0) return null;
 
-			MhoraContainer mc = (MhoraContainer)MhoraGlobalOptions.mainControl;
+			MhoraContainer mc = (MhoraContainer)GlobalOptions.mainControl;
 			foreach (Form c in mc.MdiChildren)
 			{
 				if (c is MhoraChild)
@@ -122,7 +122,7 @@ namespace mhora
 
 		private void ChooseHoroscopeControl_Load(object sender, System.EventArgs e)
 		{
-			MhoraContainer mc = (MhoraContainer)MhoraGlobalOptions.mainControl;
+			MhoraContainer mc = (MhoraContainer)GlobalOptions.mainControl;
 			foreach (Form c in mc.MdiChildren)
 			{
 				if (c is MhoraChild)

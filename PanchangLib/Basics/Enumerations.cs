@@ -265,7 +265,7 @@ namespace org.transliteral.panchang
     }
     public enum XmlYohaNodePos
     {
-        SourceRef, SourceText, SourceItxText, MhoraRule, Result, Other
+        SourceRef, SourceText, SourceItxText, HoraRule, Result, Other
     }
 
     //ZodiacHouse.cs
@@ -349,5 +349,35 @@ namespace org.transliteral.panchang
         [Description("Kendra: Chaturthamsa (d-4)")] GenericChaturthamsa,
         [Description("Kendra: Nakshatramsa (d-27)")] GenericNakshatramsa
     }
+
+
+
+    [TypeConverter(typeof(EnumDescConverter))]
+    public enum EViewStyle
+    {
+        [Description("Regular")] Normal,
+        [Description("Dual Graha Arudhas")] DualGrahaArudha,
+        [Description("8 Chara Karakas (regular)")] CharaKarakas8,
+        [Description("7 Chara Karakas (mundane)")] CharaKarakas7,
+        [Description("Varnada Lagna")] Varnada,
+        [Description("Panchanga Print View")] Panchanga
+    }
+
+
+
+    /// <summary>
+    /// Mutually exclusive classes of BodyTypes
+    /// </summary>
+    public class BodyType
+    {
+        public enum Name : int
+        {
+            Lagna, Graha, NonLunarNode,
+            SpecialLagna, ChandraLagna,
+            BhavaArudha, BhavaArudhaSecondary, GrahaArudha,
+            Varnada, Upagraha, Sahama, Other
+        }
+    }
+
 
 }

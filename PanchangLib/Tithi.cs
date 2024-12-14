@@ -57,7 +57,7 @@ namespace org.transliteral.panchang
         private TithiName mValue;
         public Tithi(TithiName _mValue)
         {
-            mValue = (TithiName)Basics.normalize_inc(1, 30, (int)_mValue);
+            mValue = (TithiName)Basics.Normalize_inc(1, 30, (int)_mValue);
         }
         public TithiName value
         {
@@ -66,12 +66,12 @@ namespace org.transliteral.panchang
         }
         public Tithi add(int i)
         {
-            int tnum = Basics.normalize_inc(1, 30, (int)this.value + i - 1);
+            int tnum = Basics.Normalize_inc(1, 30, (int)this.value + i - 1);
             return new Tithi((TithiName)tnum);
         }
         public Tithi addReverse(int i)
         {
-            int tnum = Basics.normalize_inc(1, 30, (int)this.value - i + 1);
+            int tnum = Basics.Normalize_inc(1, 30, (int)this.value - i + 1);
             return new Tithi((TithiName)tnum);
         }
         public Body.Name getLord()

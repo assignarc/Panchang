@@ -28,7 +28,7 @@ namespace org.transliteral.panchang
         }
         public Longitude add(Longitude b)
         {
-            return new Longitude(Basics.normalize_exc_lower(0, 360, value + b.value));
+            return new Longitude(Basics.Normalize_exc_lower(0, 360, value + b.value));
         }
         public Longitude add(double b)
         {
@@ -36,7 +36,7 @@ namespace org.transliteral.panchang
         }
         public Longitude sub(Longitude b)
         {
-            return new Longitude(Basics.normalize_exc_lower(0, 360, value - b.value));
+            return new Longitude(Basics.Normalize_exc_lower(0, 360, value - b.value));
         }
         public Longitude sub(double b)
         {
@@ -44,7 +44,7 @@ namespace org.transliteral.panchang
         }
         public double normalize()
         {
-            return Basics.normalize_exc_lower(0, 360, this.value);
+            return Basics.Normalize_exc_lower(0, 360, this.value);
         }
         public bool isBetween(Longitude cusp_lower, Longitude cusp_higher)
         {

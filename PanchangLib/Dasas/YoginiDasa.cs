@@ -19,7 +19,7 @@ namespace org.transliteral.panchang
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			return _Dasa (h.getPosition(Body.Name.Moon).longitude, 1, cycle );
+			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{

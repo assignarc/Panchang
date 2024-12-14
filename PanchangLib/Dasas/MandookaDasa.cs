@@ -93,7 +93,7 @@ namespace org.transliteral.panchang
 		}
 		public String Description ()
 		{
-			return "Mandooka Dasa (seeded from) " + Basics.numPartsInDivisionString (options.Division);
+			return "Mandooka Dasa (seeded from) " + Basics.NumPartsInDivisionString (options.Division);
 		}
 		public Object GetOptions ()
 		{

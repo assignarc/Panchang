@@ -25,12 +25,12 @@ namespace mhora
 			InitializeComponent();
 			h = _h;
 			h.Changed += new EvtChanged(OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnResize);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnResize);
 			pn_black = new Pen (Color.Black, (float)0.1);
 			pn_grey = new Pen (Color.Gray, (float)0.1);
 			b_black = new SolidBrush(Color.Black);
 			this.AddViewsToContextMenu(contextMenu);
-			this.OnResize(MhoraGlobalOptions.Instance);
+			this.OnResize(GlobalOptions.Instance);
 		}
 
 		/// <summary>
@@ -76,8 +76,8 @@ namespace mhora
 		public void OnResize (object o)
 		{
 			f = new Font(
-				MhoraGlobalOptions.Instance.GeneralFont.FontFamily, 
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints-4
+				GlobalOptions.Instance.GeneralFont.FontFamily, 
+				GlobalOptions.Instance.GeneralFont.SizeInPoints-4
 				);
 			this.DrawToBuffer(true);
 			this.Invalidate();
@@ -105,7 +105,7 @@ namespace mhora
 				Body.Name.Rahu, Body.Name.Ketu
 			};
 
-			g.Clear(MhoraGlobalOptions.Instance.ChakraBackgroundColor);
+			g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
 
 			this.ResetChakra(g, 0.0);
 			g.DrawEllipse(pn_grey, -150, -150, 300, 300);
@@ -122,8 +122,8 @@ namespace mhora
 				this.ResetChakra(g, i*(360.0/9.0)+(360.0/(9.0*2.0)));
 				g.TranslateTransform(135, 0);
 				g.RotateTransform((float)90.0);
-				SizeF sz = g.MeasureString(Body.toString(bodies[i]), f);
-				g.DrawString(Body.toString(bodies[i]), f, b_black, -sz.Width/2, 0);
+				SizeF sz = g.MeasureString(Body.ToString(bodies[i]), f);
+				g.DrawString(Body.ToString(bodies[i]), f, b_black, -sz.Width/2, 0);
 			}
 
 			if (h.isDayBirth())

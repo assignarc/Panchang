@@ -27,7 +27,7 @@ namespace mhora
 			// This call is required by the Windows Form Designer.
 			InitializeComponent();
 			h = _h;
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
 			h.Changed += new EvtChanged(onRecalculate);
 			pn_black = new Pen(Color.Black, (float)0.1);
 			pn_grey = new Pen (Color.Gray, (float)0.1);
@@ -39,7 +39,7 @@ namespace mhora
 				"Moo", "PAs", "UAs", "Sra", "Dha", "Sha", "PBh", "UBh", "Rev"
 			};
 			this.AddViewsToContextMenu(contextMenu);
-			this.onRedisplay(MhoraGlobalOptions.Instance);
+			this.onRedisplay(GlobalOptions.Instance);
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace mhora
 		/// </summary>
 		protected override void Dispose( bool disposing )
 		{
-			MhoraGlobalOptions.DisplayPrefsChanged -= new EvtChanged(this.onRedisplay);
+			GlobalOptions.DisplayPrefsChanged -= new EvtChanged(this.onRedisplay);
 			h.Changed -= new EvtChanged(onRecalculate);
 			if( disposing )
 			{
@@ -94,8 +94,8 @@ namespace mhora
 		public void onRedisplay (object o)
 		{
 			f = new Font(
-				MhoraGlobalOptions.Instance.GeneralFont.FontFamily, 
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints-5);
+				GlobalOptions.Instance.GeneralFont.FontFamily, 
+				GlobalOptions.Instance.GeneralFont.SizeInPoints-5);
 			this.DrawToBuffer(true);
 			this.Invalidate();
 		}
@@ -135,7 +135,7 @@ namespace mhora
 			//this.DrawInnerChakra(g);
 
 			if (false == this.PrintMode)
-				g.Clear(MhoraGlobalOptions.Instance.ChakraBackgroundColor);
+				g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
 
 			this.ResetChakra(g, 0.0);
 			g.DrawEllipse(pn_grey, -40, -40, 80, 80);
@@ -183,13 +183,13 @@ namespace mhora
 
 			}
 
-			double dist_sat = h.getPosition(Body.Name.Saturn).distance;
+			double dist_sat = h.getPosition(Body.Name.Saturn).Distance;
 			foreach (Body.Name b in bodies)
 			{
-				Pen pn_b = new Pen(MhoraGlobalOptions.Instance.getBinduColor(b));
-				Brush br_b = new SolidBrush(MhoraGlobalOptions.Instance.getBinduColor(b));
+				Pen pn_b = new Pen(GlobalOptions.Instance.getBinduColor(b));
+				Brush br_b = new SolidBrush(GlobalOptions.Instance.getBinduColor(b));
 				BodyPosition bp = h.getPosition(b);
-				ResetChakra (g, bp.longitude.value);
+				ResetChakra (g, bp.Longitude.value);
 				int chWidth=2;
 				g.DrawEllipse (pn_black, 110-(chWidth), 0, 1, 1);
 				g.FillEllipse(br_b, 120-chWidth, -chWidth, chWidth*2, chWidth*2);
@@ -198,16 +198,16 @@ namespace mhora
 				g.DrawString(b.ToString(), f, Brushes.Black, 125, -sz.Height/2);
 
 				// current position with distance
-				int dist = (int)(bp.distance / dist_sat * (105-40-chWidth*2));
+				int dist = (int)(bp.Distance / dist_sat * (105-40-chWidth*2));
 				g.FillEllipse(br_b, 40+dist-chWidth, -chWidth, chWidth*2, chWidth*2);
 				g.DrawEllipse(pn_grey, 40+dist-chWidth, -chWidth, chWidth*2, chWidth*2);
 
 				// speed
-				double dspSize = (bp.speed_longitude/360.0)*12000.0;
-				if (bp.speed_longitude < 0) dspSize *= 2.0;
+				double dspSize = (bp.Speed_longitude/360.0)*12000.0;
+				if (bp.Speed_longitude < 0) dspSize *= 2.0;
 				int spSize = (int)dspSize;
 				if (spSize > 40) spSize = 40;
-				if (bp.speed_longitude > 0)
+				if (bp.Speed_longitude > 0)
 					g.DrawLine(pn_lgrey, 40+dist, -chWidth, 40+dist, -spSize);
 				else
 					g.DrawLine(pn_lgrey, 40+dist, chWidth, 40+dist, -spSize);

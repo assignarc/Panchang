@@ -63,9 +63,12 @@ namespace org.transliteral.panchang
         public int hour { get { return m_hour; } set { m_hour = value; } }
         public int minute { get { return m_minute; } set { m_minute = value; } }
         public int second { get { return m_second; } set { m_second = value; } }
-        public Moment()
+        public Moment() => Setup(DateTime.Now);
+        
+        public Moment(DateTime t) => Setup(t);
+        
+        public void Setup(DateTime t)
         {
-            DateTime t = DateTime.Now;
             this.day = t.Day;
             this.month = t.Month;
             this.year = t.Year;

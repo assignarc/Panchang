@@ -36,9 +36,9 @@ namespace mhora
 				bPrintLagna = true;
 		}
 
-		Font f = MhoraGlobalOptions.Instance.GeneralFont;
-		Font f_u = new Font(MhoraGlobalOptions.Instance.GeneralFont.FontFamily, 
-			MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints, FontStyle.Underline);
+		Font f = GlobalOptions.Instance.GeneralFont;
+		Font f_u = new Font(GlobalOptions.Instance.GeneralFont.FontFamily, 
+			GlobalOptions.Instance.GeneralFont.SizeInPoints, FontStyle.Underline);
 		int local_index = 0;
 
 		protected override void OnBeginPrint(PrintEventArgs e)
@@ -247,7 +247,7 @@ namespace mhora
 				Moment m_sunset = new Moment(0, 0, 0, local.sunset);
 
 				g.DrawString(m_sunrise.ToShortDateString(), f, b, day_offset, 0);
-				g.DrawString(Basics.weekdayToShortString(local.wday), f, b, wday_offset, 0);
+				g.DrawString(Basics.WeekdayToShortString(local.wday), f, b, wday_offset, 0);
 
 				if (opts.ShowSunriset)
 				{
@@ -355,7 +355,7 @@ namespace mhora
 			Horoscope hCurr = new Horoscope(hiCurr, h.options);
 			DivisionalChart dc = new DivisionalChart(hCurr);
 			dc.PrintMode = true;
-			dc.options.ViewStyle = UserOptions.EViewStyle.Panchanga;
+			dc.options.ViewStyle = EViewStyle.Panchanga;
 			dc.SetOptions(dc.options);
 			dc.DrawChart(g, divisional_chart_size, divisional_chart_size);
 

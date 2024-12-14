@@ -13,9 +13,9 @@ namespace org.transliteral.panchang
     /// <summary>
     /// Summary description for GlobalOptions.
     /// </summary>
-    [XmlRoot("MhoraOptions")]
+    [XmlRoot("HoraOptions")]
     [Serializable]
-    public class MhoraGlobalOptions : HoraSerializableOptions, ISerializable
+    public class GlobalOptions : HoraSerializableOptions, ISerializable
     {
         //[NonSerialized]	public static object Reference = null;
         [NonSerialized] public static object mainControl = null;
@@ -96,22 +96,22 @@ namespace org.transliteral.panchang
         protected const string CAT_LF_CHAKRA = "6: Look and Feel: Chakras";
         protected const string CAT_LF_BINDUS = "7: Look and Feel: Bindus";
 
-        public static MhoraGlobalOptions Instance;
+        public static GlobalOptions Instance;
         public static event EvtChanged DisplayPrefsChanged = null;
         public static event EvtChanged CalculationPrefsChanged = null;
 
 
         public static void NotifyDisplayChange()
         {
-            MhoraGlobalOptions.DisplayPrefsChanged(MhoraGlobalOptions.Instance);
+            GlobalOptions.DisplayPrefsChanged(GlobalOptions.Instance);
         }
 
         public static void NotifyCalculationChange()
         {
-            MhoraGlobalOptions.CalculationPrefsChanged(MhoraGlobalOptions.Instance.HOptions);
+            GlobalOptions.CalculationPrefsChanged(GlobalOptions.Instance.HOptions);
         }
 
-        public MhoraGlobalOptions()
+        public GlobalOptions()
         {
 
             HOptions = new HoroscopeOptions();
@@ -202,7 +202,7 @@ namespace org.transliteral.panchang
         [PropertyOrder(4), PGDisplayName("Yogas file name")]
         public string YogasFileName
         {
-            get { return MhoraGlobalOptions.getExeDir() + "\\" + "yogas.mhr"; }
+            get { return GlobalOptions.getExeDir() + "\\" + "yogas.mhr"; }
         }
 
         [PropertyOrder(1), Category(CAT_LOCATION)]
@@ -539,16 +539,16 @@ namespace org.transliteral.panchang
         }
 
 
-        static public MhoraGlobalOptions readFromFile()
+        static public GlobalOptions readFromFile()
         {
-            MhoraGlobalOptions gOpts = new MhoraGlobalOptions();
+            GlobalOptions gOpts = new GlobalOptions();
             try
             {
                 FileStream sOut;
-                sOut = new FileStream(MhoraGlobalOptions.getOptsFilename(), FileMode.Open, FileAccess.Read);
+                sOut = new FileStream(GlobalOptions.getOptsFilename(), FileMode.Open, FileAccess.Read);
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
-                gOpts = (MhoraGlobalOptions)formatter.Deserialize(sOut);
+                gOpts = (GlobalOptions)formatter.Deserialize(sOut);
                 sOut.Close();
             }
             catch
@@ -556,14 +556,14 @@ namespace org.transliteral.panchang
                 Console.WriteLine("MHora: Unable to read user preferences", "GlobalOptions");
             }
 
-            MhoraGlobalOptions.Instance = gOpts;
+            GlobalOptions.Instance = gOpts;
             return gOpts;
         }
 
         public void saveToFile()
         {
-            Console.WriteLine("Saving Preferences to {0}", MhoraGlobalOptions.getOptsFilename());
-            FileStream sOut = new FileStream(MhoraGlobalOptions.getOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);
+            Console.WriteLine("Saving Preferences to {0}", GlobalOptions.getOptsFilename());
+            FileStream sOut = new FileStream(GlobalOptions.getOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(sOut, this);
             sOut.Close();
@@ -575,7 +575,7 @@ namespace org.transliteral.panchang
             this.GetObjectData(this.GetType(), info, context);
         }
 
-        protected MhoraGlobalOptions(SerializationInfo info, StreamingContext context) :
+        protected GlobalOptions(SerializationInfo info, StreamingContext context) :
             this()
         {
             this.Constructor(this.GetType(), info, context);

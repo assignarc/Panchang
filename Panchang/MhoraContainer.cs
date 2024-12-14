@@ -16,7 +16,7 @@ namespace mhora
 	/// </summary>
 	public class MhoraContainer : System.Windows.Forms.Form
 	{
-		public MhoraGlobalOptions gOpts;
+		public GlobalOptions gOpts;
 
 		private int childCount;
 		private System.Windows.Forms.MainMenu MdiMenu;
@@ -453,9 +453,9 @@ namespace mhora
 
 		private void MhoraContainer_Load(object sender, System.EventArgs e)
 		{
-			gOpts = MhoraGlobalOptions.readFromFile();
-			MhoraGlobalOptions.mainControl = this;
-			if (MhoraGlobalOptions.Instance.ShowSplashScreen) 
+			gOpts = GlobalOptions.readFromFile();
+			GlobalOptions.mainControl = this;
+			if (GlobalOptions.Instance.ShowSplashScreen) 
 			{
 				Genghis.Windows.Forms.SplashScreen ss = new Genghis.Windows.Forms.SplashScreen (typeof(MhoraSplash),Genghis.Windows.Forms.SplashScreenStyles.TopMost );
 				System.Threading.Thread.Sleep(0);
@@ -492,12 +492,12 @@ namespace mhora
 			DateTime tNow = DateTime.Now;
 			Moment mNow = new Moment (tNow.Year, tNow.Month, tNow.Day, tNow.Hour, tNow.Minute, tNow.Second);
 			HoraInfo info = new HoraInfo(mNow,
-				MhoraGlobalOptions.Instance.Latitude,
-				MhoraGlobalOptions.Instance.Longitude,
-				MhoraGlobalOptions.Instance.TimeZone);
+				GlobalOptions.Instance.Latitude,
+				GlobalOptions.Instance.Longitude,
+				GlobalOptions.Instance.TimeZone);
 
 			childCount++;
-			Horoscope h = new Horoscope(info, (HoroscopeOptions) MhoraGlobalOptions.Instance.HOptions.Clone());
+			Horoscope h = new Horoscope(info, (HoroscopeOptions) GlobalOptions.Instance.HOptions.Clone());
 				//new HoroscopeOptions());
 			MhoraChild child = new MhoraChild(h);
 			child.Text = childCount.ToString() + " - Prasna Chart";
@@ -532,7 +532,7 @@ namespace mhora
 			ArrayList path_split = new ArrayList(_path_split);
 
 			childCount++;
-			Horoscope h = new Horoscope (info, (HoroscopeOptions)MhoraGlobalOptions.Instance.HOptions.Clone());
+			Horoscope h = new Horoscope (info, (HoroscopeOptions)GlobalOptions.Instance.HOptions.Clone());
 
 			//Horoscope h = new Horoscope (info, new HoroscopeOptions());
 			MhoraChild child = new MhoraChild(h);
@@ -645,8 +645,8 @@ namespace mhora
 
 		private void OnClosing()
 		{
-			if (MhoraGlobalOptions.Instance.SavePrefsOnExit == true)
-				MhoraGlobalOptions.Instance.saveToFile();
+			if (GlobalOptions.Instance.SavePrefsOnExit == true)
+				GlobalOptions.Instance.saveToFile();
 		}
 
 
@@ -677,20 +677,20 @@ namespace mhora
 
 		private void mSavePreferences_Click(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.saveToFile();
+			GlobalOptions.Instance.saveToFile();
 		}
 
 		private object updateDisplayPreferences (object o)
 		{
-			MhoraGlobalOptions.NotifyDisplayChange();
-			Sweph.swe_set_ephe_path(MhoraGlobalOptions.Instance.HOptions.EphemerisPath);
+			GlobalOptions.NotifyDisplayChange();
+			Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
 			return o;
 		}
 
 		private void showMenuGlobalDisplayPrefs ()
 		{
 			//object wrapper = new GlobalizedPropertiesWrapper(MhoraGlobalOptions.Instance);
-			MhoraOptions f = new MhoraOptions(MhoraGlobalOptions.Instance, new ApplyOptions(this.updateDisplayPreferences), true);
+			MhoraOptions f = new MhoraOptions(GlobalOptions.Instance, new ApplyOptions(this.updateDisplayPreferences), true);
 			f.ShowDialog();
 		}
 		private void menuItem4_Click(object sender, System.EventArgs e)
@@ -703,8 +703,8 @@ namespace mhora
 		{
 			HoraInfo info = (new JagannathaHoraDescriptor(fileName)).toHoraInfo();
 			Horoscope h = new Horoscope(info, new HoroscopeOptions());
-			if (h.getPosition(Body.Name.Ketu).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value ==
-				h.getPosition(Body.Name.Lagna).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value)
+			if (h.getPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value ==
+				h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value)
                 return true;
 
 			return false;
@@ -755,15 +755,15 @@ namespace mhora
 
 		private void mResetPreferences_Click(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions mh = new MhoraGlobalOptions();
-			MhoraGlobalOptions.Instance = mh;
-			MhoraGlobalOptions.NotifyDisplayChange();
-			MhoraGlobalOptions.NotifyCalculationChange();
+			GlobalOptions mh = new GlobalOptions();
+			GlobalOptions.Instance = mh;
+			GlobalOptions.NotifyDisplayChange();
+			GlobalOptions.NotifyCalculationChange();
 		}
 		private void mResetStrengthPreferences_Click(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.SOptions = new StrengthOptions();
-			MhoraGlobalOptions.NotifyCalculationChange();
+			GlobalOptions.Instance.SOptions = new StrengthOptions();
+			GlobalOptions.NotifyCalculationChange();
 		}
 		private void menuItemSplash_Click(object sender, System.EventArgs e)
 		{
@@ -777,31 +777,31 @@ namespace mhora
 
 		private void mIncreaseFontSize_Click(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.increaseFontSize();
-			MhoraGlobalOptions.NotifyDisplayChange();
+			GlobalOptions.Instance.increaseFontSize();
+			GlobalOptions.NotifyDisplayChange();
 		}
 
 		private void mDecreaseFontSize_Click(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.decreaseFontSize();
-			MhoraGlobalOptions.NotifyDisplayChange();
+			GlobalOptions.Instance.decreaseFontSize();
+			GlobalOptions.NotifyDisplayChange();
 		}
 
 		public object updateCalcPreferences (object o)
 		{
-			Sweph.swe_set_ephe_path(MhoraGlobalOptions.Instance.HOptions.EphemerisPath);
-			MhoraGlobalOptions.NotifyCalculationChange();
+			Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
+			GlobalOptions.NotifyCalculationChange();
 			return o;
 		}
 		private void mEditCalcPrefs_Click(object sender, System.EventArgs e)
 		{
 			//object wrapper = new GlobalizedPropertiesWrapper(MhoraGlobalOptions.Instance.HOptions);
-			MhoraOptions f = new MhoraOptions(MhoraGlobalOptions.Instance.HOptions, new ApplyOptions(this.updateCalcPreferences), true);
+			MhoraOptions f = new MhoraOptions(GlobalOptions.Instance.HOptions, new ApplyOptions(this.updateCalcPreferences), true);
 			f.ShowDialog();
 		}
 		private void mEditStrengthPrefs_Click(object sender, System.EventArgs e)
 		{
-			MhoraOptions f = new MhoraOptions(MhoraGlobalOptions.Instance.SOptions, new ApplyOptions(this.updateCalcPreferences), true);
+			MhoraOptions f = new MhoraOptions(GlobalOptions.Instance.SOptions, new ApplyOptions(this.updateCalcPreferences), true);
 			f.ShowDialog();
 		}
 		private void MhoraContainer_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -119,6 +119,7 @@ namespace org.transliteral.panchang
         public EUpagrahaType UpagrahaType
         {
             get { return mUpagrahaType; }
+            // TODO: Check this again.
             set { mUpagrahaType = this.mUpagrahaType; }
         }
         [Category(CAT_UPAGRAHA)]

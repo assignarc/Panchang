@@ -16,7 +16,7 @@ namespace org.transliteral.panchang
         public AshtakavargaOptions()
         {
             this.mDtype = new Division(DivisionType.Rasi);
-            this.mChartStyle = (EChartStyle)MhoraGlobalOptions.Instance.VargaStyle;
+            this.mChartStyle = (EChartStyle)GlobalOptions.Instance.VargaStyle;
         }
 
         [PGNotVisible]

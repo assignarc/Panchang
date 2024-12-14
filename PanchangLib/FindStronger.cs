@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -36,7 +31,7 @@ namespace org.transliteral.panchang
         static private StrengthOptions GetStrengthOptions(Horoscope h)
         {
             if (h.strength_options == null)
-                return MhoraGlobalOptions.Instance.SOptions;
+                return GlobalOptions.Instance.SOptions;
             else
                 return h.strength_options;
         }
@@ -70,23 +65,26 @@ namespace org.transliteral.panchang
         }
         static public ArrayList RulesJaiminiFirstRasi(Horoscope h)
         {
-            ArrayList Rules = new ArrayList();
-            Rules.Add(ERasiStrength.AtmaKaraka);
-            Rules.Add(ERasiStrength.Conjunction);
-            Rules.Add(ERasiStrength.Exaltation);
-            Rules.Add(ERasiStrength.MoolaTrikona);
-            Rules.Add(ERasiStrength.OwnHouse);
-            Rules.Add(ERasiStrength.RasisNature);
-            Rules.Add(ERasiStrength.LordIsAtmaKaraka);
-            Rules.Add(ERasiStrength.LordsLongitude);
-            Rules.Add(ERasiStrength.LordInDifferentOddity);
-            return Rules;
+            return  new ArrayList
+            {
+                ERasiStrength.AtmaKaraka,
+                ERasiStrength.Conjunction,
+                ERasiStrength.Exaltation,
+                ERasiStrength.MoolaTrikona,
+                ERasiStrength.OwnHouse,
+                ERasiStrength.RasisNature,
+                ERasiStrength.LordIsAtmaKaraka,
+                ERasiStrength.LordsLongitude,
+                ERasiStrength.LordInDifferentOddity
+            };
         }
         static public ArrayList RulesJaiminiSecondRasi(Horoscope h)
         {
-            ArrayList Rules = new ArrayList();
-            Rules.Add(ERasiStrength.AspectsRasi);
-            return Rules;
+            return new ArrayList
+            {
+                ERasiStrength.AspectsRasi
+            };
+           
         }
 
         static public ArrayList RulesNaisargikaDasaGraha(Horoscope h)
@@ -95,10 +93,12 @@ namespace org.transliteral.panchang
         }
         static public ArrayList RulesVimsottariGraha(Horoscope h)
         {
-            ArrayList Rules = new ArrayList();
-            Rules.Add(EGrahaStrength.KendraConjunction);
-            Rules.Add(EGrahaStrength.First);
-            return Rules;
+            return new ArrayList
+            {
+                EGrahaStrength.KendraConjunction,
+                EGrahaStrength.First
+            };
+           
         }
 
         static public ArrayList RulesStrongerCoLord(Horoscope h)
@@ -113,9 +113,9 @@ namespace org.transliteral.panchang
             ZodiacHouseName[] zh1 = new ZodiacHouseName[4] { zh.add(1).value, zh.add(4).value, zh.add(7).value, zh.add(10).value };
             ZodiacHouseName[] zh2 = new ZodiacHouseName[4] { zh.add(2).value, zh.add(5).value, zh.add(8).value, zh.add(11).value };
             ZodiacHouseName[] zh3 = new ZodiacHouseName[4] { zh.add(3).value, zh.add(6).value, zh.add(9).value, zh.add(12).value };
-            zRet[0] = this.getOrderedHouses(zh1);
-            zRet[1] = this.getOrderedHouses(zh2);
-            zRet[2] = this.getOrderedHouses(zh3);
+            zRet[0] = this.GetOrderedHouses(zh1);
+            zRet[1] = this.GetOrderedHouses(zh2);
+            zRet[2] = this.GetOrderedHouses(zh3);
             return zRet;
         }
         public ZodiacHouseName[] ResultsKendraRasis(ZodiacHouseName _zh)
@@ -125,25 +125,25 @@ namespace org.transliteral.panchang
             ZodiacHouseName[] zh1 = new ZodiacHouseName[4] { zh.add(1).value, zh.add(4).value, zh.add(7).value, zh.add(10).value };
             ZodiacHouseName[] zh2 = new ZodiacHouseName[4] { zh.add(2).value, zh.add(5).value, zh.add(8).value, zh.add(11).value };
             ZodiacHouseName[] zh3 = new ZodiacHouseName[4] { zh.add(3).value, zh.add(6).value, zh.add(9).value, zh.add(12).value };
-            getOrderedRasis(zh1).CopyTo(zRet, 0);
-            getOrderedRasis(zh2).CopyTo(zRet, 4);
-            getOrderedRasis(zh3).CopyTo(zRet, 8);
+            GetOrderedRasis(zh1).CopyTo(zRet, 0);
+            GetOrderedRasis(zh2).CopyTo(zRet, 4);
+            GetOrderedRasis(zh3).CopyTo(zRet, 8);
             return zRet;
         }
         public ZodiacHouseName[] ResultsFirstSeventhRasis()
         {
             ZodiacHouseName[] zRet = new ZodiacHouseName[12];
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Ari, ZodiacHouseName.Lib }).CopyTo(zRet, 0);
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Tau, ZodiacHouseName.Sco }).CopyTo(zRet, 2);
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Gem, ZodiacHouseName.Sag }).CopyTo(zRet, 4);
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Can, ZodiacHouseName.Cap }).CopyTo(zRet, 6);
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Leo, ZodiacHouseName.Aqu }).CopyTo(zRet, 8);
-            getOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Vir, ZodiacHouseName.Pis }).CopyTo(zRet, 10);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Ari, ZodiacHouseName.Lib }).CopyTo(zRet, 0);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Tau, ZodiacHouseName.Sco }).CopyTo(zRet, 2);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Gem, ZodiacHouseName.Sag }).CopyTo(zRet, 4);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Can, ZodiacHouseName.Cap }).CopyTo(zRet, 6);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Leo, ZodiacHouseName.Aqu }).CopyTo(zRet, 8);
+            GetOrderedRasis(new ZodiacHouseName[] { ZodiacHouseName.Vir, ZodiacHouseName.Pis }).CopyTo(zRet, 10);
             return zRet;
         }
 
 
-        public Body.Name[] getOrderedGrahas()
+        public Body.Name[] GetOrderedGrahas()
         {
             Body.Name[] grahas = new Body.Name[]
             {
@@ -151,9 +151,9 @@ namespace org.transliteral.panchang
                 Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn,
                 Body.Name.Rahu, Body.Name.Ketu
             };
-            return getOrderedGrahas(grahas);
+            return GetOrderedGrahas(grahas);
         }
-        public Body.Name[] getOrderedGrahas(Body.Name[] grahas)
+        public Body.Name[] GetOrderedGrahas(Body.Name[] grahas)
         {
             if (grahas.Length <= 1)
                 return grahas;
@@ -163,17 +163,13 @@ namespace org.transliteral.panchang
                 for (int j = 0; j < grahas.Length - 1; j++)
                 {
                     if (false == this.CmpGraha(grahas[j], grahas[j + 1], false))
-                    {
-                        Body.Name temp = grahas[j];
-                        grahas[j] = grahas[j + 1];
-                        grahas[j + 1] = temp;
-                    }
+                        (grahas[j + 1], grahas[j]) = (grahas[j], grahas[j + 1]);
                 }
             }
             return grahas;
         }
 
-        public ZodiacHouseName[] getOrderedRasis()
+        public ZodiacHouseName[] GetOrderedRasis()
         {
             ZodiacHouseName[] rasis = new ZodiacHouseName[]
             {
@@ -182,17 +178,17 @@ namespace org.transliteral.panchang
                 ZodiacHouseName.Lib, ZodiacHouseName.Sco, ZodiacHouseName.Sag,
                 ZodiacHouseName.Cap, ZodiacHouseName.Aqu, ZodiacHouseName.Pis
             };
-            return getOrderedRasis(rasis);
+            return GetOrderedRasis(rasis);
         }
-        public OrderedZodiacHouses getOrderedHouses(ZodiacHouseName[] rasis)
+        public OrderedZodiacHouses GetOrderedHouses(ZodiacHouseName[] rasis)
         {
-            ZodiacHouseName[] zh_ordered = getOrderedRasis(rasis);
+            ZodiacHouseName[] zh_ordered = GetOrderedRasis(rasis);
             OrderedZodiacHouses oz = new OrderedZodiacHouses();
             foreach (ZodiacHouseName zn in zh_ordered)
                 oz.houses.Add(zn);
             return oz;
         }
-        public ZodiacHouseName[] getOrderedRasis(ZodiacHouseName[] rasis)
+        public ZodiacHouseName[] GetOrderedRasis(ZodiacHouseName[] rasis)
         {
             if (rasis.Length < 2) return rasis;
 
@@ -203,11 +199,7 @@ namespace org.transliteral.panchang
                 {
                     //System.Console.WriteLine ("Comparing {0} and {1}", i, j);
                     if (false == this.CmpRasi(rasis[j], rasis[j + 1], false))
-                    {
-                        ZodiacHouseName temp = rasis[j];
-                        rasis[j] = rasis[j + 1];
-                        rasis[j + 1] = temp;
-                    }
+                        (rasis[j + 1], rasis[j]) = (rasis[j], rasis[j + 1]);
                 }
             }
             return rasis;

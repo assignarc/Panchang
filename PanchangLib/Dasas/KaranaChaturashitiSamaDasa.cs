@@ -22,8 +22,8 @@ namespace org.transliteral.panchang
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			Longitude mMoon = h.getPosition(Body.Name.Moon).longitude;
-			Longitude mSun = h.getPosition(Body.Name.Sun).longitude;
+			Longitude mMoon = h.getPosition(Body.Name.Moon).Longitude;
+			Longitude mSun = h.getPosition(Body.Name.Sun).Longitude;
 			return _KaranaDasa (mMoon.sub(mSun), 1, cycle);
 		}
 		public ArrayList AntarDasa (DasaEntry di)

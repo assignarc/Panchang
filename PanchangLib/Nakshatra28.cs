@@ -24,11 +24,11 @@ namespace org.transliteral.panchang
         }
         public int normalize()
         {
-            return Basics.normalize_inc(1, 28, (int)this.value);
+            return Basics.Normalize_inc(1, 28, (int)this.value);
         }
         public Nakshatra28 add(int i)
         {
-            int snum = Basics.normalize_inc(1, 28, (int)this.value + i - 1);
+            int snum = Basics.Normalize_inc(1, 28, (int)this.value + i - 1);
             return new Nakshatra28((Nakshatra28Name)snum);
         }
     }

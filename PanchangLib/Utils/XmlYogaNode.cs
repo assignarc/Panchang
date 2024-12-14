@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
         public string sourceRef;       // source reference (text:verse)
         public string sourceText;      // source rule (english)
         public string sourceItxText;   // source rule (eng / sans)
-        public string mhoraRule;       // rule in mhora format
+        public string horaRule;       // rule in hora format
         public string result;          // results
         public string yogaCat;         // yoga category
         public string yogaName;        // short desc of yoga (1-2 words)

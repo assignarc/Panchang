@@ -33,7 +33,7 @@ namespace mhora
 		{
 			this.tbHorMale.Text = "Current Chart";
 			this.tbHorFemale.Text = "Current Chart";
-			foreach (Form f in ((MhoraContainer)MhoraGlobalOptions.mainControl).MdiChildren)
+			foreach (Form f in ((MhoraContainer)GlobalOptions.mainControl).MdiChildren)
 			if (f is MhoraChild)
 			{
 				MhoraChild mch = (MhoraChild)f;
@@ -243,10 +243,10 @@ namespace mhora
 			BodyPosition l2 = h2.getPosition(Body.Name.Lagna);
 			BodyPosition m1 = h.getPosition(Body.Name.Moon);
 			BodyPosition m2 = h2.getPosition(Body.Name.Moon);
-			ZodiacHouse z1 = m1.toDivisionPosition(dtype).zodiac_house;
-			ZodiacHouse z2 = m2.toDivisionPosition(dtype).zodiac_house;
-			Nakshatra n1 = m1.longitude.toNakshatra();
-			Nakshatra n2 = m2.longitude.toNakshatra();
+			ZodiacHouse z1 = m1.ToDivisionPosition(dtype).zodiac_house;
+			ZodiacHouse z2 = m2.ToDivisionPosition(dtype).zodiac_house;
+			Nakshatra n1 = m1.Longitude.toNakshatra();
+			Nakshatra n2 = m2.Longitude.toNakshatra();
 
 			this.lView.Items.Clear();
 
@@ -281,9 +281,9 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Gana (Lagna)");
-				li.SubItems.Add(KutaGana.getType(l1.longitude.toNakshatra()).ToString());
-				li.SubItems.Add(KutaGana.getType(l2.longitude.toNakshatra()).ToString());
-				li.SubItems.Add(KutaGana.getScore(l1.longitude.toNakshatra(), l2.longitude.toNakshatra()).ToString()
+				li.SubItems.Add(KutaGana.getType(l1.Longitude.toNakshatra()).ToString());
+				li.SubItems.Add(KutaGana.getType(l2.Longitude.toNakshatra()).ToString());
+				li.SubItems.Add(KutaGana.getScore(l1.Longitude.toNakshatra(), l2.Longitude.toNakshatra()).ToString()
 					+ "/" + KutaGana.getMaxScore().ToString());
 				lView.Items.Add(li);
 			}
@@ -331,8 +331,8 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka (Moon)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
-				ZodiacHouse ch = h2.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse ch = h2.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
 				bool isGhataka = GhatakaMoon.checkGhataka(ja, ch);
 				li.SubItems.Add(ja.ToString());
 				li.SubItems.Add(ch.ToString());
@@ -341,8 +341,8 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka (Tithi)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
-				Longitude ltithi = h2.getPosition(Body.Name.Moon).longitude.sub(h2.getPosition(Body.Name.Sun).longitude);
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
+				Longitude ltithi = h2.getPosition(Body.Name.Moon).Longitude.sub(h2.getPosition(Body.Name.Sun).Longitude);
 				Tithi t = ltithi.toTithi();
                 bool isGhataka = GhatakaTithi.checkTithi(ja, t);
 				li.SubItems.Add(ja.ToString());
@@ -352,7 +352,7 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka (Day)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
 				Basics.Weekday wd = h2.wday;
 				bool isGhataka = GhatakaDay.checkDay(ja, wd);
 				li.SubItems.Add(ja.ToString());
@@ -362,8 +362,8 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka (Star)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
-				Nakshatra na = h2.getPosition(Body.Name.Moon).longitude.toNakshatra();
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
+				Nakshatra na = h2.getPosition(Body.Name.Moon).Longitude.toNakshatra();
 				bool isGhataka = GhatakaStar.checkStar(ja, na);
 				li.SubItems.Add(ja.ToString());
 				li.SubItems.Add(na.ToString());
@@ -372,8 +372,8 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka Lagna(S)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
-				ZodiacHouse sa = h2.getPosition(Body.Name.Lagna).toDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse sa = h2.getPosition(Body.Name.Lagna).ToDivisionPosition(dtype).zodiac_house;
 				bool isGhataka = GhatakaLagnaSame.checkLagna(ja, sa);
 				li.SubItems.Add(ja.ToString());
 				li.SubItems.Add(sa.ToString());
@@ -382,8 +382,8 @@ namespace mhora
 			}
 			{
 				ListViewItem li = new ListViewItem("Ghataka Lagna(O)");
-				ZodiacHouse ja = h.getPosition(Body.Name.Moon).toDivisionPosition(dtype).zodiac_house;
-				ZodiacHouse op = h2.getPosition(Body.Name.Lagna).toDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse ja = h.getPosition(Body.Name.Moon).ToDivisionPosition(dtype).zodiac_house;
+				ZodiacHouse op = h2.getPosition(Body.Name.Lagna).ToDivisionPosition(dtype).zodiac_house;
 				bool isGhataka = GhatakaLagnaOpp.checkLagna(ja, op);
 				li.SubItems.Add(ja.ToString());
 				li.SubItems.Add(op.ToString());

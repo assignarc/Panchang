@@ -20,9 +20,9 @@ namespace org.transliteral.panchang
 		public Longitude LongitudeOfSun (double ut, ref bool bDirRetro)
 		{
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
-			if (bp.speed_longitude >= 0) bDirRetro = false;
+			if (bp.Speed_longitude >= 0) bDirRetro = false;
 			else bDirRetro = true;
-			return bp.longitude;
+			return bp.Longitude;
 		}
 		public Longitude GenericLongitude (double ut, ref bool bDirRetro)
 		{
@@ -32,9 +32,9 @@ namespace org.transliteral.panchang
 
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, 
 				Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-			if (bp.speed_longitude >= 0) bDirRetro = false;
+			if (bp.Speed_longitude >= 0) bDirRetro = false;
 			else bDirRetro = true;
-			return bp.longitude;
+			return bp.Longitude;
 		}		
 		public Longitude LongitudeOfTithiDir (double ut, ref bool bDirRetro)
 		{
@@ -45,7 +45,7 @@ namespace org.transliteral.panchang
 		{
 			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			Longitude rel = bp_moon.longitude.sub ( bp_sun.longitude);
+			Longitude rel = bp_moon.Longitude.sub ( bp_sun.Longitude);
 			return rel;
 		}
 		public Longitude LongitudeOfMoonDir (double ut, ref bool bDirRetro)
@@ -56,7 +56,7 @@ namespace org.transliteral.panchang
 		public Longitude LongitudeOfMoon (double ut)
 		{
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			return bp_moon.longitude.add(0);
+			return bp_moon.Longitude.add(0);
 		}
 		public Longitude LongitudeOfSunMoonYogaDir (double ut, ref bool bDirRetro)
 		{
@@ -67,7 +67,7 @@ namespace org.transliteral.panchang
 		{
 			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			Longitude rel = bp_moon.longitude.add ( bp_sun.longitude);
+			Longitude rel = bp_moon.Longitude.add ( bp_sun.Longitude);
 			return rel;
 		}
 		public bool CircularLonLessThan (Longitude a, Longitude b)

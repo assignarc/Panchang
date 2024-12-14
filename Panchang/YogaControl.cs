@@ -29,7 +29,7 @@ namespace mhora
 			InitializeComponent();
 			h = _h;
 			fy = new FindYogas(h, new Division(DivisionType.Rasi));
-			this.mList.BackColor = MhoraGlobalOptions.Instance.ChakraBackgroundColor;
+			this.mList.BackColor = GlobalOptions.Instance.ChakraBackgroundColor;
 			this.AddViewsToContextMenu(this.mContext);
 			h.Changed += new EvtChanged(OnRecalculate);
 
@@ -158,7 +158,7 @@ namespace mhora
 			li.SubItems.Add (n.yogaCat);
 			li.SubItems.Add (n.yogaName);
 			li.SubItems.Add (n.result);
-			li.SubItems.Add (n.mhoraRule);
+			li.SubItems.Add (n.horaRule);
 			this.mList.Items.Add (li);
 		}
 
@@ -170,7 +170,7 @@ namespace mhora
 			}
 			catch
 			{
-				MessageBox.Show("An error occured while reading file " + MhoraGlobalOptions.Instance.YogasFileName);
+				MessageBox.Show("An error occured while reading file " + GlobalOptions.Instance.YogasFileName);
 			}
 		}
 		private void evaluateYogasHelper ()
@@ -180,7 +180,7 @@ namespace mhora
 			string sLine = "";
 			string sType = "";
 
-			StreamReader objReader = new StreamReader(MhoraGlobalOptions.Instance.YogasFileName);
+			StreamReader objReader = new StreamReader(GlobalOptions.Instance.YogasFileName);
 
 			while ((sLine = objReader.ReadLine()) != null)
 			{
@@ -200,12 +200,12 @@ namespace mhora
 				switch (sType.ToLower())
 				{
 					case "entry":
-						if (null != yn && yn.mhoraRule != null && yn.mhoraRule.Length > 0)
+						if (null != yn && yn.horaRule != null && yn.horaRule.Length > 0)
 							this.evaluateYoga(yn);
 						yn = new XmlYogaNode();
 						break;
 					case "rule":
-						yn.mhoraRule += sLine;
+						yn.horaRule += sLine;
 						break;
 					case "sourceref":
 					case "ref":

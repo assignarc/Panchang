@@ -583,7 +583,7 @@ namespace mhora
 		private void menuStrengthOpts_Click(object sender, System.EventArgs e)
 		{
 			if (this.h.strength_options == null)
-				this.h.strength_options = (StrengthOptions)MhoraGlobalOptions.Instance.SOptions.Clone();
+				this.h.strength_options = (StrengthOptions)GlobalOptions.Instance.SOptions.Clone();
 
 			MhoraOptions f = new MhoraOptions(h.strength_options, new ApplyOptions(this.SetStrengthOptions));
 			f.ShowDialog();
@@ -710,7 +710,7 @@ namespace mhora
 			string ext = fi.Extension;
 
 			string sfBase = new string(this.mJhdFileName.ToCharArray(), 0, this.mJhdFileName.Length - ext.Length);
-			string sfExt = MhoraGlobalOptions.Instance.ChartNotesFileExtension;
+			string sfExt = GlobalOptions.Instance.ChartNotesFileExtension;
 			string sfName = sfBase;
 
 			if (sfExt.Length > 0 && sfExt[0] == '.')

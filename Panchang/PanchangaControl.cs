@@ -10,7 +10,7 @@ using System.Threading;
 using org.transliteral.panchang;
 namespace mhora
 {
-	public delegate void DelegateComputeFinished();
+    public delegate void DelegateComputeFinished();
 	public class PanchangaControl : mhora.MhoraControl
 	{
 
@@ -172,11 +172,11 @@ namespace mhora
 			InitializeComponent();
 			h = _h;
 			h.Changed += new EvtChanged (OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged (OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged (OnRedisplay);
 			opts = new UserOptions();
 			this.AddViewsToContextMenu(this.contextMenu);
 			this.mutexProgress = new Mutex(false);
-			this.OnRedisplay(MhoraGlobalOptions.Instance.TableBackgroundColor);
+			this.OnRedisplay(GlobalOptions.Instance.TableBackgroundColor);
 			this.bCompute_Click(null, null);
 		}
 
@@ -294,9 +294,9 @@ namespace mhora
 
 		public void OnRedisplay (Object o)
 		{
-			this.mList.ForeColor = MhoraGlobalOptions.Instance.TableForegroundColor;
-			this.mList.BackColor = MhoraGlobalOptions.Instance.TableBackgroundColor;
-			this.mList.Font = MhoraGlobalOptions.Instance.GeneralFont;
+			this.mList.ForeColor = GlobalOptions.Instance.TableForegroundColor;
+			this.mList.BackColor = GlobalOptions.Instance.TableBackgroundColor;
+			this.mList.Font = GlobalOptions.Instance.GeneralFont;
 		}
 		public void OnRecalculate (object _h)
 		{
@@ -484,9 +484,9 @@ namespace mhora
 			local.kalas_ut = hCurr.getKalaCuspsUt();
 			if (this.opts.CalcSpecialKalas)
 			{
-				Body.Name bStart = Basics.weekdayRuler(hCurr.wday);
+				Body.Name bStart = Basics.WeekdayRuler(hCurr.wday);
 				if (hCurr.options.KalaType == EHoraType.Lmt)
-					bStart = Basics.weekdayRuler(hCurr.lmt_wday);
+					bStart = Basics.WeekdayRuler(hCurr.lmt_wday);
 
 				local.rahu_kala_index = this.rahu_kalas[(int)bStart]; 
 				local.gulika_kala_index = this.gulika_kalas[(int)bStart];
@@ -498,10 +498,10 @@ namespace mhora
 				li = new ListViewItem();
 				Sweph.obtainLock(h);
 				BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(Body.Name.Lagna), Body.Name.Lagna, BodyType.Name.Lagna, h);
-				DivisionPosition dp_lagna_sr = bp_lagna_sr.toDivisionPosition(new Division(DivisionType.Rasi));
+				DivisionPosition dp_lagna_sr = bp_lagna_sr.ToDivisionPosition(new Division(DivisionType.Rasi));
 				local.lagna_zh = dp_lagna_sr.zodiac_house.value;
 
-				Longitude bp_lagna_base = new Longitude(bp_lagna_sr.longitude.toZodiacHouseBase());
+				Longitude bp_lagna_base = new Longitude(bp_lagna_sr.Longitude.toZodiacHouseBase());
 				double ut_transit = ut_sr;
 				for (int i=1; i<=12; i++)
 				{
@@ -509,7 +509,7 @@ namespace mhora
 					ut_transit = r.GetLagnaTransitForward(ut_transit, bp_lagna_base.add(i*30.0));
 
 					PanchangaMomentInfo pmi = new PanchangaMomentInfo(
-						ut_transit, (int)bp_lagna_sr.longitude.toZodiacHouse().add(i+1).value);
+						ut_transit, (int)bp_lagna_sr.Longitude.toZodiacHouse().add(i+1).value);
 					local.lagnas_ut.Add(pmi);
 				}
 
@@ -851,7 +851,7 @@ namespace mhora
 				string sHora = "    ";
 				for (int i=0; i<24; i++)
 				{
-					int ib = (int)Basics.normalize_exc_lower(0,7,local.hora_base+i);
+					int ib = (int)Basics.Normalize_exc_lower(0,7,local.hora_base+i);
 					Body.Name bHora = h.horaOrder[ib];
 					sHora = string.Format("{0}{1} hora until {2}. ", sHora, bHora, 
 						this.utTimeToString(local.horas_ut[i+1], local.sunrise_ut, local.sunrise));
@@ -868,7 +868,7 @@ namespace mhora
 				string sKala = "    ";
 				for (int i=0; i<16; i++)
 				{
-					int ib = (int)Basics.normalize_exc_lower(0, 8,local.kala_base+i);
+					int ib = (int)Basics.Normalize_exc_lower(0, 8,local.kala_base+i);
 					Body.Name bKala = h.kalaOrder[ib];
 					sKala = string.Format("{0}{1} kala until {2}. ", sKala, bKala,
 						this.utTimeToString(local.kalas_ut[i+1], local.sunrise_ut, local.sunrise));
@@ -946,54 +946,6 @@ namespace mhora
 
 
 
-	}
-
-
-	public class PanchangaMomentInfo
-	{
-		public double ut;
-		public int info;
-		public PanchangaMomentInfo (double _ut, int _info)
-		{
-			ut = _ut;
-			info = _info;
-		}
-	}
-
-	public class PanchangaGlobalMoments
-	{
-		public ArrayList nakshatras_ut = new ArrayList();
-		public ArrayList tithis_ut = new ArrayList();
-		public ArrayList karanas_ut = new ArrayList();
-		public ArrayList smyogas_ut = new ArrayList();
-		public PanchangaGlobalMoments()
-		{
-		}
-	}
-
-	public class PanchangaLocalMoments 
-	{
-		public double sunrise;
-		public double sunset;
-		public Basics.Weekday wday;
-		public double sunrise_ut;
-		public double[] kalas_ut;
-		public double[] horas_ut;
-		public ArrayList lagnas_ut = new ArrayList();
-		public ZodiacHouseName lagna_zh;
-		public int rahu_kala_index;
-		public int gulika_kala_index;
-		public int yama_kala_index;
-		public int kala_base;
-		public int hora_base;
-		public int nakshatra_index_start;
-		public int nakshatra_index_end;
-		public int tithi_index_start;
-		public int tithi_index_end;
-		public int karana_index_start;
-		public int karana_index_end;
-		public int smyoga_index_start;
-		public int smyoga_index_end;
 	}
 
 }

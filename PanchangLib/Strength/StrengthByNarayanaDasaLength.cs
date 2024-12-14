@@ -11,12 +11,12 @@ namespace org.transliteral.panchang
 		protected int value (ZodiacHouseName _zh)
 		{
 			Body.Name bl = this.GetStrengthLord(_zh);
-			DivisionPosition pl = h.getPosition(bl).toDivisionPosition(dtype);
+			DivisionPosition pl = h.getPosition(bl).ToDivisionPosition(dtype);
 			return NarayanaDasa.NarayanaDasaLength  (new ZodiacHouse(_zh), pl);
 		}
 		protected int value (Body.Name bm)
 		{
-			ZodiacHouseName zm = h.getPosition(bm).toDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zm = h.getPosition(bm).ToDivisionPosition(dtype).zodiac_house.value;
 			return value(zm);
 		}
 		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 

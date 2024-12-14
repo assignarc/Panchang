@@ -11,7 +11,7 @@ namespace org.transliteral.panchang
 	/// </summary>
 	/// 
 
-	public class MhoraVerifier
+	public class HoraVerifier
 	{
 		public static bool GoodHash (string key, string hash)
 		{

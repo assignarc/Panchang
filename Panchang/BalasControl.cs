@@ -120,31 +120,31 @@ namespace mhora
 			{
 				ListViewItem li = new ListViewItem("-> Uccha");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add (fmtBala(sb.ucchaBala(b)));
+					li.SubItems.Add (fmtBala(sb.UcchaBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("-> Oja-Yugma");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add (fmtBala(sb.ojaYugmaRasyAmsaBala(b)));
+					li.SubItems.Add (fmtBala(sb.OjaYugmaRasyAmsaBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("-> Kendra");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.kendraBala(b)));
+					li.SubItems.Add(fmtBala(sb.KendraBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("-> Drekkana");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.drekkanaBala(b)));
+					li.SubItems.Add(fmtBala(sb.DrekkanaBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("Dik");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.digBala(b)));
+					li.SubItems.Add(fmtBala(sb.DigBala(b)));
 				mList.Items.Add(li);
 			}
 			{
@@ -156,19 +156,19 @@ namespace mhora
 			{
 				ListViewItem li = new ListViewItem("-> Nathonnatha");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.nathonnathaBala(b)));
+					li.SubItems.Add(fmtBala(sb.NathonnathaBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("-> Paksha");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.pakshaBala(b)));
+					li.SubItems.Add(fmtBala(sb.PakshaBala(b)));
 				mList.Items.Add(li);
 			}
 			{
 				ListViewItem li = new ListViewItem("-> Tribhaaga");
 				foreach (Body.Name b in grahas)
-					li.SubItems.Add(fmtBala(sb.tribhaagaBala(b)));
+					li.SubItems.Add(fmtBala(sb.TribhaagaBala(b)));
 				mList.Items.Add(li);
 			}
 			{

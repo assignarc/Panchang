@@ -37,9 +37,9 @@ namespace org.transliteral.panchang
         {
             int swephBody = BodyNameToSweph(b);
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, swephBody, b, BodyType.Name.Other, h);
-            if (bp.speed_longitude >= 0) bForwardDir = true;
+            if (bp.Speed_longitude >= 0) bForwardDir = true;
             else bForwardDir = false;
-            return bp.longitude;
+            return bp.Longitude;
         }
 
         public double BinarySearchNormal(double ut_start, double ut_end, Longitude lon_to_find)

@@ -10,20 +10,7 @@ namespace org.transliteral.panchang
    
     public class UserOptions : ICloneable
     {
-       
-       
-
-        [TypeConverter(typeof(EnumDescConverter))]
-        public enum EViewStyle
-        {
-            [Description("Regular")] Normal,
-            [Description("Dual Graha Arudhas")] DualGrahaArudha,
-            [Description("8 Chara Karakas (regular)")] CharaKarakas8,
-            [Description("7 Chara Karakas (mundane)")] CharaKarakas7,
-            [Description("Varnada Lagna")] Varnada,
-            [Description("Panchanga Print View")] Panchanga
-        };
-
+      
         private Division varga;
         private Division innerVarga;
         private EChartStyle mChartStyle;
@@ -34,7 +21,7 @@ namespace org.transliteral.panchang
         {
             this.Varga = new Division(DivisionType.Rasi);
             mViewStyle = EViewStyle.Normal;
-            mChartStyle = MhoraGlobalOptions.Instance.VargaStyle;
+            mChartStyle = GlobalOptions.Instance.VargaStyle;
             varga = new Division(DivisionType.Rasi);
             innerVarga = new Division(DivisionType.Rasi);
             mbShowInner = false;

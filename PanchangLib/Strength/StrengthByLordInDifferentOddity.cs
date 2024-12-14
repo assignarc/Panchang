@@ -32,8 +32,8 @@ namespace org.transliteral.panchang
 		}
 		public bool stronger (Body.Name ba, Body.Name bb)
 		{
-			ZodiacHouseName za = h.getPosition(ba).toDivisionPosition(dtype).zodiac_house.value;
-			ZodiacHouseName zb = h.getPosition(bb).toDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName za = h.getPosition(ba).ToDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zb = h.getPosition(bb).ToDivisionPosition(dtype).zodiac_house.value;
 			return stronger (za, zb);
 		}
 	}

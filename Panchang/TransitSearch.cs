@@ -45,16 +45,16 @@ namespace mhora
 
 		public void Redisplay (object o)
 		{
-			this.mlTransits.Font = MhoraGlobalOptions.Instance.GeneralFont;
-			this.mlTransits.BackColor = MhoraGlobalOptions.Instance.TableBackgroundColor;
-			this.mlTransits.ForeColor = MhoraGlobalOptions.Instance.TableForegroundColor;
-			this.pgOptions.Font = MhoraGlobalOptions.Instance.GeneralFont;
+			this.mlTransits.Font = GlobalOptions.Instance.GeneralFont;
+			this.mlTransits.BackColor = GlobalOptions.Instance.TableBackgroundColor;
+			this.mlTransits.ForeColor = GlobalOptions.Instance.TableForegroundColor;
+			this.pgOptions.Font = GlobalOptions.Instance.GeneralFont;
 		}
 		public void Reset ()
 		{
 			this.updateOptions();
 			this.mlTransits.Items.Clear();
-			this.Redisplay(MhoraGlobalOptions.Instance);
+			this.Redisplay(GlobalOptions.Instance);
 		
 			//this.mlTransits.Font = MhoraGlobalOptions.Instance.GeneralFont;
 			//this.mlTransits.BackColor = MhoraGlobalOptions.Instance.DasaBackgroundColor;
@@ -66,7 +66,7 @@ namespace mhora
 			InitializeComponent();
 
 			h = _h;
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
 			opts = new TransitSearchOptions();
 			this.updateOptions();
 			this.AddViewsToContextMenu(this.mContext);
@@ -541,11 +541,11 @@ namespace mhora
 			else
 				dExpectedLon -= lon_expected.sub(lon_prog).value;
 
-			DivisionPosition dp = h.getPosition(opts.SearchBody).toDivisionPosition(opts.Division);
+			DivisionPosition dp = h.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
 
 			//Console.WriteLine ("Sun progress {0} degrees in elapsed time", dExpectedLon);
 
-			double ret = (dExpectedLon / 360.0) * (30.0/(double)(Basics.numPartsInDivision(opts.Division)));
+			double ret = (dExpectedLon / 360.0) * (30.0/(double)(Basics.NumPartsInDivision(opts.Division)));
 				//(dp.cusp_higher - dp.cusp_lower);
 			//Console.WriteLine ("Progressing by {0} degrees", ret);
 			return ret;
@@ -559,7 +559,7 @@ namespace mhora
 				return;
 			}
 
-			DivisionPosition dp = h.getPosition(opts.SearchBody).toDivisionPosition(opts.Division);
+			DivisionPosition dp = h.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
 			double yearlyProgression = (dp.cusp_higher - dp.cusp_lower) / 30.0;
 			double julday_ut = Sweph.swe_julday(
 				this.opts.StartDate.year,
@@ -645,7 +645,7 @@ namespace mhora
 
 			foreach (BodyPosition bp in h.positionList)
 			{
-				bp.longitude = bp.longitude.add(lonProgress);
+				bp.Longitude = bp.Longitude.add(lonProgress);
 			}
 			h.OnlySignalChanged();
 		}
@@ -695,7 +695,7 @@ namespace mhora
 			// add entry to our list
 			string fmt = hTransit.info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
-			li.Text = Body.toString(this.opts.SearchBody);
+			li.Text = Body.ToString(this.opts.SearchBody);
 			if (becomesDirect)
 				li.Text += " goes direct at " + found_lon.ToString();
 			else
@@ -751,7 +751,7 @@ namespace mhora
 			// add entry to our list
 			string fmt = hTransit.info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
-			li.Text = Body.toString(this.opts.SearchBody);
+			li.Text = Body.ToString(this.opts.SearchBody);
 			if (bForward == false)
 				li.Text += " (R)";
 			li.Text += " transits " + found_lon.ToString();
@@ -781,7 +781,7 @@ namespace mhora
 			MhoraChild mcTransit = new MhoraChild(hTransit);
 			mcTransit.Name = "Transit Chart";
 			mcTransit.Text = "Transit Chart";
-			mcTransit.MdiParent = (MhoraContainer)MhoraGlobalOptions.mainControl;
+			mcTransit.MdiParent = (MhoraContainer)GlobalOptions.mainControl;
 			mcTransit.Show();
 		}
 
@@ -892,7 +892,7 @@ namespace mhora
 			Horoscope h2 = (Horoscope)h.Clone();
 			h2.info.tob = this.opts.StartDate;
 			h2.OnChanged();
-			DivisionPosition dp = h2.getPosition(opts.SearchBody).toDivisionPosition(opts.Division);
+			DivisionPosition dp = h2.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
 			opts.TransitPoint = new Longitude(dp.cusp_lower);
 
 			double found_ut = this.StartSearch(false) + h.info.tz.toDouble() / 24.0;
@@ -911,7 +911,7 @@ namespace mhora
 			Horoscope h2 = (Horoscope)h.Clone();
 			h2.info.tob = this.opts.StartDate;
 			h2.OnChanged();
-			DivisionPosition dp = h2.getPosition(opts.SearchBody).toDivisionPosition(opts.Division);
+			DivisionPosition dp = h2.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
 			opts.TransitPoint = new Longitude(dp.cusp_higher);
 			opts.TransitPoint = opts.TransitPoint.add(1.0/(60.0*60.0*60.0));
 
@@ -936,7 +936,7 @@ namespace mhora
 			h2.info.tob = this.opts.StartDate;
 			h2.OnChanged();
 			BodyPosition bp = h2.getPosition(opts.SearchBody);
-			DivisionPosition dp = bp.toDivisionPosition(opts.Division);
+			DivisionPosition dp = bp.ToDivisionPosition(opts.Division);
 
 			bool becomesDirect = false;
 			bool bForward = false;
@@ -955,13 +955,13 @@ namespace mhora
 				Longitude found_lon = r.GetLon(found_ut, ref bForward);
 
 
-				if (new Longitude(dp.cusp_higher).isBetween(bp.longitude, found_lon))
+				if (new Longitude(dp.cusp_higher).isBetween(bp.Longitude, found_lon))
 				{
 					bTransitForwardCusp = true;
 					break;
 				}
 
-				if (new Longitude(dp.cusp_lower).isBetween(found_lon, bp.longitude))
+				if (new Longitude(dp.cusp_lower).isBetween(found_lon, bp.Longitude))
 				{
 					bTransitForwardCusp = false;
 					break;

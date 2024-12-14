@@ -10,27 +10,27 @@ namespace org.transliteral.panchang
 	/// </summary>
 	public class ShadBalas
 	{
-        
-		Horoscope h;
-		public ShadBalas(Horoscope _h)
+
+        Horoscope h;
+        public ShadBalas(Horoscope _h)
 		{
 			h = _h;
 		}
-		private void verifyGraha (Body.Name b)
+		private void VerifyGraha (Body.Name b)
 		{
 			int _b = (int)b;
 			Debug.Assert(_b >= (int)Body.Name.Sun && _b <= (int)Body.Name.Saturn);
 		}
-		public double ucchaBala (Body.Name b)
+		public double UcchaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
-			Longitude debLon = Body.debilitationDegree (b);
-			Longitude posLon = h.getPosition(b).longitude;
+			this.VerifyGraha(b);
+			Longitude debLon = Body.DebilitationDegree (b);
+			Longitude posLon = h.getPosition(b).Longitude;
 			double diff = posLon.sub(debLon).value;
 			if (diff > 180) diff = 360 - diff;
 			return ((diff / 180.0) * 60.0);
 		}
-		public bool getsOjaBala (Body.Name b)
+		public bool GetsOjaBala (Body.Name b)
 		{
 			switch (b)
 			{
@@ -41,9 +41,9 @@ namespace org.transliteral.panchang
 					return true;
 			}
 		}
-		public double ojaYugmaHelper (Body.Name b, ZodiacHouse zh)
+		public double OjaYugmaHelper (Body.Name b, ZodiacHouse zh)
 		{
-			if (this.getsOjaBala(b))
+			if (this.GetsOjaBala(b))
 			{
 				if (zh.isOdd())	return 15.0;
 				else return 0.0;
@@ -54,22 +54,22 @@ namespace org.transliteral.panchang
 				else return 15.0;
 			}
 		}
-		public double ojaYugmaRasyAmsaBala (Body.Name b)
+		public double OjaYugmaRasyAmsaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			BodyPosition bp = h.getPosition(b);
-			ZodiacHouse zh_rasi = bp.toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
-			ZodiacHouse zh_amsa = bp.toDivisionPosition(new Division(DivisionType.Navamsa)).zodiac_house;
+			ZodiacHouse zh_rasi = bp.ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			ZodiacHouse zh_amsa = bp.ToDivisionPosition(new Division(DivisionType.Navamsa)).zodiac_house;
 			double s = 0;
-			s += this.ojaYugmaHelper(b, zh_rasi);
-			s += this.ojaYugmaHelper(b, zh_amsa);
+			s += this.OjaYugmaHelper(b, zh_rasi);
+			s += this.OjaYugmaHelper(b, zh_amsa);
 			return s;
 		}
-		public double kendraBala (Body.Name b)
+		public double KendraBala (Body.Name b)
 		{
-			this.verifyGraha(b);
-			ZodiacHouse zh_b = h.getPosition(b).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
-			ZodiacHouse zh_l = h.getPosition(Body.Name.Lagna).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			this.VerifyGraha(b);
+			ZodiacHouse zh_b = h.getPosition(b).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			ZodiacHouse zh_l = h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
 			int diff = zh_l.numHousesBetween(zh_b);
 			switch (diff % 3)
 			{
@@ -79,10 +79,10 @@ namespace org.transliteral.panchang
 						return 15.0;
 			}
 		}
-		public double drekkanaBala (Body.Name b)
+		public double DrekkanaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
-			int part = h.getPosition(b).partOfZodiacHouse(3);
+			this.VerifyGraha(b);
+			int part = h.getPosition(b).PartOfZodiacHouse(3);
 			if (part == 1 &&
 				(b == Body.Name.Sun || b == Body.Name.Jupiter || b == Body.Name.Mars))
 				return 15.0;
@@ -97,14 +97,14 @@ namespace org.transliteral.panchang
 
 			return 0;
 		}
-		public double digBala (Body.Name b)
+		public double DigBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			int[] powerlessHouse = new int[] { 4, 10, 4, 7, 7, 10, 1 };
-			Longitude lagLon = h.getPosition(Body.Name.Lagna).longitude;
+			Longitude lagLon = h.getPosition(Body.Name.Lagna).Longitude;
 			Longitude debLon = new Longitude(lagLon.toZodiacHouseBase());
 			debLon = debLon.add(powerlessHouse[(int)b]*30.0+15.0);
-			Longitude posLon = h.getPosition(b).longitude;
+			Longitude posLon = h.getPosition(b).Longitude;
 
 			Logger.Debug(String.Format("digBala {0} {1} {2}", b, posLon.value, debLon.value));
 
@@ -112,9 +112,9 @@ namespace org.transliteral.panchang
 			if (diff > 180) diff = 360 - diff;
 			return ((diff / 180.0) * 60.0);
 		}
-		public double nathonnathaBala (Body.Name b)
+		public double NathonnathaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 
 			if (b == Body.Name.Mercury) return 60;
 
@@ -135,12 +135,12 @@ namespace org.transliteral.panchang
 
 			return diff;
 		}
-		public double pakshaBala (Body.Name b)
+		public double PakshaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 
-			Longitude mlon = h.getPosition(Body.Name.Moon).longitude;
-			Longitude slon = h.getPosition(Body.Name.Sun).longitude;
+			Longitude mlon = h.getPosition(Body.Name.Moon).Longitude;
+			Longitude slon = h.getPosition(Body.Name.Sun).Longitude;
 
 			double diff = mlon.sub(slon).value;
 			if (diff > 180) diff = 360.0 - diff;
@@ -162,10 +162,10 @@ namespace org.transliteral.panchang
 					return shubha;
 			}
 		}
-		public double tribhaagaBala (Body.Name b)
+		public double TribhaagaBala (Body.Name b)
 		{
 			Body.Name ret = Body.Name.Jupiter;
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			if (h.isDayBirth())
 			{
 				double length = (h.sunset - h.sunrise)/3;
@@ -197,7 +197,7 @@ namespace org.transliteral.panchang
 		}
 		public double naisargikaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			switch (b)
 			{
 				case Body.Name.Sun: return 60;
@@ -233,12 +233,12 @@ namespace org.transliteral.panchang
 			double diff_month = diff;
 			while (diff > 7) diff -= 7.0;
 
-			yearLord = Basics.weekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_year));
-			monthLord = Basics.weekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_month));
+			yearLord = Basics.WeekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_year));
+			monthLord = Basics.WeekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_month));
 		}
 		public double abdaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			Body.Name yearLord=Body.Name.Sun, monthLord=Body.Name.Sun;
 			this.kalaHelper(ref yearLord, ref monthLord);
 			if (yearLord == b) return 15.0;
@@ -246,7 +246,7 @@ namespace org.transliteral.panchang
 		}
 		public double masaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			Body.Name yearLord=Body.Name.Sun, monthLord=Body.Name.Sun;
 			this.kalaHelper(ref yearLord, ref monthLord);
 			if (monthLord == b) return 30.0;
@@ -254,13 +254,13 @@ namespace org.transliteral.panchang
 		}
 		public double varaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
-			if (Basics.weekdayRuler(h.wday) == b) return 45.0;
+			this.VerifyGraha(b);
+			if (Basics.WeekdayRuler(h.wday) == b) return 45.0;
 			return 0.0;
 		}
 		public double horaBala (Body.Name b)
 		{
-			this.verifyGraha(b);
+			this.VerifyGraha(b);
 			if (h.calculateHora() == b) return 60.0;
 			return 0.0;
 		}

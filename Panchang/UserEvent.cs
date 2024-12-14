@@ -28,7 +28,7 @@ namespace mhora
         {
            
         }
-        public object Clone()
+        public new object Clone()
         {
             UserEvent ue = new UserEvent();
             ue.EventName = this.EventName;

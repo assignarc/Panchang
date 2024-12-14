@@ -66,7 +66,7 @@ namespace org.transliteral.panchang
 
         public DivisionPosition CalculateDivisionPosition(BodyPosition bp, Division d)
         {
-            return bp.toDivisionPosition(d);
+            return bp.ToDivisionPosition(d);
         }
 
         public ArrayList CalculateDivisionPositions(Division d)
@@ -80,8 +80,8 @@ namespace org.transliteral.panchang
         }
         private DivisionPosition CalculateGrahaArudhaDivisionPosition(Body.Name bn, ZodiacHouse zh, Division dtype)
         {
-            DivisionPosition dp = getPosition(bn).toDivisionPosition(dtype);
-            DivisionPosition dpl = getPosition(Body.Name.Lagna).toDivisionPosition(dtype);
+            DivisionPosition dp = getPosition(bn).ToDivisionPosition(dtype);
+            DivisionPosition dpl = getPosition(Body.Name.Lagna).ToDivisionPosition(dtype);
             int rel = dp.zodiac_house.numHousesBetween(zh);
             int hse = dpl.zodiac_house.numHousesBetween(zh);
             ZodiacHouse zhsum = zh.add(rel);
@@ -89,7 +89,7 @@ namespace org.transliteral.panchang
             if (rel2 == 1 || rel2 == 7)
                 zhsum = zhsum.add(10);
             DivisionPosition dp2 = new DivisionPosition(Body.Name.Other, BodyType.Name.GrahaArudha, zhsum, 0, 0, 0);
-            dp2.otherString = String.Format("{0}{1}", Body.toShortString(bn), hse);
+            dp2.otherString = String.Format("{0}{1}", Body.ToShortString(bn), hse);
             return dp2;
         }
         public ArrayList CalculateGrahaArudhaDivisionPositions(Division dtype)
@@ -128,8 +128,8 @@ namespace org.transliteral.panchang
         public ArrayList CalculateVarnadaDivisionPositions(Division dtype)
         {
             ArrayList al = new ArrayList(12);
-            ZodiacHouse _zh_l = this.getPosition(Body.Name.Lagna).toDivisionPosition(dtype).zodiac_house;
-            ZodiacHouse _zh_hl = this.getPosition(Body.Name.HoraLagna).toDivisionPosition(dtype).zodiac_house;
+            ZodiacHouse _zh_l = this.getPosition(Body.Name.Lagna).ToDivisionPosition(dtype).zodiac_house;
+            ZodiacHouse _zh_hl = this.getPosition(Body.Name.HoraLagna).ToDivisionPosition(dtype).zodiac_house;
 
             ZodiacHouse zh_ari = new ZodiacHouse(ZodiacHouseName.Ari);
             ZodiacHouse zh_pis = new ZodiacHouse(ZodiacHouseName.Pis);
@@ -316,8 +316,8 @@ namespace org.transliteral.panchang
                     Sweph.swe_set(tret[0], Sweph.SE_SUN, srflag, geopos, 0.0, 0.0, tret);
                     Sweph.swe_revjul(tret[0], ref year, ref month, ref day, ref hour);
                     ss = hour + this.info.tz.toDouble();
-                    sr = Basics.normalize_exc(0.0, 24.0, sr);
-                    ss = Basics.normalize_exc(0.0, 24.0, ss);
+                    sr = Basics.Normalize_exc(0.0, 24.0, sr);
+                    ss = Basics.Normalize_exc(0.0, 24.0, ss);
                     break;
             }
         }
@@ -434,13 +434,13 @@ namespace org.transliteral.panchang
         public Body.Name calculateKala(ref int iBase)
         {
             int[] offsets_day = new int[] { 0, 6, 1, 3, 2, 4, 5 };
-            Body.Name b = Basics.weekdayRuler(this.wday);
+            Body.Name b = Basics.WeekdayRuler(this.wday);
             bool bday_birth = this.isDayBirth();
 
             double[] cusps = this.getKalaCuspsUt();
             if (this.options.KalaType == EHoraType.Lmt)
             {
-                b = Basics.weekdayRuler(this.lmt_wday);
+                b = Basics.WeekdayRuler(this.lmt_wday);
                 bday_birth =
                     this.info.tob.time > this.lmt_sunset ||
                     this.info.tob.time < this.lmt_sunrise;
@@ -489,10 +489,10 @@ namespace org.transliteral.panchang
         public Body.Name calculateHora(double _baseUT, ref int baseBody)
         {
             int[] offsets = new int[] { 0, 3, 6, 2, 5, 1, 4 };
-            Body.Name b = Basics.weekdayRuler(this.wday);
+            Body.Name b = Basics.WeekdayRuler(this.wday);
             double[] cusps = this.getHoraCuspsUt();
             if (this.options.HoraType == EHoraType.Lmt)
-                b = Basics.weekdayRuler(this.lmt_wday);
+                b = Basics.WeekdayRuler(this.lmt_wday);
 
             int i = offsets[(int)b];
             baseBody = i;
@@ -516,7 +516,7 @@ namespace org.transliteral.panchang
         private Body.Name calculateUpagrahasStart()
         {
             if (this.isDayBirth())
-                return Basics.weekdayRuler(this.wday);
+                return Basics.WeekdayRuler(this.wday);
 
             switch (this.wday)
             {
@@ -621,19 +621,19 @@ namespace org.transliteral.panchang
         }
         private void calculateSunsUpagrahas()
         {
-            Longitude slon = this.getPosition(Body.Name.Sun).longitude;
+            Longitude slon = this.getPosition(Body.Name.Sun).Longitude;
 
             BodyPosition bpDhuma = new BodyPosition(this, Body.Name.Dhuma, BodyType.Name.Upagraha,
                 slon.add(133.0 + 20.0 / 60.0), 0, 0, 0, 0, 0);
 
             BodyPosition bpVyatipata = new BodyPosition(this, Body.Name.Vyatipata, BodyType.Name.Upagraha,
-                new Longitude(360.0).sub(bpDhuma.longitude), 0, 0, 0, 0, 0);
+                new Longitude(360.0).sub(bpDhuma.Longitude), 0, 0, 0, 0, 0);
 
             BodyPosition bpParivesha = new BodyPosition(this, Body.Name.Parivesha, BodyType.Name.Upagraha,
-                bpVyatipata.longitude.add(180), 0, 0, 0, 0, 0);
+                bpVyatipata.Longitude.add(180), 0, 0, 0, 0, 0);
 
             BodyPosition bpIndrachapa = new BodyPosition(this, Body.Name.Indrachapa, BodyType.Name.Upagraha,
-                new Longitude(360.0).sub(bpParivesha.longitude), 0, 0, 0, 0, 0);
+                new Longitude(360.0).sub(bpParivesha.Longitude), 0, 0, 0, 0, 0);
 
             BodyPosition bpUpaketu = new BodyPosition(this, Body.Name.Upaketu, BodyType.Name.Upagraha,
                 slon.sub(30), 0, 0, 0, 0, 0);
@@ -667,13 +667,13 @@ namespace org.transliteral.panchang
         {
             BodyPosition bp_moon = this.getPosition(Body.Name.Moon);
             Longitude lon_base =
-                new Longitude(bp_moon.extrapolateLongitude(
+                new Longitude(bp_moon.ExtrapolateLongitude(
                 new Division(DivisionType.Navamsa)).toZodiacHouseBase());
-            lon_base = lon_base.add(bp_moon.longitude.toZodiacHouseOffset());
+            lon_base = lon_base.add(bp_moon.Longitude.toZodiacHouseOffset());
 
             //Console.WriteLine ("Starting Chandra Ayur Lagna from {0}", lon_base);
 
-            double ista_ghati = Basics.normalize_exc(0.0, 24.0, info.tob.time - sunrise) * 2.5;
+            double ista_ghati = Basics.Normalize_exc(0.0, 24.0, info.tob.time - sunrise) * 2.5;
             Longitude gl_lon = lon_base.add(new Longitude(ista_ghati * 30.0));
             Longitude hl_lon = lon_base.add(new Longitude(ista_ghati * 30.0 / 2.5));
             Longitude bl_lon = lon_base.add(new Longitude(ista_ghati * 30.0 / 5.0));
@@ -690,8 +690,8 @@ namespace org.transliteral.panchang
 
         private void calculateSL()
         {
-            Longitude mpos = this.getPosition(Body.Name.Moon).longitude;
-            Longitude lpos = this.getPosition(Body.Name.Lagna).longitude;
+            Longitude mpos = this.getPosition(Body.Name.Moon).Longitude;
+            Longitude lpos = this.getPosition(Body.Name.Lagna).Longitude;
             double sldeg = mpos.toNakshatraOffset() / ((360.0) / 27.0) * 360.0;
             Longitude slLon = lpos.add(sldeg);
             BodyPosition bp = new BodyPosition(this, Body.Name.SreeLagna, BodyType.Name.SpecialLagna,
@@ -700,7 +700,7 @@ namespace org.transliteral.panchang
         }
         private void calculatePranapada()
         {
-            Longitude spos = this.getPosition(Body.Name.Sun).longitude;
+            Longitude spos = this.getPosition(Body.Name.Sun).Longitude;
             double offset = this.info.tob.time - this.sunrise;
             if (offset < 0) offset += 24.0;
             offset *= (60.0 * 60.0 / 6.0);
@@ -718,16 +718,16 @@ namespace org.transliteral.panchang
         }
         private void addOtherPoints()
         {
-            Longitude lag_pos = this.getPosition(Body.Name.Lagna).longitude;
-            Longitude sun_pos = this.getPosition(Body.Name.Sun).longitude;
-            Longitude moon_pos = this.getPosition(Body.Name.Moon).longitude;
-            Longitude mars_pos = this.getPosition(Body.Name.Mars).longitude;
-            Longitude jup_pos = this.getPosition(Body.Name.Jupiter).longitude;
-            Longitude ven_pos = this.getPosition(Body.Name.Venus).longitude;
-            Longitude sat_pos = this.getPosition(Body.Name.Saturn).longitude;
-            Longitude rah_pos = this.getPosition(Body.Name.Rahu).longitude;
-            Longitude mandi_pos = this.getPosition(Body.Name.Maandi).longitude;
-            Longitude gulika_pos = this.getPosition(Body.Name.Gulika).longitude;
+            Longitude lag_pos = this.getPosition(Body.Name.Lagna).Longitude;
+            Longitude sun_pos = this.getPosition(Body.Name.Sun).Longitude;
+            Longitude moon_pos = this.getPosition(Body.Name.Moon).Longitude;
+            Longitude mars_pos = this.getPosition(Body.Name.Mars).Longitude;
+            Longitude jup_pos = this.getPosition(Body.Name.Jupiter).Longitude;
+            Longitude ven_pos = this.getPosition(Body.Name.Venus).Longitude;
+            Longitude sat_pos = this.getPosition(Body.Name.Saturn).Longitude;
+            Longitude rah_pos = this.getPosition(Body.Name.Rahu).Longitude;
+            Longitude mandi_pos = this.getPosition(Body.Name.Maandi).Longitude;
+            Longitude gulika_pos = this.getPosition(Body.Name.Gulika).Longitude;
             Longitude muhurta_pos = new Longitude(
                 this.hoursAfterSunrise() / (this.next_sunrise + 24.0 - this.sunrise) * 360.0);
 
@@ -739,13 +739,13 @@ namespace org.transliteral.panchang
             this.addOtherPosition("Ke-Ra m.p", rah_pos.add(270));
 
             Longitude l1pos = this.getPosition(this.LordOfZodiacHouse(
-                lag_pos.toZodiacHouse(), new Division(DivisionType.Rasi))).longitude;
+                lag_pos.toZodiacHouse(), new Division(DivisionType.Rasi))).Longitude;
             Longitude l6pos = this.getPosition(this.LordOfZodiacHouse(
-                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).longitude;
+                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).Longitude;
             Longitude l8pos = this.getPosition(this.LordOfZodiacHouse(
-                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).longitude;
+                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).Longitude;
             Longitude l12pos = this.getPosition(this.LordOfZodiacHouse(
-                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).longitude;
+                lag_pos.toZodiacHouse().add(6), new Division(DivisionType.Rasi))).Longitude;
 
             Longitude mrit_sat_pos = new Longitude(mandi_pos.value * 8.0 + sat_pos.value * 8.0);
             Longitude mrit_jup2_pos = new Longitude(
@@ -811,7 +811,7 @@ namespace org.transliteral.panchang
 
 
             Sweph.obtainLock(this);
-            Sweph.swe_set_ephe_path(MhoraGlobalOptions.Instance.HOptions.EphemerisPath);
+            Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
             // Find LMT offset
             this.populateLmt();
             // Sunrise (depends on lmt)
@@ -847,7 +847,7 @@ namespace org.transliteral.panchang
             info = _info;
             this.swephHouseSystem = 'P';
             this.populateCache();
-            MhoraGlobalOptions.CalculationPrefsChanged += new EvtChanged(this.OnGlobalCalcPrefsChanged);
+            GlobalOptions.CalculationPrefsChanged += new EvtChanged(this.OnGlobalCalcPrefsChanged);
         }
         public double lengthOfDay()
         {
@@ -907,11 +907,11 @@ namespace org.transliteral.panchang
 
         public void getPrashnaMargaPositions()
         {
-            Longitude sunLon = this.getPosition(Body.Name.Sun).longitude;
-            Longitude moonLon = this.getPosition(Body.Name.Moon).longitude;
-            Longitude lagnaLon = this.getPosition(Body.Name.Lagna).longitude;
-            Longitude gulikaLon = this.getPosition(Body.Name.Gulika).longitude;
-            Longitude rahuLon = this.getPosition(Body.Name.Rahu).longitude;
+            Longitude sunLon = this.getPosition(Body.Name.Sun).Longitude;
+            Longitude moonLon = this.getPosition(Body.Name.Moon).Longitude;
+            Longitude lagnaLon = this.getPosition(Body.Name.Lagna).Longitude;
+            Longitude gulikaLon = this.getPosition(Body.Name.Gulika).Longitude;
+            Longitude rahuLon = this.getPosition(Body.Name.Rahu).Longitude;
 
             Longitude trisLon = lagnaLon.add(moonLon).add(gulikaLon);
             Longitude chatusLon = trisLon.add(sunLon);
@@ -931,12 +931,12 @@ namespace org.transliteral.panchang
 
         public BodyPosition getPosition(Body.Name b)
         {
-            int index = Body.toInt(b);
+            int index = Body.ToInt(b);
             System.Type t = positionList[index].GetType();
             String s = t.ToString();
             Trace.Assert(index >= 0 && index < positionList.Count, "Horoscope::getPosition 1");
             Trace.Assert(positionList[index].GetType() == typeof(BodyPosition), "Horoscope::getPosition 2");
-            BodyPosition bp = (BodyPosition)positionList[Body.toInt(b)];
+            BodyPosition bp = (BodyPosition)positionList[Body.ToInt(b)];
             if (bp.name == b)
                 return bp;
 
@@ -951,23 +951,23 @@ namespace org.transliteral.panchang
         private BodyPosition sahamaHelper(string sahama, Body.Name b, Body.Name a, Body.Name c)
         {
             Longitude lonA, lonB, lonC;
-            lonA = this.getPosition(a).longitude;
-            lonB = this.getPosition(b).longitude;
-            lonC = this.getPosition(c).longitude;
+            lonA = this.getPosition(a).Longitude;
+            lonB = this.getPosition(b).Longitude;
+            lonC = this.getPosition(c).Longitude;
             return this.sahamaHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaHelper(string sahama, Body.Name b, Body.Name a, Longitude lonC)
         {
             Longitude lonA, lonB;
-            lonA = this.getPosition(a).longitude;
-            lonB = this.getPosition(b).longitude;
+            lonA = this.getPosition(a).Longitude;
+            lonB = this.getPosition(b).Longitude;
             return this.sahamaHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaHelper(string sahama, Longitude lonB, Body.Name a, Body.Name c)
         {
             Longitude lonA, lonC;
-            lonA = this.getPosition(a).longitude;
-            lonC = this.getPosition(c).longitude;
+            lonA = this.getPosition(a).Longitude;
+            lonC = this.getPosition(c).Longitude;
             return this.sahamaHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaHelper(string sahama, Longitude lonB, Longitude lonA, Longitude lonC)
@@ -1007,48 +1007,48 @@ namespace org.transliteral.panchang
         private BodyPosition sahamaDNHelper(string sahama, Body.Name b, Longitude lonA, Body.Name c)
         {
             Longitude lonB, lonC;
-            lonB = this.getPosition(b).longitude;
-            lonC = this.getPosition(c).longitude;
+            lonB = this.getPosition(b).Longitude;
+            lonC = this.getPosition(c).Longitude;
             return sahamaDNHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaDNHelper(string sahama, Longitude lonB, Body.Name a, Body.Name c)
         {
             Longitude lonA, lonC;
-            lonA = this.getPosition(a).longitude;
-            lonC = this.getPosition(c).longitude;
+            lonA = this.getPosition(a).Longitude;
+            lonC = this.getPosition(c).Longitude;
             return sahamaDNHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaDNHelper(string sahama, Longitude lonB, Longitude lonA, Body.Name c)
         {
             Longitude lonC;
-            lonC = this.getPosition(c).longitude;
+            lonC = this.getPosition(c).Longitude;
             return sahamaDNHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaDNHelper(string sahama, Body.Name b, Body.Name a, Body.Name c)
         {
             Longitude lonA, lonB, lonC;
-            lonA = this.getPosition(a).longitude;
-            lonB = this.getPosition(b).longitude;
-            lonC = this.getPosition(c).longitude;
+            lonA = this.getPosition(a).Longitude;
+            lonB = this.getPosition(b).Longitude;
+            lonC = this.getPosition(c).Longitude;
             return sahamaDNHelper(sahama, lonB, lonA, lonC);
         }
         private BodyPosition sahamaHelperNormalize(BodyPosition b, Body.Name lower, Body.Name higher)
         {
-            Longitude lonA = this.getPosition(lower).longitude;
-            Longitude lonB = this.getPosition(higher).longitude;
-            if (b.longitude.sub(lonA).value < lonB.sub(lonA).value) return b;
-            b.longitude = b.longitude.add(new Longitude(30));
+            Longitude lonA = this.getPosition(lower).Longitude;
+            Longitude lonB = this.getPosition(higher).Longitude;
+            if (b.Longitude.sub(lonA).value < lonB.sub(lonA).value) return b;
+            b.Longitude = b.Longitude.add(new Longitude(30));
             return b;
         }
         public ArrayList calculateSahamas()
         {
             bool bDay = this.isDayBirth();
             ArrayList al = new ArrayList();
-            Longitude lon_lagna = this.getPosition(Body.Name.Lagna).longitude;
+            Longitude lon_lagna = this.getPosition(Body.Name.Lagna).Longitude;
             Longitude lon_base = new Longitude(lon_lagna.toZodiacHouseBase());
             ZodiacHouse zh_lagna = lon_lagna.toZodiacHouse();
-            ZodiacHouse zh_moon = this.getPosition(Body.Name.Moon).longitude.toZodiacHouse();
-            ZodiacHouse zh_sun = this.getPosition(Body.Name.Sun).longitude.toZodiacHouse();
+            ZodiacHouse zh_moon = this.getPosition(Body.Name.Moon).Longitude.toZodiacHouse();
+            ZodiacHouse zh_sun = this.getPosition(Body.Name.Sun).Longitude.toZodiacHouse();
 
 
             // Fixed positions. Relied on by other sahams
@@ -1057,9 +1057,9 @@ namespace org.transliteral.panchang
             al.Add(sahamaDNHelper("Sastra", Body.Name.Jupiter, Body.Name.Saturn, Body.Name.Mercury));
 
             // Variable positions.
-            al.Add(sahamaDNHelper("Yasas", Body.Name.Jupiter, ((BodyPosition)al[0]).longitude, Body.Name.Lagna));
-            al.Add(sahamaDNHelper("Mitra", Body.Name.Jupiter, ((BodyPosition)al[0]).longitude, Body.Name.Venus));
-            al.Add(sahamaDNHelper("Mahatmya", ((BodyPosition)al[0]).longitude, Body.Name.Mars, Body.Name.Lagna));
+            al.Add(sahamaDNHelper("Yasas", Body.Name.Jupiter, ((BodyPosition)al[0]).Longitude, Body.Name.Lagna));
+            al.Add(sahamaDNHelper("Mitra", Body.Name.Jupiter, ((BodyPosition)al[0]).Longitude, Body.Name.Venus));
+            al.Add(sahamaDNHelper("Mahatmya", ((BodyPosition)al[0]).Longitude, Body.Name.Mars, Body.Name.Lagna));
 
             Body.Name bLagnaLord = this.LordOfZodiacHouse(zh_lagna, new Division(DivisionType.Rasi));
             if (bLagnaLord != Body.Name.Mars)
@@ -1099,12 +1099,12 @@ namespace org.transliteral.panchang
             al.Add(sahamaHelper("Santapa", Body.Name.Saturn, Body.Name.Moon, lon_base.add(6.0 * 30.0)));
             al.Add(sahamaDNHelper("Sraddha", Body.Name.Venus, Body.Name.Mars, Body.Name.Lagna));
             al.Add(sahamaDNHelper("Preeti",
-                ((BodyPosition)al[2]).longitude, ((BodyPosition)al[0]).longitude, Body.Name.Lagna));
+                ((BodyPosition)al[2]).Longitude, ((BodyPosition)al[0]).Longitude, Body.Name.Lagna));
             al.Add(sahamaDNHelper("Jadya", Body.Name.Mars, Body.Name.Saturn, Body.Name.Mercury));
             al.Add(sahamaHelper("Vyapara", Body.Name.Mars, Body.Name.Saturn, Body.Name.Lagna));
             al.Add(sahamaDNHelper("Satru", Body.Name.Mars, Body.Name.Saturn, Body.Name.Lagna));
             al.Add(sahamaDNHelper("Jalapatana", new Longitude(105), Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(sahamaDNHelper("Bandhana", ((BodyPosition)al[0]).longitude, Body.Name.Saturn, Body.Name.Lagna));
+            al.Add(sahamaDNHelper("Bandhana", ((BodyPosition)al[0]).Longitude, Body.Name.Saturn, Body.Name.Lagna));
             al.Add(sahamaDNHelper("Apamrityu", lon_base.add(8.0 * 30.0), Body.Name.Mars, Body.Name.Lagna));
             al.Add(sahamaHelper("Labha", lon_base.add(11.0 * 30.0),
                 this.LordOfZodiacHouse(zh_lagna.add(11), new Division(DivisionType.Rasi)), Body.Name.Lagna));

@@ -29,7 +29,7 @@ namespace org.transliteral.panchang
 			else if (zh.value == ZodiacHouseName.Aqu) b = options.ColordAqu;
 			else b = Basics.SimpleLordOfZodiacHouse(zh.value);
 
-			return h.getPosition(b).toDivisionPosition(options.Division);
+			return h.getPosition(b).ToDivisionPosition(options.Division);
 		}
 		public ArrayList Dasa(int cycle)
 		{

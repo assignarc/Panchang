@@ -115,9 +115,9 @@ namespace org.transliteral.panchang
         {
             System.DateTime t = DateTime.Now;
             tob = new Moment(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second);
-            lon = (HMSInfo) MhoraGlobalOptions.Instance.Longitude.Clone();
-            lat = (HMSInfo) MhoraGlobalOptions.Instance.Latitude.Clone();
-            tz = (HMSInfo) MhoraGlobalOptions.Instance.TimeZone.Clone();
+            lon = (HMSInfo) GlobalOptions.Instance.Longitude.Clone();
+            lat = (HMSInfo) GlobalOptions.Instance.Latitude.Clone();
+            tz = (HMSInfo) GlobalOptions.Instance.TimeZone.Clone();
             alt = 0.0;
             this.type = HoraType.Birth;
             this.FileType = EFileType.MudgalaHora;

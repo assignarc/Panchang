@@ -159,7 +159,7 @@ namespace org.transliteral.panchang
 		}
 		public void calculateSeed ()
 		{
-			this.mSeed = h.getPosition(Body.Name.Lagna).toDivisionPosition(this.Division).zodiac_house.value;
+			this.mSeed = h.getPosition(Body.Name.Lagna).ToDivisionPosition(this.Division).zodiac_house.value;
 			this.mSeedHouse = 1;
 
 		}
@@ -174,8 +174,8 @@ namespace org.transliteral.panchang
 			this.KetuExceptions.houses.Clear();
 			this.SaturnExceptions.houses.Clear();
 
-			ZodiacHouseName zhKetu = h.getPosition(Body.Name.Ketu).toDivisionPosition(this.Division).zodiac_house.value;
-			ZodiacHouseName zhSat = h.getPosition(Body.Name.Saturn).toDivisionPosition(this.Division).zodiac_house.value;
+			ZodiacHouseName zhKetu = h.getPosition(Body.Name.Ketu).ToDivisionPosition(this.Division).zodiac_house.value;
+			ZodiacHouseName zhSat = h.getPosition(Body.Name.Saturn).ToDivisionPosition(this.Division).zodiac_house.value;
 
 			if (zhKetu != zhSat)
 			{

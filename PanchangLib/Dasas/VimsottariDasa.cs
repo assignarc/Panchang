@@ -36,7 +36,7 @@ namespace org.transliteral.panchang
 
 		public ArrayList Dasa(int cycle)
 		{
-			return _Dasa (horoscope.getPosition(options.start_graha).extrapolateLongitude(options.div), options.nakshatra_offset, cycle);
+			return _Dasa (horoscope.getPosition(options.start_graha).ExtrapolateLongitude(options.div), options.nakshatra_offset, cycle);
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{

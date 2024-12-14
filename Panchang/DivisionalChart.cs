@@ -218,7 +218,7 @@ namespace mhora
 			options = new UserOptions();
 			calculation_options = h.options;
 			h.Changed += new EvtChanged(OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
 			this.OnRecalculate(h);
 			this.SetChartStyle(this.options.ChartStyle);
 			//dc = new SouthIndianChart();
@@ -895,7 +895,7 @@ namespace mhora
 				dp.type == BodyType.Name.Varnada)
 				s = dp.otherString;
 			else
-				s = Body.toShortString(dp.name);
+				s = Body.ToShortString(dp.name);
 
 			AddItem (g, zh, item, dp, large, s);
 		}
@@ -904,8 +904,8 @@ namespace mhora
 		Brush b = new SolidBrush(Color.Black);
 	
 		Font fBase = new Font(
-			MhoraGlobalOptions.Instance.VargaFont.FontFamily, 
-			MhoraGlobalOptions.Instance.VargaFont.SizeInPoints);
+			GlobalOptions.Instance.VargaFont.FontFamily, 
+			GlobalOptions.Instance.VargaFont.SizeInPoints);
 
 		private void AddItem (Graphics g, ZodiacHouse zh, int item, DivisionPosition dp, bool large, string s)
 		{	
@@ -919,7 +919,7 @@ namespace mhora
 				if (dp.type == BodyType.Name.Graha) 
 				{
 					BodyPosition bp = h.getPosition(dp.name);
-					if (bp.speed_longitude < 0.0 && bp.name != Body.Name.Rahu && bp.name != Body.Name.Ketu)
+					if (bp.Speed_longitude < 0.0 && bp.name != Body.Name.Rahu && bp.name != Body.Name.Ketu)
 					f = new Font (fBase.Name, fBase.Size, FontStyle.Underline);
 				} 
 				else if (dp.name == Body.Name.Lagna)
@@ -947,18 +947,18 @@ namespace mhora
 			{
 				case BodyType.Name.Graha: 
 				case BodyType.Name.GrahaArudha:
-					b = new SolidBrush(MhoraGlobalOptions.Instance.VargaGrahaColor); 
+					b = new SolidBrush(GlobalOptions.Instance.VargaGrahaColor); 
 					break;
 				case BodyType.Name.SpecialLagna: 
-					b = new SolidBrush(MhoraGlobalOptions.Instance.VargaSpecialLagnaColor); 
+					b = new SolidBrush(GlobalOptions.Instance.VargaSpecialLagnaColor); 
 					break;
 				case BodyType.Name.BhavaArudha:
 				case BodyType.Name.Varnada:
 				case BodyType.Name.BhavaArudhaSecondary: 
-					b = new SolidBrush(MhoraGlobalOptions.Instance.VargaSecondaryColor); 
+					b = new SolidBrush(GlobalOptions.Instance.VargaSecondaryColor); 
 					break;
 				case BodyType.Name.Lagna: 
-					b = new SolidBrush(MhoraGlobalOptions.Instance.VargaLagnaColor); 
+					b = new SolidBrush(GlobalOptions.Instance.VargaLagnaColor); 
 					break;
 			}
 
@@ -977,9 +977,9 @@ namespace mhora
 				( dp.type == BodyType.Name.Graha ||
 				  dp.type == BodyType.Name.Lagna ) )
 			{
-				Point pLon = dc.GetDegreeOffset(h.getPosition(dp.name).longitude);
-				Pen pn = new Pen(MhoraGlobalOptions.Instance.getBinduColor(dp.name), (float)0.01);
-				Brush br = new SolidBrush(MhoraGlobalOptions.Instance.getBinduColor(dp.name));
+				Point pLon = dc.GetDegreeOffset(h.getPosition(dp.name).Longitude);
+				Pen pn = new Pen(GlobalOptions.Instance.getBinduColor(dp.name), (float)0.01);
+				Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(dp.name));
 				g.FillEllipse(br, pLon.X-1, pLon.Y-1, 4, 4);
 				//g.DrawEllipse(pn, pLon.X-1, pLon.Y-1, 2, 2);
 				g.DrawEllipse(new Pen(Color.Gray), pLon.X-1, pLon.Y-1,4,4);
@@ -993,16 +993,16 @@ namespace mhora
 		{
 			switch (this.options.ViewStyle)
 			{
-				case UserOptions.EViewStyle.Panchanga:
-				case UserOptions.EViewStyle.Normal:
-				case UserOptions.EViewStyle.Varnada:
+				case EViewStyle.Panchanga:
+				case EViewStyle.Normal:
+				case EViewStyle.Varnada:
 					this.PaintNormalView(g);
 					break;
-				case UserOptions.EViewStyle.DualGrahaArudha:
+				case EViewStyle.DualGrahaArudha:
 					this.PaintDualGrahaArudhasView(g);
 					break;
-				case UserOptions.EViewStyle.CharaKarakas7:
-				case UserOptions.EViewStyle.CharaKarakas8:
+				case EViewStyle.CharaKarakas7:
+				case EViewStyle.CharaKarakas8:
 					this.PaintCharaKarakas(g);
 					break;
 			}
@@ -1021,7 +1021,7 @@ namespace mhora
 
 			// number of karakas to display
 			int max = 0;
-			if (options.ViewStyle == UserOptions.EViewStyle.CharaKarakas7)
+			if (options.ViewStyle == EViewStyle.CharaKarakas7)
 				max = (int)org.transliteral.panchang.Body.Name.Saturn;
 			else
 				max = (int)org.transliteral.panchang.Body.Name.Rahu;
@@ -1052,7 +1052,7 @@ namespace mhora
 				ZodiacHouse zh = dp.zodiac_house;
 				int j = (int)zh.value;
 				nItems[j]++;
-				if (options.ViewStyle == UserOptions.EViewStyle.CharaKarakas7)
+				if (options.ViewStyle == EViewStyle.CharaKarakas7)
 					AddItem (g, zh, nItems[j], dp, true, karakas_s7[kindex[i]]);
 				else
 					AddItem (g, zh, nItems[j], dp, true, karakas_s[kindex[i]]);
@@ -1071,7 +1071,7 @@ namespace mhora
 
 			DivisionPosition dpo;
 			int i;
-			dpo = h.getPosition(Body.Name.Lagna).toDivisionPosition(options.Varga);
+			dpo = h.getPosition(Body.Name.Lagna).ToDivisionPosition(options.Varga);
 			i = (int)dpo.zodiac_house.value;
 			nItems[i]++;
 			AddItem(g, dpo.zodiac_house, nItems[i], dpo, true);
@@ -1090,13 +1090,13 @@ namespace mhora
 			if (true == this.PrintMode)
 				return;
 
-			if (false == MhoraGlobalOptions.Instance.VargaShowSAVVarga &&
-				false == MhoraGlobalOptions.Instance.VargaShowSAVRasi)
+			if (false == GlobalOptions.Instance.VargaShowSAVVarga &&
+				false == GlobalOptions.Instance.VargaShowSAVRasi)
 				return;
 
 			ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari);
-			Brush b = new SolidBrush(MhoraGlobalOptions.Instance.VargaSAVColor);
-			Font f = MhoraGlobalOptions.Instance.GeneralFont;
+			Brush b = new SolidBrush(GlobalOptions.Instance.VargaSAVColor);
+			Font f = GlobalOptions.Instance.GeneralFont;
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse zhi = zh.add(i);
@@ -1137,7 +1137,7 @@ namespace mhora
 
 			foreach (DivisionPosition dp in div_pos) 
 			{
-				if (this.options.ViewStyle == UserOptions.EViewStyle.Panchanga &&
+				if (this.options.ViewStyle == EViewStyle.Panchanga &&
 					dp.type != BodyType.Name.Graha)
 					continue;
 
@@ -1150,7 +1150,7 @@ namespace mhora
 			}
 
 
-			if (this.options.ViewStyle == UserOptions.EViewStyle.Panchanga)
+			if (this.options.ViewStyle == EViewStyle.Panchanga)
 				return;
 			
 			foreach (DivisionPosition dp in div_pos) 
@@ -1167,7 +1167,7 @@ namespace mhora
 
 			ArrayList secondary_pos = null;
 
-			if (this.options.ViewStyle == UserOptions.EViewStyle.Normal)
+			if (this.options.ViewStyle == EViewStyle.Normal)
 				secondary_pos = arudha_pos;
 			else
 				secondary_pos = varnada_pos;
@@ -1198,7 +1198,7 @@ namespace mhora
 		}
 		public void DrawChart (Graphics g, int width, int height, bool bDrawInner)
 		{
-			Font f = MhoraGlobalOptions.Instance.VargaFont;
+			Font f = GlobalOptions.Instance.VargaFont;
 			//this.BackColor = System.Drawing.Color.White;
 			if (width == 0 || height == 0)
 				return;
@@ -1222,7 +1222,7 @@ namespace mhora
 
 			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			g.TranslateTransform (off, off);
-			if (MhoraGlobalOptions.Instance.VargaChartIsSquare)
+			if (GlobalOptions.Instance.VargaChartIsSquare)
 			{
 				scale_x = scale;
 				scale_y = scale;
@@ -1232,7 +1232,7 @@ namespace mhora
 			
 			if (false == PrintMode)
 			{
-				Brush bg = new SolidBrush(MhoraGlobalOptions.Instance.VargaBackgroundColor);
+				Brush bg = new SolidBrush(GlobalOptions.Instance.VargaBackgroundColor);
 				g.FillRectangle (bg, 0, 0, xw, yw);
 			}
 			dc.DrawOutline(g);
@@ -1251,17 +1251,17 @@ namespace mhora
 			
 			PaintObjects(g);
 
-			string s_dtype = Basics.numPartsInDivisionString(options.Varga);
+			string s_dtype = Basics.NumPartsInDivisionString(options.Varga);
 				//string.Format("D-{0}", Basics.numPartsInDivision(options.Varga));
 			SizeF hint = g.MeasureString(s_dtype, f);
 			g.DrawString(s_dtype, f, Brushes.Black, xw*2/4-hint.Width/2, yw*2/4-hint.Height/2);
 
-			s_dtype = Basics.variationNameOfDivision(options.Varga);
+			s_dtype = Basics.VariationNameOfDivision(options.Varga);
 			hint = g.MeasureString(s_dtype, f);
 			g.DrawString(s_dtype, f, Brushes.Black, xw*2/4-hint.Width/2, yw*2/4-f.Height-hint.Height/2);
 
 			if (this.options.ChartStyle == EChartStyle.SouthIndian &&
-				true == MhoraGlobalOptions.Instance.VargaShowDob && 
+				true == GlobalOptions.Instance.VargaShowDob && 
 				false == this.PrintMode && false == bDrawInner)
 			{
 				string tob = h.info.tob.ToString();
@@ -1329,18 +1329,18 @@ namespace mhora
 
 		private void CalculateBindus()
 		{
-			if (MhoraGlobalOptions.Instance.VargaShowSAVVarga)
+			if (GlobalOptions.Instance.VargaShowSAVVarga)
 				sav_bindus = new Ashtakavarga(h, options.Varga).getSav();
-			else if (MhoraGlobalOptions.Instance.VargaShowSAVRasi)
+			else if (GlobalOptions.Instance.VargaShowSAVRasi)
 				sav_bindus = new Ashtakavarga(h, new Division(DivisionType.Rasi)).getSav();
 		}
 		private void OnRedisplay (Object o)
 		{
-			this.SetChartStyle(MhoraGlobalOptions.Instance.VargaStyle);
-			this.options.ChartStyle = MhoraGlobalOptions.Instance.VargaStyle;
+			this.SetChartStyle(GlobalOptions.Instance.VargaStyle);
+			this.options.ChartStyle = GlobalOptions.Instance.VargaStyle;
 			fBase = new Font(
-				MhoraGlobalOptions.Instance.VargaFont.FontFamily, 
-				MhoraGlobalOptions.Instance.VargaFont.SizeInPoints);
+				GlobalOptions.Instance.VargaFont.FontFamily, 
+				GlobalOptions.Instance.VargaFont.SizeInPoints);
 			this.CalculateBindus();
 			this.Invalidate();
 		}
@@ -1639,15 +1639,15 @@ namespace mhora
 
 			foreach (BodyPosition bp in h.positionList)
 			{
-				DivisionPosition dp = bp.toDivisionPosition(this.options.Varga);
+				DivisionPosition dp = bp.ToDivisionPosition(this.options.Varga);
 				Longitude lLower = new Longitude(dp.cusp_lower);
-				Longitude lOffset = bp.longitude.sub(lLower);
+				Longitude lOffset = bp.Longitude.sub(lLower);
 				Longitude lRange = new Longitude(dp.cusp_higher).sub(lLower);
 				Trace.Assert(lOffset.value <= lRange.value, "Extrapolation internal error: Slice smaller than range. Weird.");
 
 				double newOffset = (lOffset.value / lRange.value)*30.0;
 				double newBase = ((double)((int)dp.zodiac_house.value-1))*30.0;
-				bp.longitude = new Longitude(newOffset + newBase);
+				bp.Longitude = new Longitude(newOffset + newBase);
 			}
 
 			h.OnlySignalChanged();
@@ -1714,7 +1714,7 @@ namespace mhora
 		private void mRegularParivritti_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericParivritti, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 	
 			this.OnRecalculate(h);
@@ -1724,7 +1724,7 @@ namespace mhora
 		private void mRegularFromHouse_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericDwadasamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 
 			this.OnRecalculate(h);
@@ -1735,7 +1735,7 @@ namespace mhora
 		private void mRegularTrikona_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericDrekkana, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();
@@ -1768,38 +1768,38 @@ namespace mhora
 
 		private void mViewNormal_Click(object sender, System.EventArgs e)
 		{
-			this.options.ViewStyle = UserOptions.EViewStyle.Normal;
+			this.options.ViewStyle = EViewStyle.Normal;
 			this.Invalidate();
 		}
 
 		private void mViewDualGrahaArudha_Click(object sender, System.EventArgs e)
 		{
-			this.options.ViewStyle = UserOptions.EViewStyle.DualGrahaArudha;
+			this.options.ViewStyle = EViewStyle.DualGrahaArudha;
 			this.Invalidate();
 		}
 
 		private void mViewCharaKarakas_Click(object sender, System.EventArgs e)
 		{
-			this.options.ViewStyle = UserOptions.EViewStyle.CharaKarakas8;
+			this.options.ViewStyle = EViewStyle.CharaKarakas8;
 			this.Invalidate();
 		}
 
 		private void mViewCharaKarakas7_Click(object sender, System.EventArgs e)
 		{
-			this.options.ViewStyle = UserOptions.EViewStyle.CharaKarakas7;
+			this.options.ViewStyle = EViewStyle.CharaKarakas7;
 			this.Invalidate();		
 		}
 
 		private void mViewVarnada_Click(object sender, System.EventArgs e)
 		{
-			this.options.ViewStyle = UserOptions.EViewStyle.Varnada;
+			this.options.ViewStyle = EViewStyle.Varnada;
 			this.Invalidate();
 		}
 
 		private void mRegularKendraChaturthamsa_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericChaturthamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();
@@ -1808,7 +1808,7 @@ namespace mhora
 		private void mRegularSaptamsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericSaptamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();
@@ -1817,7 +1817,7 @@ namespace mhora
 		private void mRegularDasamsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericDasamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();
@@ -1826,7 +1826,7 @@ namespace mhora
 		private void mRegularShashthamsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericShashthamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();		
@@ -1835,7 +1835,7 @@ namespace mhora
 		private void mRegularShodasamsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericShodasamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();		
@@ -1844,7 +1844,7 @@ namespace mhora
 		private void mRegularVimsamsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericVimsamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();			
@@ -1853,7 +1853,7 @@ namespace mhora
 		private void mRegularNakshatramsaBased_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericNakshatramsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();					
@@ -1862,7 +1862,7 @@ namespace mhora
 		private void menuItem12_Click(object sender, System.EventArgs e)
 		{
 			Division.SingleDivision single = new Division.SingleDivision(DivisionType.GenericChaturvimsamsa, 
-				Basics.numPartsInDivision(options.Varga));
+				Basics.NumPartsInDivision(options.Varga));
 			this.options.Varga = new Division(single);
 			this.OnRecalculate(h);
 			this.Invalidate();				

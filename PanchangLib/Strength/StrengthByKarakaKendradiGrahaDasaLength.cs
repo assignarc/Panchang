@@ -16,7 +16,7 @@ namespace org.transliteral.panchang
 			{
 				if (bp.type == BodyType.Name.Graha)
 				{
-					DivisionPosition dp = bp.toDivisionPosition(dtype);
+					DivisionPosition dp = bp.ToDivisionPosition(dtype);
 					length = Math.Max(length, KarakaKendradiGrahaDasa.LengthOfDasa(h, dtype, bp.name, dp));
 				}
 			}
@@ -24,7 +24,7 @@ namespace org.transliteral.panchang
 		}
 		protected double value (Body.Name b)
 		{
-			DivisionPosition dp = h.getPosition(b).toDivisionPosition(dtype);
+			DivisionPosition dp = h.getPosition(b).ToDivisionPosition(dtype);
 			return KarakaKendradiGrahaDasa.LengthOfDasa(h, dtype, b, dp);
 		}
 		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb)

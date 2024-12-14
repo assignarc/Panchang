@@ -29,7 +29,7 @@ namespace org.transliteral.panchang
 		/// <param name="upper">The upper bound of normalization</param>
 		/// <param name="x">The value to be normalized</param>
 		/// <returns>The normalized value of x, where lower <= x <= upper </returns>
-		public static int normalize_inc (int lower, int upper, int x) 
+		public static int Normalize_inc (int lower, int upper, int x) 
 		{
 			int size = upper - lower + 1;
 			while (x > upper) x -= size;
@@ -45,7 +45,7 @@ namespace org.transliteral.panchang
 		/// <param name="upper">The upper bound of normalization</param>
 		/// <param name="x">The value to be normalized</param>
 		/// <returns>The normalized value of x, where lower = x <= upper </returns>
-		public static double normalize_exc (double lower, double upper, double x) 
+		public static double Normalize_exc (double lower, double upper, double x) 
 		{
 			double size = upper - lower;
 			while (x > upper) x -= size;
@@ -54,7 +54,7 @@ namespace org.transliteral.panchang
 			return x;
 		}
 
-		public static double normalize_exc_lower (double lower, double upper, double x) 
+		public static double Normalize_exc_lower (double lower, double upper, double x) 
 		{
 			double size = upper - lower;
 			while (x >= upper) x -= size;
@@ -63,7 +63,7 @@ namespace org.transliteral.panchang
 			return x;
 		}
 
-		public static ZodiacHouse getMoolaTrikonaRasi (Body.Name b)
+		public static ZodiacHouse GetMoolaTrikonaRasi (Body.Name b)
 		{
 			ZodiacHouseName z = ZodiacHouseName.Ari;
 			switch (b)
@@ -80,7 +80,7 @@ namespace org.transliteral.panchang
 			}
 			return new ZodiacHouse (z);
 		}
-		public static Weekday bodyToWeekday (Body.Name b)
+		public static Weekday BodyToWeekday (Body.Name b)
 		{
 			switch (b)
 			{
@@ -95,7 +95,7 @@ namespace org.transliteral.panchang
 			Debug.Assert(false, string.Format("bodyToWeekday({0})", b));
 			throw new Exception();
 		}
-		public static Body.Name weekdayRuler (Weekday w)
+		public static Body.Name WeekdayRuler (Weekday w)
 		{
 			switch (w)
 			{
@@ -118,7 +118,7 @@ namespace org.transliteral.panchang
 			Monday=0, Tuesday=1, Wednesday=2, Thursday=3, Friday=4, Saturday=5, Sunday=6
 		}
 
-		public static string weekdayToShortString (Weekday w)
+		public static string WeekdayToShortString (Weekday w)
 		{
 			switch (w)
 			{
@@ -173,7 +173,7 @@ namespace org.transliteral.panchang
 			Debug.Assert (false, string.Format("Basics::NakLordOfMuhurta Unknown Muhurta {0}", m));
 			return Nakshatra28Name.Aswini;
 		}
-		public static string variationNameOfDivision (Division d)
+		public static string VariationNameOfDivision (Division d)
 		{
 			if (d.MultipleDivisions.Length > 1)
 				return "Composite";
@@ -295,25 +295,25 @@ namespace org.transliteral.panchang
 			return "";
 		}
 
-		public static string numPartsInDivisionString (Division div)
+		public static string NumPartsInDivisionString (Division div)
 		{
 			string sRet = "D";
 			foreach (Division.SingleDivision dSingle in div.MultipleDivisions)
 			{
-				sRet = string.Format("{0}-{1}", sRet, numPartsInDivision(dSingle));
+				sRet = string.Format("{0}-{1}", sRet, NumPartsInDivision(dSingle));
 			}
 			return sRet;
 		}
-		public static int numPartsInDivision (Division div)
+		public static int NumPartsInDivision (Division div)
 		{
 			int parts = 1;
 			foreach (Division.SingleDivision dSingle in div.MultipleDivisions)
 			{
-				parts *= numPartsInDivision(dSingle);
+				parts *= NumPartsInDivision(dSingle);
 			}
 			return parts;
 		}
-		public static int numPartsInDivision (Division.SingleDivision dSingle)
+		public static int NumPartsInDivision (Division.SingleDivision dSingle)
 		{
 			
 			switch (dSingle.Varga)
@@ -547,8 +547,7 @@ namespace org.transliteral.panchang
 			HoraInfo hi = h.info;
 			HoroscopeOptions o = h.options;
 
-			StringBuilder serr = new StringBuilder (256);
-			string ephe_path = MhoraGlobalOptions.Instance.HOptions.EphemerisPath;
+			string ephe_path = GlobalOptions.Instance.HOptions.EphemerisPath;
 
 			// The order of the array must reflect the order define in Basics.GrahaIndex
 			ArrayList std_grahas = new ArrayList (20);
@@ -565,7 +564,7 @@ namespace org.transliteral.panchang
 			if (o.nodeType == ENodeType.True)
 				swephRahuBody = Sweph.SE_TRUE_NODE;
 
-			int addFlags = 0;
+			int addFlags;
 			if (o.grahaPositionType == EGrahaPositionType.True)
 				addFlags = Sweph.SEFLG_TRUEPOS;
 
@@ -579,21 +578,21 @@ namespace org.transliteral.panchang
 			BodyPosition rahu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Rahu, BodyType.Name.Graha, h);
 
 			BodyPosition ketu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Ketu, BodyType.Name.Graha, h);
-			ketu.longitude = rahu.longitude.add (new Longitude (180.0));
+			ketu.Longitude = rahu.Longitude.add (new Longitude (180.0));
 			std_grahas.Add (rahu);
 			std_grahas.Add (ketu);
 
 			double asc = Sweph.swe_lagna(julday_ut);
 			std_grahas.Add (new BodyPosition (h, Body.Name.Lagna, BodyType.Name.Lagna, new Longitude (asc), 0, 0, 0, 0, 0));
 
-			double ista_ghati = normalize_exc( 0.0, 24.0, hi.tob.time - sunrise) * 2.5;
-			Longitude gl_lon = ((BodyPosition)std_grahas[0]).longitude.add(new Longitude(ista_ghati * 30.0));
-			Longitude hl_lon = ((BodyPosition)std_grahas[0]).longitude.add(new Longitude(ista_ghati * 30.0/ 2.5));
-			Longitude bl_lon = ((BodyPosition)std_grahas[0]).longitude.add(new Longitude(ista_ghati * 30.0/ 5.0));
+			double ista_ghati = Normalize_exc( 0.0, 24.0, hi.tob.time - sunrise) * 2.5;
+			Longitude gl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0));
+			Longitude hl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0/ 2.5));
+			Longitude bl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0/ 5.0));
 
 			double vl = ista_ghati * 5.0;
 			while (ista_ghati > 12.0) ista_ghati -= 12.0;
-			Longitude vl_lon = ((BodyPosition)std_grahas[0]).longitude.add(new Longitude(vl * 30.0));
+			Longitude vl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(vl * 30.0));
 
 			std_grahas.Add (new BodyPosition (h, Body.Name.BhavaLagna, BodyType.Name.SpecialLagna, bl_lon,0,0,0,0,0));
 			std_grahas.Add (new BodyPosition (h, Body.Name.HoraLagna, BodyType.Name.SpecialLagna, hl_lon,0,0,0,0,0));

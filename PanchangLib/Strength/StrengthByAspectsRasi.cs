@@ -15,7 +15,7 @@ namespace org.transliteral.panchang
 			ZodiacHouse zh = new ZodiacHouse(zx);
 
 			Body.Name bl = this.GetStrengthLord(zx);
-			ZodiacHouse zl = h.getPosition(bl).toDivisionPosition(dtype).zodiac_house;
+			ZodiacHouse zl = h.getPosition(bl).ToDivisionPosition(dtype).zodiac_house;
 
 			if (zj.RasiDristi(zh) || zj.value == zh.value) ret++;
 			if (zm.RasiDristi(zh) || zm.value == zh.value) ret++;
@@ -24,8 +24,8 @@ namespace org.transliteral.panchang
 		}
 		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			ZodiacHouse zj = h.getPosition(Body.Name.Jupiter).toDivisionPosition(dtype).zodiac_house;
-			ZodiacHouse zm = h.getPosition(Body.Name.Mercury).toDivisionPosition(dtype).zodiac_house;
+			ZodiacHouse zj = h.getPosition(Body.Name.Jupiter).ToDivisionPosition(dtype).zodiac_house;
+			ZodiacHouse zm = h.getPosition(Body.Name.Mercury).ToDivisionPosition(dtype).zodiac_house;
 
 			int a = this.value(zj, zm, za);
 			int b = this.value(zj, zm, zb);
@@ -35,8 +35,8 @@ namespace org.transliteral.panchang
 		}
 		public bool stronger (Body.Name m, Body.Name n)
 		{
-			ZodiacHouseName zm = h.getPosition(m).toDivisionPosition(dtype).zodiac_house.value;
-			ZodiacHouseName zn = h.getPosition(n).toDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zm = h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zn = h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value;
 			return stronger (zm, zn);
 		}
 	}

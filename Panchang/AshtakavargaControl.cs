@@ -49,7 +49,7 @@ namespace mhora
             userOptions = new AshtakavargaOptions();
             h = _h;
             h.Changed += new EvtChanged(this.OnRecalculate);
-            MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(this.onRedisplay);
+            GlobalOptions.DisplayPrefsChanged += new EvtChanged(this.onRedisplay);
             av = new Ashtakavarga(h, userOptions.VargaType);
             outerBodies = new Body.Name[]
             {
@@ -62,7 +62,7 @@ namespace mhora
 
             innerBodies = (Body.Name[])outerBodies.Clone();
             this.resetContextMenuChecks(this.menuSav);
-            this.onRedisplay(MhoraGlobalOptions.Instance);
+            this.onRedisplay(GlobalOptions.Instance);
         }
 
         /// <summary>
@@ -72,14 +72,14 @@ namespace mhora
 
         private void onRedisplay(object o)
         {
-            this.userOptions.ChartStyle = (EChartStyle) MhoraGlobalOptions.Instance.VargaStyle;
-            fBig = new Font(MhoraGlobalOptions.Instance.GeneralFont.FontFamily,
-                MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints + 3);
-            fBigBold = new Font(MhoraGlobalOptions.Instance.GeneralFont.FontFamily,
-                MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints + 3,
+            this.userOptions.ChartStyle = (EChartStyle) GlobalOptions.Instance.VargaStyle;
+            fBig = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
+                GlobalOptions.Instance.GeneralFont.SizeInPoints + 3);
+            fBigBold = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
+                GlobalOptions.Instance.GeneralFont.SizeInPoints + 3,
                 System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline |
                 System.Drawing.FontStyle.Italic);
-            b_red = new SolidBrush(MhoraGlobalOptions.Instance.VargaGrahaColor);
+            b_red = new SolidBrush(GlobalOptions.Instance.VargaGrahaColor);
             this.DrawToBuffer();
             this.Invalidate();
         }
@@ -280,16 +280,16 @@ namespace mhora
 
             string[] strs = new string[9];
             strs[0] = "SAV";
-            strs[1] = Body.toString(Body.Name.Lagna);
-            strs[2] = Body.toString(Body.Name.Sun);
-            strs[3] = Body.toString(Body.Name.Moon);
-            strs[4] = Body.toString(Body.Name.Mars);
-            strs[5] = Body.toString(Body.Name.Mercury);
-            strs[6] = Body.toString(Body.Name.Jupiter);
-            strs[7] = Body.toString(Body.Name.Venus);
-            strs[8] = Body.toString(Body.Name.Saturn);
+            strs[1] = Body.ToString(Body.Name.Lagna);
+            strs[2] = Body.ToString(Body.Name.Sun);
+            strs[3] = Body.ToString(Body.Name.Moon);
+            strs[4] = Body.ToString(Body.Name.Mars);
+            strs[5] = Body.ToString(Body.Name.Mercury);
+            strs[6] = Body.ToString(Body.Name.Jupiter);
+            strs[7] = Body.ToString(Body.Name.Venus);
+            strs[8] = Body.ToString(Body.Name.Saturn);
 
-            Brush b_background = new SolidBrush(MhoraGlobalOptions.Instance.ChakraBackgroundColor);
+            Brush b_background = new SolidBrush(GlobalOptions.Instance.ChakraBackgroundColor);
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -307,7 +307,7 @@ namespace mhora
                     for (int z = 0; z < 12; z++)
                     {
                         Font f = fBig;
-                        int zh = (int)h.getPosition(bin_body[off]).toDivisionPosition(userOptions.VargaType).zodiac_house.value;
+                        int zh = (int)h.getPosition(bin_body[off]).ToDivisionPosition(userOptions.VargaType).zodiac_house.value;
                         if (z == zh - 1)
                             f = fBigBold;
                         Point p = dc.GetSingleItemOffset(new ZodiacHouse((ZodiacHouseName)z + 1));
@@ -464,7 +464,7 @@ namespace mhora
 
             if (outerBodies.Length == 1)
             {
-                string desc = Body.toString(outerBodies[0]);
+                string desc = Body.ToString(outerBodies[0]);
                 sz = g.MeasureString(desc, fBig);
                 g.DrawString(desc, fBig, b_black, 100 - (sz.Width / 2), 120 - (sz.Height / 2));
             }
@@ -477,7 +477,7 @@ namespace mhora
             }
 
             {
-                string desc = Basics.numPartsInDivisionString(this.userOptions.VargaType); ;
+                string desc = Basics.NumPartsInDivisionString(this.userOptions.VargaType); ;
                 sz = g.MeasureString(desc, fBig);
                 g.DrawString(desc, fBig, b_black, 100 - (sz.Width / 2), 100 - (sz.Height / 2));
             }
@@ -493,14 +493,14 @@ namespace mhora
             Pen pn_dgrey = new Pen(Color.Gray, (float)0.01);
             Brush b_black = new SolidBrush(Color.Black);
             Brush b_red = new SolidBrush(Color.Red);
-            Font f = new Font(MhoraGlobalOptions.Instance.FixedWidthFont.FontFamily,
-                MhoraGlobalOptions.Instance.FixedWidthFont.SizeInPoints - 6);
+            Font f = new Font(GlobalOptions.Instance.FixedWidthFont.FontFamily,
+                GlobalOptions.Instance.FixedWidthFont.SizeInPoints - 6);
 
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             if (this.PrintMode == false)
-                g.Clear(MhoraGlobalOptions.Instance.ChakraBackgroundColor);
+                g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
 
             this.DrawChanchaInner(g);
 
@@ -573,7 +573,7 @@ namespace mhora
                     int iOuter = av.BodyToInt(bOuter);
                     int iInner = av.BodyToInt(bInner);
                     ZodiacHouseName[] zhBins = av.getBindus(bOuter, bInner);
-                    Brush br = new SolidBrush(MhoraGlobalOptions.Instance.getBinduColor(bInner));
+                    Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(bInner));
 
                     foreach (ZodiacHouseName zh in zhBins)
                     {

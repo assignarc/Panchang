@@ -20,7 +20,7 @@ namespace org.transliteral.panchang
 			double lona = 0.0, lonb = 0.0;
 			foreach (Body.Name bn in karakaBodies) 
 			{
-				DivisionPosition div = h.getPosition(bn).toDivisionPosition(new Division(DivisionType.Rasi));
+				DivisionPosition div = h.getPosition(bn).ToDivisionPosition(new Division(DivisionType.Rasi));
 				double offset = karakaLongitude (bn);
 				if (div.zodiac_house.value == za && offset > lona)
 					lona = offset;

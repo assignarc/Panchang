@@ -61,19 +61,19 @@ namespace org.transliteral.panchang
 			public void CalculateRasiStrengths()
 			{
 				OrderedZodiacHouses[] zRet = new OrderedZodiacHouses[3];
-				ZodiacHouse zh = h.getPosition(this.SeedBody).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+				ZodiacHouse zh = h.getPosition(this.SeedBody).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
 
 				ZodiacHouseName[] zh_k = new ZodiacHouseName[4] { zh.add(1).value, zh.add(4).value, zh.add(7).value, zh.add(10).value };
 				ZodiacHouseName[] zh_p = new ZodiacHouseName[4] { zh.add(2).value, zh.add(5).value, zh.add(8).value, zh.add(11).value };
 				ZodiacHouseName[] zh_a = new ZodiacHouseName[4] { zh.add(3).value, zh.add(6).value, zh.add(9).value, zh.add(12).value };
 				
 				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesMoolaDasaRasi(h));
-				zRet[0] = fs.getOrderedHouses(zh_k);
-				zRet[1] = fs.getOrderedHouses(zh_p);
-				zRet[2] = fs.getOrderedHouses(zh_a);
+				zRet[0] = fs.GetOrderedHouses(zh_k);
+				zRet[1] = fs.GetOrderedHouses(zh_p);
+				zRet[2] = fs.GetOrderedHouses(zh_a);
 
-				ZodiacHouseName zh_sat = h.getPosition(Body.Name.Saturn).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value;
-				ZodiacHouseName zh_ket = h.getPosition(Body.Name.Ketu).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value;
+				ZodiacHouseName zh_sat = h.getPosition(Body.Name.Saturn).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value;
+				ZodiacHouseName zh_ket = h.getPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value;
 
 				bool bIsForward = zh.isOdd();
 				if (zh_sat != zh_ket && zh_sat == zh.value)
@@ -115,7 +115,7 @@ namespace org.transliteral.panchang
 						Body.Name[] temp_arr = new Body.Name[temp.Count];
 						for (int i=0; i< temp.Count; i++)
 							temp_arr[i] = (Body.Name)temp[i];
-						Body.Name[] sorted = fs.getOrderedGrahas(temp_arr);
+						Body.Name[] sorted = fs.GetOrderedGrahas(temp_arr);
 						foreach (Body.Name bn in sorted)
 							this.mGrahasStrengths.grahas.Add (bn);
 					}
@@ -184,9 +184,9 @@ namespace org.transliteral.panchang
 
 			// Count to moola trikona - 1.
 			// Use Aqu / Sco as MT houses for Rahu / Ketu
-			DivisionPosition dp_plt = h.getPosition(plt).toDivisionPosition(new Division(DivisionType.Rasi));
+			DivisionPosition dp_plt = h.getPosition(plt).ToDivisionPosition(new Division(DivisionType.Rasi));
 			ZodiacHouse zh_plt = dp_plt.zodiac_house;
-			ZodiacHouse zh_mt = Basics.getMoolaTrikonaRasi(plt);
+			ZodiacHouse zh_mt = Basics.GetMoolaTrikonaRasi(plt);
 			if (plt == Body.Name.Rahu) zh_mt.value = ZodiacHouseName.Aqu;
 			if (plt == Body.Name.Ketu) zh_mt.value = ZodiacHouseName.Sco;
 			int diff = zh_plt.numHousesBetween(zh_mt);
@@ -216,7 +216,7 @@ namespace org.transliteral.panchang
 			foreach (Body.Name b in options.GrahaStrengths.grahas)
 			{
 				double dasaLength = this.lengthOfDasa(b);
-				al.Add (new DasaEntry (b, cycle_start + curr, dasaLength, 1, Body.toShortString(b)));
+				al.Add (new DasaEntry (b, cycle_start + curr, dasaLength, 1, Body.ToShortString(b)));
 				curr += dasaLength;
 			}
 
@@ -225,7 +225,7 @@ namespace org.transliteral.panchang
 			{
 				DasaEntry de = (DasaEntry)al[i];
 				double dasaLength = de.dasaLength-vd.lengthOfDasa(de.graha);
-				al.Add (new DasaEntry (de.graha, cycle_start + curr, dasaLength, 1, Body.toShortString(de.graha)));
+				al.Add (new DasaEntry (de.graha, cycle_start + curr, dasaLength, 1, Body.ToShortString(de.graha)));
 				curr += dasaLength;
 
 			}
@@ -255,7 +255,7 @@ namespace org.transliteral.panchang
 			foreach (Body.Name b in bOrder)
 			{
 				double dasaLength = vd.lengthOfDasa(b) / vd.paramAyus() * pdi.dasaLength;
-				al.Add (new DasaEntry(b, curr, dasaLength, pdi.level+1, pdi.shortDesc + " " + Body.toShortString(b)));
+				al.Add (new DasaEntry(b, curr, dasaLength, pdi.level+1, pdi.shortDesc + " " + Body.ToShortString(b)));
 				curr += dasaLength;
 			}
 			return al;

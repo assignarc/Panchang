@@ -131,8 +131,8 @@ namespace mhora
 			//
 			InitializeComponent();
 
-			if (false == MhoraGlobalOptions.Instance.VargaRectificationFormSize.IsEmpty)
-				this.Size = MhoraGlobalOptions.Instance.VargaRectificationFormSize;
+			if (false == GlobalOptions.Instance.VargaRectificationFormSize.IsEmpty)
+				this.Size = GlobalOptions.Instance.VargaRectificationFormSize;
 
 			h = _h;
 			dc = _dc;
@@ -168,14 +168,14 @@ namespace mhora
 		}
 		private void PopulateOptionsInit (Division dtype)
 		{
-			DivisionPosition dp = h.getPosition(mBody).toDivisionPosition(this.dtypeRasi);
+			DivisionPosition dp = h.getPosition(mBody).ToDivisionPosition(this.dtypeRasi);
 			Longitude foundLon = new Longitude(0);
 			bool bForward = true;
 			ut_lower = cs.TransitSearch(mBody, h.info.tob, false, new Longitude(dp.cusp_lower), foundLon, ref bForward);
 			ut_higher = cs.TransitSearch(mBody, h.info.tob, true, new Longitude(dp.cusp_higher), foundLon, ref bForward);
 
 
-			double ut_span = (ut_higher - ut_lower) / (double)Basics.numPartsInDivision(dtype) * 5.0;
+			double ut_span = (ut_higher - ut_lower) / (double)Basics.NumPartsInDivision(dtype) * 5.0;
 			double ut_curr = h.baseUT;
 			ut_lower = ut_curr - (ut_span/2.0);
 			ut_higher = ut_curr + (ut_span/2.0);
@@ -211,7 +211,7 @@ namespace mhora
 				//BodyPosition bp = (BodyPosition)h.getPosition(mBody).Clone();
 				//DivisionPosition dp = bp.toDivisionPosition(this.dtypeRasi);
 
-				DivisionPosition dp = bp.toDivisionPosition(dtype);
+				DivisionPosition dp = bp.ToDivisionPosition(dtype);
 
 				//Console.WriteLine ("Longitude at {0} is {1} as is in varga rasi {2}",
 				//	this.utToMoment(ut_curr), bp.longitude, dp.zodiac_house.value);
@@ -230,8 +230,8 @@ namespace mhora
 					ut_curr = cs.TransitSearch(mBody, this.utToMoment(ut_curr), true,
 						new Longitude(dp.cusp_higher), foundLon, ref bForward);
 
-					bp.longitude = new Longitude(dp.cusp_higher + 0.1);
-					dp = bp.toDivisionPosition(dtype);
+					bp.Longitude = new Longitude(dp.cusp_higher + 0.1);
+					dp = bp.ToDivisionPosition(dtype);
 
 					if (ut_curr >= ut_lower && ut_curr <= ut_higher+(1.0/(24.0*60.0*60.0))*5.0)
 					{
@@ -397,7 +397,7 @@ namespace mhora
 			// 
 			// VargaRectificationForm
 			// 
-			this.AutoScale = false;
+			this.AutoScaleMode = AutoScaleMode.None;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(512, 142);
@@ -424,7 +424,7 @@ namespace mhora
 
 		private void Draw (Graphics g)
 		{
-			Font f_time = MhoraGlobalOptions.Instance.GeneralFont;
+			Font f_time = GlobalOptions.Instance.GeneralFont;
 			Pen p_black = new Pen(Brushes.Black);
 			Pen p_lgray = new Pen(Brushes.LightGray);
 			Pen p_orange = new Pen(Brushes.DarkOrange);
@@ -456,7 +456,7 @@ namespace mhora
 			{
 				int varga_y = (iVarga+1)*unit_height;
 				g.DrawLine(p_black, vname_width, varga_y, vname_width + bar_width, varga_y);
-				s = string.Format ("D-{0}", Basics.numPartsInDivision(opts.Divisions[iVarga]));
+				s = string.Format ("D-{0}", Basics.NumPartsInDivision(opts.Divisions[iVarga]));
 				sz = g.MeasureString(s, f_time);
 				g.DrawString(s, f_time, Brushes.Gray, 4, varga_y-sz.Height/2);
 
@@ -532,7 +532,7 @@ namespace mhora
 
 		private void VargaRectificationForm_Resize(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.VargaRectificationFormSize = this.Size;
+			GlobalOptions.Instance.VargaRectificationFormSize = this.Size;
 			this.bmpBuffer = null;
 			this.Invalidate();
 		}

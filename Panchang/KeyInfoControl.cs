@@ -35,7 +35,7 @@ namespace mhora
 			// TODO: Add any initialization after the InitForm call
 			h = _h;
 			h.Changed += new EvtChanged(OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
 			Repopulate();
 			this.AddViewsToContextMenu(this.mKeyInfoMenu);
 
@@ -208,7 +208,7 @@ namespace mhora
 
 			}
 			{
-				Longitude ltithi = h.getPosition(Body.Name.Moon).longitude.sub(h.getPosition(Body.Name.Sun).longitude);
+				Longitude ltithi = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
 				double offset = (360.0/30.0) - ltithi.toTithiOffset();
 				Tithi ti = ltithi.toTithi();
 				Body.Name tiLord = ti.getLord();
@@ -218,7 +218,7 @@ namespace mhora
 				mList.Items.Add (li);
 			}
 			{
-				Longitude lmoon = h.getPosition(Body.Name.Moon).longitude;
+				Longitude lmoon = h.getPosition(Body.Name.Moon).Longitude;
 				Nakshatra nmoon = lmoon.toNakshatra();
 				Body.Name nmoonLord = VimsottariDasa.LordOfNakshatra(nmoon);
 				double offset = (360.0/27.0)-lmoon.toNakshatraOffset();
@@ -231,7 +231,7 @@ namespace mhora
 			}
 			{
 				li = new ListViewItem("Karana");
-				Longitude lkarana = h.getPosition(Body.Name.Moon).longitude.sub(h.getPosition(Body.Name.Sun).longitude);
+				Longitude lkarana = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
 				double koffset = (360.0/60.0) - lkarana.toKaranaOffset ();
 				Karana k = lkarana.toKarana();
 				Body.Name kLord = k.getLord();
@@ -241,7 +241,7 @@ namespace mhora
 			}
 			{
 				li = new ListViewItem("Yoga");
-				Longitude smLon = h.getPosition(Body.Name.Sun).longitude.add(h.getPosition(Body.Name.Moon).longitude);
+				Longitude smLon = h.getPosition(Body.Name.Sun).Longitude.add(h.getPosition(Body.Name.Moon).Longitude);
 				double offset = (360.0/27.0) - smLon.toSunMoonYogaOffset();
 				SunMoonYoga smYoga = smLon.toSunMoonYoga();
 				Body.Name smLord = smYoga.getLord();

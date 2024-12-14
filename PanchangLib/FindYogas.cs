@@ -82,7 +82,7 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 			_dtype = __dtype;
-			zhLagna = h.getPosition(Body.Name.Lagna).toDivisionPosition(_dtype).zodiac_house;
+			zhLagna = h.getPosition(Body.Name.Lagna).ToDivisionPosition(_dtype).zodiac_house;
 		}
 
 
@@ -90,15 +90,15 @@ namespace org.transliteral.panchang
 		
 		public string getRuleName ()
 		{
-			if (xmlNode == null || xmlNode.mhoraRule == null)
+			if (xmlNode == null || xmlNode.horaRule == null)
 				return "";
-			return xmlNode.mhoraRule;
+			return xmlNode.horaRule;
 			
 		}
 		public bool evaluateYoga (XmlYogaNode n)
 		{
 			xmlNode = n;
-			return this.evaluateYoga(n.mhoraRule);
+			return this.evaluateYoga(n.horaRule);
 		}
 
 		public bool evaluateYoga (string rule)
@@ -217,26 +217,26 @@ namespace org.transliteral.panchang
 				case "gr: in house:":
 					b1 = this.stringToBody(simpleVals[0]);
 					zh1 = this.stringToRasi(simpleVals[2]);
-					if (h.getPosition(b1).toDivisionPosition(evalDiv).zodiac_house.value == zh1)
+					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value == zh1)
 						return true;
 					return false;
 				case "gr: in mt":
 				case "gr: in moolatrikona":
 					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).toDivisionPosition(evalDiv).isInMoolaTrikona();
+					return h.getPosition(b1).ToDivisionPosition(evalDiv).isInMoolaTrikona();
 				case "gr: in exlt":
 				case "gr: in exaltation":
 					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).toDivisionPosition(evalDiv).isExaltedPhalita();
+					return h.getPosition(b1).ToDivisionPosition(evalDiv).isExaltedPhalita();
 				case "gr: in deb":
 				case "gr: in debilitation":
 					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).toDivisionPosition(evalDiv).isDebilitatedPhalita();
+					return h.getPosition(b1).ToDivisionPosition(evalDiv).isDebilitatedPhalita();
 				case "gr: in own":
 				case "gr: in ownhouse":
 				case "gr: in own house":
 					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).toDivisionPosition(evalDiv).isInOwnHouse();
+					return h.getPosition(b1).ToDivisionPosition(evalDiv).isInOwnHouse();
 				case "gr: is gr:":
 					b1 = this.stringToBody(simpleVals[0]);
 					b2 = this.stringToBody(simpleVals[2]);
@@ -246,22 +246,22 @@ namespace org.transliteral.panchang
 				case "gr: with gr:":
 					b1 = this.stringToBody(simpleVals[0]);
 					b2 = this.stringToBody(simpleVals[2]);
-					if (h.getPosition(b1).toDivisionPosition(evalDiv).zodiac_house.value ==
-						h.getPosition(b2).toDivisionPosition(evalDiv).zodiac_house.value)
+					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
+						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house.value)
 						return true;
 					return false;
 				case "gr: asp gr:":
 					b1 = this.stringToBody(simpleVals[0]);
 					b2 = this.stringToBody(simpleVals[2]);
-					if (h.getPosition(b1).toDivisionPosition(evalDiv).GrahaDristi(
-						h.getPosition(b2).toDivisionPosition(evalDiv).zodiac_house))
+					if (h.getPosition(b1).ToDivisionPosition(evalDiv).GrahaDristi(
+						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house))
 						return true;
 					return false;
 				case "gr: in house: from rasi:":
 					b1 = this.stringToBody(simpleVals[0]);
 					hse1 = this.stringToHouse(simpleVals[2]);
 					zh1 = this.stringToRasi(simpleVals[4]);
-					if (h.getPosition(b1).toDivisionPosition(evalDiv).zodiac_house.value ==
+					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
 						new ZodiacHouse(zh1).add(hse1).value)
 						return true;
 					return false;
@@ -269,18 +269,18 @@ namespace org.transliteral.panchang
 					b1 = this.stringToBody(simpleVals[0]);
 					hse1 = this.stringToHouse(simpleVals[2]);
 					b2 = this.stringToBody(simpleVals[4]);
-					return h.getPosition(b1).toDivisionPosition(evalDiv).zodiac_house.value ==
-						h.getPosition(b2).toDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
+					return h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
+						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
 				case "graha in house: from gr: except gr:":
 					hse1 = this.stringToHouse(simpleVals[2]);
 					b1 = this.stringToBody(simpleVals[4]);
 					b2 = this.stringToBody(simpleVals[6]);
-					zh1 = h.getPosition(b1).toDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
+					zh1 = h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
 					for (int i = (int)Body.Name.Sun; i<= (int)Body.Name.Lagna; i++)
 					{
 						Body.Name bExc = (Body.Name) i;
 						if (bExc != b2 &&
-							h.getPosition(bExc).toDivisionPosition(evalDiv).zodiac_house.value == zh1)
+							h.getPosition(bExc).ToDivisionPosition(evalDiv).zodiac_house.value == zh1)
 							return true;
 					}
 					return false;
@@ -548,7 +548,7 @@ namespace org.transliteral.panchang
 					break;
 				case "rasiof:":
 					b = this.stringToBody(val);
-					return h.getPosition(b).toDivisionPosition(d).zodiac_house.value
+					return h.getPosition(b).ToDivisionPosition(d).zodiac_house.value
 						.ToString().ToLower();
 				case "lordof:":
 					tempVal = this.stringToHouse(val);
@@ -565,7 +565,7 @@ namespace org.transliteral.panchang
 				case "dispof:":
 					b = this.stringToBody(val);
 					return h.LordOfZodiacHouse(
-						h.getPosition(b).toDivisionPosition(d).zodiac_house, d)
+						h.getPosition(b).ToDivisionPosition(d).zodiac_house, d)
 						.ToString().ToLower();
 			}
 			return val;

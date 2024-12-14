@@ -58,7 +58,7 @@ namespace org.transliteral.panchang
 			double cycle_start = paramAyus() * (double)cycle;
 			double curr = 0.0;
 			double dasa_length;
-			ZodiacHouse zlagna = h.getPosition(Body.Name.Lagna).longitude.toZodiacHouse();
+			ZodiacHouse zlagna = h.getPosition(Body.Name.Lagna).Longitude.toZodiacHouse();
 			for (int i=0; i<12; i++)
 			{
 				ZodiacHouse zh = zlagna.add (order[i]);

@@ -111,7 +111,7 @@ namespace mhora
 				case BaseUserOptions.ViewType.KutaMatching:
 				{
 					Horoscope h2 = h;
-					foreach (Form f in ((MhoraContainer)MhoraGlobalOptions.mainControl).MdiChildren)
+					foreach (Form f in ((MhoraContainer)GlobalOptions.mainControl).MdiChildren)
 					{
 						if (f is MhoraChild)
 						{
@@ -254,7 +254,7 @@ namespace mhora
 						ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
 					BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
 						ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
-					Longitude lDiff = sp_end.longitude.sub(sp_start.longitude);
+					Longitude lDiff = sp_end.Longitude.sub(sp_start.Longitude);
 					double diff = lDiff.value;
 					if (diff < 120.0) diff += 360.0;
 

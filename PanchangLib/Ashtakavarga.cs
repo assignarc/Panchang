@@ -217,7 +217,7 @@ namespace org.transliteral.panchang
 		{
 			int[] sav = new int[12]{0,0,0,0,0,0,0,0,0,0,0,0};
 
-			ZodiacHouse zl = h.getPosition(Body.Name.Lagna).toDivisionPosition(this.dtype).zodiac_house;
+			ZodiacHouse zl = h.getPosition(Body.Name.Lagna).ToDivisionPosition(this.dtype).zodiac_house;
 
 			foreach (Body.Name b in getBodies())
 			{
@@ -225,7 +225,7 @@ namespace org.transliteral.panchang
 				int[] pav = this.getPav(b);
 				Debug.Assert(pav.Length == 12, "Internal error: Pav didn't have 12 entries");
 				
-				ZodiacHouse zb = h.getPosition(b).toDivisionPosition(this.dtype).zodiac_house;
+				ZodiacHouse zb = h.getPosition(b).ToDivisionPosition(this.dtype).zodiac_house;
 
 				for (int i=0; i<12; i++)
 				{
@@ -271,7 +271,7 @@ namespace org.transliteral.panchang
 
 			ArrayList al = new ArrayList();
 
-			ZodiacHouse zh = h.getPosition(n).toDivisionPosition(this.dtype).zodiac_house;
+			ZodiacHouse zh = h.getPosition(n).ToDivisionPosition(this.dtype).zodiac_house;
 			foreach (int i in allBindus[BodyToInt(m)][BodyToInt(n)])
 			{
 				al.Add(zh.add(i).value);

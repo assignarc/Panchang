@@ -19,7 +19,7 @@ namespace org.transliteral.panchang
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			return _Dasa (h.getPosition(Body.Name.Moon).longitude, 1, cycle );
+			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
@@ -89,7 +89,7 @@ namespace org.transliteral.panchang
 			};				
 			int nak_val = ((int)n.value);
 			int shr_val = (int)NakshatraName.Sravana;
-			int diff_val = Basics.normalize_inc(
+			int diff_val = Basics.Normalize_inc(
 				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 
 				nak_val - shr_val);
 			int diff_off = diff_val % 8;

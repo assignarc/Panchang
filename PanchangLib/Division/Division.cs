@@ -76,7 +76,7 @@ namespace org.transliteral.panchang
         }
         public override string ToString()
         {
-            return Basics.numPartsInDivisionString(this);
+            return Basics.NumPartsInDivisionString(this);
         }
         public object Clone()
         {

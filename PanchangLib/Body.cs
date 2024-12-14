@@ -31,11 +31,11 @@ namespace org.transliteral.panchang
             AL, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, UL,
 
         }
-        public static int toInt(Body.Name b)
+        public static int ToInt(Body.Name b)
         {
             return ((int)b);
         }
-        public static Longitude exaltationDegree(Body.Name b)
+        public static Longitude ExaltationDegree(Body.Name b)
         {
             int _b = (int)b;
             Debug.Assert(_b >= (int)Name.Sun && _b <= (int)Name.Saturn);
@@ -52,11 +52,11 @@ namespace org.transliteral.panchang
             }
             return new Longitude(d);
         }
-        public static Longitude debilitationDegree(Body.Name b)
+        public static Longitude DebilitationDegree(Body.Name b)
         {
-            return exaltationDegree(b).add(180);
+            return ExaltationDegree(b).add(180);
         }
-        public static string toString(Body.Name b)
+        public static string ToString(Body.Name b)
         {
             switch (b)
             {
@@ -73,7 +73,7 @@ namespace org.transliteral.panchang
             }
             return "";
         }
-        public static string toShortString(Body.Name b)
+        public static string ToShortString(Body.Name b)
         {
             switch (b)
             {

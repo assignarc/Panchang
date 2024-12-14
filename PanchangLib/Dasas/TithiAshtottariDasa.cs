@@ -73,8 +73,8 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			
-			Longitude mpos = h.getPosition(Body.Name.Moon).longitude;
-			Longitude spos = h.getPosition(Body.Name.Sun).longitude;
+			Longitude mpos = h.getPosition(Body.Name.Moon).Longitude;
+			Longitude spos = h.getPosition(Body.Name.Sun).Longitude;
 
 			Longitude tithi = mpos.sub(spos);
 			if (options.UseTithiRemainder == false)

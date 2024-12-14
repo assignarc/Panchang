@@ -496,8 +496,8 @@ namespace mhora
 
 		protected virtual void FontRows (ListView mList)
 		{
-			mList.ForeColor = MhoraGlobalOptions.Instance.TableForegroundColor;
-			Font f = MhoraGlobalOptions.Instance.GeneralFont;
+			mList.ForeColor = GlobalOptions.Instance.TableForegroundColor;
+			Font f = GlobalOptions.Instance.GeneralFont;
 				//new Font ("Courier New", 10);
 			mList.Font = f;
 			foreach (ListViewItem li in mList.Items)
@@ -513,8 +513,8 @@ namespace mhora
 		protected virtual void ColorRows (ListView mList)
 		{
 			Color[] cList = new Color[2];
-			cList[1] = MhoraGlobalOptions.Instance.TableOddRowColor;
-			cList[0] = MhoraGlobalOptions.Instance.TableEvenRowColor;
+			cList[1] = GlobalOptions.Instance.TableOddRowColor;
+			cList[0] = GlobalOptions.Instance.TableEvenRowColor;
 			//cList[1] = Color.WhiteSmoke;
 
 			for (int i=0; i<mList.Items.Count; i++)
@@ -522,7 +522,7 @@ namespace mhora
 				if (i%2==1) mList.Items[i].BackColor = cList[0];
 				else mList.Items[i].BackColor = cList[1];
 			}
-			mList.BackColor = MhoraGlobalOptions.Instance.TableBackgroundColor;
+			mList.BackColor = GlobalOptions.Instance.TableBackgroundColor;
 		}
 
 		private void DoNothing (Object o)

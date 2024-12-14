@@ -104,24 +104,24 @@ namespace mhora
 		}
 		public void ResetDisplayOptions (object o)
 		{
-			this.dasaItemList.BackColor = MhoraGlobalOptions.Instance.DasaBackgroundColor;
-			this.dasaItemList.Font = MhoraGlobalOptions.Instance.GeneralFont;
+			this.dasaItemList.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
+			this.dasaItemList.Font = GlobalOptions.Instance.GeneralFont;
 			foreach (ListViewItem li in this.dasaItemList.Items)
 			{
 				DasaItem di = (DasaItem)li;
-				li.BackColor = MhoraGlobalOptions.Instance.DasaBackgroundColor;
-				li.Font = MhoraGlobalOptions.Instance.GeneralFont;
+				li.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
+				li.Font = GlobalOptions.Instance.GeneralFont;
 				foreach (ListViewItem.ListViewSubItem si in li.SubItems)
-					si.BackColor = MhoraGlobalOptions.Instance.DasaBackgroundColor;
+					si.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
 				di.EventDesc = "";
 				if (li.SubItems.Count >= 2)
 				{
-					li.SubItems[0].ForeColor = MhoraGlobalOptions.Instance.DasaPeriodColor;
-					li.SubItems[1].ForeColor = MhoraGlobalOptions.Instance.DasaDateColor;
-					li.SubItems[1].Font = MhoraGlobalOptions.Instance.FixedWidthFont;
+					li.SubItems[0].ForeColor = GlobalOptions.Instance.DasaPeriodColor;
+					li.SubItems[1].ForeColor = GlobalOptions.Instance.DasaDateColor;
+					li.SubItems[1].Font = GlobalOptions.Instance.FixedWidthFont;
 				}
 			}
-			this.dasaItemList.HoverSelection = MhoraGlobalOptions.Instance.DasaHoverSelect;
+			this.dasaItemList.HoverSelection = GlobalOptions.Instance.DasaHoverSelect;
 			this.LocateChartEvents();
 		}
 		public void Reset ()
@@ -176,12 +176,12 @@ namespace mhora
 
 			this.SetDasaYearType();
 			//td = new ToDate (h.baseUT, mDasaOptions.YearLength, 0.0, h);
-			this.mShowEvents.Checked = MhoraGlobalOptions.Instance.DasaShowEvents;
-			ResetDisplayOptions(MhoraGlobalOptions.Instance);
+			this.mShowEvents.Checked = GlobalOptions.Instance.DasaShowEvents;
+			ResetDisplayOptions(GlobalOptions.Instance);
 
 			Dasa d = (Dasa)id;
 			d.RecalculateEvent += new Recalculate(recalculateEntries);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(this.ResetDisplayOptions);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(this.ResetDisplayOptions);
 			h.Changed += new EvtChanged(OnRecalculate);
 			this.SetDescriptionLabel();
 			d.Changed += new EvtChanged(OnDasaChanged);
@@ -956,7 +956,7 @@ namespace mhora
 			tooltip_event.SetToolTip(this.dasaItemList, di.EventDesc);
 			tooltip_event.InitialDelay = 0;
 
-			if (MhoraGlobalOptions.Instance.DasaMoveSelect)
+			if (GlobalOptions.Instance.DasaMoveSelect)
 				di.Selected = true;
 
 			//Console.WriteLine ("MouseMove: {0} {1}", e.Y, li != null ? li.Index : -1);
@@ -1170,7 +1170,7 @@ namespace mhora
 				ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
 				ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
-			Longitude lDiff = sp_end.longitude.sub(sp_start.longitude);
+			Longitude lDiff = sp_end.Longitude.sub(sp_start.Longitude);
 			double diff = lDiff.value;
 			if (diff < 120.0) diff += 360.0;
 
@@ -1401,7 +1401,7 @@ namespace mhora
 					else if (levels == di.entry.level)
 					{
 						foreach (ListViewItem.ListViewSubItem si in di.SubItems)
-							si.BackColor = MhoraGlobalOptions.Instance.DasaHighlightColor;
+							si.BackColor = GlobalOptions.Instance.DasaHighlightColor;
 
 						di.EventDesc += eventDesc;
 					}
@@ -1425,7 +1425,7 @@ namespace mhora
 			foreach (UserEvent ue in h.info.Events)
 			{
 				if (ue.WorkWithEvent == true)
-					this.ExpandEvent(ue.EventTime, MhoraGlobalOptions.Instance.DasaEventsLevel, ue.ToString());
+					this.ExpandEvent(ue.EventTime, GlobalOptions.Instance.DasaEventsLevel, ue.ToString());
 			}
 		}
 
@@ -1505,8 +1505,8 @@ namespace mhora
 			this.UseItemStyleForSubItems = false;
 
 			//this.Text = entry.shortDesc;
-			this.Font = MhoraGlobalOptions.Instance.GeneralFont;
-			this.ForeColor = MhoraGlobalOptions.Instance.DasaPeriodColor;
+			this.Font = GlobalOptions.Instance.GeneralFont;
+			this.ForeColor = GlobalOptions.Instance.DasaPeriodColor;
 			Moment m = td.AddYears(entry.startUT);
 			Moment m2 = td.AddYears(entry.startUT + entry.dasaLength);
 			string sDateRange = m.ToString() + " - " + m2.ToString();
@@ -1514,8 +1514,8 @@ namespace mhora
 				sDateRange = " " + sDateRange;
 			this.SubItems.Add (sDateRange);
 			this.Text = entry.shortDesc + id.EntryDescription(entry, m, m2);
-			this.SubItems[1].Font = MhoraGlobalOptions.Instance.FixedWidthFont;
-			this.SubItems[1].ForeColor = MhoraGlobalOptions.Instance.DasaDateColor;
+			this.SubItems[1].Font = GlobalOptions.Instance.FixedWidthFont;
+			this.SubItems[1].ForeColor = GlobalOptions.Instance.DasaDateColor;
 		}
 		private void Construct (DasaEntry _entry)
 		{

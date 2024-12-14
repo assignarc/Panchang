@@ -88,20 +88,20 @@ namespace org.transliteral.panchang
         }
         public Nakshatra(NakshatraName nak)
         {
-            m_nak = (NakshatraName)Basics.normalize_inc(1, 27, (int)nak);
+            m_nak = (NakshatraName)Basics.Normalize_inc(1, 27, (int)nak);
         }
         public int normalize()
         {
-            return Basics.normalize_inc(1, 27, (int)this.value);
+            return Basics.Normalize_inc(1, 27, (int)this.value);
         }
         public Nakshatra add(int i)
         {
-            int snum = Basics.normalize_inc(1, 27, (int)this.value + i - 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.value + i - 1);
             return new Nakshatra((NakshatraName)snum);
         }
         public Nakshatra addReverse(int i)
         {
-            int snum = Basics.normalize_inc(1, 27, (int)this.value - i + 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.value - i + 1);
             return new Nakshatra((NakshatraName)snum);
         }
     }

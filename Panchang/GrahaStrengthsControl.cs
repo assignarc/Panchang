@@ -238,7 +238,7 @@ namespace mhora
 		{
 			for (int i = (int)Body.Name.Sun; i <= (int)Body.Name.Lagna; i++)
 			{
-				string s = org.transliteral.panchang.Body.toString((org.transliteral.panchang.Body.Name)i);
+				string s = org.transliteral.panchang.Body.ToString((org.transliteral.panchang.Body.Name)i);
 				this.cbGraha1.Items.Add(s);
 				this.cbGraha2.Items.Add(s);
 			}
@@ -285,7 +285,7 @@ namespace mhora
 				li.Text = string.Format("{0}", EnumDescConverter.GetEnumDescription((System.Enum)al[i]));
 				
 				if (winner == 0)
-					li.SubItems.Add (Body.toString(bw));
+					li.SubItems.Add (Body.ToString(bw));
 
 				this.mList.Items.Add(li);
 			}
@@ -301,8 +301,8 @@ namespace mhora
 
 		private void GrahaStrengthsControl_Load(object sender, System.EventArgs e)
 		{
-			if (false == MhoraGlobalOptions.Instance.GrahaStrengthsFormSize.IsEmpty)
-				this.Size = MhoraGlobalOptions.Instance.GrahaStrengthsFormSize;
+			if (false == GlobalOptions.Instance.GrahaStrengthsFormSize.IsEmpty)
+				this.Size = GlobalOptions.Instance.GrahaStrengthsFormSize;
 		}
 
 		private void cbStrength_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -370,7 +370,7 @@ namespace mhora
 
 		private void GrahaStrengthsControl_Resize(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.GrahaStrengthsFormSize = this.Size;
+			GlobalOptions.Instance.GrahaStrengthsFormSize = this.Size;
 		}
 	}
 }

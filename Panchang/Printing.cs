@@ -130,11 +130,11 @@ namespace mhora
 			g.ResetTransform();
 			g.TranslateTransform(left, top);
 			g.DrawString(bp.name.ToString(), f, b, 0, 0);
-			g.DrawString(bp.longitude.ToString(), f_fix, b, width/6, 0);
+			g.DrawString(bp.Longitude.ToString(), f_fix, b, width/6, 0);
 
 			string s = "";
-			Nakshatra nak = bp.longitude.toNakshatra();
-			int nak_pada = bp.longitude.toNakshatraPada();
+			Nakshatra nak = bp.Longitude.toNakshatra();
+			int nak_pada = bp.Longitude.toNakshatraPada();
 			s = string.Format("{0} {1}", nak.toShortString(), nak_pada);
 			g.DrawString(s, f, b, (float)((width/6)*2.5), 0);
 
@@ -153,7 +153,7 @@ namespace mhora
 		{
 			string s;
 			if (bGraha) 
-				s = string.Format("{0} {1}", Body.toShortString(deAntar.graha),
+				s = string.Format("{0} {1}", Body.ToShortString(deAntar.graha),
 					td.AddYears(deAntar.startUT).ToDateString());
 			else
 				s = string.Format("{0} {1}", ZodiacHouse.ToShortString(deAntar.zodiacHouse), 
@@ -269,7 +269,7 @@ namespace mhora
 		private string GetVimAntarString (ToDate td, DasaEntry de)
 		{
 			Moment mStart = td.AddYears(de.startUT);
-			return string.Format ("{0} {1}", Body.toShortString(de.graha), mStart.ToDateString());
+			return string.Format ("{0} {1}", Body.ToShortString(de.graha), mStart.ToDateString());
 		}
 		private void PrintVimDasa (VimsottariDasa vd)
 		{
@@ -289,7 +289,7 @@ namespace mhora
 				g.ResetTransform();
 				g.TranslateTransform(left, top);
 				Moment mStart = td.AddYears(de.StartUT);
-				g.DrawString(Body.toString(de.graha), f, b, 0, 0);
+				g.DrawString(Body.ToString(de.graha), f, b, 0, 0);
 				//s = string.Format("{0} ", mStart.ToDateString());
 				//g.DrawString(s, f_fix, b, width / 6, 0);
 				
@@ -468,13 +468,13 @@ namespace mhora
 				h.wday, h.info.tob, h.info.tz, h.info.lat, h.info.lon));
 
 			// Tithi
-			Longitude ltithi = h.getPosition(Body.Name.Moon).longitude.sub(h.getPosition(Body.Name.Sun).longitude);
+			Longitude ltithi = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
 			double offset = (360.0/30.0) - ltithi.toTithiOffset();
 			Tithi ti = ltithi.toTithi();
 			this.PrintString (String.Format ("Tithi: {0} {1:N}% left", ti.value, offset / 12.0 * 100));
 
 			// Nakshatra
-			Longitude lmoon = h.getPosition(Body.Name.Moon).longitude;
+			Longitude lmoon = h.getPosition(Body.Name.Moon).Longitude;
 			Nakshatra nmoon = lmoon.toNakshatra();
 			offset = (360.0/27.0)-lmoon.toNakshatraOffset();
 			int pada = lmoon.toNakshatraPada();
@@ -482,7 +482,7 @@ namespace mhora
 				nmoon.value, pada, offset/(360.0/27.0)*100));
 
 			// Yoga, Hora
-			Longitude smLon = h.getPosition(Body.Name.Sun).longitude.add(h.getPosition(Body.Name.Moon).longitude);
+			Longitude smLon = h.getPosition(Body.Name.Sun).Longitude.add(h.getPosition(Body.Name.Moon).Longitude);
 			SunMoonYoga smYoga = smLon.toSunMoonYoga();
 			Body.Name bHora = h.calculateHora();
 			this.PrintString(string.Format("{0} Yoga, {1} Hora", smYoga.value, bHora));

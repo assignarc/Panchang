@@ -63,8 +63,8 @@ namespace mhora
 			// TODO: Add any constructor code after InitializeComponent call
 			//
 			h = _h;
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
-			this.OnRedisplay(MhoraGlobalOptions.Instance);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+			this.OnRedisplay(GlobalOptions.Instance);
 
 			this.AddControlToTab (tabBasics, new JhoraBasicsTab(h));
 			//this.bTabBasicsLoaded = true;
@@ -72,7 +72,7 @@ namespace mhora
 
 		public void OnRedisplay (object o)
 		{
-			this.Font = MhoraGlobalOptions.Instance.GeneralFont;
+			this.Font = GlobalOptions.Instance.GeneralFont;
 			/*
 			this.tabBasics.Font = this.Font;
 			this.tabDasa.Font = this.Font;

@@ -138,7 +138,7 @@ namespace Genghis.Windows.Forms
         {            
             thread = new System.Threading.Thread( new System.Threading.ThreadStart( ThreadFunction ) );
             thread.Name = "Splash Screen";
-            thread.ApartmentState = System.Threading.ApartmentState.STA;
+            thread.SetApartmentState(System.Threading.ApartmentState.STA);
             
             thread.Start();
             System.Threading.Thread.Sleep( 0 );

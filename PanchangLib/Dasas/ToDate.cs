@@ -32,8 +32,8 @@ namespace org.transliteral.panchang
 			yearLength = _yearLength;
 			compression = _compression;
 			h = _h;
-			spos = h.getPosition(Body.Name.Sun).longitude.value;
-			mpos = h.getPosition(Body.Name.Moon).longitude.value;
+			spos = h.getPosition(Body.Name.Sun).Longitude.value;
+			mpos = h.getPosition(Body.Name.Moon).Longitude.value;
 		}
 		public void SetOffset (double _offset)
 		{
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
 
 			Debug.Assert(years >= 0, "pravesh years only work in the future");
 			t = new Transit (h);
-			soff = h.getPosition(Body.Name.Sun).longitude.toZodiacHouseOffset();
+			soff = h.getPosition(Body.Name.Sun).Longitude.toZodiacHouseOffset();
 			_years = years;
 			tYears=0;
 			tMonths=0;

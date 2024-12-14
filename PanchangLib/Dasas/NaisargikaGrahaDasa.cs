@@ -95,7 +95,7 @@ namespace org.transliteral.panchang
 						Body.Name[] temp_arr = new Body.Name[temp.Count];
 						for (int j=0; j< temp.Count; j++)
 							temp_arr[j] = (Body.Name)temp[j];
-						Body.Name[] sorted = fs.getOrderedGrahas(temp_arr);
+						Body.Name[] sorted = fs.GetOrderedGrahas(temp_arr);
 						foreach (Body.Name bn in sorted)
 							this.mGrahasStrengths[i].grahas.Add (bn);					}
 				}
@@ -233,7 +233,7 @@ namespace org.transliteral.panchang
 			foreach (Body.Name bn in order) 
 			{
 				double dasaLength = lengthOfDasa (bn);
-				al.Add (new DasaEntry (bn, cycle_start + curr, dasaLength, 1, Body.toShortString(bn)));
+				al.Add (new DasaEntry (bn, cycle_start + curr, dasaLength, 1, Body.ToShortString(bn)));
 				curr += dasaLength;
 			}
 			
@@ -253,8 +253,8 @@ namespace org.transliteral.panchang
 			int diff = 0;
 			if (options.Exclude_3_10 || options.Exclude_2_6_11_12)
 			{
-				ZodiacHouse zhDasa = h.getPosition(pdi.graha).toDivisionPosition(options.dtype).zodiac_house;
-				ZodiacHouse zhAntar = h.getPosition(graha).toDivisionPosition(options.dtype).zodiac_house;
+				ZodiacHouse zhDasa = h.getPosition(pdi.graha).ToDivisionPosition(options.dtype).zodiac_house;
+				ZodiacHouse zhAntar = h.getPosition(graha).ToDivisionPosition(options.dtype).zodiac_house;
 				diff = zhDasa.numHousesBetween(zhAntar);
 			}
 
@@ -270,8 +270,8 @@ namespace org.transliteral.panchang
 		public ArrayList AntarDasa (DasaEntry pdi) 
 		{
 			OrderedGrahas orderedAntar = new OrderedGrahas();
-			ZodiacHouse lzh = h.getPosition(pdi.graha).toDivisionPosition(options.dtype).zodiac_house;
-			int kendra_start = (int)Basics.normalize_exc_lower(0, 3,((int)lzh.value % 3));
+			ZodiacHouse lzh = h.getPosition(pdi.graha).ToDivisionPosition(options.dtype).zodiac_house;
+			int kendra_start = (int)Basics.Normalize_exc_lower(0, 3,((int)lzh.value % 3));
 			for (int i=kendra_start; i<=2; i++)
 			{
 				foreach (Body.Name b in this.options.GrahaStrengths[i].grahas)
@@ -296,7 +296,7 @@ namespace org.transliteral.panchang
 					continue;
 
 				int diff = lzh.numHousesBetween(h.getPosition(
-					(Body.Name)orderedAntar.grahas[i]).toDivisionPosition(options.dtype).zodiac_house);
+					(Body.Name)orderedAntar.grahas[i]).ToDivisionPosition(options.dtype).zodiac_house);
 				switch (diff)
 				{
 					case 7: 
@@ -333,7 +333,7 @@ namespace org.transliteral.panchang
 					continue;
 
 				double length = (antarLengths[i] / totalAntarLengths) * pdi.dasaLength;
-				string desc = pdi.shortDesc + " " + Body.toShortString(bn);
+				string desc = pdi.shortDesc + " " + Body.ToShortString(bn);
 				ret.Add(new DasaEntry(bn, curr, length, pdi.level+1, desc));
 				curr += length;
 			}

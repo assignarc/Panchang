@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
         private KaranaName mValue;
         public Karana(KaranaName _mValue)
         {
-            mValue = (KaranaName)Basics.normalize_inc(1, 60, (int)_mValue);
+            mValue = (KaranaName)Basics.Normalize_inc(1, 60, (int)_mValue);
         }
         public KaranaName value
         {
@@ -21,12 +21,12 @@ namespace org.transliteral.panchang
         }
         public Karana add(int i)
         {
-            int tnum = Basics.normalize_inc(1, 60, (int)this.value + i - 1);
+            int tnum = Basics.Normalize_inc(1, 60, (int)this.value + i - 1);
             return new Karana((KaranaName)tnum);
         }
         public Karana addReverse(int i)
         {
-            int tnum = Basics.normalize_inc(1, 60, (int)this.value - i + 1);
+            int tnum = Basics.Normalize_inc(1, 60, (int)this.value - i + 1);
             return new Karana((KaranaName)tnum);
         }
         public override string ToString()
@@ -43,7 +43,7 @@ namespace org.transliteral.panchang
                 case KaranaName.Naga: return Body.Name.Venus;
                 default:
                     {
-                        int vn = Basics.normalize_inc(1, 7, (int)this.value - 1);
+                        int vn = Basics.Normalize_inc(1, 7, (int)this.value - 1);
                         switch (vn)
                         {
                             case 1: return Body.Name.Sun;

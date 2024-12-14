@@ -15,9 +15,9 @@ namespace org.transliteral.panchang
 
 			ZodiacHouse zh = new ZodiacHouse(_zh);
 			Body.Name bl = this.GetStrengthLord(zh);
-			DivisionPosition pl = h.getPosition(bl).toDivisionPosition(dtype);
-			DivisionPosition pj = h.getPosition(Body.Name.Jupiter).toDivisionPosition(dtype);
-			DivisionPosition pm = h.getPosition(Body.Name.Mercury).toDivisionPosition(dtype);
+			DivisionPosition pl = h.getPosition(bl).ToDivisionPosition(dtype);
+			DivisionPosition pj = h.getPosition(Body.Name.Jupiter).ToDivisionPosition(dtype);
+			DivisionPosition pm = h.getPosition(Body.Name.Mercury).ToDivisionPosition(dtype);
 
 			if (pl.GrahaDristi(zh)) ret++;
 			if (pj.GrahaDristi(zh)) ret++;
@@ -34,8 +34,8 @@ namespace org.transliteral.panchang
 		}
 		public bool stronger (Body.Name m, Body.Name n)
 		{
-			ZodiacHouseName zm = h.getPosition(m).toDivisionPosition(dtype).zodiac_house.value;
-			ZodiacHouseName zn = h.getPosition(n).toDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zm = h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value;
+			ZodiacHouseName zn = h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value;
 			return stronger (zm, zn);
 		}
 	}

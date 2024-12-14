@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ashtakavarga.cs" />
+    <Compile Include="DayPanchang.cs" />
+    <Compile Include="HinduPanchang.cs" />
     <Compile Include="Options\AshtakavargaOptions.cs" />
     <Compile Include="Balas.cs" />
     <Compile Include="Basics\Enumerations.cs" />
@@ -100,12 +102,14 @@
     <Compile Include="Dasas\YogaPraveshDasa.cs" />
     <Compile Include="Dasas\YogaVimsottariDasa.cs" />
     <Compile Include="Dasas\YoginiDasa.cs" />
+    <Compile Include="PanchangaGlobalMoments.cs" />
+    <Compile Include="PanchangaLocalMoments.cs" />
+    <Compile Include="PanchangaMomentInfo.cs" />
     <Compile Include="Strength\BaseStrength.cs" />
     <Compile Include="Basics\Basics.cs" />
     <Compile Include="Body.cs" />
     <Compile Include="BodyKarakaComparer.cs" />
     <Compile Include="BodyPosition.cs" />
-    <Compile Include="BodyType.cs" />
     <Compile Include="Utils\Crypto.cs" />
     <Compile Include="CuspTransitSearch.cs" />
     <Compile Include="Dasas\KaranaChaturashitiSamaDasa.cs" />
@@ -154,7 +158,7 @@
     <Compile Include="Converters\MomentConverter.cs" />
     <Compile Include="Nakshatra.cs" />
     <Compile Include="Nakshatra28.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="Utils\Node.cs" />
     <Compile Include="NonLinearTransit.cs" />
     <Compile Include="OrderedGrahas.cs" />
     <Compile Include="Converters\OrderedGrahasConverter.cs" />
@@ -191,9 +195,9 @@
     <Compile Include="Sweph\SwephException.cs" />
     <Compile Include="Tithi.cs" />
     <Compile Include="Transits.cs" />
-    <Compile Include="UserEvent.cs" />
+    <Compile Include="Utils\UserEvent.cs" />
     <Compile Include="Options\UserOptions.cs" />
-    <Compile Include="XmlYogaNode.cs" />
+    <Compile Include="Utils\XmlYogaNode.cs" />
     <Compile Include="YogasParseException.cs" />
     <Compile Include="ZodiacHouse\ZodiacHouse.cs" />
   </ItemGroup>

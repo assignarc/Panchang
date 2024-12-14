@@ -21,7 +21,7 @@ namespace org.transliteral.panchang
         }
         public double getOffset()
         {
-            double off = bpa.longitude.toZodiacHouseOffset();
+            double off = bpa.Longitude.toZodiacHouseOffset();
             if (bpa.name == Body.Name.Rahu)
                 off = 30.0 - off;
             return off;

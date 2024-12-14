@@ -22,7 +22,7 @@ namespace org.transliteral.panchang
 		}
 		public int value (Body.Name b)
 		{
-			if (h.getPosition(b).toDivisionPosition(dtype).isInMoolaTrikona()) return 1;
+			if (h.getPosition(b).ToDivisionPosition(dtype).isInMoolaTrikona()) return 1;
 			return 0;
 		}
 		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 

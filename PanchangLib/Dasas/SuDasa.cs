@@ -45,7 +45,7 @@ namespace org.transliteral.panchang
 		{
 			ArrayList al = new ArrayList();
 			BodyPosition bp_sl = h.getPosition(Body.Name.SreeLagna);
-			ZodiacHouse zh_seed = bp_sl.toDivisionPosition(options.Division).zodiac_house;
+			ZodiacHouse zh_seed = bp_sl.ToDivisionPosition(options.Division).zodiac_house;
 			zh_seed.value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.value, zh_seed.add(7).value);
 
 			bool bIsForward = zh_seed.isOdd();
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
 					zh_dasa = zh_seed.addReverse(order[i]);
 
 				Body.Name bl = this.GetLord(zh_dasa);
-				DivisionPosition dp = h.getPosition(bl).toDivisionPosition(options.Division);
+				DivisionPosition dp = h.getPosition(bl).ToDivisionPosition(options.Division);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh_dasa, dp);
 				DasaEntry di = new DasaEntry (zh_dasa.value, dasa_length_sum, dasa_length, 1, zh_dasa.value.ToString());
 				al.Add (di);
@@ -77,7 +77,7 @@ namespace org.transliteral.panchang
 			}
 
 			double cycle_length = (double)cycle * this.paramAyus();
-			double offset_length = (bp_sl.longitude.toZodiacHouseOffset() / 30.0) *
+			double offset_length = (bp_sl.Longitude.toZodiacHouseOffset() / 30.0) *
 				((DasaEntry)al[0]).dasaLength;
 
 			//Console.WriteLine ("Completed {0}, going back {1} of {2} years", bp_sl.longitude.toZodiacHouseOffset() / 30.0,

@@ -20,14 +20,16 @@ namespace org.transliteral.panchang
         {
             string s = "";
             foreach (Body.Name bn in this.grahas)
-                s += Body.toShortString(bn) + " ";
+                s += Body.ToShortString(bn) + " ";
             return s;
         }
         public object Clone()
         {
-            OrderedGrahas oz = new OrderedGrahas();
-            oz.grahas = (ArrayList)this.grahas.Clone();
-            return oz;
+            return new OrderedGrahas
+            {
+                grahas = (ArrayList)this.grahas.Clone()
+            };
+           
         }
     }
 

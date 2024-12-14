@@ -55,7 +55,7 @@ namespace org.transliteral.panchang
 				if (bIsZodiacal) zh = zh.add(order[i]);
 				else zh = zh.addReverse(order[i]);
 				Body.Name lord = h.LordOfZodiacHouse(zh, m_dtype);
-				DivisionPosition dp_lord = h.getPosition(lord).toDivisionPosition(m_dtype);
+				DivisionPosition dp_lord = h.getPosition(lord).ToDivisionPosition(m_dtype);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh, dp_lord);
 				DasaEntry de = new DasaEntry(zh.value, dasa_length_sum, dasa_length, 1, zh.value.ToString());
 				al.Add (de);

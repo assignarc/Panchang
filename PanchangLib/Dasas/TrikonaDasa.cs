@@ -25,7 +25,7 @@ namespace org.transliteral.panchang
 				ZodiacHouse zh = this.getSeed();
 				ZodiacHouseName[] zh_t = new ZodiacHouseName[3] { zh.add(1).value, zh.add(5).value, zh.add(9).value };
 				FindStronger fs = new FindStronger(h, this.Division, this.mRules);
-				mTrikonaStrengths = fs.getOrderedHouses(zh_t);
+				mTrikonaStrengths = fs.GetOrderedHouses(zh_t);
 			}
 			public override object Clone()
 			{
@@ -82,7 +82,7 @@ namespace org.transliteral.panchang
 			else if (zh.value == ZodiacHouseName.Aqu) b = options.ColordAqu;
 			else b = Basics.SimpleLordOfZodiacHouse(zh.value);
 
-			return h.getPosition(b).toDivisionPosition(options.Division);
+			return h.getPosition(b).ToDivisionPosition(options.Division);
 		}
 		int[] order = {1,5,9,2,6,10,3,7,11,4,8,12};
 		public ArrayList Dasa(int cycle)

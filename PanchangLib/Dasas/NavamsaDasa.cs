@@ -25,7 +25,7 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList (12);
-			ZodiacHouse zh_seed = h.getPosition(Body.Name.Lagna).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			ZodiacHouse zh_seed = h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
 
 			if (! zh_seed.isOdd())
 				zh_seed = zh_seed.AdarsaSign();

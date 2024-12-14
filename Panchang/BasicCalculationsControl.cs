@@ -113,7 +113,7 @@ namespace mhora
 			this.vt = ViewType.ViewBasicGrahas;
 			this.menuBasicGrahas.Checked = true;
 			h.Changed += new EvtChanged(OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
 			this.options = new UserOptions();
 			this.options.DivisionType = new Division(DivisionType.Rasi);
 
@@ -416,8 +416,8 @@ namespace mhora
 			this.mList.Columns.Add ("Nakshatra (27)", -1, System.Windows.Forms.HorizontalAlignment.Left);
 			this.mList.Columns.Add ("Nakshatra (28)", -1, System.Windows.Forms.HorizontalAlignment.Left);
 
-			Nakshatra nmoon = h.getPosition(org.transliteral.panchang.Body.Name.Moon).longitude.toNakshatra();
-			Nakshatra28 nmoon28 = h.getPosition(org.transliteral.panchang.Body.Name.Moon).longitude.toNakshatra28();
+			Nakshatra nmoon = h.getPosition(org.transliteral.panchang.Body.Name.Moon).Longitude.toNakshatra();
+			Nakshatra28 nmoon28 = h.getPosition(org.transliteral.panchang.Body.Name.Moon).Longitude.toNakshatra28();
 			for (int i=0; i<specialIndices.Length; i++)
 			{
 				Nakshatra sn = nmoon.add(specialIndices[i]);
@@ -485,7 +485,7 @@ namespace mhora
 			{
 				ListViewItem li = new ListViewItem();
 				BodyKarakaComparer bk = (BodyKarakaComparer)al[i];
-				li.Text =org.transliteral.panchang.Body.toString(bk.GetPosition.name);
+				li.Text =org.transliteral.panchang.Body.ToString(bk.GetPosition.name);
 				if (this.vt == ViewType.ViewCharaKarakas)
 					li.SubItems.Add (this.karakas[i]);
 				else
@@ -511,12 +511,12 @@ namespace mhora
 
 		private void Repopulate64NavamsaHelper (org.transliteral.panchang.Body.Name b, string name, BodyPosition bp, Division div)
 		{
-			DivisionPosition dp = bp.toDivisionPosition(div);
+			DivisionPosition dp = bp.ToDivisionPosition(div);
 			ListViewItem li = new ListViewItem();
 			li.Text = b.ToString();
 			li.SubItems.Add (name);
 			li.SubItems.Add (dp.zodiac_house.value.ToString());
-			li.SubItems.Add (org.transliteral.panchang.Body.toString(h.LordOfZodiacHouse(dp.zodiac_house, div)));
+			li.SubItems.Add (org.transliteral.panchang.Body.ToString(h.LordOfZodiacHouse(dp.zodiac_house, div)));
 			this.mList.Items.Add (li);
 		}
 		private void RepopulateNonLonBodies ()
@@ -560,12 +560,12 @@ namespace mhora
 			foreach (org.transliteral.panchang.Body.Name b in bodyReferences)
 			{
 				BodyPosition bp = (BodyPosition)h.getPosition(b).Clone();
-				Longitude bpLon = bp.longitude.add(0);
+				Longitude bpLon = bp.Longitude.add(0);
 
-				bp.longitude = bpLon.add(30.0/9.0*(64-1));
+				bp.Longitude = bpLon.add(30.0/9.0*(64-1));
 				this.Repopulate64NavamsaHelper (b, "64th Navamsa", bp, new Division(DivisionType.Navamsa));
 				
-				bp.longitude = bpLon.add(30.0/3.0*(22-1));
+				bp.Longitude = bpLon.add(30.0/3.0*(22-1));
 				this.Repopulate64NavamsaHelper (b, "22nd Drekkana", bp, new Division(DivisionType.DrekkanaParasara));
 				this.Repopulate64NavamsaHelper (b, "22nd Drekkana (Parivritti)", bp, new Division(DivisionType.DrekkanaParivrittitraya));
 				this.Repopulate64NavamsaHelper (b, "22nd Drekkana (Somnath)", bp, new Division(DivisionType.DrekkanaSomnath));
@@ -588,8 +588,8 @@ namespace mhora
 			{
 				org.transliteral.panchang.Body.Name b = (org.transliteral.panchang.Body.Name)i;
 				ListViewItem li = new ListViewItem();
-				li.Text =org.transliteral.panchang.Body.toString(b);
-				DivisionPosition dp = h.getPosition(b).toDivisionPosition(new Division(DivisionType.Panchamsa));
+				li.Text =org.transliteral.panchang.Body.ToString(b);
+				DivisionPosition dp = h.getPosition(b).ToDivisionPosition(new Division(DivisionType.Panchamsa));
 				int avastha_index=-1;
 				switch ((int)dp.zodiac_house.value % 2)
 				{
@@ -618,7 +618,7 @@ namespace mhora
 				if (i%2 == 1) dirForward = false;
 
 				BodyPosition bp = h.getPosition(b);
-				Nakshatra n = bp.longitude.toNakshatra();
+				Nakshatra n = bp.Longitude.toNakshatra();
 				Nakshatra l = null;
 				
 				if (dirForward)
@@ -636,7 +636,7 @@ namespace mhora
 						nak_fmt = string.Format ("{0}-{1}", j, na.value);
 				}
 
-				ListViewItem li = new ListViewItem(org.transliteral.panchang.Body.toString(b));
+				ListViewItem li = new ListViewItem(org.transliteral.panchang.Body.ToString(b));
 				string fmt = string.Format("{0:00}-{1}", latta_aspects[i], l.value);
 				li.SubItems.Add (fmt);
 				li.SubItems.Add (nak_fmt);
@@ -662,13 +662,13 @@ namespace mhora
 			{
 				org.transliteral.panchang.Body.Name b = (org.transliteral.panchang.Body.Name)i;
 				BodyPosition bp = h.getPosition(b);
-				ListViewItem li = new ListViewItem (org.transliteral.panchang.Body.toString(b));
-				li.SubItems.Add (bp.longitude.value.ToString());
-				li.SubItems.Add (bp.speed_longitude.ToString());
-				li.SubItems.Add (bp.latitude.ToString());
-				li.SubItems.Add (bp.speed_latitude.ToString());
-				li.SubItems.Add (bp.distance.ToString());
-				li.SubItems.Add (bp.speed_distance.ToString());
+				ListViewItem li = new ListViewItem (org.transliteral.panchang.Body.ToString(b));
+				li.SubItems.Add (bp.Longitude.value.ToString());
+				li.SubItems.Add (bp.Speed_longitude.ToString());
+				li.SubItems.Add (bp.Latitude.ToString());
+				li.SubItems.Add (bp.Speed_latitude.ToString());
+				li.SubItems.Add (bp.Distance.ToString());
+				li.SubItems.Add (bp.Speed_distance.ToString());
 				this.mList.Items.Add (li);
 			}
 			this.ColorAndFontRows(this.mList);
@@ -688,8 +688,8 @@ namespace mhora
 			this.mList.Columns.Add ("Tithi", -1, System.Windows.Forms.HorizontalAlignment.Left);
 			this.mList.Columns.Add ("% Left", -1, System.Windows.Forms.HorizontalAlignment.Left);
 
-			Longitude spos = h.getPosition(org.transliteral.panchang.Body.Name.Sun).longitude;
-			Longitude mpos = h.getPosition(org.transliteral.panchang.Body.Name.Moon).longitude;
+			Longitude spos = h.getPosition(org.transliteral.panchang.Body.Name.Sun).Longitude;
+			Longitude mpos = h.getPosition(org.transliteral.panchang.Body.Name.Moon).Longitude;
 			double baseTithi = mpos.sub(spos).value;
 			for (int i=1; i<=12; i++)
 			{
@@ -793,16 +793,16 @@ namespace mhora
 			this.mList.Columns.Add ("Cusp End", -1, System.Windows.Forms.HorizontalAlignment.Left);
 			this.mList.Columns.Add ("Rasi", -2, System.Windows.Forms.HorizontalAlignment.Left);
 
-			Longitude lpos = h.getPosition(org.transliteral.panchang.Body.Name.Lagna).longitude.add(0);
+			Longitude lpos = h.getPosition(org.transliteral.panchang.Body.Name.Lagna).Longitude.add(0);
 			BodyPosition bp = new BodyPosition(h,org.transliteral.panchang.Body.Name.Lagna, BodyType.Name.Lagna, lpos, 0, 0, 0, 0, 0);
 			for (int i=0; i<12; i++)
 			{
-				DivisionPosition dp = bp.toDivisionPosition(this.options.DivisionType);
+				DivisionPosition dp = bp.ToDivisionPosition(this.options.DivisionType);
 				ListViewItem li = new ListViewItem();
 				li.Text = this.longitudeToString(new Longitude(dp.cusp_lower));
 				li.SubItems.Add (this.longitudeToString(new Longitude(dp.cusp_higher)));
 				li.SubItems.Add (dp.zodiac_house.value.ToString());
-				bp.longitude = new Longitude(dp.cusp_higher + 1);
+				bp.Longitude = new Longitude(dp.cusp_higher + 1);
 				mList.Items.Add(li);
 			}
 			this.ColorAndFontRows(mList);
@@ -961,7 +961,7 @@ namespace mhora
 
 		private string GetBodyString (BodyPosition bp)
 		{
-			string dir = bp.speed_longitude >= 0.0 ? "" : " (R)";
+			string dir = bp.Speed_longitude >= 0.0 ? "" : " (R)";
 
 			if (bp.name ==org.transliteral.panchang.Body.Name.Other ||
 				bp.name ==org.transliteral.panchang.Body.Name.MrityuPoint)
@@ -1037,12 +1037,12 @@ namespace mhora
 					li.Text = string.Format ("{0}   {1}", 
 						li.Text, this.karakas_s[karaka_indices[(int)bp.name]] );
 
-				li.SubItems.Add (this.longitudeToString(bp.longitude));
-				li.SubItems.Add (bp.longitude.toNakshatra().value.ToString());
-				li.SubItems.Add (bp.longitude.toNakshatraPada().ToString());
-				li.SubItems.Add (this.getNakLord(bp.longitude));
+				li.SubItems.Add (this.longitudeToString(bp.Longitude));
+				li.SubItems.Add (bp.Longitude.toNakshatra().value.ToString());
+				li.SubItems.Add (bp.Longitude.toNakshatraPada().ToString());
+				li.SubItems.Add (this.getNakLord(bp.Longitude));
 
-				DivisionPosition dp = bp.toDivisionPosition(options.DivisionType);
+				DivisionPosition dp = bp.ToDivisionPosition(options.DivisionType);
 				li.SubItems.Add (dp.zodiac_house.value.ToString());
 				li.SubItems.Add (dp.part.ToString());
 				li.SubItems.Add (this.AmsaRuler (bp, dp));

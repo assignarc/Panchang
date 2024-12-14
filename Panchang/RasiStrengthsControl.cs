@@ -63,8 +63,8 @@ namespace mhora
 
 			InitializeComponent();
 
-			if (false == MhoraGlobalOptions.Instance.RasiStrengthsFormSize.IsEmpty)
-				this.Size = MhoraGlobalOptions.Instance.RasiStrengthsFormSize;
+			if (false == GlobalOptions.Instance.RasiStrengthsFormSize.IsEmpty)
+				this.Size = GlobalOptions.Instance.RasiStrengthsFormSize;
 			
 			h = _h;
 			h.Changed += new EvtChanged(this.OnRecalculate);
@@ -322,7 +322,7 @@ namespace mhora
 
 		private void RasiStrengthsControl_Resize(object sender, System.EventArgs e)
 		{
-			MhoraGlobalOptions.Instance.RasiStrengthsFormSize = this.Size;
+			GlobalOptions.Instance.RasiStrengthsFormSize = this.Size;
 		}
 	}
 }

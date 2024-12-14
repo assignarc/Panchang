@@ -49,7 +49,7 @@ namespace org.transliteral.panchang
 
         protected double karakaLongitude(Body.Name b)
         {
-            double lon = h.getPosition(b).longitude.toZodiacHouseOffset();
+            double lon = h.getPosition(b).Longitude.toZodiacHouseOffset();
             if (b == Body.Name.Rahu || b == Body.Name.Ketu)
                 lon = 30.0 - lon;
             return lon;

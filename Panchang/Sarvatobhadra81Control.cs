@@ -29,12 +29,12 @@ namespace mhora
 			InitializeComponent();
 			h = _h;
 			h.Changed += new EvtChanged(OnRecalculate);
-			MhoraGlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
 			pn_black = new Pen (Color.Black, (float)0.1);
 			pn_grey = new Pen (Color.Gray, (float)0.1);
 			b_black = new SolidBrush(Color.Black);
 			this.AddViewsToContextMenu(mContextMenu);
-			this.OnRedisplay(MhoraGlobalOptions.Instance);
+			this.OnRedisplay(GlobalOptions.Instance);
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace mhora
 		/// </summary>
 		protected override void Dispose( bool disposing )
 		{
-			MhoraGlobalOptions.DisplayPrefsChanged -= new EvtChanged(this.OnRedisplay);
+			GlobalOptions.DisplayPrefsChanged -= new EvtChanged(this.OnRedisplay);
 			if( disposing )
 			{
 				if (components != null) 
@@ -80,8 +80,8 @@ namespace mhora
 		}
 		public void OnRedisplay (object o)
 		{
-			f = new Font (MhoraGlobalOptions.Instance.GeneralFont.FontFamily,
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints-2);
+			f = new Font (GlobalOptions.Instance.GeneralFont.FontFamily,
+				GlobalOptions.Instance.GeneralFont.SizeInPoints-2);
 			this.DrawToBuffer(true);
 			this.Invalidate();
 		}
@@ -145,8 +145,8 @@ namespace mhora
 		}
 		private void DrawMoveableText (Graphics g)
 		{
-			Font f = new Font (MhoraGlobalOptions.Instance.GeneralFont.FontFamily,
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints-2);
+			Font f = new Font (GlobalOptions.Instance.GeneralFont.FontFamily,
+				GlobalOptions.Instance.GeneralFont.SizeInPoints-2);
 
 			int[] items = new int[29];
 			for (int i=0; i<29; i++)
@@ -156,12 +156,12 @@ namespace mhora
 				if (bp.type != BodyType.Name.Graha &&
 					bp.type != BodyType.Name.Lagna) continue;
 
-				Nakshatra28 n = bp.longitude.toNakshatra28();
+				Nakshatra28 n = bp.Longitude.toNakshatra28();
 				items[(int)n.value]++;
 				Point pxBase = GetCellInRectangle(9, 26, (int)n.value);
 				Point pxOff = GetItemOffset(items[(int)n.value]);
 				Point px = new Point(pxBase.X + pxOff.X, pxBase.Y+pxOff.Y);
-				string s = Body.toShortString(bp.name);
+				string s = Body.ToShortString(bp.name);
 				g.DrawString(s, f, Brushes.Maroon, px.X, px.Y);
 			}
 		}
@@ -177,10 +177,10 @@ namespace mhora
 		}
 		private void DrawFixedText (Graphics g)
 		{
-			Font f_sounds = new Font(MhoraGlobalOptions.Instance.GeneralFont.FontFamily,
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints-2);
+			Font f_sounds = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
+				GlobalOptions.Instance.GeneralFont.SizeInPoints-2);
 			Font f_sanskrit = new Font("Sanskrit 99", 
-				MhoraGlobalOptions.Instance.GeneralFont.SizeInPoints+5);
+				GlobalOptions.Instance.GeneralFont.SizeInPoints+5);
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari).add(i);
@@ -299,7 +299,7 @@ namespace mhora
 			float scale = (float)size/bufferSize;
 
 
-			g.Clear(MhoraGlobalOptions.Instance.ChakraBackgroundColor);
+			g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
 			g.ResetTransform();
 			g.TranslateTransform(bufferOffset, bufferOffset);
 			g.ScaleTransform(scale, scale);

@@ -30,7 +30,7 @@ namespace org.transliteral.panchang
 			for (int i=0; i<numItems; i++) 
 			{
 				double dlength = (common.lengthOfDasa (curr.graha) / common.paramAyus()) * pdi.dasaLength;
-				string desc = pdi.shortDesc + " " + Body.toShortString (curr.graha);
+				string desc = pdi.shortDesc + " " + Body.ToShortString (curr.graha);
 				DasaEntry di = new DasaEntry (curr.graha, curr.startUT, dlength, curr.level, desc);
 				ditems.Add (di);
 				curr = common.nextDasaLord (di);

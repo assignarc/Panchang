@@ -31,8 +31,8 @@ namespace org.transliteral.panchang
 		public bool stronger (Body.Name m, Body.Name n)
 		{
 			return stronger (
-				h.getPosition(m).toDivisionPosition(dtype).zodiac_house.value,
-				h.getPosition(n).toDivisionPosition(dtype).zodiac_house.value
+				h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value,
+				h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value
 				);
 		}
 	}

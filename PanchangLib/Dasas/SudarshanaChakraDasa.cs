@@ -35,7 +35,7 @@ namespace org.transliteral.panchang
 		{
 			ArrayList al = new ArrayList(12);
 			double start = cycle * paramAyus();
-			ZodiacHouse lzh = h.getPosition(Body.Name.Lagna).toDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			ZodiacHouse lzh = h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse czh = lzh.add(i);
