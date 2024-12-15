@@ -9,37 +9,37 @@ namespace org.transliteral.panchang
 		public StrengthByAspectsGraha (Horoscope h, Division dtype, bool bSimpleLord)
 			: base (h, dtype, bSimpleLord) {}
 
-		protected int value (ZodiacHouseName _zh)
+		protected int Value (ZodiacHouseName _zh)
 		{
 			int val = 0;
 			Body.Name bl = this.GetStrengthLord(_zh);
-			DivisionPosition dl = h.getPosition(bl).ToDivisionPosition(dtype);
-			DivisionPosition dj = h.getPosition(Body.Name.Jupiter).ToDivisionPosition(dtype);
-			DivisionPosition dm = h.getPosition(Body.Name.Mercury).ToDivisionPosition(dtype);
+			DivisionPosition dl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType);
+			DivisionPosition dj = horoscope.GetPosition(Body.Name.Jupiter).ToDivisionPosition(divisionType);
+			DivisionPosition dm = horoscope.GetPosition(Body.Name.Mercury).ToDivisionPosition(divisionType);
 
 			ZodiacHouse zh = new ZodiacHouse(_zh);
-			if (dl.GrahaDristi(zh) || dl.zodiac_house.value == _zh) val++;
-			if (dj.GrahaDristi(zh) || dj.zodiac_house.value == _zh) val++;
-			if (dm.GrahaDristi(zh) || dm.zodiac_house.value == _zh) val++;
+			if (dl.GrahaDristi(zh) || dl.ZodiacHouse.Value == _zh) val++;
+			if (dj.GrahaDristi(zh) || dj.ZodiacHouse.Value == _zh) val++;
+			if (dm.GrahaDristi(zh) || dm.ZodiacHouse.Value == _zh) val++;
 
 			return val;
 		}
-		protected int value (Body.Name bm)
+        protected int Value(Body.Name bm)
 		{
-			return value (h.getPosition(bm).ToDivisionPosition(dtype).zodiac_house.value);
+			return Value (horoscope.GetPosition(bm).ToDivisionPosition(divisionType).ZodiacHouse.Value);
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			int a = this.value(za);
-			int b = this.value(zb);
+			int a = this.Value(za);
+			int b = this.Value(zb);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			int a = this.value(m);
-			int b = this.value(n);
+			int a = this.Value(m);
+			int b = this.Value(n);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();

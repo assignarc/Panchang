@@ -12,23 +12,20 @@ namespace org.transliteral.panchang
 	{
 		private Horoscope h;
 		ChaturashitiSamaDasa cd;
-		override public Object GetOptions ()
-		{
-			return new Object();
-		}
-		override public object SetOptions (Object a)
+        override public Object Options => new Object();
+        override public object SetOptions (Object a)
 		{
 			return new object();
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			Longitude mMoon = h.getPosition(Body.Name.Moon).Longitude;
-			Longitude mSun = h.getPosition(Body.Name.Sun).Longitude;
-			return _KaranaDasa (mMoon.sub(mSun), 1, cycle);
+			Longitude mMoon = h.GetPosition(Body.Name.Moon).Longitude;
+			Longitude mSun = h.GetPosition(Body.Name.Sun).Longitude;
+			return KaranaDasa (mMoon.Subtract(mSun), 1, cycle);
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
-			return _AntarDasa (di);
+			return base.AntarDasa (di);
 		}
 		public String Description ()
 		{
@@ -42,30 +39,30 @@ namespace org.transliteral.panchang
 			cd = new ChaturashitiSamaDasa(h);
 		}
 
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
-			return cd.paramAyus();
+			return cd.ParamAyus();
 		}
-		public int numberOfDasaItems ()
+		public int NumberOfDasaItems ()
 		{
-			return cd.numberOfDasaItems();
+			return cd.NumberOfDasaItems();
 		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
+		public DasaEntry NextDasaLord (DasaEntry di) 
 		{
-			return cd.nextDasaLord(di);
+			return cd.NextDasaLord(di);
 		}
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa (Body.Name plt)
 		{
-			return cd.lengthOfDasa(plt);
+			return cd.LengthOfDasa(plt);
 
 		}
-		public Body.Name lordOfNakshatra (Nakshatra n)
+		public Body.Name LordOfNakshatra(Nakshatra n)
 		{
-			return cd.lordOfNakshatra(n);
+			return cd.LordOfNakshatra(n);
 		}
-		public Body.Name lordOfKarana(Longitude l) 
+		public Body.Name LordOfKarana(Longitude l) 
 		{
-			return l.toKarana().getLord();
+			return l.ToKarana().GetLord();
 		}
 	}
 }

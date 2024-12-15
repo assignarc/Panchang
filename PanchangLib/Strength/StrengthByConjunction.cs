@@ -8,19 +8,19 @@ namespace org.transliteral.panchang
 		public StrengthByConjunction (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
 
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			int numa = this.numGrahasInZodiacHouse (za);
-			int numb = this.numGrahasInZodiacHouse (zb);
+			int numa = this.NumGrahasInZodiacHouse (za);
+			int numb = this.NumGrahasInZodiacHouse (zb);
 			if (numa > numb) return true;
 			if (numb > numa) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			return stronger (
-				h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value,
-				h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value
+			return Stronger (
+				horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value,
+				horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value
 				);
 		}
 	} 

@@ -17,7 +17,7 @@ namespace org.transliteral.panchang
             //m_lon = Basics.normalize_exc (0, 360, lon);
 
         }
-        public double value
+        public double Value
         {
             get { return m_lon; }
             set
@@ -26,173 +26,173 @@ namespace org.transliteral.panchang
                 m_lon = value;
             }
         }
-        public Longitude add(Longitude b)
+        public Longitude Add(Longitude b)
         {
-            return new Longitude(Basics.Normalize_exc_lower(0, 360, value + b.value));
+            return new Longitude(Basics.Normalize_exc_lower(0, 360, Value + b.Value));
         }
-        public Longitude add(double b)
+        public Longitude Add(double b)
         {
-            return this.add(new Longitude(b));
+            return this.Add(new Longitude(b));
         }
-        public Longitude sub(Longitude b)
+        public Longitude Subtract(Longitude b)
         {
-            return new Longitude(Basics.Normalize_exc_lower(0, 360, value - b.value));
+            return new Longitude(Basics.Normalize_exc_lower(0, 360, Value - b.Value));
         }
-        public Longitude sub(double b)
+        public Longitude Subtract(double b)
         {
-            return this.sub(new Longitude(b));
+            return this.Subtract(new Longitude(b));
         }
-        public double normalize()
+        public double Normalize()
         {
-            return Basics.Normalize_exc_lower(0, 360, this.value);
+            return Basics.Normalize_exc_lower(0, 360, this.Value);
         }
-        public bool isBetween(Longitude cusp_lower, Longitude cusp_higher)
+        public bool IsBetween(Longitude cusp_lower, Longitude cusp_higher)
         {
-            double diff1 = this.sub(cusp_lower).value;
-            double diff2 = this.sub(cusp_higher).value;
+            double diff1 = this.Subtract(cusp_lower).Value;
+            double diff2 = this.Subtract(cusp_higher).Value;
 
-            bool bRet = (cusp_higher.sub(cusp_lower).value <= 180) && diff1 <= diff2;
+            bool bRet = (cusp_higher.Subtract(cusp_lower).Value <= 180) && diff1 <= diff2;
 
-            Console.WriteLine("Is it true that {0} < {1} < {2}? {3}", this, cusp_lower, cusp_higher, bRet);
+            Logger.Info(String.Format("Is it true that {0} < {1} < {2}? {3}", this, cusp_lower, cusp_higher, bRet));
             return bRet;
         }
-        public SunMoonYoga toSunMoonYoga()
+        public SunMoonYoga ToSunMoonYoga()
         {
-            int smIndex = (int)(Math.Floor(this.value / (360.0 / 27.0)) + 1);
+            int smIndex = (int)(Math.Floor(this.Value / (360.0 / 27.0)) + 1);
             SunMoonYoga smYoga = new SunMoonYoga((SunMoonYogaName)smIndex);
             return smYoga;
         }
-        public double toSunMoonYogaBase()
+        public double ToSunMoonYogaBase()
         {
-            int num = (int)(toSunMoonYoga().value);
+            int num = (int)(ToSunMoonYoga().Value);
             double cusp = ((double)(num - 1)) * (360.0 / 27.0);
             return cusp;
         }
-        public double toSunMoonYogaOffset()
+        public double ToSunMoonYogaOffset()
         {
-            return (this.value - this.toSunMoonYogaBase());
+            return (this.Value - this.ToSunMoonYogaBase());
         }
-        public Tithi toTithi()
+        public Tithi ToTithi()
         {
-            int tIndex = (int)(Math.Floor(this.value / (360.0 / 30.0)) + 1);
+            int tIndex = (int)(Math.Floor(this.Value / (360.0 / 30.0)) + 1);
             Tithi t = new Tithi((TithiName)tIndex);
             return t;
         }
-        public Karana toKarana()
+        public Karana ToKarana()
         {
-            int kIndex = (int)(Math.Floor(this.value / (360.0 / 60.0)) + 1);
+            int kIndex = (int)(Math.Floor(this.Value / (360.0 / 60.0)) + 1);
             Karana k = new Karana((KaranaName)kIndex);
             return k;
         }
-        public double toKaranaBase()
+        public double ToKaranaBase()
         {
-            int num = (int)(toKarana().value);
+            int num = (int)(ToKarana().value);
             double cusp = ((double)(num - 1)) * (360.0 / 60.0);
             return cusp;
         }
-        public double toKaranaOffset()
+        public double ToKaranaOffset()
         {
-            return (this.value - this.toKaranaBase());
+            return (this.Value - this.ToKaranaBase());
         }
-        public double toTithiBase()
+        public double ToTithiBase()
         {
-            int num = (int)(toTithi().value);
+            int num = (int)(ToTithi().Value);
             double cusp = ((double)(num - 1)) * (360.0 / 30.0);
             return cusp;
         }
-        public double toTithiOffset()
+        public double ToTithiOffset()
         {
-            return (this.value - this.toTithiBase());
+            return (this.Value - this.ToTithiBase());
         }
-        public Nakshatra toNakshatra()
+        public Nakshatra ToNakshatra()
         {
-            int snum = (int)((System.Math.Floor(this.value / (360.0 / 27.0))) + 1.0);
+            int snum = (int)((System.Math.Floor(this.Value / (360.0 / 27.0))) + 1.0);
             return new Nakshatra((NakshatraName)snum);
         }
-        public double toNakshatraBase()
+        public double ToNakshatraBase()
         {
-            int num = (int)(toNakshatra().value);
+            int num = (int)(ToNakshatra().Value);
             double cusp = ((double)(num - 1)) * (360.0 / 27.0);
             return cusp;
         }
-        public Nakshatra28 toNakshatra28()
+        public Nakshatra28 ToNakshatra28() 
         {
-            int snum = (int)((System.Math.Floor(this.value / (360.0 / 27.0))) + 1.0);
+            int snum = (int)((System.Math.Floor(this.Value / (360.0 / 27.0))) + 1.0);
 
             Nakshatra28 ret = new Nakshatra28((Nakshatra28Name)snum);
             if (snum >= (int)Nakshatra28Name.Abhijit)
-                ret = ret.add(2);
-            if (this.value >= 270 + (6.0 + 40.0 / 60.0) &&
-                this.value <= 270 + (10.0 + 53.0 / 60.0 + 20.0 / 3600.0))
-                ret.value = Nakshatra28Name.Abhijit;
+                ret = ret.Add(2);
+            if (this.Value >= 270 + (6.0 + 40.0 / 60.0) &&
+                this.Value <= 270 + (10.0 + 53.0 / 60.0 + 20.0 / 3600.0))
+                ret.Value = Nakshatra28Name.Abhijit;
 
             return ret;
         }
-        public ZodiacHouse toZodiacHouse()
+        public ZodiacHouse ToZodiacHouse()
         {
-            int znum = (int)(System.Math.Floor(this.value / 30.0) + 1.0);
+            int znum = (int)(System.Math.Floor(this.Value / 30.0) + 1.0);
             return new ZodiacHouse((ZodiacHouseName)znum);
         }
-        public double toZodiacHouseBase()
+        public double ToZodiacHouseBase()
         {
-            int znum = (int)(toZodiacHouse().value);
+            int znum = (int)(ToZodiacHouse().Value);
             double cusp = ((double)(znum - 1)) * 30.0;
             return cusp;
         }
-        public double toZodiacHouseOffset()
+        public double ToZodiacHouseOffset()
         {
-            int znum = (int)(toZodiacHouse().value);
+            int znum = (int)(ToZodiacHouse().Value);
             double cusp = ((double)(znum - 1)) * 30.0;
-            double ret = this.value - cusp;
+            double ret = this.Value - cusp;
             Trace.Assert(ret >= 0.0 && ret <= 30.0);
             return ret;
         }
-        public double percentageOfZodiacHouse()
+        public double PercentageOfZodiacHouse() 
         {
-            double offset = toZodiacHouseOffset();
+            double offset = ToZodiacHouseOffset();
             double perc = offset / 30.0 * 100;
             Trace.Assert(perc >= 0 && perc <= 100);
             return perc;
         }
-        public double toNakshatraOffset()
+        public double ToNakshatraOffset()
         {
-            int znum = (int)(toNakshatra().value);
+            int znum = (int)(ToNakshatra().Value);
             double cusp = ((double)(znum - 1)) * (360.0 / 27.0);
-            double ret = this.value - cusp;
+            double ret = this.Value - cusp;
             Trace.Assert(ret >= 0.0 && ret <= (360.0 / 27.0));
             return ret;
         }
-        public double percentageOfNakshatra()
+        public double PercentageOfNakshatra()
         {
-            double offset = toNakshatraOffset();
+            double offset = ToNakshatraOffset();
             double perc = offset / (360.0 / 27.0) * 100;
             Trace.Assert(perc >= 0 && perc <= 100);
             return perc;
         }
-        public int toNakshatraPada()
+        public int ToNakshatraPada()
         {
-            double offset = toNakshatraOffset();
+            double offset = ToNakshatraOffset();
             int val = (int)Math.Floor(offset / (360.0 / (27.0 * 4.0))) + 1;
             Trace.Assert(val >= 1 && val <= 4);
             return val;
         }
-        public int toAbsoluteNakshatraPada()
+        public int ToAbsoluteNakshatraPada()
         {
-            int n = (int)(this.toNakshatra()).value;
-            int p = this.toNakshatraPada();
+            int n = (int)(this.ToNakshatra()).Value;
+            int p = this.ToNakshatraPada();
             return ((n - 1) * 4) + p;
         }
-        public double toNakshatraPadaOffset()
+        public double ToNakshatraPadaOffset()
         {
-            int pnum = this.toAbsoluteNakshatraPada();
+            int pnum = this.ToAbsoluteNakshatraPada();
             double cusp = ((double)(pnum - 1)) * (360.0 / (27.0 * 4.0));
-            double ret = this.value - cusp;
+            double ret = this.Value - cusp;
             Trace.Assert(ret >= 0.0 && ret <= (360.0 / 27.0));
             return ret;
         }
-        public double toNakshatraPadaPercentage()
+        public double ToNakshatraPadaPercentage() 
         {
-            double offset = toNakshatraPadaOffset();
+            double offset = ToNakshatraPadaOffset();
             double perc = offset / (360.0 / (27.0 * 4.0)) * 100;
             Trace.Assert(perc >= 0 && perc <= 100);
             return perc;
@@ -200,8 +200,8 @@ namespace org.transliteral.panchang
         public override string ToString()
         {
             Longitude lon = this;
-            string rasi = lon.toZodiacHouse().value.ToString();
-            double offset = lon.toZodiacHouseOffset();
+            string rasi = lon.ToZodiacHouse().Value.ToString();
+            double offset = lon.ToZodiacHouseOffset();
             double minutes = Math.Floor(offset);
             offset = (offset - minutes) * 60.0;
             double seconds = Math.Floor(offset);

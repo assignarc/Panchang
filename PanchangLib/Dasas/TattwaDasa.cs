@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
 
 			public Tattwa _startTattwa;
 
-			[PGDisplayName("Seed Tattwa")]
+			[DisplayName("Seed Tattwa")]
 			public Tattwa StartTattwa 
 			{
 				get { return _startTattwa; }
@@ -26,19 +26,19 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 		}
-		public double paramAyus()
+		public double ParamAyus()
 		{
 			return ((1.0 / 24.0) / 60.0);
 		}
-		public void recalculateOptions()
+		public void RecalculateOptions()
 		{
 		}
 		public ArrayList Dasa (int cycle)
 		{
 			ArrayList al = new ArrayList();
 			
-			double day_length = h.next_sunrise + 24.0 - h.sunrise;
-			double day_sr = Math.Floor(h.baseUT) + (h.sunrise / 24.0);
+			double day_length = h.NextSunrise + 24.0 - h.Sunrise;
+			double day_sr = Math.Floor(h.baseUT) + (h.Sunrise / 24.0);
 
 			return al;
 		}
@@ -50,11 +50,8 @@ namespace org.transliteral.panchang
 		{
 			return "Tattwa Dasa";
 		}
-		public object GetOptions ()
-		{
-			return new Object();
-		}
-		public object SetOptions (object o)
+        public object Options => new Object();
+        public object SetOptions (object o)
 		{
 			return o;
 		}

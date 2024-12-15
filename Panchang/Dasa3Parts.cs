@@ -36,10 +36,10 @@ namespace mhora
 
 		private void populateDescription ()
 		{
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Moment start = td.AddYears(de.startUT);
 			Moment end = td.AddYears(de.startUT + de.DasaLength);
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			ZodiacHouse zh = new ZodiacHouse(de.ZHouse);
 			if ((int)de.ZHouse != 0)
 				this.txtDesc.Text = string.Format ("{0} - {1} to {2}", zh, start, end);
@@ -55,7 +55,7 @@ namespace mhora
 
 			double partLength = de.DasaLength / 3.0;
 
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			ArrayList alParts = new ArrayList();
 			for (int i=0; i<4; i++)
 			{
@@ -63,7 +63,7 @@ namespace mhora
 				alParts.Add(m);
 			}
 			Moment[] momentParts = (Moment[])alParts.ToArray(typeof(Moment));
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 
 			for (int i=1; i< momentParts.Length; i++)
 			{

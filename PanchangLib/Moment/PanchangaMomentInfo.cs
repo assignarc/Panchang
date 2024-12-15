@@ -2,12 +2,12 @@
 {
 	public class PanchangaMomentInfo
 	{
-		public double ut;
-		public int info;
+		public double UT;
+		public int Info;
 		public PanchangaMomentInfo(double _ut, int _info)
 		{
-			ut = _ut;
-			info = _info;
+			UT = _ut;
+			Info = _info;
 		}
 	}
 

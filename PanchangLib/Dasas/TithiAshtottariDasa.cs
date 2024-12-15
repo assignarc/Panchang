@@ -26,23 +26,24 @@ namespace org.transliteral.panchang
 			}
 			public Object Clone ()
 			{
-				UserOptions options = new UserOptions ();
-				options.mTithiOffset = this.mTithiOffset;
-				options.bExpungeTravelled = this.bExpungeTravelled;
-				return options;
+                UserOptions options = new UserOptions
+                {
+                    mTithiOffset = this.mTithiOffset,
+                    bExpungeTravelled = this.bExpungeTravelled
+                };
+                return options;
 			}
 			public Object SetOptions (Object b)
 			{
-				if (b is UserOptions)
-				{
-					UserOptions uo = (UserOptions) b;
-					this.mTithiOffset = uo.mTithiOffset;
-					this.bExpungeTravelled = uo.bExpungeTravelled;
-				}
-				return this.Clone();
+                if (b is UserOptions uo)
+                {
+                    this.mTithiOffset = uo.mTithiOffset;
+                    this.bExpungeTravelled = uo.bExpungeTravelled;
+                }
+                return this.Clone();
 			}
 
-			[PGNotVisible]
+			[InVisible]
 			public bool UseTithiRemainder 
 			{
 				get { return this.bExpungeTravelled; }
@@ -59,35 +60,32 @@ namespace org.transliteral.panchang
 			}
 		}
 
-		override public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		override public object SetOptions (Object a)
+        override public Object Options => this.options.Clone();
+        override public object SetOptions (Object a)
 		{
 			this.options = (UserOptions)this.options.SetOptions(a);
 			if (this.RecalculateEvent != null)
-				this.RecalculateEvent();
+                this.RecalculateEvent();
 			return this.options.Clone();
 		}
 		public ArrayList Dasa(int cycle)
 		{
 			
-			Longitude mpos = h.getPosition(Body.Name.Moon).Longitude;
-			Longitude spos = h.getPosition(Body.Name.Sun).Longitude;
+			Longitude mpos = h.GetPosition(Body.Name.Moon).Longitude;
+			Longitude spos = h.GetPosition(Body.Name.Sun).Longitude;
 
-			Longitude tithi = mpos.sub(spos);
+			Longitude tithi = mpos.Subtract(spos);
 			if (options.UseTithiRemainder == false)
 			{
-				double offset = tithi.value;
+				double offset = tithi.Value;
 				while (offset >= 12.0) offset -= 12.0;
-				tithi = tithi.sub (new Longitude(offset));
+				tithi = tithi.Subtract (new Longitude(offset));
 			}
-			return _TithiDasa(tithi, options.TithiOffset, cycle);
+			return TithiDasa(tithi, options.TithiOffset, cycle);
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
-			return _AntarDasa (di);
+			return base.AntarDasa (di);
 		}
 		public String Description ()
 		{
@@ -103,32 +101,32 @@ namespace org.transliteral.panchang
 			ad = new AshtottariDasa(h);
 		}
 
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
-			return ad.paramAyus();
+			return ad.ParamAyus();
 		}
-		public int numberOfDasaItems ()
+		public int NumberOfDasaItems ()
 		{
-			return ad.numberOfDasaItems();
+			return ad.NumberOfDasaItems();
 		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
+		public DasaEntry NextDasaLord (DasaEntry di) 
 		{
-			return ad.nextDasaLord(di);
+			return ad.NextDasaLord(di);
 		}
 
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa(Body.Name plt)
 		{
-			return ad.lengthOfDasa(plt);
+			return ad.LengthOfDasa(plt);
 
 		}
-		public Body.Name lordOfNakshatra (Nakshatra n)
+		public Body.Name LordOfNakshatra(Nakshatra n)
 		{
 			Debug.Assert(false, "TithiAshtottari::lordOfNakshatra");
 			return Body.Name.Sun;
 		}
-		public Body.Name lordOfTithi (Longitude l)
+		public Body.Name LordOfTithi (Longitude l)
 		{
-			return l.toTithi().getLord();
+			return l.ToTithi().GetLord();
 		}
 	}
 }

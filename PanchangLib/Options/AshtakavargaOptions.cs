@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
-    
+
     public class AshtakavargaOptions : ICloneable
     {
         private Division mDtype;
@@ -19,21 +15,21 @@ namespace org.transliteral.panchang
             this.mChartStyle = (EChartStyle)GlobalOptions.Instance.VargaStyle;
         }
 
-        [PGNotVisible]
+        [InVisible]
         public Division VargaType
         {
             get { return this.mDtype; }
             set { this.mDtype = value; }
         }
 
-        [PGDisplayName("Varga Type")]
+        [DisplayName("Varga Type")]
         public DivisionType UIVargaType
         {
             get { return this.mDtype.MultipleDivisions[0].Varga; }
             set { this.mDtype = new Division(value); }
         }
 
-        [PGDisplayName("SAV Type")]
+        [DisplayName("SAV Type")]
         public ESavType SavType
         {
             get { return this.mSavType; }

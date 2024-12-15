@@ -8,25 +8,25 @@ namespace org.transliteral.panchang
 	{
 		public StrengthByRasisNature (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
-		public int naturalValueForRasi (ZodiacHouseName zha)
+        public int NaturalValueForRasi(ZodiacHouseName zha)
 		{
 			int[] vals = new int[] {3,1,2}; // dual, move, fix
 			return vals[(int)zha % 3];
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
 			int[] vals = new int[] {3,1,2}; // dual, move, fix
-			int a = this.naturalValueForRasi(za);
-			int b = this.naturalValueForRasi(zb);
+			int a = this.NaturalValueForRasi(za);
+			int b = this.NaturalValueForRasi(zb);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			ZodiacHouseName za = h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value;
-			ZodiacHouseName zb = h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value;
-			return stronger (za, zb);
+			ZodiacHouseName za = horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value;
+			ZodiacHouseName zb = horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value;
+			return Stronger (za, zb);
 		}
 	}
 

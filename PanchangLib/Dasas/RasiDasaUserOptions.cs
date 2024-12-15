@@ -18,9 +18,9 @@ namespace org.transliteral.panchang
 		protected ZodiacHouseName mSeed;
 		protected int mSeedHouse;
 		protected ArrayList mRules;
-		
 
-		public void recalculate ()
+
+        public void Recalculate()
 		{
 			this.calculateCoLords();
 			this.calculateExceptions();
@@ -41,28 +41,28 @@ namespace org.transliteral.panchang
 			this.calculateSeed();
 			this.calculateSeventhStrengths();
 		}
-		[PGNotVisible]
+		[InVisible]
 		public Division Division
 		{
 			get { return this.mDtype; }
 			set { this.mDtype = value; }
 		}
 
-		[PGDisplayName("Division")]
+		[@DisplayName("Division")]
 		public DivisionType UIVarga
 		{
 			get { return this.mDtype.MultipleDivisions[0].Varga; }
 			set { this.mDtype = new Division(value); }
 		}
 
-		[PropertyOrder(99), PGDisplayName("Seed Rasi")]
+		[PropertyOrder(99), @DisplayName("Seed Rasi")]
 		[Description("The rasi from which the dasa should be seeded.")]
 		public ZodiacHouseName SeedRasi
 		{
 			get { return this.mSeed; }
 			set { this.mSeed = value; }
 		}
-		[PropertyOrder(100), PGDisplayName("Seed House")]
+		[PropertyOrder(100), @DisplayName("Seed House")]
 		[Description("House from which dasa should be seeded (reckoned from seed rasi)")]
 		public int SeedHouse
 		{
@@ -70,32 +70,32 @@ namespace org.transliteral.panchang
 			set { this.mSeedHouse = value; }
 		}
 
-		[PropertyOrder(101), PGDisplayName("Lord of Aquarius")]
+		[PropertyOrder(101), @DisplayName("Lord of Aquarius")]
 		public Body.Name ColordAqu
 		{
 			get { return this.mCoLordAqu; }
 			set { this.mCoLordAqu = value; }
 		}
-		[PropertyOrder(102), PGDisplayName("Lord of Scorpio")]
+		[PropertyOrder(102), @DisplayName("Lord of Scorpio")]
 		public Body.Name ColordSco
 		{
 			get { return this.mCoLordSco; }
 			set { this.mCoLordSco = value; }
 		}
 
-		[PropertyOrder(103), PGDisplayName("Rasi Strength Order")]
+		[PropertyOrder(103), @DisplayName("Rasi Strength Order")]
 		public OrderedZodiacHouses[] SeventhStrengths
 		{
 			get { return this.mSeventhStrengths; }
 			set { this.mSeventhStrengths = value; }
 		}
-		[PropertyOrder(104), PGDisplayName("Rasis with Saturn Exception")]
+		[PropertyOrder(104), @DisplayName("Rasis with Saturn Exception")]
 		public OrderedZodiacHouses SaturnExceptions
 		{
 			get { return this.mSaturnExceptions; }
 			set { this.mSaturnExceptions = value; }
 		}
-		[PropertyOrder(105), PGDisplayName("Rasis with Ketu Exception")]
+		[PropertyOrder(105), @DisplayName("Rasis with Ketu Exception")]
 		public OrderedZodiacHouses KetuExceptions
 		{
 			get { return this.mKetuExceptions; }
@@ -153,13 +153,10 @@ namespace org.transliteral.panchang
 				this.calculateExceptions();
 			} 
 		}
-		public ZodiacHouse getSeed ()
+        public ZodiacHouse getSeed() => new ZodiacHouse(this.mSeed).Add(this.SeedHouse);
+        public void calculateSeed ()
 		{
-			return new ZodiacHouse(this.mSeed).add(this.SeedHouse);
-		}
-		public void calculateSeed ()
-		{
-			this.mSeed = h.getPosition(Body.Name.Lagna).ToDivisionPosition(this.Division).zodiac_house.value;
+			this.mSeed = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(this.Division).ZodiacHouse.Value;
 			this.mSeedHouse = 1;
 
 		}
@@ -174,8 +171,8 @@ namespace org.transliteral.panchang
 			this.KetuExceptions.houses.Clear();
 			this.SaturnExceptions.houses.Clear();
 
-			ZodiacHouseName zhKetu = h.getPosition(Body.Name.Ketu).ToDivisionPosition(this.Division).zodiac_house.value;
-			ZodiacHouseName zhSat = h.getPosition(Body.Name.Saturn).ToDivisionPosition(this.Division).zodiac_house.value;
+			ZodiacHouseName zhKetu = h.GetPosition(Body.Name.Ketu).ToDivisionPosition(this.Division).ZodiacHouse.Value;
+			ZodiacHouseName zhSat = h.GetPosition(Body.Name.Saturn).ToDivisionPosition(this.Division).ZodiacHouse.Value;
 
 			if (zhKetu != zhSat)
 			{
@@ -232,17 +229,17 @@ namespace org.transliteral.panchang
 			for (int i=0; i<6; i++)
 			{
 				this.mSeventhStrengths[i] = new OrderedZodiacHouses();
-				ZodiacHouse za = zAri.add(i+1);
-				ZodiacHouse zb = za.add(7);
-				if (fs.CmpRasi(za.value, zb.value, false))
+				ZodiacHouse za = zAri.Add(i+1);
+				ZodiacHouse zb = za.Add(7);
+				if (fs.CompareRasi(za.Value, zb.Value, false))
 				{
-					this.mSeventhStrengths[i].houses.Add(za.value);
-					this.mSeventhStrengths[i].houses.Add(zb.value);
+					this.mSeventhStrengths[i].houses.Add(za.Value);
+					this.mSeventhStrengths[i].houses.Add(zb.Value);
 				}
 				else
 				{
-					this.mSeventhStrengths[i].houses.Add(zb.value);
-					this.mSeventhStrengths[i].houses.Add(za.value);
+					this.mSeventhStrengths[i].houses.Add(zb.Value);
+					this.mSeventhStrengths[i].houses.Add(za.Value);
 				}
 			}
 

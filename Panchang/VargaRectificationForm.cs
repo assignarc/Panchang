@@ -136,7 +136,7 @@ namespace mhora
 
 			h = _h;
 			dc = _dc;
-			mOriginal = (Moment)h.info.tob.Clone();
+			mOriginal = (Moment)h.Info.tob.Clone();
 			cs = new CuspTransitSearch(h);
 			this.PopulateOptionsInit(_dtype);
 			//this.PopulateOptions();
@@ -151,15 +151,15 @@ namespace mhora
 			// turn into horoscope
 			int year=0, month=0, day=0;
 			double hour =0;
-			found_ut += (h.info.tz.toDouble() / 24.0);
+			found_ut += (h.Info.tz.toDouble() / 24.0);
 			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
 			Moment m = new Moment(year, month, day, hour);
 			return m;
 		}
 		private double momentToUT (Moment m)
 		{
-			double local_ut = Sweph.swe_julday(m.year, m.month, m.day, m.time);
-			return local_ut - (h.info.tz.toDouble())/24.0;
+			double local_ut = Sweph.swe_julday(m.Year, m.Month, m.Day, m.Time);
+			return local_ut - (h.Info.tz.toDouble())/24.0;
 		}
 		private void PopulateOptions ()
 		{
@@ -168,11 +168,11 @@ namespace mhora
 		}
 		private void PopulateOptionsInit (Division dtype)
 		{
-			DivisionPosition dp = h.getPosition(mBody).ToDivisionPosition(this.dtypeRasi);
+			DivisionPosition dp = h.GetPosition(mBody).ToDivisionPosition(this.dtypeRasi);
 			Longitude foundLon = new Longitude(0);
 			bool bForward = true;
-			ut_lower = cs.TransitSearch(mBody, h.info.tob, false, new Longitude(dp.cusp_lower), foundLon, ref bForward);
-			ut_higher = cs.TransitSearch(mBody, h.info.tob, true, new Longitude(dp.cusp_higher), foundLon, ref bForward);
+			ut_lower = cs.TransitSearch(mBody, h.Info.tob, false, new Longitude(dp.CuspLower), foundLon, ref bForward);
+			ut_higher = cs.TransitSearch(mBody, h.Info.tob, true, new Longitude(dp.CuspHigher), foundLon, ref bForward);
 
 
 			double ut_span = (ut_higher - ut_lower) / (double)Basics.NumPartsInDivision(dtype) * 5.0;
@@ -204,10 +204,10 @@ namespace mhora
 				//	dtype, this.utToMoment(ut_lower), this.utToMoment(ut_higher));
 				double ut_curr = ut_lower - (1.0 / (24.0*60.0));
 
-				Sweph.obtainLock(h);
+				Sweph.ObtainLock(h);
 				BodyPosition bp = Basics.CalculateSingleBodyPosition(ut_curr, Sweph.BodyNameToSweph(mBody), mBody,
 					BodyType.Name.Graha, h);
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 				//BodyPosition bp = (BodyPosition)h.getPosition(mBody).Clone();
 				//DivisionPosition dp = bp.toDivisionPosition(this.dtypeRasi);
 
@@ -228,9 +228,9 @@ namespace mhora
 					//Console.WriteLine ("    Starting search at {0}", this.utToMoment(ut_curr));
 
 					ut_curr = cs.TransitSearch(mBody, this.utToMoment(ut_curr), true,
-						new Longitude(dp.cusp_higher), foundLon, ref bForward);
+						new Longitude(dp.CuspHigher), foundLon, ref bForward);
 
-					bp.Longitude = new Longitude(dp.cusp_higher + 0.1);
+					bp.Longitude = new Longitude(dp.CuspHigher + 0.1);
 					dp = bp.ToDivisionPosition(dtype);
 
 					if (ut_curr >= ut_lower && ut_curr <= ut_higher+(1.0/(24.0*60.0*60.0))*5.0)
@@ -238,7 +238,7 @@ namespace mhora
 					//	Console.WriteLine ("{0}: {1} at {2}",
 					//		dtype, foundLon, this.utToMoment(ut_curr));
 						al.Add(ut_curr);
-						zal.Add(dp.zodiac_house.value);
+						zal.Add(dp.ZodiacHouse.Value);
 					}
 					else if (ut_curr > ut_higher)
 					{
@@ -569,7 +569,7 @@ namespace mhora
 
 			double ut_new = ut_lower + ((ut_higher - ut_lower) * perc);
 			Moment mNew = this.utToMoment(ut_new);
-			h.info.tob = mNew;
+			h.Info.tob = mNew;
 			h.OnChanged();
 			this.bmpBuffer = null;
 			this.Invalidate();
@@ -582,7 +582,7 @@ namespace mhora
 
 		private void menuReset_Click(object sender, System.EventArgs e)
 		{
-			h.info.tob = (Moment)this.mOriginal.Clone();
+			h.Info.tob = (Moment)this.mOriginal.Clone();
 			h.OnChanged();
 			this.bmpBuffer = null;
 			this.Invalidate();
@@ -612,7 +612,7 @@ namespace mhora
 		private void menuCenter_Click(object sender, System.EventArgs e)
 		{
 			double ut_half = (ut_higher-ut_lower)/2.0;
-			double ut_curr = this.momentToUT(h.info.tob);
+			double ut_curr = this.momentToUT(h.Info.tob);
 			ut_lower = ut_curr - ut_half;
 			ut_higher = ut_curr + ut_half;
 			this.UpdateOptsFromUT();
@@ -623,7 +623,7 @@ namespace mhora
 
 		private void menuHalve_Click(object sender, System.EventArgs e)
 		{
-			double ut_curr = this.momentToUT(h.info.tob);
+			double ut_curr = this.momentToUT(h.Info.tob);
 			double ut_quarter = (ut_higher-ut_lower)/4.0;
 			ut_lower = ut_curr - ut_quarter;
 			ut_higher = ut_curr + ut_quarter;
@@ -635,7 +635,7 @@ namespace mhora
 
 		private void menuDouble_Click(object sender, System.EventArgs e)
 		{
-			double ut_curr = this.momentToUT(h.info.tob);
+			double ut_curr = this.momentToUT(h.Info.tob);
 			double ut_half = (ut_higher-ut_lower);
 			ut_lower = ut_curr - ut_half;
 			ut_higher = ut_curr + ut_half;

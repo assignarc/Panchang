@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -19,25 +15,25 @@ namespace org.transliteral.panchang
             h = _h;
             b = _b;
         }
-        public void getRetroSolarCusps(ref Longitude start, ref Longitude end)
+        public void GetRetroSolarCusps(ref Longitude start, ref Longitude end)
         {
             switch (b)
             {
                 case Body.Name.Mars:
-                    start.value = 211;
-                    end.value = 232;
+                    start.Value = 211;
+                    end.Value = 232;
                     break;
                 case Body.Name.Jupiter:
-                    start.value = 240;
-                    end.value = 248;
+                    start.Value = 240;
+                    end.Value = 248;
                     break;
                 case Body.Name.Saturn:
-                    start.value = 248;
-                    end.value = 253;
+                    start.Value = 248;
+                    end.Value = 253;
                     break;
             }
         }
-        public double gotoNextRetroSolarCusp(double ut)
+        public double GotoNextRetroSolarCusp(double ut)
         {
             return ut;
 #if DND
@@ -60,14 +56,14 @@ namespace org.transliteral.panchang
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
             while (Transit.CircLonLessThan(bp.Longitude, lonToFind))
             {
-                //Console.WriteLine("- {0} {1}", bp.longitude.value, lonToFind.value);
+                Logger.Info(String.Format("- {0} {1}", bp.Longitude.Value, lonToFind.Value));
                 ut++;
                 bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
             }
 
             while (Transit.CircLonLessThan(lonToFind, bp.Longitude))
             {
-                //Console.WriteLine("+ {0} {1}", bp.longitude.value, lonToFind.value);
+                Logger.Info(String.Format("+ {0} {1}", bp.Longitude.Value, lonToFind.Value));
                 ut--;
                 bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
             }
@@ -90,28 +86,28 @@ namespace org.transliteral.panchang
 
                 double ut_start = ut_curr;
                 if (ut_curr != ut) ut_start -= 5.0;
-                ut_next = findNextCuspBackward(ut_start, ref becomesDirect);
+                ut_next = FindNextCuspBackward(ut_start, ref becomesDirect);
 
                 BodyPosition bp_next = Basics.CalculateSingleBodyPosition(ut_curr, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
                 BodyPosition bp_curr = Basics.CalculateSingleBodyPosition(ut_next, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                //Console.WriteLine ("{0}, {1}, {2}", becomesDirect, bp_curr.longitude, bp_next.longitude);
+                Logger.Info(String.Format("{0}, {1}, {2}", becomesDirect, bp_curr.Longitude, bp_next.Longitude));
 
                 if (false == becomesDirect &&
-                    lonToFind.sub(bp_curr.Longitude).value <= bp_next.Longitude.sub(bp_curr.Longitude).value)
+                    lonToFind.Subtract(bp_curr.Longitude).Value <= bp_next.Longitude.Subtract(bp_curr.Longitude).Value)
                 {
-                    //Console.WriteLine ("+ Found {0} between {1} and {2}", lonToFind, bp_curr.longitude, bp_next.longitude);
+                    Logger.Info(String.Format("+ Found {0} between {1} and {2}", lonToFind, bp_curr.Longitude, bp_next.Longitude));
                     break;
                 }
                 else if (true == becomesDirect &&
-                    lonToFind.sub(bp_next.Longitude).value <= bp_curr.Longitude.sub(bp_next.Longitude).value)
+                    lonToFind.Subtract(bp_next.Longitude).Value <= bp_curr.Longitude.Subtract(bp_next.Longitude).Value)
                 {
-                    //Console.WriteLine ("- Found {0} betweeen {1} and {2}", lonToFind, bp_next.longitude, bp_curr.longitude);
+                    Logger.Info(String.Format("- Found {0} betweeen {1} and {2}", lonToFind, bp_next.Longitude, bp_curr.Longitude));
                     break;
                 }
                 else
                 {
-                    //Console.WriteLine ("{3} Didn't find {0} betweeen {1} and {2}", lonToFind, bp_curr.longitude, bp_next.longitude, ut_curr);
+                    Logger.Info(String.Format("{3} Didn't find {0} betweeen {1} and {2}", lonToFind, bp_curr.Longitude, bp_next.Longitude, ut_curr));
                 }
             }
 
@@ -144,10 +140,9 @@ namespace org.transliteral.panchang
                 Sweph.swe_revjul(ut_start, ref year, ref month, ref day, ref hour);
                 Moment m = new Moment(year, month, day, hour);
 
-                //Console.WriteLine ("F {3} Lagna search for {0} between {1} and {2}",
-                //lonToFind, lon_start, lon_end, m);
+                Logger.Info(String.Format("F {3} Lagna search for {0} between {1} and {2}", lonToFind, lon_start, lon_end, m));
 
-                if (lonToFind.sub(lon_start).value <= lon_end.sub(lon_start).value)
+                if (lonToFind.Subtract(lon_start).Value <= lon_end.Subtract(lon_start).Value)
                     break;
             }
 
@@ -171,10 +166,9 @@ namespace org.transliteral.panchang
                 Sweph.swe_revjul(ut_start, ref year, ref month, ref day, ref hour);
                 Moment m = new Moment(year, month, day, hour);
 
-                //Console.WriteLine ("B {3} Lagna search for {0} between {1} and {2}",
-                //lonToFind, lon_start, lon_end, m);
+                Logger.Info(String.Format("B {3} Lagna search for {0} between {1} and {2}",lonToFind, lon_start, lon_end, m));
 
-                if (lonToFind.sub(lon_end).value <= lon_start.sub(lon_end).value)
+                if (lonToFind.Subtract(lon_end).Value <= lon_start.Subtract(lon_end).Value)
                     break;
             }
 
@@ -197,28 +191,28 @@ namespace org.transliteral.panchang
 
                 double ut_start = ut_curr;
                 if (ut_curr != ut) ut_start += this.GetStep();
-                ut_next = findNextCuspForward(ut_start, ref becomesDirect);
+                ut_next = FindNextCuspForward(ut_start, ref becomesDirect);
 
                 BodyPosition bp_curr = Basics.CalculateSingleBodyPosition(ut_curr, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
                 BodyPosition bp_next = Basics.CalculateSingleBodyPosition(ut_next, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                //Console.WriteLine ("{0}, {1}, {2}", becomesDirect, bp_curr.longitude, bp_next.longitude);
+                Logger.Info(String.Format("{0}, {1}, {2}", becomesDirect, bp_curr.Longitude, bp_next.Longitude));
 
                 if (false == becomesDirect &&
-                    lonToFind.sub(bp_curr.Longitude).value <= bp_next.Longitude.sub(bp_curr.Longitude).value)
+                    lonToFind.Subtract(bp_curr.Longitude).Value <= bp_next.Longitude.Subtract(bp_curr.Longitude).Value)
                 {
-                    //Console.WriteLine ("+ Found {0} between {1} and {2}", lonToFind, bp_curr.longitude, bp_next.longitude);
+                    Logger.Info(String.Format("+ Found {0} between {1} and {2}", lonToFind, bp_curr.Longitude, bp_next.Longitude));
                     break;
                 }
                 else if (true == becomesDirect &&
-                    lonToFind.sub(bp_next.Longitude).value <= bp_curr.Longitude.sub(bp_next.Longitude).value)
+                    lonToFind.Subtract(bp_next.Longitude).Value <= bp_curr.Longitude.Subtract(bp_next.Longitude).Value)
                 {
-                    //Console.WriteLine ("- Found {0} betweeen {1} and {2}", lonToFind, bp_next.longitude, bp_curr.longitude);
+                    Logger.Info(String.Format("- Found {0} betweeen {1} and {2}", lonToFind, bp_next.Longitude, bp_curr.Longitude));
                     break;
                 }
                 else
                 {
-                    //Console.WriteLine ("{3} Didn't find {0} betweeen {1} and {2}", lonToFind, bp_curr.longitude, bp_next.longitude, ut_curr);
+                    Logger.Info(String.Format("{3} Didn't find {0} betweeen {1} and {2}", lonToFind, bp_curr.Longitude, bp_next.Longitude, ut_curr));
                 }
             }
 
@@ -230,7 +224,7 @@ namespace org.transliteral.panchang
         public double GetSpeed(double ut)
         {
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-            return bp.Speed_longitude;
+            return bp.SpeedLongitude;
         }
         public Longitude GetLon(double ut, ref bool bForward)
         {
@@ -238,7 +232,7 @@ namespace org.transliteral.panchang
                 return new Longitude(Sweph.swe_lagna(ut));
 
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-            bForward = bp.Speed_longitude >= 0;
+            bForward = bp.SpeedLongitude >= 0;
             return bp.Longitude;
         }
         public Longitude GetLon(double ut)
@@ -270,14 +264,14 @@ namespace org.transliteral.panchang
 
             if (normal)
             {
-                if (lon_to_find.sub(lon_start).value <= lon_middle.sub(lon_start).value)
+                if (lon_to_find.Subtract(lon_start).Value <= lon_middle.Subtract(lon_start).Value)
                     return BinaryLonSearch(ut_start, ut_middle, lon_to_find, normal);
                 else
                     return BinaryLonSearch(ut_middle, ut_end, lon_to_find, normal);
             }
             else
             {
-                if (lon_to_find.sub(lon_end).value <= lon_middle.sub(lon_end).value)
+                if (lon_to_find.Subtract(lon_end).Value <= lon_middle.Subtract(lon_end).Value)
                     return BinaryLonSearch(ut_middle, ut_end, lon_to_find, normal);
                 else
                     return BinaryLonSearch(ut_start, ut_middle, lon_to_find, normal);
@@ -294,7 +288,7 @@ namespace org.transliteral.panchang
             double speed_middle = GetSpeed(ut_middle);
             double speed_end = GetSpeed(ut_end);
 
-            //Console.WriteLine ("Speed BinarySearchNormal {0} UT: {2} Speed {1}", b, speed_middle, ut_middle);
+            Logger.Info(String.Format("Speed BinarySearchNormal {0} UT: {2} Speed {1}", b, speed_middle, ut_middle));
 
             if (speed_start > 0 && speed_end < 0)
             {
@@ -319,15 +313,15 @@ namespace org.transliteral.panchang
 
         }
 
-        public double findNextCuspBackward(double start_ut, ref bool becomesDirect)
+        public double FindNextCuspBackward(double start_ut, ref bool becomesDirect)
         {
             double ut_step = 5.0;
             BodyPosition bp = Basics.CalculateSingleBodyPosition(start_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
             // Body is currently direct
-            if (bp.Speed_longitude >= 0)
+            if (bp.SpeedLongitude >= 0)
             {
-                start_ut = gotoNextRetroSolarCusp(start_ut);
+                start_ut = GotoNextRetroSolarCusp(start_ut);
                 double lower_ut = start_ut;
                 double higher_ut = start_ut;
                 becomesDirect = false;
@@ -340,11 +334,11 @@ namespace org.transliteral.panchang
                     BodyPosition bp_l = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
                     BodyPosition bp_h = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                    //Console.WriteLine ("DChecking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.speed_longitude, bp_h.speed_longitude);
+                    Logger.Info(String.Format("D Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.SpeedLongitude, bp_h.SpeedLongitude));
                     // If first one is retro, we're exactly at the cusp
                     // If higher is still direct, contine
-                    if (bp_l.Speed_longitude < 0 && bp_h.Speed_longitude > 0) break;
-                    if (bp_l.Speed_longitude > 0 && bp_h.Speed_longitude < 0) break;
+                    if (bp_l.SpeedLongitude < 0 && bp_h.SpeedLongitude > 0) break;
+                    if (bp_l.SpeedLongitude > 0 && bp_h.SpeedLongitude < 0) break;
                     //if (bp_l.speed_longitude < 0 && bp_h.speed_longitude < 0) 
                     //	return findNextCuspBackward (lower_ut, ref becomesDirect);
                 }
@@ -367,9 +361,9 @@ namespace org.transliteral.panchang
                     BodyPosition bp_l = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
                     BodyPosition bp_h = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                    //Console.WriteLine ("R Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.speed_longitude, bp_h.speed_longitude);
-                    if (bp_l.Speed_longitude > 0 && bp_h.Speed_longitude <= 0) break;
-                    if (bp_l.Speed_longitude < 0 && bp_h.Speed_longitude > 0) break;
+                    Logger.Info(String.Format("R Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.SpeedLongitude, bp_h.SpeedLongitude));
+                    if (bp_l.SpeedLongitude > 0 && bp_h.SpeedLongitude <= 0) break;
+                    if (bp_l.SpeedLongitude < 0 && bp_h.SpeedLongitude > 0) break;
                     //if (bp_l.speed_longitude > 0 && bp_h.speed_longitude > 0)
                     //	return findNextCuspBackward (lower_ut, ref becomesDirect);
                 }
@@ -378,15 +372,15 @@ namespace org.transliteral.panchang
             }
         }
 
-        public double findNextCuspForward(double start_ut, ref bool becomesDirect)
+        public double FindNextCuspForward(double start_ut, ref bool becomesDirect)
         {
             double ut_step = 1.0;
             BodyPosition bp = Basics.CalculateSingleBodyPosition(start_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
             // Body is currently direct
-            if (bp.Speed_longitude >= 0)
+            if (bp.SpeedLongitude >= 0)
             {
-                start_ut = gotoNextRetroSolarCusp(start_ut);
+                start_ut = GotoNextRetroSolarCusp(start_ut);
                 double lower_ut = start_ut;
                 double higher_ut = start_ut;
                 becomesDirect = false;
@@ -396,15 +390,15 @@ namespace org.transliteral.panchang
                     higher_ut = lower_ut + ut_step;
 
                     // Find speeds
-                    BodyPosition bp_l = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-                    BodyPosition bp_h = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
+                    BodyPosition bpLower = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
+                    BodyPosition bpHigher = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                    //Console.WriteLine ("DChecking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.speed_longitude, bp_h.speed_longitude);
+                    Logger.Info(String.Format("D Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bpLower.SpeedLongitude, bpHigher.SpeedLongitude));
                     // If first one is retro, we're exactly at the cusp
                     // If higher is still direct, contine
-                    if (bp_l.Speed_longitude > 0 && bp_h.Speed_longitude < 0) break;
-                    if (bp_l.Speed_longitude < 0 && bp_h.Speed_longitude < 0)
-                        return findNextCuspForward(lower_ut, ref becomesDirect);
+                    if (bpLower.SpeedLongitude > 0 && bpHigher.SpeedLongitude < 0) break;
+                    if (bpLower.SpeedLongitude < 0 && bpHigher.SpeedLongitude < 0)
+                        return FindNextCuspForward(lower_ut, ref becomesDirect);
                 }
 
                 // Within one day period
@@ -422,13 +416,13 @@ namespace org.transliteral.panchang
                     lower_ut = higher_ut;
                     higher_ut = lower_ut + ut_step;
                     // Find speeds
-                    BodyPosition bp_l = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-                    BodyPosition bp_h = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
+                    BodyPosition bpLower = Basics.CalculateSingleBodyPosition(lower_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
+                    BodyPosition bpHigher = Basics.CalculateSingleBodyPosition(higher_ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
 
-                    //Console.WriteLine ("R Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bp_l.speed_longitude, bp_h.speed_longitude);
-                    if (bp_l.Speed_longitude < 0 && bp_h.Speed_longitude >= 0) break;
-                    if (bp_l.Speed_longitude > 0 && bp_h.Speed_longitude > 0)
-                        return findNextCuspForward(lower_ut, ref becomesDirect);
+                    Logger.Info(String.Format("R Checking daily {0} UT: {1} {2} Speed {3} {4}", b, lower_ut, higher_ut, bpLower.SpeedLongitude, bpHigher.SpeedLongitude));
+                    if (bpLower.SpeedLongitude < 0 && bpHigher.SpeedLongitude >= 0) break;
+                    if (bpLower.SpeedLongitude > 0 && bpHigher.SpeedLongitude > 0)
+                        return FindNextCuspForward(lower_ut, ref becomesDirect);
                 }
                 // Within one day period
                 return BinaryCuspSearch(lower_ut, higher_ut, false);

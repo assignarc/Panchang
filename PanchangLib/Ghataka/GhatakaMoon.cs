@@ -1,16 +1,12 @@
-
-
-using System;
-
 namespace org.transliteral.panchang
 {
 
     public class GhatakaMoon
 	{
-		static public bool checkGhataka (ZodiacHouse janmaRasi, ZodiacHouse chandraRasi)
+        static public bool CheckGhataka(ZodiacHouse janmaRasi, ZodiacHouse chandraRasi)
 		{
-			ZodiacHouseName ja = janmaRasi.value;
-			ZodiacHouseName ch = chandraRasi.value;
+			ZodiacHouseName ja = janmaRasi.Value;
+			ZodiacHouseName ch = chandraRasi.Value;
 
 			ZodiacHouseName gh = ZodiacHouseName.Ari;
 

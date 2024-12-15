@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -21,14 +17,14 @@ namespace org.transliteral.panchang
             for (int i = 0; i < mi.Length; i++)
             {
                 FieldInfo fi = (FieldInfo)mi[i];
-                //Console.WriteLine ("User Preferences: Reading {0}", fi);
+                Logger.Info(String.Format("User Preferences: Reading {0}", fi));
                 try
                 {
                     fi.SetValue(this, info.GetValue(fi.Name, fi.FieldType));
                 }
                 catch
                 {
-                    //Console.WriteLine ("    Not found");
+                    Logger.Info(String.Format("    Not found"));
                 }
             }
         }
@@ -39,11 +35,11 @@ namespace org.transliteral.panchang
             MemberInfo[] mi = FormatterServices.GetSerializableMembers(ty, context);
             for (int i = 0; i < mi.Length; i++)
             {
-                //Console.WriteLine ("User Preferences: Writing {0}", mi[i].Name);
+                Logger.Info(String.Format("User Preferences: Writing {0}", mi[i].Name));
                 info.AddValue(mi[i].Name, ((FieldInfo)mi[i]).GetValue(this));
             }
         }
-        static public string getExeDir()
+        static public string GetExeDir()
         {
 
             Process oLocal = Process.GetCurrentProcess();
@@ -55,7 +51,7 @@ namespace org.transliteral.panchang
             return fileName;
         }
 
-        static public string getOptsFilename()
+        static public string GetOptsFilename()
         {
             string fileName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HoraOptions.xml";
             //Debug.WriteLine( string.Format("Options stored at {0}", fileName), "GlobalOptions");

@@ -48,11 +48,11 @@ namespace org.transliteral.panchang
 
         private UserEvent[] events = null;
 
-        private const string CAT_TOB = "1: Birth Info";
-        private const string CAT_EVT = "2: Events";
+        private const string CATEGORY_TIME_OF_BIRTH = "1: Birth Info";
+        private const string CATEGORY_EVENTS = "2: Events";
 
-        [Category(CAT_TOB)]
-        [PropertyOrder(1), PGDisplayName("Time of Birth")]
+        [Category(CATEGORY_TIME_OF_BIRTH)]
+        [PropertyOrder(1), @DisplayName("Time of Birth")]
         [Description("Date of Birth. Format is 'dd Mmm yyyy hh:mm:ss'\n Example 23 Mar 1979 23:11:00")]
         public Moment DateOfBirth
         {
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
             set { tob = value; }
         }
 
-        [Category(CAT_TOB), PropertyOrder(2)]
+        [Category(CATEGORY_TIME_OF_BIRTH), PropertyOrder(2)]
         [Description("Latitude. Format is 'hh D mm:ss mm:ss'\n Example 23 N 24:00")]
         public HMSInfo Latitude
         {
@@ -68,7 +68,7 @@ namespace org.transliteral.panchang
             set { lat = value; }
         }
 
-        [Category(CAT_TOB), PropertyOrder(3)]
+        [Category(CATEGORY_TIME_OF_BIRTH), PropertyOrder(3)]
         [Description("Longitude. Format is 'hh D mm:ss mm:ss'\n Example 23 E 24:00")]
         public HMSInfo Longitude
         {
@@ -76,8 +76,8 @@ namespace org.transliteral.panchang
             set { lon = value; }
         }
 
-        [Category(CAT_TOB), PropertyOrder(4)]
-        [PGDisplayName("Time zone")]
+        [Category(CATEGORY_TIME_OF_BIRTH), PropertyOrder(4)]
+        [@DisplayName("Time zone")]
         [Description("Time Zone. Format is 'hh D mm:ss mm:ss'\n Example 3 E 00:00")]
         public HMSInfo TimeZone
         {
@@ -85,14 +85,14 @@ namespace org.transliteral.panchang
             set { tz = value; }
         }
 
-        [Category(CAT_TOB), PropertyOrder(5)]
+        [Category(CATEGORY_TIME_OF_BIRTH), PropertyOrder(5)]
         public double Altitude
         {
             get { return alt; }
             set { alt = value; }
         }
 
-        [Category(CAT_EVT), PropertyOrder(1)]
+        [Category(CATEGORY_EVENTS), PropertyOrder(1)]
         [Description("Events")]
         public UserEvent[] Events
         {
@@ -108,7 +108,7 @@ namespace org.transliteral.panchang
             tz = atz;
             alt = 0.0;
             this.type = HoraType.Birth;
-            this.FileType = EFileType.MudgalaHora;
+            this.FileType = EFileType.PanchangHora;
             this.events = new UserEvent[0];
         }
         public HoraInfo()
@@ -120,7 +120,7 @@ namespace org.transliteral.panchang
             tz = (HMSInfo) GlobalOptions.Instance.TimeZone.Clone();
             alt = 0.0;
             this.type = HoraType.Birth;
-            this.FileType = EFileType.MudgalaHora;
+            this.FileType = EFileType.PanchangHora;
             this.events = new UserEvent[0];
         }
     }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -30,11 +26,11 @@ namespace org.transliteral.panchang
         private static void writeHMSInfoLine(StreamWriter sw, HMSInfo hi)
         {
             string q;
-            if (hi.direction == Direction.NS && hi.degree >= 0)
+            if (hi.direction == Direction.NorthSouth && hi.degree >= 0)
                 q = "";
-            else if (hi.direction == Direction.NS)
+            else if (hi.direction == Direction.NorthSouth)
                 q = "-";
-            else if (hi.direction == Direction.EW && hi.degree >= 0)
+            else if (hi.direction == Direction.EastWest && hi.degree >= 0)
                 q = "-";
             else q = "";
             int thour = hi.degree >= 0 ? hi.degree : -hi.degree;
@@ -85,19 +81,19 @@ namespace org.transliteral.panchang
         }
         private static void writeMomentLine(StreamWriter sw, Moment m)
         {
-            sw.WriteLine(m.month);
-            sw.WriteLine(m.day);
-            sw.WriteLine(m.year);
+            sw.WriteLine(m.Month);
+            sw.WriteLine(m.Day);
+            sw.WriteLine(m.Year);
 
-            sw.WriteLine(m.hour.ToString() + "." + numToString(m.minute) + numToString(m.second) + "00");
+            sw.WriteLine(m.Hour.ToString() + "." + numToString(m.Minute) + numToString(m.Second) + "00");
         }
         public HoraInfo toHoraInfo()
         {
             StreamReader sr = File.OpenText(fname);
             Moment m = readMomentLine(sr);
-            HMSInfo tz = readHmsLineInfo(sr, true, Direction.EW);
-            HMSInfo lon = readHmsLineInfo(sr, true, Direction.EW);
-            HMSInfo lat = readHmsLineInfo(sr, false, Direction.NS);
+            HMSInfo tz = readHmsLineInfo(sr, true, Direction.EastWest);
+            HMSInfo lon = readHmsLineInfo(sr, true, Direction.EastWest);
+            HMSInfo lat = readHmsLineInfo(sr, false, Direction.NorthSouth);
             HoraInfo hi = new HoraInfo(m, lat, lon, tz);
             hi.FileType = EFileType.JagannathaHora;
             //hi.name = File.fname;

@@ -9,45 +9,21 @@ namespace org.transliteral.panchang
     public class PanchottariDasa : NakshatraDasa, INakshatraDasa
 	{
 		private Horoscope h;
-		override public Object GetOptions ()
-		{
-			return new Object();
-		}
-		override public object SetOptions (Object a)
-		{
-			return new object();
-		}
-		public ArrayList Dasa(int cycle)
-		{
-			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
-		}
-		public ArrayList AntarDasa (DasaEntry di)
-		{
-			return _AntarDasa (di);
-		}
-		public String Description ()
-		{
-			return ("Panchottari Dasa");
-		}
-		public PanchottariDasa (Horoscope _h)
+        override public object Options => new object();
+        override public object SetOptions(Object a) => new object();
+        public ArrayList Dasa(int cycle) => Dasa(h.GetPosition(Body.Name.Moon).Longitude, 1, cycle);
+        public ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
+        public String Description() => ("Panchottari Dasa");
+        public PanchottariDasa (Horoscope _h)
 		{
 			common = this;
 			h = _h;
 		}
 
-		public double paramAyus ()
-		{
-			return 105.0;
-		}
-		public int numberOfDasaItems ()
-		{
-			return 7;
-		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
-		{
-			return new DasaEntry (nextDasaLordHelper(di.graha), 0, 0, di.level, "");
-		}
-		private Body.Name nextDasaLordHelper (Body.Name b)
+        public double ParamAyus() => 105.0;
+        public int NumberOfDasaItems() => 7;
+        public DasaEntry NextDasaLord(DasaEntry di) => new DasaEntry(NextDasaLordHelper(di.graha), 0, 0, di.level, "");
+        private Body.Name NextDasaLordHelper(Body.Name b)
 		{
 			switch (b)
 			{
@@ -62,7 +38,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "DwadashottariDasa::nextDasaLord");
 			return Body.Name.Lagna;
 		}
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa(Body.Name plt)
 		{
 			switch (plt)
 			{
@@ -77,7 +53,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "Panchottari::lengthOfDasa");
 			return 0;
 		}
-		public Body.Name lordOfNakshatra(Nakshatra n) 
+		public Body.Name LordOfNakshatra(Nakshatra n) 
 		{
 			Body.Name[] lords = new Body.Name[7] 
 			{
@@ -85,7 +61,7 @@ namespace org.transliteral.panchang
 				Body.Name.Mars, Body.Name.Venus, Body.Name.Moon,
 				Body.Name.Jupiter
 			};				
-			int nak_val = ((int)n.value);
+			int nak_val = ((int)n.Value);
 			int anu_val = (int)NakshatraName.Anuradha;
 			int diff_val = Basics.Normalize_inc(
 				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 

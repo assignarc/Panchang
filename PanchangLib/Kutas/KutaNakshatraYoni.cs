@@ -8,17 +8,29 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IHorse, IElephant, ISheep, ISerpent, IDog, ICat, IRat, ICow,
-			IBuffalo, ITiger, IHare, IMonkey, ILion, IMongoose
+			IHorse, 
+			IElephant, 
+			ISheep, 
+			ISerpent, 
+			IDog, 
+			ICat, 
+			IRat, 
+			ICow,
+			IBuffalo, 
+			ITiger, 
+			IHare, 
+			IMonkey, 
+			ILion, 
+			IMongoose
 		};
 		public enum ESex
 		{
 			IMale, IFemale
 		};
 
-		public static ESex getSex (Nakshatra n)
+        public static ESex GetSex(Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Bharani:
@@ -35,12 +47,14 @@ namespace org.transliteral.panchang
 				case NakshatraName.PoorvaBhadra:
 				case NakshatraName.UttaraShada:
 					return ESex.IMale;
+				default:
+					return ESex.IFemale;
 			}
-			return ESex.IFemale;
+		
 		}
 		public static EType getType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Satabisha:
@@ -85,9 +99,6 @@ namespace org.transliteral.panchang
 					return EType.IMongoose;
 
 			}
-
-
-
 			Debug.Assert(false, "KutaNakshatraYoni::getType");
 			return EType.IHorse;
 		}

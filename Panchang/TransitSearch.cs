@@ -420,15 +420,15 @@ namespace mhora
 			// turn into horoscope
 			int year=0, month=0, day=0;
 			double hour =0;
-			found_ut += (h.info.tz.toDouble() / 24.0);
+			found_ut += (h.Info.tz.toDouble() / 24.0);
 			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
 			Moment m = new Moment(year, month, day, hour);
 			HoraInfo inf = new HoraInfo(m, 
-				(HMSInfo)h.info.lat.Clone(), 
-				(HMSInfo)h.info.lon.Clone(), 
-				(HMSInfo)h.info.tz.Clone());
+				(HMSInfo)h.Info.lat.Clone(), 
+				(HMSInfo)h.Info.lon.Clone(), 
+				(HMSInfo)h.Info.tz.Clone());
 			Horoscope hTransit = new Horoscope(inf, 
-				(HoroscopeOptions)h.options.Clone());
+				(HoroscopeOptions)h.Options.Clone());
 
 			Sweph.swe_revjul(found_ut+5.0, ref year, ref month, ref day, ref hour);
 			m2 = new Moment(year, month, day, hour);
@@ -439,7 +439,7 @@ namespace mhora
 		{
 			if (opts.Apply)
 			{
-				h.info.tob = m;
+				h.Info.tob = m;
 				h.OnChanged();
 			}
 		}
@@ -460,7 +460,7 @@ namespace mhora
 			//opts.SearchBody != Body.Name.Lagna)
 			return;
 
-			double julday_ut = this.opts.StartDate.toUniversalTime() - h.info.tz.toDouble()/24.0;
+			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
 				//;.tob.time / 24.0;
 				
 			if (julday_ut <= h.baseUT)
@@ -472,7 +472,7 @@ namespace mhora
 			double totalProgression = this.GetProgressionDegree();
 			double totalProgressionOrig = totalProgression;
 
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Retrogression r = new Retrogression(h, opts.SearchBody);
 
 			Longitude start_lon = r.GetLon(h.baseUT);
@@ -489,7 +489,7 @@ namespace mhora
 
 			curr_julday = t.LinearSearch (
 				curr_julday + (totalProgression / 360.0 * DirectSpeed(opts.SearchBody)),
-				start_lon.add(totalProgression), new ReturnLon(t.GenericLongitude));
+				start_lon.Add(totalProgression), new ReturnLon(t.GenericLongitude));
 
 
 			//bool bDiscard = true;
@@ -499,18 +499,18 @@ namespace mhora
 			//	got_lon.value, got_lon.sub(start_lon.add(totalProgressionOrig)).value
 			//	);
 
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 
 			Moment m2 = new Moment(0,0,0,0.0);
 			Horoscope hTransit = this.utToHoroscope(curr_julday, ref m2);
-			string fmt = hTransit.info.DateOfBirth.ToString();
+			string fmt = hTransit.Info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
 			li.Text = string.Format	("{0}'s Prog: {2}+{3:00.00} deg", 
 				opts.SearchBody, totalProgressionOrig, 
 				(int)Math.Floor(totalProgressionOrig/360.0),
-				new Longitude(totalProgressionOrig).value);
+				new Longitude(totalProgressionOrig).Value);
 			li.SubItems.Add(fmt);
-			this.ApplyLocal(hTransit.info.tob);
+			this.ApplyLocal(hTransit.Info.tob);
 
 			this.mlTransits.Items.Add (li);
 			this.updateOptions();
@@ -519,12 +519,12 @@ namespace mhora
 		}
 		private double GetProgressionDegree ()
 		{
-			double julday_ut = this.opts.StartDate.toUniversalTime() - h.info.tz.toDouble()/24.0;
+			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
 			double ut_diff = julday_ut - h.baseUT;
 
 			//Console.WriteLine ("Expected ut_diff is {0}", ut_diff);
 			bool bDummy = true;
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Transit t = new Transit(h);
 		    Longitude lon_start = t.LongitudeOfSun(h.baseUT, ref bDummy);
 			Longitude lon_prog = t.LongitudeOfSun(julday_ut, ref bDummy);
@@ -532,16 +532,16 @@ namespace mhora
 			//Console.WriteLine ("Progression lons are {0} and {1}", lon_start, lon_prog);
 
 			double dExpectedLon = ut_diff * 360.0 / 365.2425;	
-			Longitude lon_expected = lon_start.add (dExpectedLon);
-			Sweph.releaseLock(h);
+			Longitude lon_expected = lon_start.Add (dExpectedLon);
+			Sweph.ReleaseLock(h);
 
 
 			if (Transit.CircLonLessThan(lon_expected, lon_prog))
-				dExpectedLon += lon_prog.sub(lon_expected).value;
+				dExpectedLon += lon_prog.Subtract(lon_expected).Value;
 			else
-				dExpectedLon -= lon_expected.sub(lon_prog).value;
+				dExpectedLon -= lon_expected.Subtract(lon_prog).Value;
 
-			DivisionPosition dp = h.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+			DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
 
 			//Console.WriteLine ("Sun progress {0} degrees in elapsed time", dExpectedLon);
 
@@ -559,14 +559,14 @@ namespace mhora
 				return;
 			}
 
-			DivisionPosition dp = h.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			double yearlyProgression = (dp.cusp_higher - dp.cusp_lower) / 30.0;
+			DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+			double yearlyProgression = (dp.CuspHigher - dp.CuspLower) / 30.0;
 			double julday_ut = Sweph.swe_julday(
-				this.opts.StartDate.year,
-				this.opts.StartDate.month,
-				this.opts.StartDate.day,
-				this.opts.StartDate.hour + (((double)this.opts.StartDate.minute)/60.0)
-				+ (((double)this.opts.StartDate.second)/3600.0));			
+				this.opts.StartDate.Year,
+				this.opts.StartDate.Month,
+				this.opts.StartDate.Day,
+				this.opts.StartDate.Hour + (((double)this.opts.StartDate.Minute)/60.0)
+				+ (((double)this.opts.StartDate.Second)/3600.0));			
 			
 			if (julday_ut <= h.baseUT)
 			{
@@ -580,56 +580,56 @@ namespace mhora
 
 			//Console.WriteLine ("Total Progression is {0}", totalProgression);
 			bool becomesDirect = false;
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Retrogression r = new Retrogression(h, this.opts.SearchBody);
 			double curr_ut = h.baseUT;
 			double next_ut=0;
 			double found_ut = h.baseUT;
 			while (true)
 			{
-				next_ut = r.findNextCuspForward(curr_ut, ref becomesDirect);
+				next_ut = r.FindNextCuspForward(curr_ut, ref becomesDirect);
 				Longitude curr_lon = r.GetLon(curr_ut);
 				Longitude next_lon = r.GetLon(next_ut);
 
 
-				if (false == becomesDirect && next_lon.sub(curr_lon).value >= totalProgression)
+				if (false == becomesDirect && next_lon.Subtract(curr_lon).Value >= totalProgression)
 				{
 					//Console.WriteLine ("1 Found {0} in {1}", totalProgression, next_lon.sub(curr_lon).value);
-					found_ut = r.GetTransitForward(curr_ut, curr_lon.add(totalProgression));
+					found_ut = r.GetTransitForward(curr_ut, curr_lon.Add(totalProgression));
 					break;
 				} 
-				else if (true == becomesDirect && curr_lon.sub(next_lon).value >= totalProgression)
+				else if (true == becomesDirect && curr_lon.Subtract(next_lon).Value >= totalProgression)
 				{
 					//Console.WriteLine ("2 Found {0} in {1}", totalProgression, curr_lon.sub(next_lon).value);
-					found_ut = r.GetTransitForward(curr_ut, curr_lon.sub(totalProgression));
+					found_ut = r.GetTransitForward(curr_ut, curr_lon.Subtract(totalProgression));
 					break;
 				}
 				if (false == becomesDirect)
 				{
 					//Console.WriteLine ("Progression: {0} degrees gone in direct motion", next_lon.sub(curr_lon).value);
-					totalProgression -= next_lon.sub(curr_lon).value;
+					totalProgression -= next_lon.Subtract(curr_lon).Value;
 				}
 				else
 				{
 					//Console.WriteLine ("Progression: {0} degrees gone in retro motion", curr_lon.sub(next_lon).value);
-					totalProgression -= curr_lon.sub(next_lon).value;
+					totalProgression -= curr_lon.Subtract(next_lon).Value;
 				}
 				curr_ut = next_ut + 5.0;
 			}
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 
 			Moment m2 = new Moment(0,0,0,0.0);
 			Horoscope hTransit = this.utToHoroscope(found_ut, ref m2);
-			string fmt = hTransit.info.DateOfBirth.ToString();
+			string fmt = hTransit.Info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
 			li.Text = string.Format	("{0}'s Prog: {2}+{3:00.00} deg", 
 				opts.SearchBody, totalProgressionOrig, 
 				(int)Math.Floor(totalProgressionOrig/360.0),
-				new Longitude(totalProgressionOrig).value);
+				new Longitude(totalProgressionOrig).Value);
 			li.SubItems.Add(fmt);
 			this.mlTransits.Items.Add (li);
 			this.updateOptions();
-			this.ApplyLocal(hTransit.info.tob);
+			this.ApplyLocal(hTransit.Info.tob);
 		}
 
 		private void bProgressionLon_Click(object sender, System.EventArgs e)
@@ -643,9 +643,9 @@ namespace mhora
 			double degToProgress = this.GetProgressionDegree();
 			Longitude lonProgress = new Longitude(degToProgress);
 
-			foreach (BodyPosition bp in h.positionList)
+			foreach (BodyPosition bp in h.PositionList)
 			{
-				bp.Longitude = bp.Longitude.add(lonProgress);
+				bp.Longitude = bp.Longitude.Add(lonProgress);
 			}
 			h.OnlySignalChanged();
 		}
@@ -657,34 +657,34 @@ namespace mhora
 				return;
 
 			bool becomesDirect = false;
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Retrogression r = new Retrogression(h, this.opts.SearchBody);
-			double julday_ut = this.opts.StartDate.toUniversalTime() - h.info.tz.toDouble()/24.0;
+			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
 			double found_ut = julday_ut;
 			if (opts.Forward)
 			{
-				found_ut = r.findNextCuspForward(julday_ut, ref becomesDirect);
+				found_ut = r.FindNextCuspForward(julday_ut, ref becomesDirect);
 			}
 			else
-				found_ut  = r.findNextCuspBackward(julday_ut, ref becomesDirect);
+				found_ut  = r.FindNextCuspBackward(julday_ut, ref becomesDirect);
 
 
 			bool bForward = false;
 			Longitude found_lon = r.GetLon(found_ut, ref bForward);
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 
 			// turn into horoscope
 			int year=0, month=0, day=0;
 			double hour =0;
-			found_ut += (h.info.tz.toDouble() / 24.0);
+			found_ut += (h.Info.tz.toDouble() / 24.0);
 			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
 			Moment m = new Moment(year, month, day, hour);
 			HoraInfo inf = new HoraInfo(m, 
-				(HMSInfo)h.info.lat.Clone(), 
-				(HMSInfo)h.info.lon.Clone(), 
-				(HMSInfo)h.info.tz.Clone());
+				(HMSInfo)h.Info.lat.Clone(), 
+				(HMSInfo)h.Info.lon.Clone(), 
+				(HMSInfo)h.Info.tz.Clone());
 			Horoscope hTransit = new Horoscope(inf, 
-				(HoroscopeOptions)h.options.Clone());
+				(HoroscopeOptions)h.Options.Clone());
 
 			if (opts.Forward)
 				Sweph.swe_revjul(found_ut+5.0, ref year, ref month, ref day, ref hour);
@@ -693,7 +693,7 @@ namespace mhora
 			Moment m2 = new Moment(year, month, day, hour);
 			this.opts.StartDate = m2;
 			// add entry to our list
-			string fmt = hTransit.info.DateOfBirth.ToString();
+			string fmt = hTransit.Info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
 			li.Text = Body.ToString(this.opts.SearchBody);
 			if (becomesDirect)
@@ -703,7 +703,7 @@ namespace mhora
 			li.SubItems.Add(fmt);
 			this.mlTransits.Items.Add (li);
 			this.updateOptions();
-			this.ApplyLocal(hTransit.info.tob);
+			this.ApplyLocal(hTransit.Info.tob);
 
 		}
 
@@ -737,7 +737,7 @@ namespace mhora
 		private double StartSearch (bool bUpdateDate)
 		{
 			CuspTransitSearch cs = new CuspTransitSearch(h);
-			Longitude found_lon = opts.TransitPoint.add(0);
+			Longitude found_lon = opts.TransitPoint.Add(0);
 			bool bForward = true;
 			double found_ut = 
 				cs.TransitSearch(opts.SearchBody, opts.StartDate, opts.Forward, opts.TransitPoint,
@@ -749,7 +749,7 @@ namespace mhora
 			this.UpdateDateForNextSearch(found_ut);
 
 			// add entry to our list
-			string fmt = hTransit.info.DateOfBirth.ToString();
+			string fmt = hTransit.Info.DateOfBirth.ToString();
 			ListViewItem li = new TransitItem(hTransit);
 			li.Text = Body.ToString(this.opts.SearchBody);
 			if (bForward == false)
@@ -759,7 +759,7 @@ namespace mhora
 			li.SubItems.Add(fmt);
 			this.mlTransits.Items.Add (li);
 			this.updateOptions();
-			this.ApplyLocal(hTransit.info.tob);
+			this.ApplyLocal(hTransit.Info.tob);
 
 			return found_ut;
 		}
@@ -777,7 +777,7 @@ namespace mhora
 
 		private void openTransitHelper (Horoscope hTransit)
 		{
-			hTransit.info.type = HoraType.Transit;
+			hTransit.Info.type = HoraType.Transit;
 			MhoraChild mcTransit = new MhoraChild(hTransit);
 			mcTransit.Name = "Transit Chart";
 			mcTransit.Text = "Transit Chart";
@@ -814,9 +814,9 @@ namespace mhora
 				double ut_diff = hTransitNext.baseUT - hTransit.baseUT;
 				if (ut_diff > 0) 
 				{
-					hTransit.info.defaultYearCompression = 1;
-					hTransit.info.defaultYearLength = ut_diff;
-					hTransit.info.defaultYearType = DateType.FixedYear;
+					hTransit.Info.defaultYearCompression = 1;
+					hTransit.Info.defaultYearLength = ut_diff;
+					hTransit.Info.defaultYearType = DateType.FixedYear;
 				}
 				
 			}
@@ -831,7 +831,7 @@ namespace mhora
 
 			TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
 			Horoscope hTransit = ti.GetHoroscope();
-			hTransit.info.type = HoraType.Transit;
+			hTransit.Info.type = HoraType.Transit;
 
 			int prevEntry = mlTransits.SelectedItems[0].Index-1;
 			if (prevEntry >= 0)
@@ -842,9 +842,9 @@ namespace mhora
 				double ut_diff = hTransit.baseUT - hTransitPrev.baseUT;
 				if (ut_diff > 0) 
 				{
-					hTransit.info.defaultYearCompression = 1;
-					hTransit.info.defaultYearLength = ut_diff;
-					hTransit.info.defaultYearType = DateType.FixedYear;
+					hTransit.Info.defaultYearCompression = 1;
+					hTransit.Info.defaultYearLength = ut_diff;
+					hTransit.Info.defaultYearType = DateType.FixedYear;
 				}
 				
 			}
@@ -882,7 +882,7 @@ namespace mhora
 		private void bSolarNewYear_Click(object sender, System.EventArgs e)
 		{
 			this.opts.SearchBody = Body.Name.Sun;
-			this.opts.TransitPoint.value = 0;
+			this.opts.TransitPoint.Value = 0;
 			this.updateOptions();
 			this.bStartSearch_Click(sender, e);
 		}
@@ -890,12 +890,12 @@ namespace mhora
 		private void bTransitPrevVarga_Click(object sender, System.EventArgs e)
 		{
 			Horoscope h2 = (Horoscope)h.Clone();
-			h2.info.tob = this.opts.StartDate;
+			h2.Info.tob = this.opts.StartDate;
 			h2.OnChanged();
-			DivisionPosition dp = h2.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			opts.TransitPoint = new Longitude(dp.cusp_lower);
+			DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+			opts.TransitPoint = new Longitude(dp.CuspLower);
 
-			double found_ut = this.StartSearch(false) + h.info.tz.toDouble() / 24.0;
+			double found_ut = this.StartSearch(false) + h.Info.tz.toDouble() / 24.0;
 			this.UpdateDateForNextSearch(found_ut);
 			this.updateOptions();
 		}
@@ -909,13 +909,13 @@ namespace mhora
 		{
 			// Update Search Parameters
 			Horoscope h2 = (Horoscope)h.Clone();
-			h2.info.tob = this.opts.StartDate;
+			h2.Info.tob = this.opts.StartDate;
 			h2.OnChanged();
-			DivisionPosition dp = h2.getPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			opts.TransitPoint = new Longitude(dp.cusp_higher);
-			opts.TransitPoint = opts.TransitPoint.add(1.0/(60.0*60.0*60.0));
+			DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+			opts.TransitPoint = new Longitude(dp.CuspHigher);
+			opts.TransitPoint = opts.TransitPoint.Add(1.0/(60.0*60.0*60.0));
 
-			double found_ut = this.StartSearch(false) + h.info.tz.toDouble() / 24.0;
+			double found_ut = this.StartSearch(false) + h.Info.tz.toDouble() / 24.0;
 			this.UpdateDateForNextSearch(found_ut);
 			this.updateOptions();
 		}
@@ -933,35 +933,35 @@ namespace mhora
 			}
 
 			Horoscope h2 = (Horoscope)h.Clone();
-			h2.info.tob = this.opts.StartDate;
+			h2.Info.tob = this.opts.StartDate;
 			h2.OnChanged();
-			BodyPosition bp = h2.getPosition(opts.SearchBody);
+			BodyPosition bp = h2.GetPosition(opts.SearchBody);
 			DivisionPosition dp = bp.ToDivisionPosition(opts.Division);
 
 			bool becomesDirect = false;
 			bool bForward = false;
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Retrogression r = new Retrogression(h, this.opts.SearchBody);
-			double julday_ut = this.opts.StartDate.toUniversalTime() - h.info.tz.toDouble()/24.0;
+			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
 			double found_ut = julday_ut;
 			bool bTransitForwardCusp = true;
 			while (true)
 			{
 				if (opts.Forward)
-					found_ut = r.findNextCuspForward(found_ut, ref becomesDirect);
+					found_ut = r.FindNextCuspForward(found_ut, ref becomesDirect);
 				else
-					found_ut = r.findNextCuspBackward(found_ut, ref becomesDirect);
+					found_ut = r.FindNextCuspBackward(found_ut, ref becomesDirect);
 
 				Longitude found_lon = r.GetLon(found_ut, ref bForward);
 
 
-				if (new Longitude(dp.cusp_higher).isBetween(bp.Longitude, found_lon))
+				if (new Longitude(dp.CuspHigher).IsBetween(bp.Longitude, found_lon))
 				{
 					bTransitForwardCusp = true;
 					break;
 				}
 
-				if (new Longitude(dp.cusp_lower).isBetween(found_lon, bp.Longitude))
+				if (new Longitude(dp.CuspLower).IsBetween(found_lon, bp.Longitude))
 				{
 					bTransitForwardCusp = false;
 					break;
@@ -972,7 +972,7 @@ namespace mhora
 				else
 					found_ut -= 5.0;
 			}
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			if (opts.Forward)
 				found_ut += 5.0;
 			else
@@ -981,13 +981,13 @@ namespace mhora
 
 			if (bTransitForwardCusp)
 			{
-				this.opts.TransitPoint.value = dp.cusp_higher;
+				this.opts.TransitPoint.Value = dp.CuspHigher;
 				this.updateOptions();
 				this.bStartSearch_Click(sender, e);
 			} 
 			else
 			{
-				this.opts.TransitPoint.value = dp.cusp_lower;
+				this.opts.TransitPoint.Value = dp.CuspLower;
 				this.updateOptions();
 				this.bStartSearch_Click(sender, e);
 			}
@@ -1025,16 +1025,16 @@ namespace mhora
 			ListViewItem li = new ListViewItem(desc);
 			Moment m = new Moment(0,0,0,0);
 		    Horoscope hTransit = this.utToHoroscope(ut, ref m);
-			li.SubItems.Add (hTransit.info.tob.ToString());
+			li.SubItems.Add (hTransit.Info.tob.ToString());
 			this.mlTransits.Items.Add(li);
 		}
 		private void bGlobSolEclipse_Click(object sender, System.EventArgs e)
 		{
-			double julday_ut = this.opts.StartDate.toUniversalTime(h);
+			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
 			double[] tret = new Double[10];
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Sweph.swe_sol_eclipse_when_glob (julday_ut, tret, opts.Forward);
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			this.SolarEclipseHelper(tret[2], "Global Solar Eclipse Begins");
 			this.SolarEclipseHelper(tret[3], "   Global Solar Eclipse Ends");
 			this.SolarEclipseHelper(tret[4], tret[2], tret[3], "   Global Solar Eclipse Totality Begins");
@@ -1050,12 +1050,12 @@ namespace mhora
 		}
 		private void bLocSolEclipse_Click(object sender, System.EventArgs e)
 		{
-			double julday_ut = this.opts.StartDate.toUniversalTime(h);
+			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
 			double[] tret = new double[10];
 			double[] attr = new double[10];
-			Sweph.obtainLock(h);
-			Sweph.swe_sol_eclipse_when_loc(h.info, julday_ut, tret, attr, opts.Forward);
-			Sweph.releaseLock(h);		
+			Sweph.ObtainLock(h);
+			Sweph.swe_sol_eclipse_when_loc(h.Info, julday_ut, tret, attr, opts.Forward);
+			Sweph.ReleaseLock(h);		
 			this.SolarEclipseHelper(tret[0], "Local Solar Eclipse Maximum");
 			this.SolarEclipseHelper(tret[1], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 1st Contact");
 			this.SolarEclipseHelper(tret[2], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 2nd Contact");
@@ -1070,11 +1070,11 @@ namespace mhora
 
 		private void bGlobalLunarEclipse_Click(object sender, System.EventArgs e)
 		{
-			double julday_ut = this.opts.StartDate.toUniversalTime(h);
+			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
 			double[] tret = new double[10];
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Sweph.swe_lun_eclipse_when(julday_ut, tret, opts.Forward);
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			this.SolarEclipseHelper(tret[0], "Lunar Eclipse Maximum");
 			this.SolarEclipseHelper(tret[2], tret[0]-1, tret[0]+1, "   Lunar Eclipse Begins");
 			this.SolarEclipseHelper(tret[3], tret[0]-1, tret[0]+1, "   Lunar Eclipse Ends");
@@ -1120,7 +1120,7 @@ namespace mhora
 
 
 
-		[PGNotVisible]
+		[InVisible]
 		public Division Division
 		{
 			get { return this.mDivision; }
@@ -1128,7 +1128,7 @@ namespace mhora
 		}
 
 		[Category("Transit Search")]
-		[PropertyOrder(1),PGDisplayName("In Varga")]
+		[PropertyOrder(1),@DisplayName("In Varga")]
 		public DivisionType UIDivision
 		{
 			get { return this.mDivision.MultipleDivisions[0].Varga; }
@@ -1141,7 +1141,7 @@ namespace mhora
 		}
 
 		[Category("Transit Search")]
-		[PropertyOrder(2),PGDisplayName("Search")]
+		[PropertyOrder(2),@DisplayName("Search")]
 		public EForward UIForward
 		{
 			get 
@@ -1156,7 +1156,7 @@ namespace mhora
 			}
 		}
 
-		[PGNotVisible]
+		[InVisible]
 		public bool Forward
 		{
 			get { return mForward; }
@@ -1164,28 +1164,28 @@ namespace mhora
 		}
 
 		[Category("Transit Search")]
-		[PropertyOrder(3),PGDisplayName("Date")]
+		[PropertyOrder(3), @DisplayName("Date")]
 		public Moment StartDate
 		{
 			get { return mDateBase; }
 			set { mDateBase = value; }
 		}
 		[Category("Transit Search")]
-		[PropertyOrder(4),PGDisplayName("When Body")]
+		[PropertyOrder(4), @DisplayName("When Body")]
 		public Body.Name SearchBody
 		{
 			get { return mSearchGraha; }
 			set { mSearchGraha = value; }
 		}
 		[Category("Transit Search")]
-		[PropertyOrder(5),PGDisplayName("Transits")]
+		[PropertyOrder(5), @DisplayName("Transits")]
 		public Longitude TransitPoint
 		{
 			get { return mTransitPoint; }
 			set { mTransitPoint = value; }
 		}
 		[Category("Transit Search")]
-		[PropertyOrder(6),PGDisplayName("Apply Locally")]
+		[PropertyOrder(6),@DisplayName("Apply Locally")]
 		public bool Apply
 		{
 			get { return mApplyNow; }

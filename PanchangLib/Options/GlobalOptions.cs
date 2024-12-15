@@ -121,9 +121,9 @@ namespace org.transliteral.panchang
             mLon = new HMSInfo(-122, 7, 13, dir_type.EW);
             mTz = new HMSInfo(-7, 0, 0, dir_type.EW);
         */
-            mLat = new HMSInfo(33, 0, 18, Direction.NS);
-            mLon = new HMSInfo(-97,13, 35, Direction.EW);
-            mTz = new HMSInfo(-5, 0, 0, Direction.EW);
+            mLat = new HMSInfo(33, 0, 18, Direction.NorthSouth);
+            mLon = new HMSInfo(-97,13, 35, Direction.EastWest);
+            mTz = new HMSInfo(-5, 0, 0, Direction.EastWest);
 
             this.mfFixedWidth = new Font("Courier New", 10);
             this.mfGeneral = new Font("Microsoft Sans Serif", 10);
@@ -176,7 +176,7 @@ namespace org.transliteral.panchang
 
 
         [Category(CAT_GENERAL)]
-        [PropertyOrder(1), PGDisplayName("Show splash screen")]
+        [PropertyOrder(1), @DisplayName("Show splash screen")]
         public bool ShowSplashScreen
         {
             get { return this.mbShowSplashScreeen; }
@@ -184,7 +184,7 @@ namespace org.transliteral.panchang
         }
 
         [Category(CAT_GENERAL)]
-        [PropertyOrder(2), PGDisplayName("Save Preferences on Exit")]
+        [PropertyOrder(2), @DisplayName("Save Preferences on Exit")]
         public bool SavePrefsOnExit
         {
             get { return this.mbSavePrefsOnExit; }
@@ -192,17 +192,17 @@ namespace org.transliteral.panchang
         }
 
         [Category(CAT_GENERAL)]
-        [PropertyOrder(3), PGDisplayName("Notes file type")]
+        [PropertyOrder(3), @DisplayName("Notes file type")]
         public string ChartNotesFileExtension
         {
             get { return this.msNotesExtension; }
             set { this.msNotesExtension = value; }
         }
         [Category(CAT_GENERAL)]
-        [PropertyOrder(4), PGDisplayName("Yogas file name")]
+        [PropertyOrder(4), @DisplayName("Yogas file name")]
         public string YogasFileName
         {
-            get { return GlobalOptions.getExeDir() + "\\" + "yogas.mhr"; }
+            get { return GlobalOptions.GetExeDir() + "\\" + "yogas.mhr"; }
         }
 
         [PropertyOrder(1), Category(CAT_LOCATION)]
@@ -218,7 +218,7 @@ namespace org.transliteral.panchang
             set { mLon = value; }
         }
         [PropertyOrder(3), Category(CAT_LOCATION)]
-        [PGDisplayName("Time zone")]
+        [@DisplayName("Time zone")]
         public HMSInfo TimeZone
         {
             get { return mTz; }
@@ -227,14 +227,14 @@ namespace org.transliteral.panchang
 
 
         [Category(CAT_LF_GEN)]
-        [PGDisplayName("Font")]
+        [@DisplayName("Font")]
         public Font GeneralFont
         {
             get { return this.mfGeneral; }
             set { this.mfGeneral = value; }
         }
         [Category(CAT_LF_GEN)]
-        [PGDisplayName("Fixed width font")]
+        [@DisplayName("Fixed width font")]
         public Font FixedWidthFont
         {
             get { return this.mfFixedWidth; }
@@ -242,7 +242,7 @@ namespace org.transliteral.panchang
         }
 
         [PropertyOrder(1), Category(CAT_LF_DASA)]
-        [PGDisplayName("Select by Mouse Hover")]
+        [@DisplayName("Select by Mouse Hover")]
         public bool DasaHoverSelect
         {
             get { return this.bDasaHoverSelect; }
@@ -250,7 +250,7 @@ namespace org.transliteral.panchang
         }
 
         [PropertyOrder(1), Category(CAT_LF_DASA)]
-        [PGDisplayName("Select by Mouse Move")]
+        [@DisplayName("Select by Mouse Move")]
         public bool DasaMoveSelect
         {
             get { return this.bDasaMoveSelect; }
@@ -258,14 +258,14 @@ namespace org.transliteral.panchang
         }
 
         [PropertyOrder(2), Category(CAT_LF_DASA)]
-        [PGDisplayName("Show Events")]
+        [@DisplayName("Show Events")]
         public bool DasaShowEvents
         {
             get { return this.bDasaShowEvents; }
             set { this.bDasaShowEvents = value; }
         }
         [PropertyOrder(3), Category(CAT_LF_DASA)]
-        [PGDisplayName("Show Events Level")]
+        [@DisplayName("Show Events Level")]
         public int DasaEventsLevel
         {
             get { return this.miDasaShowEventsLevel; }
@@ -273,28 +273,28 @@ namespace org.transliteral.panchang
         }
 
         [PropertyOrder(4), Category(CAT_LF_DASA)]
-        [PGDisplayName("Period foreground color")]
+        [@DisplayName("Period foreground color")]
         public Color DasaPeriodColor
         {
             get { return this.mcDasaPeriodColor; }
             set { this.mcDasaPeriodColor = value; }
         }
         [PropertyOrder(5), Category(CAT_LF_DASA)]
-        [PGDisplayName("Date foreground color")]
+        [@DisplayName("Date foreground color")]
         public Color DasaDateColor
         {
             get { return this.mcDasaDateColor; }
             set { this.mcDasaDateColor = value; }
         }
         [PropertyOrder(6), Category(CAT_LF_DASA)]
-        [PGDisplayName("Background colour")]
+        [@DisplayName("Background colour")]
         public Color DasaBackgroundColor
         {
             get { return mcDasaBackColor; }
             set { mcDasaBackColor = value; }
         }
         [PropertyOrder(7), Category(CAT_LF_DASA)]
-        [PGDisplayName("Item highlight color")]
+        [@DisplayName("Item highlight color")]
         public Color DasaHighlightColor
         {
             get { return this.mcDasaHighlightColor; }
@@ -302,84 +302,84 @@ namespace org.transliteral.panchang
         }
 
         [PropertyOrder(1), Category(CAT_LF_DIV)]
-        [PGDisplayName("Display style")]
+        [@DisplayName("Display style")]
         public EChartStyle VargaStyle
         {
             get { return this.mChartStyle; }
             set { this.mChartStyle = value; }
         }
         [PropertyOrder(2), Category(CAT_LF_DIV)]
-        [PGDisplayName("Maintain square proportions")]
+        [@DisplayName("Maintain square proportions")]
         public bool VargaChartIsSquare
         {
             get { return this.bVargaSquare; }
             set { this.bVargaSquare = value; }
         }
         [PropertyOrder(3), Category(CAT_LF_DIV)]
-        [PGDisplayName("Show time of birth")]
+        [@DisplayName("Show time of birth")]
         public bool VargaShowDob
         {
             get { return this.bVargaShowDob; }
             set { this.bVargaShowDob = value; }
         }
         [PropertyOrder(4), Category(CAT_LF_DIV)]
-        [PGDisplayName("Show rasi's SAV bindus")]
+        [@DisplayName("Show rasi's SAV bindus")]
         public bool VargaShowSAVRasi
         {
             get { return this.bVargaShowSAVRasi; }
             set { this.bVargaShowSAVRasi = value; }
         }
         [PropertyOrder(5), Category(CAT_LF_DIV)]
-        [PGDisplayName("Show varga's SAV bindus")]
+        [@DisplayName("Show varga's SAV bindus")]
         public bool VargaShowSAVVarga
         {
             get { return this.bVargaShowSAVVarga; }
             set { this.bVargaShowSAVVarga = value; }
         }
         [PropertyOrder(6), Category(CAT_LF_DIV)]
-        [PGDisplayName("Background colour")]
+        [@DisplayName("Background colour")]
         public Color VargaBackgroundColor
         {
             get { return this.mcVargaBackground; }
             set { this.mcVargaBackground = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(7), PGDisplayName("Graha foreground colour")]
+        [PropertyOrder(7), @DisplayName("Graha foreground colour")]
         public Color VargaGrahaColor
         {
             get { return this.mcVargaGraha; ; }
             set { this.mcVargaGraha = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(8), PGDisplayName("Secondary foreground colour")]
+        [PropertyOrder(8), @DisplayName("Secondary foreground colour")]
         public Color VargaSecondaryColor
         {
             get { return this.mcVargaSecondary; }
             set { this.mcVargaSecondary = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(9), PGDisplayName("Lagna foreground colour")]
+        [PropertyOrder(9), @DisplayName("Lagna foreground colour")]
         public Color VargaLagnaColor
         {
             get { return this.mcVargaLagna; }
             set { this.mcVargaLagna = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(10), PGDisplayName("Special lagna foreground colour")]
+        [PropertyOrder(10), @DisplayName("Special lagna foreground colour")]
         public Color VargaSpecialLagnaColor
         {
             get { return this.mcVargaSpecialLagna; }
             set { this.mcVargaSpecialLagna = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(11), PGDisplayName("SAV foreground colour")]
+        [PropertyOrder(11), @DisplayName("SAV foreground colour")]
         public Color VargaSAVColor
         {
             get { return this.mcVargaSAV; }
             set { this.mcVargaSAV = value; }
         }
         [Category(CAT_LF_DIV)]
-        [PropertyOrder(12), PGDisplayName("Font")]
+        [PropertyOrder(12), @DisplayName("Font")]
         public Font VargaFont
         {
             get { return this.mfVarga; }
@@ -387,77 +387,77 @@ namespace org.transliteral.panchang
         }
 
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(1), PGDisplayName("Lagna")]
+        [PropertyOrder(1), @DisplayName("Lagna")]
         public Color BindusLagnaColor
         {
             get { return this.mcBodyLagna; }
             set { this.mcBodyLagna = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(2), PGDisplayName("Sun")]
+        [PropertyOrder(2), @DisplayName("Sun")]
         public Color BindusSunColor
         {
             get { return this.mcBodySun; }
             set { this.mcBodySun = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(3), PGDisplayName("Moon")]
+        [PropertyOrder(3), @DisplayName("Moon")]
         public Color BindusMoonColor
         {
             get { return this.mcBodyMoon; }
             set { this.mcBodyMoon = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(4), PGDisplayName("Mars")]
+        [PropertyOrder(4), @DisplayName("Mars")]
         public Color BindusMarsColor
         {
             get { return this.mcBodyMars; }
             set { this.mcBodyMars = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(5), PGDisplayName("Mercury")]
+        [PropertyOrder(5), @DisplayName("Mercury")]
         public Color BindusMercuryColor
         {
             get { return this.mcBodyMercury; }
             set { this.mcBodyMercury = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(6), PGDisplayName("Jupiter")]
+        [PropertyOrder(6), @DisplayName("Jupiter")]
         public Color BindusJupiterColor
         {
             get { return this.mcBodyJupiter; }
             set { this.mcBodyJupiter = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(7), PGDisplayName("Venus")]
+        [PropertyOrder(7), @DisplayName("Venus")]
         public Color BindusVenusColor
         {
             get { return this.mcBodyVenus; }
             set { this.mcBodyVenus = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(8), PGDisplayName("Saturn")]
+        [PropertyOrder(8), @DisplayName("Saturn")]
         public Color BindusSaturnColor
         {
             get { return this.mcBodySaturn; }
             set { this.mcBodySaturn = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(9), PGDisplayName("Rahu")]
+        [PropertyOrder(9), @DisplayName("Rahu")]
         public Color BindusRahuColor
         {
             get { return this.mcBodyRahu; }
             set { this.mcBodyRahu = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(10), PGDisplayName("Ketu")]
+        [PropertyOrder(10), @DisplayName("Ketu")]
         public Color BindusKetuColor
         {
             get { return this.mcBodyKetu; }
             set { this.mcBodyKetu = value; }
         }
         [Category(CAT_LF_BINDUS)]
-        [PropertyOrder(11), PGDisplayName("Other")]
+        [PropertyOrder(11), @DisplayName("Other")]
         public Color BindusOtherColor
         {
             get { return this.mcBodyOther; }
@@ -465,28 +465,28 @@ namespace org.transliteral.panchang
         }
 
         [Category(CAT_LF_TABLE)]
-        [PropertyOrder(1), PGDisplayName("Background colour")]
+        [PropertyOrder(1), @DisplayName("Background colour")]
         public Color TableBackgroundColor
         {
             get { return this.mcTableBackground; }
             set { this.mcTableBackground = value; }
         }
         [Category(CAT_LF_TABLE)]
-        [PropertyOrder(2), PGDisplayName("Foreground colour")]
+        [PropertyOrder(2), @DisplayName("Foreground colour")]
         public Color TableForegroundColor
         {
             get { return this.mcTableForeground; }
             set { this.mcTableForeground = value; }
         }
         [Category(CAT_LF_TABLE)]
-        [PropertyOrder(3), PGDisplayName("Interleave colour (odd)")]
+        [PropertyOrder(3), @DisplayName("Interleave colour (odd)")]
         public Color TableOddRowColor
         {
             get { return this.mcTableInterleaveFirst; }
             set { this.mcTableInterleaveFirst = value; }
         }
         [Category(CAT_LF_TABLE)]
-        [PropertyOrder(4), PGDisplayName("Interleave colour (even)")]
+        [PropertyOrder(4), @DisplayName("Interleave colour (even)")]
         public Color TableEvenRowColor
         {
             get { return this.mcTableInterleaveSecond; }
@@ -494,7 +494,7 @@ namespace org.transliteral.panchang
         }
 
         [Category(CAT_LF_CHAKRA)]
-        [PGDisplayName("Background colour")]
+        [@DisplayName("Background colour")]
         public Color ChakraBackgroundColor
         {
             get { return this.mcChakraBackground; }
@@ -545,7 +545,7 @@ namespace org.transliteral.panchang
             try
             {
                 FileStream sOut;
-                sOut = new FileStream(GlobalOptions.getOptsFilename(), FileMode.Open, FileAccess.Read);
+                sOut = new FileStream(GlobalOptions.GetOptsFilename(), FileMode.Open, FileAccess.Read);
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 gOpts = (GlobalOptions)formatter.Deserialize(sOut);
@@ -553,7 +553,7 @@ namespace org.transliteral.panchang
             }
             catch
             {
-                Console.WriteLine("MHora: Unable to read user preferences", "GlobalOptions");
+                Logger.Info(String.Format("MHora: Unable to read user preferences {0}", "GlobalOptions"));
             }
 
             GlobalOptions.Instance = gOpts;
@@ -562,8 +562,8 @@ namespace org.transliteral.panchang
 
         public void saveToFile()
         {
-            Console.WriteLine("Saving Preferences to {0}", GlobalOptions.getOptsFilename());
-            FileStream sOut = new FileStream(GlobalOptions.getOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);
+            Logger.Info(String.Format("Saving Preferences to {0}", GlobalOptions.GetOptsFilename()));
+            FileStream sOut = new FileStream(GlobalOptions.GetOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(sOut, this);
             sOut.Close();

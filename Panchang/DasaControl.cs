@@ -77,7 +77,7 @@ namespace mhora
 
 		public Object DasaSpecificOptions
 		{
-			get { return id.GetOptions(); }
+			get { return id.Options; }
 			set { id.SetOptions(value); }
 		}
 
@@ -126,14 +126,14 @@ namespace mhora
 		}
 		public void Reset ()
 		{
-			id.recalculateOptions();
+			id.RecalculateOptions();
 			SetDescriptionLabel();
 			dasaItemList.Items.Clear();
 			SetDasaYearType();
 			min_cycle = max_cycle = 0;
-			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.paramAyus();
+			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			ArrayList a = id.Dasa(0);
 			foreach (DasaEntry de in a)
 			{
@@ -141,7 +141,7 @@ namespace mhora
 				di.populateListViewItemMembers(td, id);
 				dasaItemList.Items.Add (di);
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 			this.LocateChartEvents();
 		}
 
@@ -166,11 +166,11 @@ namespace mhora
 			id = _id;
 			this.mDasaOptions = new Dasa.Options();
 
-			if (h.info.defaultYearCompression != 0)
+			if (h.Info.defaultYearCompression != 0)
 			{
-				this.mDasaOptions.Compression = h.info.defaultYearCompression;
-				this.mDasaOptions.YearLength = h.info.defaultYearLength;
-				this.mDasaOptions.YearType = h.info.defaultYearType;
+				this.mDasaOptions.Compression = h.Info.defaultYearCompression;
+				this.mDasaOptions.YearLength = h.Info.defaultYearLength;
+				this.mDasaOptions.YearType = h.Info.defaultYearType;
 			}
 
 
@@ -674,10 +674,10 @@ namespace mhora
 			Horoscope h2 = (Horoscope)h.Clone();
 			DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			Moment m = this.td.AddYears (di.entry.startUT);
-			h2.info.tob = m;		
-			Sweph.releaseLock(this.h);
+			h2.Info.tob = m;		
+			Sweph.ReleaseLock(this.h);
 
 			MhoraChild mchild = (MhoraChild)this.ParentForm;
 			MhoraContainer mcont= (MhoraContainer)this.ParentForm.ParentForm;
@@ -694,18 +694,18 @@ namespace mhora
 			Horoscope h2 = (Horoscope)h.Clone();
 			DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			Moment m = this.td.AddYears (di.entry.startUT);
 			Moment mEnd = this.td.AddYears(di.entry.startUT + di.entry.dasaLength);
 
-			double ut_diff = mEnd.toUniversalTime() - m.toUniversalTime();
-			h2.info.tob = m;		
-			Sweph.releaseLock(this.h);
+			double ut_diff = mEnd.ToUniversalTime() - m.ToUniversalTime();
+			h2.Info.tob = m;		
+			Sweph.ReleaseLock(this.h);
 
 
-			h2.info.defaultYearCompression = 1;
-			h2.info.defaultYearLength = ut_diff;
-			h2.info.defaultYearType = DateType.FixedYear;
+			h2.Info.defaultYearCompression = 1;
+			h2.Info.defaultYearLength = ut_diff;
+			h2.Info.defaultYearType = DateType.FixedYear;
 
 			MhoraChild mchild = (MhoraChild)this.ParentForm;
 			MhoraContainer mcont= (MhoraContainer)this.ParentForm.ParentForm;
@@ -724,24 +724,24 @@ namespace mhora
 			Horoscope h2 = (Horoscope)h.Clone();
 			DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			Moment m = this.td.AddYears (di.entry.startUT);
-			Sweph.releaseLock(this.h);
-			h2.info.tob = m;
+			Sweph.ReleaseLock(this.h);
+			h2.Info.tob = m;
 			
 			h2.OnChanged();
 
 			// if done once, get something usually 2+ minutes off. 
 			// don't know why this is.
-			double offsetSunrise = h2.hoursAfterSunrise() / 24.0;
+			double offsetSunrise = h2.HoursAfterSunrise() / 24.0;
 			m = new Moment(h2.baseUT - offsetSunrise, h2);
-			h2.info.tob = m;
+			h2.Info.tob = m;
 			h2.OnChanged();
 
 			// so do it a second time, getting sunrise + 1 second.
-			offsetSunrise = h2.hoursAfterSunrise() / 24.0;
+			offsetSunrise = h2.HoursAfterSunrise() / 24.0;
 			m = new Moment(h2.baseUT - offsetSunrise + (1.0/(24.0*60.0*60.0)), h2);
-			h2.info.tob = m;
+			h2.Info.tob = m;
 			h2.OnChanged();
 
 			MhoraChild mchild = (MhoraChild)this.ParentForm;
@@ -759,9 +759,9 @@ namespace mhora
 				return;
 
 			DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			Moment m = td.AddYears(di.entry.startUT);
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			Clipboard.SetDataObject(m.ToString(), true);	
 		}
 
@@ -802,9 +802,9 @@ namespace mhora
 			}
 
 			ArrayList a  = id.AntarDasa(di.entry);
-			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.paramAyus();
+			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			foreach (DasaEntry de in a)
 			{
 				DasaItem pdi = new DasaItem(de);
@@ -812,7 +812,7 @@ namespace mhora
 				dasaItemList.Items.Insert(index, pdi);
 				index = index+1;
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 			this.dasaItemList.EndUpdate();
 			//this.dasaItemList.Items[index-1].Selected = true;
 		}
@@ -849,21 +849,21 @@ namespace mhora
 				ArrayList b = id.Dasa(i);
 				a.AddRange (b);
 			}
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			foreach (DasaEntry de in a)
 			{
 				DasaItem di = new DasaItem(de);
 				di.populateListViewItemMembers(td, id);
 				dasaItemList.Items.Add(di);
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 			this.LocateChartEvents();
 		}
 
 		private void mOptions_Click(object sender, System.EventArgs e)
 		{
 			//object wrapper = new GlobalizedPropertiesWrapper(id.GetOptions());
-			MhoraOptions f = new MhoraOptions(id.GetOptions(), new ApplyOptions(id.SetOptions));
+			MhoraOptions f = new MhoraOptions(id.Options, new ApplyOptions(id.SetOptions));
 			f.pGrid.ExpandAllGridItems();
 			f.ShowDialog();	
 		}
@@ -873,7 +873,7 @@ namespace mhora
 			min_cycle --;
 			ArrayList a = id.Dasa (min_cycle);
 			int i = 0;
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			foreach (DasaEntry de in a)
 			{
 				DasaItem di = new DasaItem(de);
@@ -881,21 +881,21 @@ namespace mhora
 				dasaItemList.Items.Insert (i, di);
 				i++;
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 		}
 
 		private void mNextCycle_Click(object sender, System.EventArgs e)
 		{
 			max_cycle++;
 			ArrayList a = id.Dasa (max_cycle);
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			foreach (DasaEntry de in a)
 			{
 				DasaItem di = new DasaItem(de);
 				di.populateListViewItemMembers(td, id);
 				dasaItemList.Items.Add(di);
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 		}
 
 		private void mReset_Click(object sender, System.EventArgs e)
@@ -923,7 +923,7 @@ namespace mhora
 
 		private void SetDasaYearType ()
 		{
-			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.paramAyus();
+			double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 			if (mDasaOptions.YearType == DateType.FixedYear)// ||
 				//mDasaOptions.YearType == DateType.TithiYear)
 				td = new ToDate (h.baseUT, this.mDasaOptions.YearLength, compress, h);
@@ -1120,12 +1120,12 @@ namespace mhora
 			this.mDasaOptions.YearType = DateType.TithiYear;
 			ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
 			ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
-			Sweph.obtainLock(h);
-			if (td_tithi.AddYears(1).toUniversalTime() + 15.0 < td_pravesh.AddYears(1).toUniversalTime())
+			Sweph.ObtainLock(h);
+			if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
 				this.mDasaOptions.YearLength = 390;
 			else
 				this.mDasaOptions.YearLength = 360;
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			this.mDasaOptions.Compression = 1;
 			this.SetDasaYearType();
 			this.Reset();
@@ -1136,9 +1136,9 @@ namespace mhora
 			this.mDasaOptions.YearType = DateType.YogaYear;
 			ToDate td_pravesh = new ToDate(h.baseUT, DateType.YogaPraveshYear, 360.0, 0, h);
 			ToDate td_yoga = new ToDate(h.baseUT, DateType.YogaYear, 324.0, 0, h);
-			Sweph.obtainLock(h);
-			double date_to_surpass = td_pravesh.AddYears(1).toUniversalTime() - 5;
-			double date_current = td_yoga.AddYears(0).toUniversalTime();
+			Sweph.ObtainLock(h);
+			double date_to_surpass = td_pravesh.AddYears(1).ToUniversalTime() - 5;
+			double date_current = td_yoga.AddYears(0).ToUniversalTime();
 			double months = 0;
 			while (date_current < date_to_surpass)
 			{
@@ -1146,9 +1146,9 @@ namespace mhora
 					new Moment(date_to_surpass, h));
 
 				months++;
-				date_current = td_yoga.AddYears(months/12.0).toUniversalTime();
+				date_current = td_yoga.AddYears(months/12.0).ToUniversalTime();
 			}
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			this.mDasaOptions.Compression = 1;
 			this.mDasaOptions.YearLength = (int)months * 27;
 			this.SetDasaYearType();
@@ -1163,20 +1163,20 @@ namespace mhora
 		private void mCompressTithiPraveshaSolar_Click(object sender, System.EventArgs e)
 		{
 			ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-			Sweph.obtainLock(h);
-			double ut_start = td_pravesh.AddYears(0).toUniversalTime();
-			double ut_end = td_pravesh.AddYears(1).toUniversalTime();
+			Sweph.ObtainLock(h);
+			double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
+			double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
 			BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
 				ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
 				ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
-			Longitude lDiff = sp_end.Longitude.sub(sp_start.Longitude);
-			double diff = lDiff.value;
+			Longitude lDiff = sp_end.Longitude.Subtract(sp_start.Longitude);
+			double diff = lDiff.Value;
 			if (diff < 120.0) diff += 360.0;
 
 			this.DasaOptions.YearType = DateType.SolarYear;
 			this.DasaOptions.YearLength = diff;
-			Sweph.releaseLock(h);
+			Sweph.ReleaseLock(h);
 			this.DasaOptions.Compression = 1;
 			this.Reset();
 		}
@@ -1184,11 +1184,11 @@ namespace mhora
 		private void mCompressedTithiPraveshaFixed_Click(object sender, System.EventArgs e)
 		{
 			ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-			Sweph.obtainLock(h);
+			Sweph.ObtainLock(h);
 			this.DasaOptions.YearType = DateType.FixedYear;
-			this.DasaOptions.YearLength = td_pravesh.AddYears(1).toUniversalTime() - 
-				td_pravesh.AddYears(0).toUniversalTime();
-			Sweph.releaseLock(h);
+			this.DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() - 
+				td_pravesh.AddYears(0).ToUniversalTime();
+			Sweph.ReleaseLock(h);
 			this.Reset();
 		}
 
@@ -1228,14 +1228,14 @@ namespace mhora
 		{
 			this.dasaItemList.Items.Clear();
 			DasaEntry[] al = ((DasaEntriesWrapper)a).Entries;
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			for (int i=0; i<al.Length;i++)
 			{
 				DasaItem di = new DasaItem(al[i]);
 				di.populateListViewItemMembers(td, id);
 				this.dasaItemList.Items.Add(di);
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 			this.LocateChartEvents();
 			return a;
 		}
@@ -1284,13 +1284,13 @@ namespace mhora
 				am[i] = new DasaItem(al[i]);
 			}
 			this.dasaItemList.Items.Clear();
-			Sweph.obtainLock(this.h);
+			Sweph.ObtainLock(this.h);
 			for (int i=0; i<am.Length; i++)
 			{
 				am[i].populateListViewItemMembers(td, id);
 				this.dasaItemList.Items.Add(am[i]);
 			}
-			Sweph.releaseLock(this.h);
+			Sweph.ReleaseLock(this.h);
 		}
 
 		private void mDasaDown_Click(object sender, System.EventArgs e)
@@ -1302,7 +1302,7 @@ namespace mhora
 			DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
 			Moment m = this.td.AddYears (di.entry.startUT);
-			h2.info.tob = m;			
+			h2.Info.tob = m;			
 
 			MhoraChild mchild = (MhoraChild)this.ParentForm;
 			MhoraContainer mcont= (MhoraContainer)this.ParentForm.ParentForm;
@@ -1360,19 +1360,19 @@ namespace mhora
 
 		private void ExpandEvent (Moment m, int levels, string eventDesc)
 		{
-			double ut_m = m.toUniversalTime(h);
+			double ut_m = m.ToUniversalTime(h);
 			for (int i=0; i<this.dasaItemList.Items.Count; i++)
 			{
 				DasaItem di = (DasaItem)this.dasaItemList.Items[i];
 
-				Sweph.obtainLock(h);
+				Sweph.ObtainLock(h);
 				Moment m_start = td.AddYears(di.entry.startUT);
 				Moment m_end = td.AddYears(di.entry.startUT + di.entry.dasaLength);
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 
 
-				double ut_start = m_start.toUniversalTime(h);
-				double ut_end = m_end.toUniversalTime(h);
+				double ut_start = m_start.ToUniversalTime(h);
+				double ut_end = m_end.ToUniversalTime(h);
 
 
 				if (ut_m >= ut_start && ut_m < ut_end)
@@ -1422,7 +1422,7 @@ namespace mhora
 			if (this.mShowEvents.Checked == false)
 				return;
 
-			foreach (UserEvent ue in h.info.Events)
+			foreach (UserEvent ue in h.Info.Events)
 			{
 				if (ue.WorkWithEvent == true)
 					this.ExpandEvent(ue.EventTime, GlobalOptions.Instance.DasaEventsLevel, ue.ToString());

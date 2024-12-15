@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -29,7 +25,7 @@ namespace org.transliteral.panchang
             this.Constructor(this.GetType(), info, context);
         }
         private int m_day, m_month, m_year, m_hour, m_minute, m_second;
-        public static void doubleToHMS(double h, ref int hour, ref int minute, ref int second)
+        public static void DoubleToHMS(double h, ref int hour, ref int minute, ref int second)
         {
             hour = (int)Math.Floor(h);
             h = (h - (double)hour) * 60.0;
@@ -41,47 +37,47 @@ namespace org.transliteral.panchang
         {
             return new Moment(m_year, m_month, m_day, m_hour, m_minute, m_second);
         }
-        public double toUniversalTime()
+        public double ToUniversalTime()
         {
-            return Sweph.swe_julday(m_year, m_month, m_day, time);
+            return Sweph.swe_julday(m_year, m_month, m_day, Time);
         }
-        public double toUniversalTime(Horoscope h)
+        public double ToUniversalTime(Horoscope h)
         {
-            double local_ut = Sweph.swe_julday(year, month, day, time);
-            return local_ut - (h.info.tz.toDouble()) / 24.0;
+            double local_ut = Sweph.swe_julday(Year, Month, Day, Time);
+            return local_ut - (h.Info.tz.toDouble()) / 24.0;
         }
-        public double time
+        public double Time
         {
             get
             {
                 return (double)m_hour + (double)m_minute / 60.0 + (double)m_second / 3600.0;
             }
         }
-        public int day { get { return m_day; } set { m_day = value; } }
-        public int month { get { return m_month; } set { m_month = value; } }
-        public int year { get { return m_year; } set { m_year = value; } }
-        public int hour { get { return m_hour; } set { m_hour = value; } }
-        public int minute { get { return m_minute; } set { m_minute = value; } }
-        public int second { get { return m_second; } set { m_second = value; } }
+        public int Day { get { return m_day; } set { m_day = value; } }
+        public int Month { get { return m_month; } set { m_month = value; } }
+        public int Year { get { return m_year; } set { m_year = value; } }
+        public int Hour { get { return m_hour; } set { m_hour = value; } }
+        public int Minute { get { return m_minute; } set { m_minute = value; } }
+        public int Second { get { return m_second; } set { m_second = value; } }
         public Moment() => Setup(DateTime.Now);
         
         public Moment(DateTime t) => Setup(t);
         
         public void Setup(DateTime t)
         {
-            this.day = t.Day;
-            this.month = t.Month;
-            this.year = t.Year;
-            this.hour = t.Hour;
-            this.minute = t.Minute;
-            this.second = t.Second;
+            this.Day = t.Day;
+            this.Month = t.Month;
+            this.Year = t.Year;
+            this.Hour = t.Hour;
+            this.Minute = t.Minute;
+            this.Second = t.Second;
         }
         public Moment(int year, int month, int day, double time)
         {
             m_day = day;
             m_month = month;
             m_year = year;
-            Moment.doubleToHMS(time, ref m_hour, ref m_minute, ref m_second);
+            Moment.DoubleToHMS(time, ref m_hour, ref m_minute, ref m_second);
         }
         public Moment(int year, int month, int day, int hour, int minute, int second)
         {
@@ -95,9 +91,9 @@ namespace org.transliteral.panchang
         public Moment(double tjd_ut, Horoscope h)
         {
             double time = 0;
-            tjd_ut += h.info.tz.toDouble() / 24.0;
+            tjd_ut += h.Info.tz.toDouble() / 24.0;
             Sweph.swe_revjul(tjd_ut, ref m_year, ref m_month, ref m_day, ref time);
-            Moment.doubleToHMS(time, ref m_hour, ref m_minute, ref m_second);
+            Moment.DoubleToHMS(time, ref m_hour, ref m_minute, ref m_second);
         }
         public static int FromStringMonth(string s)
         {

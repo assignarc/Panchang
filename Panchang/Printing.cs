@@ -133,9 +133,9 @@ namespace mhora
 			g.DrawString(bp.Longitude.ToString(), f_fix, b, width/6, 0);
 
 			string s = "";
-			Nakshatra nak = bp.Longitude.toNakshatra();
-			int nak_pada = bp.Longitude.toNakshatraPada();
-			s = string.Format("{0} {1}", nak.toShortString(), nak_pada);
+			Nakshatra nak = bp.Longitude.ToNakshatra();
+			int nak_pada = bp.Longitude.ToNakshatraPada();
+			s = string.Format("{0} {1}", nak.ToShortString(), nak_pada);
 			g.DrawString(s, f, b, (float)((width/6)*2.5), 0);
 
 			top += f.Height;
@@ -465,34 +465,34 @@ namespace mhora
 
 			// Birth Details
 			this.PrintString(string.Format("{0} {1}. {2}. {3}, {4}.", 
-				h.wday, h.info.tob, h.info.tz, h.info.lat, h.info.lon));
+				h.Weekday, h.Info.tob, h.Info.tz, h.Info.lat, h.Info.lon));
 
 			// Tithi
-			Longitude ltithi = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
-			double offset = (360.0/30.0) - ltithi.toTithiOffset();
-			Tithi ti = ltithi.toTithi();
-			this.PrintString (String.Format ("Tithi: {0} {1:N}% left", ti.value, offset / 12.0 * 100));
+			Longitude ltithi = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+			double offset = (360.0/30.0) - ltithi.ToTithiOffset();
+			Tithi ti = ltithi.ToTithi();
+			this.PrintString (String.Format ("Tithi: {0} {1:N}% left", ti.Value, offset / 12.0 * 100));
 
 			// Nakshatra
-			Longitude lmoon = h.getPosition(Body.Name.Moon).Longitude;
-			Nakshatra nmoon = lmoon.toNakshatra();
-			offset = (360.0/27.0)-lmoon.toNakshatraOffset();
-			int pada = lmoon.toNakshatraPada();
+			Longitude lmoon = h.GetPosition(Body.Name.Moon).Longitude;
+			Nakshatra nmoon = lmoon.ToNakshatra();
+			offset = (360.0/27.0)-lmoon.ToNakshatraOffset();
+			int pada = lmoon.ToNakshatraPada();
 			this.PrintString(String.Format ("Nakshatra: {0} {1}  {2:N}% left",
-				nmoon.value, pada, offset/(360.0/27.0)*100));
+				nmoon.Value, pada, offset/(360.0/27.0)*100));
 
 			// Yoga, Hora
-			Longitude smLon = h.getPosition(Body.Name.Sun).Longitude.add(h.getPosition(Body.Name.Moon).Longitude);
-			SunMoonYoga smYoga = smLon.toSunMoonYoga();
-			Body.Name bHora = h.calculateHora();
-			this.PrintString(string.Format("{0} Yoga, {1} Hora", smYoga.value, bHora));
+			Longitude smLon = h.GetPosition(Body.Name.Sun).Longitude.Add(h.GetPosition(Body.Name.Moon).Longitude);
+			SunMoonYoga smYoga = smLon.ToSunMoonYoga();
+			Body.Name bHora = h.CalculateHora();
+			this.PrintString(string.Format("{0} Yoga, {1} Hora", smYoga.Value, bHora));
 
 
 
 			top += pad_height;
 
 			// Calculation Details
-			foreach (BodyPosition bp in h.positionList)
+			foreach (BodyPosition bp in h.PositionList)
 			{
 				switch (bp.type)
 				{

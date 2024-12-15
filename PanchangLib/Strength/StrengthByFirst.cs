@@ -9,15 +9,9 @@ namespace org.transliteral.panchang
 		public StrengthByFirst (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
 
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
-		{
-			return true;
-		}
-		public bool stronger (Body.Name m, Body.Name n)
-		{
-			return true;
-		}
-	}
+        public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb) => true;
+        public bool Stronger(Body.Name m, Body.Name n) => true;
+    }
 
 
 

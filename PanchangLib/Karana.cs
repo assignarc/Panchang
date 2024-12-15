@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
 
     public class Karana
@@ -33,7 +27,7 @@ namespace org.transliteral.panchang
         {
             return this.value.ToString();
         }
-        public Body.Name getLord()
+        public Body.Name GetLord()
         {
             switch (this.value)
             {

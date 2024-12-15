@@ -9,35 +9,35 @@ namespace org.transliteral.panchang
 		public StrengthByMoolaTrikona (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
 
-		public int value (ZodiacHouseName zn) 
-		{
+        public int Value(ZodiacHouseName zn)
+        {
 			int ret = 0;
-			foreach (DivisionPosition dp in std_div_pos)
+			foreach (DivisionPosition dp in standardDivisionPositions)
 			{
-				if (dp.type != BodyType.Name.Graha) continue;
-				if (dp.zodiac_house.value != zn)continue;
-				ret += value (dp.name);
+				if (dp.Type != BodyType.Name.Graha) continue;
+				if (dp.ZodiacHouse.Value != zn)continue;
+				ret += Value (dp.Name);
 			}
 			return ret;
 		}
-		public int value (Body.Name b)
+        public int Value(Body.Name b)
 		{
-			if (h.getPosition(b).ToDivisionPosition(dtype).isInMoolaTrikona()) return 1;
+			if (horoscope.GetPosition(b).ToDivisionPosition(divisionType).IsInMoolaTrikona()) return 1;
 			return 0;
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			int vala = value (za);
-			int valb = value (zb);
+			int vala = Value (za);
+			int valb = Value (zb);
 
 			if (vala > valb) return true;
 			if (valb > vala) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			int valm = value (m);
-			int valn = value (n);
+			int valm = Value (m);
+			int valn = Value (n);
 
 			if (valm > valn) return true;
 			if (valn > valm) return false;

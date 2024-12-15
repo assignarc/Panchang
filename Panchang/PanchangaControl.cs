@@ -387,7 +387,7 @@ namespace mhora
 
 			double ut_start = Math.Floor(h.baseUT);
 			double[] geopos = new double[]
-			{ h.info.lon.toDouble(), h.info.lat.toDouble(), h.info.alt };
+			{ h.Info.lon.toDouble(), h.Info.lat.toDouble(), h.Info.alt };
 
 			this.globals = new PanchangaGlobalMoments();
 			this.locals = new ArrayList();
@@ -409,7 +409,7 @@ namespace mhora
 			// turn into horoscope
 			int year=0, month=0, day=0;
 			double hour =0;
-			found_ut += (h.info.tz.toDouble() / 24.0);
+			found_ut += (h.Info.tz.toDouble() / 24.0);
 			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
 			Moment m = new Moment(year, month, day, hour);
 			return m;
@@ -419,14 +419,14 @@ namespace mhora
 			int year=0, month=0, day=0;
 			double time=0;
 			
-			ut += h.info.tz.toDouble()/24.0;
+			ut += h.Info.tz.toDouble()/24.0;
 			Sweph.swe_revjul(ut, ref year, ref month, ref day, ref time);
 			return this.timeToString(time);
 		}
 		private string utTimeToString (double ut_event, double ut_sr, double sunrise)
 		{
 			Moment m = this.utToMoment(ut_event);
-			HMSInfo hms = new HMSInfo(m.time);
+			HMSInfo hms = new HMSInfo(m.Time);
 
 			if (ut_event >= (ut_sr - (sunrise/24.0) + 1.0))
 			{
@@ -460,98 +460,98 @@ namespace mhora
 
 			int year=0, month=0, day=0;
 			double sunset=0, hour=0;
-			Sweph.obtainLock(h);
-			h.populateSunrisetCacheHelper(ut-0.5, ref sunrise, ref sunset, ref ut_sr);
-			Sweph.releaseLock(h);
+			Sweph.ObtainLock(h);
+			h.PopulateSunrisetCacheHelper(ut-0.5, ref sunrise, ref sunset, ref ut_sr);
+			Sweph.ReleaseLock(h);
 
 			Sweph.swe_revjul(ut_sr, ref year, ref month, ref day, ref hour);
 			Moment moment_sr = new Moment(year, month, day, hour);
 			Moment moment_ut = new Moment(ut, h);
-			HoraInfo infoCurr = new HoraInfo(moment_ut, h.info.lat, h.info.lon, h.info.tz);
-			Horoscope hCurr = new Horoscope(infoCurr, h.options);
+			HoraInfo infoCurr = new HoraInfo(moment_ut, h.Info.lat, h.Info.lon, h.Info.tz);
+			Horoscope hCurr = new Horoscope(infoCurr, h.Options);
 
 			ListViewItem li = null;
 
 			PanchangaLocalMoments local = new PanchangaLocalMoments();
-			local.sunrise = hCurr.sunrise;
-			local.sunset = sunset;
-			local.sunrise_ut = ut_sr;
+			local.Sunrise = hCurr.Sunrise;
+			local.Sunset = sunset;
+			local.SunriseUT = ut_sr;
 			Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
-			local.wday = (Basics.Weekday) Sweph.swe_day_of_week(ut);
+			local.WeekDay = (Basics.Weekday) Sweph.swe_day_of_week(ut);
 
 
 
-			local.kalas_ut = hCurr.getKalaCuspsUt();
+			local.KalasUT = hCurr.GetKalaCuspsUt();
 			if (this.opts.CalcSpecialKalas)
 			{
-				Body.Name bStart = Basics.WeekdayRuler(hCurr.wday);
-				if (hCurr.options.KalaType == EHoraType.Lmt)
-					bStart = Basics.WeekdayRuler(hCurr.lmt_wday);
+				Body.Name bStart = Basics.WeekdayRuler(hCurr.Weekday);
+				if (hCurr.Options.KalaType == EHoraType.Lmt)
+					bStart = Basics.WeekdayRuler(hCurr.WeekdayLMT);
 
-				local.rahu_kala_index = this.rahu_kalas[(int)bStart]; 
-				local.gulika_kala_index = this.gulika_kalas[(int)bStart];
-				local.yama_kala_index = this.yama_kalas[(int)bStart];
+				local.RahuKalaIndex = this.rahu_kalas[(int)bStart]; 
+				local.GulikaKalaIndex = this.gulika_kalas[(int)bStart];
+				local.YamaKalaIndex = this.yama_kalas[(int)bStart];
 			}
 
 			if (opts.CalcLagnaCusps)
 			{
 				li = new ListViewItem();
-				Sweph.obtainLock(h);
+				Sweph.ObtainLock(h);
 				BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(Body.Name.Lagna), Body.Name.Lagna, BodyType.Name.Lagna, h);
 				DivisionPosition dp_lagna_sr = bp_lagna_sr.ToDivisionPosition(new Division(DivisionType.Rasi));
-				local.lagna_zh = dp_lagna_sr.zodiac_house.value;
+				local.LagnaZodiacHouse = dp_lagna_sr.ZodiacHouse.Value;
 
-				Longitude bp_lagna_base = new Longitude(bp_lagna_sr.Longitude.toZodiacHouseBase());
+				Longitude bp_lagna_base = new Longitude(bp_lagna_sr.Longitude.ToZodiacHouseBase());
 				double ut_transit = ut_sr;
 				for (int i=1; i<=12; i++)
 				{
 					Retrogression r = new Retrogression(h, Body.Name.Lagna);
-					ut_transit = r.GetLagnaTransitForward(ut_transit, bp_lagna_base.add(i*30.0));
+					ut_transit = r.GetLagnaTransitForward(ut_transit, bp_lagna_base.Add(i*30.0));
 
 					PanchangaMomentInfo pmi = new PanchangaMomentInfo(
-						ut_transit, (int)bp_lagna_sr.Longitude.toZodiacHouse().add(i+1).value);
-					local.lagnas_ut.Add(pmi);
+						ut_transit, (int)bp_lagna_sr.Longitude.ToZodiacHouse().Add(i+1).Value);
+					local.LagnasUT.Add(pmi);
 				}
 
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 
 			if (opts.CalcTithiCusps)
 			{
 				Transit t = new Transit(h);
-				Sweph.obtainLock(h);
-				Tithi tithi_start = t.LongitudeOfTithi(ut_sr).toTithi();
-				Tithi tithi_end = t.LongitudeOfTithi(ut_sr+1.0).toTithi();
+				Sweph.ObtainLock(h);
+				Tithi tithi_start = t.LongitudeOfTithi(ut_sr).ToTithi();
+				Tithi tithi_end = t.LongitudeOfTithi(ut_sr+1.0).ToTithi();
 
-				Tithi tithi_curr = tithi_start.add(1);
-				local.tithi_index_start = globals.tithis_ut.Count-1;
-				local.tithi_index_end = globals.tithis_ut.Count-1;
+				Tithi tithi_curr = tithi_start.Add(1);
+				local.TithiIndexStart = globals.TithisUT.Count-1;
+				local.TithiIndexEnd = globals.TithisUT.Count-1;
 
-				while (tithi_start.value != tithi_end.value &&
-					tithi_curr.value != tithi_end.value)
+				while (tithi_start.Value != tithi_end.Value &&
+					tithi_curr.Value != tithi_end.Value)
 				{
-					tithi_curr = tithi_curr.add(2);
-					double dLonToFind = ((double)(int)tithi_curr.value-1)*(360.0/30.0);
+					tithi_curr = tithi_curr.Add(2);
+					double dLonToFind = ((double)(int)tithi_curr.Value -1)*(360.0/30.0);
 					double ut_found = t.LinearSearchBinary(ut_sr, ut_sr+1.0, new Longitude(dLonToFind),
 						new ReturnLon(t.LongitudeOfTithiDir));
 
-					globals.tithis_ut.Add (new PanchangaMomentInfo(ut_found, (int)tithi_curr.value));
-					local.tithi_index_end++;
+					globals.TithisUT.Add (new PanchangaMomentInfo(ut_found, (int)tithi_curr.Value));
+					local.TithiIndexEnd++;
 				}
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 
 
 			if (opts.CalcKaranaCusps)
 			{
 				Transit t = new Transit(h);
-				Sweph.obtainLock(h);
-				Karana karana_start = t.LongitudeOfTithi(ut_sr).toKarana();
-				Karana karana_end = t.LongitudeOfTithi(ut_sr+1.0).toKarana();
+				Sweph.ObtainLock(h);
+				Karana karana_start = t.LongitudeOfTithi(ut_sr).ToKarana();
+				Karana karana_end = t.LongitudeOfTithi(ut_sr+1.0).ToKarana();
 
 				Karana karana_curr = karana_start.add(1);
-				local.karana_index_start = globals.karanas_ut.Count-1;
-				local.karana_index_end = globals.karanas_ut.Count-1;
+				local.KaranaIndexStart = globals.KaranasUT.Count-1;
+				local.KaranaIndexEnd = globals.KaranasUT.Count-1;
 
 				while (karana_start.value != karana_end.value &&
 					karana_curr.value != karana_end.value)
@@ -561,36 +561,36 @@ namespace mhora
 					double ut_found = t.LinearSearchBinary(ut_sr, ut_sr+1.0, new Longitude(dLonToFind),
 						new ReturnLon(t.LongitudeOfTithiDir));
 
-					globals.karanas_ut.Add (new PanchangaMomentInfo(ut_found, (int)karana_curr.value));
-					local.karana_index_end++;
+					globals.KaranasUT.Add (new PanchangaMomentInfo(ut_found, (int)karana_curr.value));
+					local.KaranaIndexEnd++;
 				}
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 
 			if (opts.CalcSMYogaCusps)
 			{
 				Transit t = new Transit(h);
-				Sweph.obtainLock(h);
-				SunMoonYoga sm_start = t.LongitudeOfSunMoonYoga(ut_sr).toSunMoonYoga();
-				SunMoonYoga sm_end = t.LongitudeOfSunMoonYoga(ut_sr+1.0).toSunMoonYoga();
+				Sweph.ObtainLock(h);
+				SunMoonYoga sm_start = t.LongitudeOfSunMoonYoga(ut_sr).ToSunMoonYoga();
+				SunMoonYoga sm_end = t.LongitudeOfSunMoonYoga(ut_sr+1.0).ToSunMoonYoga();
 
-				SunMoonYoga sm_curr = sm_start.add(1);
-				local.smyoga_index_start = globals.smyogas_ut.Count-1;
-				local.smyoga_index_end = globals.smyogas_ut.Count-1;
+				SunMoonYoga sm_curr = sm_start.Add(1);
+				local.SunMoonYogaIndexStart = globals.SunMoonYogasUT.Count-1;
+				local.SunMoonYogaIndexEnd = globals.SunMoonYogasUT.Count-1;
 
-				while (sm_start.value != sm_end.value &&
-					sm_curr.value != sm_end.value)
+				while (sm_start.Value != sm_end.Value &&
+					sm_curr.Value != sm_end.Value)
 				{
-					sm_curr = sm_curr.add(2);
-					double dLonToFind = ((double)(int)sm_curr.value-1)*(360.0/27);
+					sm_curr = sm_curr.Add(2);
+					double dLonToFind = ((double)(int)sm_curr.Value-1)*(360.0/27);
 					double ut_found = t.LinearSearchBinary(ut_sr, ut_sr+1.0, new Longitude(dLonToFind),
 						new ReturnLon(t.LongitudeOfSunMoonYogaDir));
 
-					globals.smyogas_ut.Add(new PanchangaMomentInfo(ut_found, (int)sm_curr.value));
-					local.smyoga_index_end++;
+					globals.SunMoonYogasUT.Add(new PanchangaMomentInfo(ut_found, (int)sm_curr.Value));
+					local.SunMoonYogaIndexEnd++;
 				}
 				
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 
 
@@ -598,39 +598,39 @@ namespace mhora
 			{
 				bool bDiscard = true;
 				Transit t = new Transit(h, Body.Name.Moon);
-				Sweph.obtainLock(h);
-				Nakshatra nak_start = t.GenericLongitude(ut_sr, ref bDiscard).toNakshatra();
-				Nakshatra nak_end = t.GenericLongitude(ut_sr+1.0, ref bDiscard).toNakshatra();
+				Sweph.ObtainLock(h);
+				Nakshatra nak_start = t.GenericLongitude(ut_sr, ref bDiscard).ToNakshatra();
+				Nakshatra nak_end = t.GenericLongitude(ut_sr+1.0, ref bDiscard).ToNakshatra();
 
-				local.nakshatra_index_start = globals.nakshatras_ut.Count-1;
-				local.nakshatra_index_end = globals.nakshatras_ut.Count-1;
+				local.NakshatraIndexStart = globals.NakshatrasUT.Count-1;
+				local.NakshatraIndexEnd = globals.NakshatrasUT.Count-1;
 
-				Nakshatra nak_curr = nak_start.add(1);
+				Nakshatra nak_curr = nak_start.Add(1);
 
-				while (nak_start.value != nak_end.value &&
-					nak_curr.value != nak_end.value)
+				while (nak_start.Value != nak_end.Value &&
+					nak_curr.Value != nak_end.Value)
 				{
-					nak_curr = nak_curr.add(2);
-					double dLonToFind = ((double)((int)nak_curr.value-1))*(360.0/27.0);
+					nak_curr = nak_curr.Add(2);
+					double dLonToFind = ((double)((int)nak_curr.Value-1))*(360.0/27.0);
 					double ut_found = t.LinearSearchBinary(ut_sr, ut_sr+1.0, new Longitude(dLonToFind),
 						new ReturnLon(t.GenericLongitude));
 
-					globals.nakshatras_ut.Add(new PanchangaMomentInfo(ut_found, (int)nak_curr.value));
-					Console.WriteLine ("Found nakshatra {0}", nak_curr.value);
-					local.nakshatra_index_end++;
+					globals.NakshatrasUT.Add(new PanchangaMomentInfo(ut_found, (int)nak_curr.Value));
+					Console.WriteLine ("Found nakshatra {0}", nak_curr.Value);
+					local.NakshatraIndexEnd++;
 				} 
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 
 			if (opts.CalcHoraCusps)
 			{
-				local.horas_ut = hCurr.getHoraCuspsUt();
-				hCurr.calculateHora(ut_sr+1.0/24.0, ref local.hora_base);
+				local.HorasUT = hCurr.GetHoraCuspsUt();
+				hCurr.CalculateHora(ut_sr+1.0/24.0, ref local.HoraBase);
 			}
 
 			if (opts.CalcKalaCusps)
 			{
-				hCurr.calculateKala(ref local.kala_base);
+				hCurr.CalculateKala(ref local.KalaBase);
 			}
 
 
@@ -644,15 +644,15 @@ namespace mhora
 			int day=0, month=0, year=0;
 			double time=0;
 
-			Sweph.swe_revjul(local.sunrise_ut, ref year, ref month, ref day, ref time);
+			Sweph.swe_revjul(local.SunriseUT, ref year, ref month, ref day, ref time);
 			Moment m = new Moment(year, month, day, time);
-			this.mList.Items.Add(string.Format("{0}, {1}", local.wday, m.ToDateString()));
+			this.mList.Items.Add(string.Format("{0}, {1}", local.WeekDay, m.ToDateString()));
 
 			if (this.opts.ShowSunriset)
 			{
 				s = string.Format("Sunrise at {0}. Sunset at {1}",
-					this.timeToString(local.sunrise),
-					this.timeToString(local.sunset));
+					this.timeToString(local.Sunrise),
+					this.timeToString(local.Sunset));
 				this.mList.Items.Add(s);
 			}
 
@@ -660,14 +660,14 @@ namespace mhora
 			{
 					
 				string s_rahu = string.Format("Rahu Kala from {0} to {1}",
-					new Moment(local.kalas_ut[local.rahu_kala_index], h).ToTimeString(), 
-					new Moment(local.kalas_ut[local.rahu_kala_index+1], h).ToTimeString());
+					new Moment(local.KalasUT[local.RahuKalaIndex], h).ToTimeString(), 
+					new Moment(local.KalasUT[local.RahuKalaIndex+1], h).ToTimeString());
 				string s_gulika = string.Format("Gulika Kala from {0} to {1}",
-					new Moment(local.kalas_ut[local.gulika_kala_index], h).ToTimeString(), 
-					new Moment(local.kalas_ut[local.gulika_kala_index+1], h).ToTimeString());
+					new Moment(local.KalasUT[local.GulikaKalaIndex], h).ToTimeString(), 
+					new Moment(local.KalasUT[local.GulikaKalaIndex+1], h).ToTimeString());
 				string s_yama = string.Format("Yama Kala from {0} to {1}",
-					new Moment(local.kalas_ut[local.yama_kala_index], h).ToTimeString(), 
-					new Moment(local.kalas_ut[local.yama_kala_index+1], h).ToTimeString());
+					new Moment(local.KalasUT[local.YamaKalaIndex], h).ToTimeString(), 
+					new Moment(local.KalasUT[local.YamaKalaIndex+1], h).ToTimeString());
 
 				if (opts.OneEntryPerLine)
 				{
@@ -683,24 +683,24 @@ namespace mhora
 			{
 				string s_tithi = "";
 
-				if (local.tithi_index_start == local.tithi_index_end &&
-					local.tithi_index_start >= 0)
+				if (local.TithiIndexStart == local.TithiIndexEnd &&
+					local.TithiIndexStart >= 0)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.tithis_ut[local.tithi_index_start];
-					Tithi t = new Tithi((TithiName)pmi.info);
-					this.mList.Items.Add (string.Format("{0} - full.", t.value));
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[local.TithiIndexStart];
+					Tithi t = new Tithi((TithiName)pmi.Info);
+					this.mList.Items.Add (string.Format("{0} - full.", t.Value));
 				}
 				else
 				{
-					for (int i=local.tithi_index_start+1; i<=local.tithi_index_end; i++)
+					for (int i=local.TithiIndexStart +1; i<=local.TithiIndexEnd; i++)
 					{
 						if (i < 0)
 							continue;
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.tithis_ut[i];
-						Tithi t = new Tithi((TithiName)pmi.info).addReverse(2);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[i];
+						Tithi t = new Tithi((TithiName)pmi.Info).AddReverse(2);
 						s_tithi += string.Format("{0} until {1}", 
-							t.value,
-							this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise));
+							t.Value,
+							this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
 
 						if (this.opts.OneEntryPerLine)
 						{
@@ -720,24 +720,24 @@ namespace mhora
 			{
 				string s_karana = "";
 
-				if (local.karana_index_start == local.karana_index_end &&
-					local.karana_index_start >= 0)
+				if (local.KaranaIndexStart == local.KaranaIndexEnd &&
+					local.KaranaIndexStart >= 0)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.karanas_ut[local.karana_index_start];
-					Karana k = new Karana((KaranaName)pmi.info);
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[local.KaranaIndexStart];
+					Karana k = new Karana((KaranaName)pmi.Info);
 					this.mList.Items.Add (string.Format("{0} karana - full.", k.value));
 				}
 				else
 				{
-					for (int i=local.karana_index_start+1; i<=local.karana_index_end; i++)
+					for (int i=local.KaranaIndexStart +1; i<=local.KaranaIndexEnd; i++)
 					{
 						if (i < 0)
 							continue;
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.karanas_ut[i];
-						Karana k = new Karana((KaranaName)pmi.info).addReverse(2);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[i];
+						Karana k = new Karana((KaranaName)pmi.Info).addReverse(2);
 						s_karana += string.Format("{0} karana until {1}", 
 							k.value,
-							this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise));
+							this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
 
 						if (this.opts.OneEntryPerLine)
 						{
@@ -758,24 +758,24 @@ namespace mhora
 			{
 				string s_smyoga = "";
 
-				if (local.smyoga_index_start == local.smyoga_index_end &&
-					local.smyoga_index_start >= 0)
+				if (local.SunMoonYogaIndexStart == local.SunMoonYogaIndexEnd &&
+					local.SunMoonYogaIndexStart >= 0)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.smyogas_ut[local.smyoga_index_start];
-					SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.info);
-					this.mList.Items.Add (string.Format("{0} yoga - full.", sm.value));
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart];
+					SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info);
+					this.mList.Items.Add (string.Format("{0} yoga - full.", sm.Value));
 				}
 				else
 				{
-					for (int i=local.smyoga_index_start+1; i<=local.smyoga_index_end; i++)
+					for (int i=local.SunMoonYogaIndexStart+1; i<=local.SunMoonYogaIndexEnd; i++)
 					{
 						if (i < 0)
 							continue;
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.smyogas_ut[i];
-						SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.info).addReverse(2);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[i];
+						SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info).AddReverse(2);
 						s_smyoga += string.Format("{0} yoga until {1}", 
-							sm.value,
-							this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise));
+							sm.Value,
+							this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
 
 						if (this.opts.OneEntryPerLine)
 						{
@@ -796,24 +796,24 @@ namespace mhora
 			{
 				string s_nak = "";
 
-				if (local.nakshatra_index_start == local.nakshatra_index_end &&
-					local.nakshatra_index_start >= 0)
+				if (local.KaranaIndexStart == local.KaranaIndexEnd &&
+					local.NakshatraIndexStart >= 0)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.nakshatras_ut[local.nakshatra_index_start];
-					Nakshatra n = new Nakshatra((NakshatraName)pmi.info);
-					this.mList.Items.Add(string.Format("{0} - full.", n.value));
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart];
+					Nakshatra n = new Nakshatra((NakshatraName)pmi.Info);
+					this.mList.Items.Add(string.Format("{0} - full.", n.Value));
 				}
 				else
 				{
-					for (int i=local.nakshatra_index_start+1; i<=local.nakshatra_index_end; i++)
+					for (int i=local.NakshatraIndexStart +1; i<=local.NakshatraIndexEnd; i++)
 					{
 						if (i < 0)
 							continue;
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.nakshatras_ut[i];
-						Nakshatra n = new Nakshatra((NakshatraName)pmi.info).addReverse(2);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[i];
+						Nakshatra n = new Nakshatra((NakshatraName)pmi.Info).AddReverse(2);
 						s_nak += string.Format("{0} until {1}",
-							n.value,
-							this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise));
+							n.Value,
+							this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
 						if (this.opts.OneEntryPerLine)
 						{
 							this.mList.Items.Add (s_nak);
@@ -830,14 +830,14 @@ namespace mhora
 			if (this.opts.CalcLagnaCusps)
 			{
 				string sLagna = "    ";
-				ZodiacHouse zBase = new ZodiacHouse(local.lagna_zh);
+				ZodiacHouse zBase = new ZodiacHouse(local.LagnaZodiacHouse);
 				for (int i=0; i<12; i++)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.lagnas_ut[i];
-					ZodiacHouse zCurr = new ZodiacHouse((ZodiacHouseName)pmi.info);
-					zCurr = zCurr.add(12);
-					sLagna = string.Format ("{0}{1} Lagna until {2}. ", sLagna, zCurr.value,
-						this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise));
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.LagnasUT[i];
+					ZodiacHouse zCurr = new ZodiacHouse((ZodiacHouseName)pmi.Info);
+					zCurr = zCurr.Add(12);
+					sLagna = string.Format ("{0}{1} Lagna until {2}. ", sLagna, zCurr.Value,
+						this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
 					if (opts.OneEntryPerLine || i % 4 == 3)
 					{
 						this.mList.Items.Add (sLagna);
@@ -851,10 +851,10 @@ namespace mhora
 				string sHora = "    ";
 				for (int i=0; i<24; i++)
 				{
-					int ib = (int)Basics.Normalize_exc_lower(0,7,local.hora_base+i);
-					Body.Name bHora = h.horaOrder[ib];
+					int ib = (int)Basics.Normalize_exc_lower(0,7,local.HoraBase+i);
+					Body.Name bHora = h.HoraOrder[ib];
 					sHora = string.Format("{0}{1} hora until {2}. ", sHora, bHora, 
-						this.utTimeToString(local.horas_ut[i+1], local.sunrise_ut, local.sunrise));
+						this.utTimeToString(local.HorasUT[i+1], local.SunriseUT, local.Sunrise));
 					if (opts.OneEntryPerLine || i % 4 == 3)
 					{
 						this.mList.Items.Add (sHora);
@@ -868,10 +868,10 @@ namespace mhora
 				string sKala = "    ";
 				for (int i=0; i<16; i++)
 				{
-					int ib = (int)Basics.Normalize_exc_lower(0, 8,local.kala_base+i);
-					Body.Name bKala = h.kalaOrder[ib];
+					int ib = (int)Basics.Normalize_exc_lower(0, 8,local.KalaBase+i);
+					Body.Name bKala = h.KalaOrder[ib];
 					sKala = string.Format("{0}{1} kala until {2}. ", sKala, bKala,
-						this.utTimeToString(local.kalas_ut[i+1], local.sunrise_ut, local.sunrise));
+						this.utTimeToString(local.KalasUT[i+1], local.SunriseUT, local.Sunrise));
 					if (opts.OneEntryPerLine || i % 4 == 3)
 					{
 						this.mList.Items.Add (sKala);

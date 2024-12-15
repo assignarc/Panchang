@@ -37,7 +37,7 @@ namespace org.transliteral.panchang
 				this.CalculateRasiStrengths();
 				this.CalculateGrahaStrengths();
 			}
-			public void recalculate ()
+            public void Recalculate()
 			{
 				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesStrongerCoLord(h));
 				mLordSco = fs.StrongerGraha(Body.Name.Mars, Body.Name.Ketu, true);
@@ -78,7 +78,7 @@ namespace org.transliteral.panchang
 			public void CalculateRasiStrengths()
 			{
 				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesNaisargikaDasaRasi(h));
-				this.mZodiacStrengths = fs.ResultsZodiacKendras(h.CalculateDivisionPosition(h.getPosition(Body.Name.Lagna), dtype).zodiac_house.value);
+				this.mZodiacStrengths = fs.ResultsZodiacKendras(h.CalculateDivisionPosition(h.GetPosition(Body.Name.Lagna), dtype).ZodiacHouse.Value);
 			}
 			public void CalculateGrahaStrengths()
 			{
@@ -91,7 +91,7 @@ namespace org.transliteral.panchang
 					OrderedZodiacHouses oz = this.mZodiacStrengths[i];
 					foreach (ZodiacHouseName zn in oz.houses)
 					{
-						ArrayList temp = fs_temp.findGrahasInHouse(zn);
+						ArrayList temp = fs_temp.FindGrahasInHouse(zn);
 						Body.Name[] temp_arr = new Body.Name[temp.Count];
 						for (int j=0; j< temp.Count; j++)
 							temp_arr[j] = (Body.Name)temp[j];
@@ -103,7 +103,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("1: Colord")]
-			[PropertyOrder(1), PGDisplayName("Colord")]
+			[PropertyOrder(1), @DisplayName("Colord")]
 			[Description("Is Ketu or Mars the stronger lord of Scorpio?")]
 			public Body.Name Lord_Sco
 			{
@@ -112,7 +112,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("1: Colord")]
-			[PropertyOrder(2), PGDisplayName("Lord of Aquarius")]
+			[PropertyOrder(2), @DisplayName("Lord of Aquarius")]
 			[Description("Is Rahu or Saturn the stronger lord of Aquarius?")]
 			public Body.Name Lord_Aqu
 			{
@@ -121,7 +121,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("2: Strengths")]
-			[PropertyOrder(2), PGDisplayName("Graha strength order")]
+			[PropertyOrder(2), @DisplayName("Graha strength order")]
 			public OrderedGrahas[] GrahaStrengths
 			{
 				get { return this.mGrahasStrengths; }
@@ -129,7 +129,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("2: Strengths")]
-			[PropertyOrder(1), PGDisplayName("Rasi strength order")]
+			[PropertyOrder(1), @DisplayName("Rasi strength order")]
 			public OrderedZodiacHouses[] RasiStrengths
 			{
 				get { return this.mZodiacStrengths; }
@@ -137,7 +137,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("4: Exclude Antardasas")]
-			[PGDisplayName("Exclude Rahu / Ketu")]
+			[@DisplayName("Exclude Rahu / Ketu")]
 			public bool ExcludeNodes
 			{
 				get { return this.bExcludeNodes; }
@@ -145,7 +145,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("4: Exclude Antardasas")]
-			[PGDisplayName("Exclude dasa lord")]
+			[@DisplayName("Exclude dasa lord")]
 			public bool ExcludeDasaLord
 			{
 				get { return this.bExcludeDasaLord; }
@@ -153,7 +153,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("4: Exclude Antardasas")]
-			[PGDisplayName("Exclude grahas in 3rd & 10th")]
+			[@DisplayName("Exclude grahas in 3rd & 10th")]
 			public bool Exclude_3_10
 			{
 				get { return this.bExclude_3_10; }
@@ -161,7 +161,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("4: Exclude Antardasas")]
-			[PGDisplayName("Exclude grahas in 2nd, 6th, 11th & 12th")]
+			[@DisplayName("Exclude grahas in 2nd, 6th, 11th & 12th")]
 			public bool Exclude_2_6_11_12
 			{
 				get { return this.bExclude_2_6_11_12; }
@@ -194,15 +194,9 @@ namespace org.transliteral.panchang
 			h = _h;
 			options = new UserOptions(h);
 		}
-		public double paramAyus () 
-		{
-			return 120.0;
-		}
-		public void recalculateOptions ()
-		{
-			options.recalculate();
-		}
-		public double lengthOfDasa (Body.Name plt)
+        public double ParamAyus() => 120.0;
+        public void RecalculateOptions() => options.Recalculate();
+        public double lengthOfDasa (Body.Name plt)
 		{
 			switch (plt)
 			{
@@ -228,7 +222,7 @@ namespace org.transliteral.panchang
 					Body.Name.Saturn, Body.Name.Lagna
 				};
 
-			double cycle_start = paramAyus() * (double)cycle;
+			double cycle_start = ParamAyus() * (double)cycle;
 			double curr = 0.0;
 			foreach (Body.Name bn in order) 
 			{
@@ -253,9 +247,9 @@ namespace org.transliteral.panchang
 			int diff = 0;
 			if (options.Exclude_3_10 || options.Exclude_2_6_11_12)
 			{
-				ZodiacHouse zhDasa = h.getPosition(pdi.graha).ToDivisionPosition(options.dtype).zodiac_house;
-				ZodiacHouse zhAntar = h.getPosition(graha).ToDivisionPosition(options.dtype).zodiac_house;
-				diff = zhDasa.numHousesBetween(zhAntar);
+				ZodiacHouse zhDasa = h.GetPosition(pdi.graha).ToDivisionPosition(options.dtype).ZodiacHouse;
+				ZodiacHouse zhAntar = h.GetPosition(graha).ToDivisionPosition(options.dtype).ZodiacHouse;
+				diff = zhDasa.NumHousesBetween(zhAntar);
 			}
 
 			if (options.Exclude_3_10 == true &&	(diff == 3 || diff == 10))
@@ -270,8 +264,8 @@ namespace org.transliteral.panchang
 		public ArrayList AntarDasa (DasaEntry pdi) 
 		{
 			OrderedGrahas orderedAntar = new OrderedGrahas();
-			ZodiacHouse lzh = h.getPosition(pdi.graha).ToDivisionPosition(options.dtype).zodiac_house;
-			int kendra_start = (int)Basics.Normalize_exc_lower(0, 3,((int)lzh.value % 3));
+			ZodiacHouse lzh = h.GetPosition(pdi.graha).ToDivisionPosition(options.dtype).ZodiacHouse;
+			int kendra_start = (int)Basics.Normalize_exc_lower(0, 3,((int)lzh.Value % 3));
 			for (int i=kendra_start; i<=2; i++)
 			{
 				foreach (Body.Name b in this.options.GrahaStrengths[i].grahas)
@@ -295,8 +289,8 @@ namespace org.transliteral.panchang
 				if (this.ExcludeGraha(pdi, (Body.Name)orderedAntar.grahas[i]))
 					continue;
 
-				int diff = lzh.numHousesBetween(h.getPosition(
-					(Body.Name)orderedAntar.grahas[i]).ToDivisionPosition(options.dtype).zodiac_house);
+				int diff = lzh.NumHousesBetween(h.GetPosition(
+					(Body.Name)orderedAntar.grahas[i]).ToDivisionPosition(options.dtype).ZodiacHouse);
 				switch (diff)
 				{
 					case 7: 
@@ -343,11 +337,8 @@ namespace org.transliteral.panchang
 		{
 			return "Naisargika Graha Dasa (SR)";
 		}
-		public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		public object SetOptions (Object a)
+        public Object Options => this.options.Clone();
+        public object SetOptions (Object a)
 		{
 			UserOptions newOpts = (UserOptions)a;
 			this.options.CompareAndRecalculate(newOpts);

@@ -265,18 +265,18 @@ namespace mhora
             int[][] bins = new int[9][];
 
             if (userOptions.SavType == ESavType.Normal)
-                bins[0] = av.getSav();
+                bins[0] = av.GetSav();
             else
-                bins[0] = av.getSavRao();
+                bins[0] = av.GetSavRao();
 
-            bins[1] = av.getPav(Body.Name.Lagna);
-            bins[2] = av.getPav(Body.Name.Sun);
-            bins[3] = av.getPav(Body.Name.Moon);
-            bins[4] = av.getPav(Body.Name.Mars);
-            bins[5] = av.getPav(Body.Name.Mercury);
-            bins[6] = av.getPav(Body.Name.Jupiter);
-            bins[7] = av.getPav(Body.Name.Venus);
-            bins[8] = av.getPav(Body.Name.Saturn);
+            bins[1] = av.GetPav(Body.Name.Lagna);
+            bins[2] = av.GetPav(Body.Name.Sun);
+            bins[3] = av.GetPav(Body.Name.Moon);
+            bins[4] = av.GetPav(Body.Name.Mars);
+            bins[5] = av.GetPav(Body.Name.Mercury);
+            bins[6] = av.GetPav(Body.Name.Jupiter);
+            bins[7] = av.GetPav(Body.Name.Venus);
+            bins[8] = av.GetPav(Body.Name.Saturn);
 
             string[] strs = new string[9];
             strs[0] = "SAV";
@@ -307,7 +307,7 @@ namespace mhora
                     for (int z = 0; z < 12; z++)
                     {
                         Font f = fBig;
-                        int zh = (int)h.getPosition(bin_body[off]).ToDivisionPosition(userOptions.VargaType).zodiac_house.value;
+                        int zh = (int)h.GetPosition(bin_body[off]).ToDivisionPosition(userOptions.VargaType).ZodiacHouse.Value;
                         if (z == zh - 1)
                             f = fBigBold;
                         Point p = dc.GetSingleItemOffset(new ZodiacHouse((ZodiacHouseName)z + 1));
@@ -443,12 +443,12 @@ namespace mhora
             if (this.outerBodies.Length > 1)
             {
                 if (this.userOptions.SavType == ESavType.Rao)
-                    inner_bindus = av.getSavRao();
+                    inner_bindus = av.GetSavRao();
                 else
-                    inner_bindus = av.getSav();
+                    inner_bindus = av.GetSav();
             }
             else
-                inner_bindus = av.getPav(this.outerBodies[0]);
+                inner_bindus = av.GetPav(this.outerBodies[0]);
 
             for (int i = 0; i < 12; i++)
             {
@@ -547,7 +547,7 @@ namespace mhora
             // write the pav values at the top of the circle
             foreach (Body.Name bOuter in outerBodies)
             {
-                int[] pav = av.getPav(bOuter);
+                int[] pav = av.GetPav(bOuter);
                 for (int i = 0; i < 12; i++)
                 {
                     int iRing = i * 8 + av.BodyToInt(bOuter);
@@ -572,7 +572,7 @@ namespace mhora
                 {
                     int iOuter = av.BodyToInt(bOuter);
                     int iInner = av.BodyToInt(bInner);
-                    ZodiacHouseName[] zhBins = av.getBindus(bOuter, bInner);
+                    ZodiacHouseName[] zhBins = av.GetBindus(bOuter, bInner);
                     Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(bInner));
 
                     foreach (ZodiacHouseName zh in zhBins)

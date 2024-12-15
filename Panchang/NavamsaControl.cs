@@ -183,13 +183,13 @@ namespace mhora
 
 			}
 
-			double dist_sat = h.getPosition(Body.Name.Saturn).Distance;
+			double dist_sat = h.GetPosition(Body.Name.Saturn).Distance;
 			foreach (Body.Name b in bodies)
 			{
 				Pen pn_b = new Pen(GlobalOptions.Instance.getBinduColor(b));
 				Brush br_b = new SolidBrush(GlobalOptions.Instance.getBinduColor(b));
-				BodyPosition bp = h.getPosition(b);
-				ResetChakra (g, bp.Longitude.value);
+				BodyPosition bp = h.GetPosition(b);
+				ResetChakra (g, bp.Longitude.Value);
 				int chWidth=2;
 				g.DrawEllipse (pn_black, 110-(chWidth), 0, 1, 1);
 				g.FillEllipse(br_b, 120-chWidth, -chWidth, chWidth*2, chWidth*2);
@@ -203,18 +203,15 @@ namespace mhora
 				g.DrawEllipse(pn_grey, 40+dist-chWidth, -chWidth, chWidth*2, chWidth*2);
 
 				// speed
-				double dspSize = (bp.Speed_longitude/360.0)*12000.0;
-				if (bp.Speed_longitude < 0) dspSize *= 2.0;
+				double dspSize = (bp.SpeedLongitude/360.0)*12000.0;
+				if (bp.SpeedLongitude < 0) dspSize *= 2.0;
 				int spSize = (int)dspSize;
 				if (spSize > 40) spSize = 40;
-				if (bp.Speed_longitude > 0)
+				if (bp.SpeedLongitude > 0)
 					g.DrawLine(pn_lgrey, 40+dist, -chWidth, 40+dist, -spSize);
 				else
 					g.DrawLine(pn_lgrey, 40+dist, chWidth, 40+dist, -spSize);
 			}
-			
-
-
 		}
 
 		private Image DrawToBuffer(bool bRecalc)

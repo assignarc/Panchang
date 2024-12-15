@@ -8,21 +8,26 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IMarichi, IVasishtha, IAngirasa, IAtri, IPulastya,
-			IPulaha, IKretu
+			IMarichi, 
+			IVasishtha, 
+			IAngirasa, 
+			IAtri, 
+			IPulastya,
+			IPulaha, 
+			IKretu
 		};
-		public static int getScore (Nakshatra m, Nakshatra n)
+        public static int GetScore(Nakshatra m, Nakshatra n)
 		{
-			if (getType(m) == getType(n)) return 0;
+			if (GetType(m) == GetType(n)) return 0;
 			return 1;
 		}
-		public static int getMaxScore ()
+		public static int GetMaxScore ()
 		{
 			return 1;
 		}
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Pushya:

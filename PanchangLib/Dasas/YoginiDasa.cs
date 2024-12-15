@@ -9,21 +9,18 @@ namespace org.transliteral.panchang
     public class YoginiDasa : NakshatraDasa, INakshatraDasa
 	{
 		private Horoscope h;
-		override public Object GetOptions ()
-		{
-			return new Object();
-		}
-		override public object SetOptions (Object a)
+        override public Object Options => new Object();
+        override public object SetOptions (Object a)
 		{
 			return new object();
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
+			return Dasa (h.GetPosition(Body.Name.Moon).Longitude, 1, cycle );
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
-			return _AntarDasa (di);
+			return base.AntarDasa (di);
 		}
 		public String Description ()
 		{
@@ -35,19 +32,19 @@ namespace org.transliteral.panchang
 			h = _h;
 		}
 
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
 			return 36.0;
 		}
-		public int numberOfDasaItems ()
+		public int NumberOfDasaItems ()
 		{
 			return 8;
 		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
+		public DasaEntry NextDasaLord (DasaEntry di) 
 		{
-			return new DasaEntry (nextDasaLordHelper(di.graha), 0, 0, di.level, "");
+			return new DasaEntry (NextDasaLordHelper(di.graha), 0, 0, di.level, "");
 		}
-		private Body.Name nextDasaLordHelper (Body.Name b)
+        private Body.Name NextDasaLordHelper(Body.Name b)
 		{
 			switch (b)
 			{
@@ -63,7 +60,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "YoginiDasa::nextDasaLord");
 			return Body.Name.Sun;
 		}
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa(Body.Name plt)
 		{
 			switch (plt)
 			{
@@ -79,7 +76,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "YoginiDasa::lengthOfDasa");
 			return 0;
 		}
-		public Body.Name lordOfNakshatra(Nakshatra n) 
+		public Body.Name LordOfNakshatra(Nakshatra n) 
 		{
 			Body.Name[] lords = new Body.Name[]
 			{
@@ -87,7 +84,7 @@ namespace org.transliteral.panchang
 				Body.Name.Mercury, Body.Name.Saturn, Body.Name.Venus, Body.Name.Rahu
 			};
 
-			int index = ((int)n.value+3)%8;
+			int index = ((int)n.Value+3)%8;
 			if (index == 0) index =  8;
 			index--;
 			return (Body.Name)(lords[index]);

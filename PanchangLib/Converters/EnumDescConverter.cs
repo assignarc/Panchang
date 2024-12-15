@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -80,15 +76,11 @@ namespace org.transliteral.panchang
 
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
-            if (value is Enum && destinationType == typeof(string))
-            {
-                return GetEnumDescription((Enum)value);
-            }
-            if (value is string && destinationType == typeof(string))
-            {
-                return GetEnumDescription(myVal, (string)value);
-            }
-            return base.ConvertTo(context, culture, value, destinationType);
+            return value is Enum && destinationType == typeof(string)
+                ? GetEnumDescription((Enum)value)
+                : value is string && destinationType == typeof(string)
+                ? GetEnumDescription(myVal, (string)value)
+                : base.ConvertTo(context, culture, value, destinationType);
         }
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)

@@ -11,12 +11,12 @@ namespace org.transliteral.panchang
     /// </summary>
     public interface IDasa: IUpdateable
 	{
-		double paramAyus();
+		double ParamAyus();
 		ArrayList Dasa(int cycle);
 		ArrayList AntarDasa (DasaEntry pdi);
 		string EntryDescription (DasaEntry de, Moment start, Moment end);
 		String Description ();
 		void DivisionChanged (Division d);
-		void recalculateOptions ();
+		void RecalculateOptions ();
 	}
 }

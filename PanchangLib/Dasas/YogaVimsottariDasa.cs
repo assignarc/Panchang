@@ -22,9 +22,11 @@ namespace org.transliteral.panchang
 			}
 			public Object Clone ()
 			{
-				UserOptions options = new UserOptions ();
-				options.bExpungeTravelled = this.bExpungeTravelled;
-				return options;
+                UserOptions options = new UserOptions
+                {
+                    bExpungeTravelled = this.bExpungeTravelled
+                };
+                return options;
 			}
 			public Object SetOptions (Object b)
 			{
@@ -36,7 +38,7 @@ namespace org.transliteral.panchang
 				return this.Clone();
 			}
 
-			[PGNotVisible]
+			[InVisible]
 			public bool UseYogaRemainder
 			{
 				get { return this.bExpungeTravelled; }
@@ -44,35 +46,32 @@ namespace org.transliteral.panchang
 			}
 		}
 
-		override public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		override public object SetOptions (Object a)
+        override public Object Options => this.options.Clone();
+        override public object SetOptions (Object a)
 		{
 			this.options = (UserOptions)this.options.SetOptions(a);
 			if (this.RecalculateEvent != null)
-				this.RecalculateEvent();
+                this.RecalculateEvent();
 			return this.options.Clone();
 		}
 		public ArrayList Dasa(int cycle)
 		{
 			Transit t = new Transit(h);
 			Longitude l = t.LongitudeOfSunMoonYoga(h.baseUT);
-			return this._YogaDasa(l, 1, cycle);
+			return this.YogaDasa(l, 1, cycle);
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
-			return _AntarDasa (di);
+			return base.AntarDasa (di);
 		}
 		public String Description ()
 		{
 			return String.Format("Yoga Vimsottari Dasa");
 			
 		}
-		public Body.Name lordOfYoga (Longitude l)
+		public Body.Name LordOfYoga (Longitude l)
 		{
-			return l.toSunMoonYoga().getLord();
+			return l.ToSunMoonYoga().GetLord();
 		}
 		public YogaVimsottariDasa (Horoscope _h)
 		{
@@ -83,25 +82,25 @@ namespace org.transliteral.panchang
 			vd = new VimsottariDasa(h);
 		}
 
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
-			return vd.paramAyus();
+			return vd.ParamAyus();
 		}
-		public int numberOfDasaItems ()
+		public int NumberOfDasaItems ()
 		{
-			return vd.numberOfDasaItems();
+			return vd.NumberOfDasaItems();
 		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
+		public DasaEntry NextDasaLord (DasaEntry di) 
 		{
-			return vd.nextDasaLord(di);
+			return vd.NextDasaLord(di);
 		}
 
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa(Body.Name plt)
 		{
-			return vd.lengthOfDasa(plt);
+			return vd.LengthOfDasa(plt);
 
 		}
-		public Body.Name lordOfNakshatra (Nakshatra n)
+		public Body.Name LordOfNakshatra(Nakshatra n)
 		{
 			throw new Exception();
 			return Body.Name.Lagna;

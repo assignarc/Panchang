@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
     public class Logger
     {
@@ -15,16 +8,16 @@ namespace org.transliteral.panchang
         }
         public enum Level : int
         {
-            INFO = 1,
+            INFO = 0,
             TRACE = 2,
             DEBUG = 4,
             ERROR = 8,
-            FATAL = 16,
+            FATAL = 16
         }
-        private static Destination _destination = Destination.CONSOLE;
-        private static Level _destinationLevel = Level.DEBUG;
+        private static readonly Destination _destination = Destination.CONSOLE;
+        private static readonly Level _destinationLevel = Level.DEBUG;
 
-        public static void Log(Level _level, string message)
+        public static void Log( string message, Level _level = Level.INFO)
         {
             if (_level < _destinationLevel)
                 return;
@@ -36,11 +29,11 @@ namespace org.transliteral.panchang
                    System.Diagnostics.Debug.WriteLine(message); break;
             }
         }
-        public static void Debug(string message) => Log(Level.DEBUG, message);
-        public static void Info(string message) => Log(Level.INFO, message);
-        public static void Trace(string message) => Log(Level.TRACE, message);
-        public static void Error(string message) => Log(Level.ERROR, message);
-        public static void Fatal(string message) => Log(Level.FATAL, message);
+        public static void Debug(string message) => Log( message, Level.DEBUG);
+        public static void Info(string message) => Log(message, Level.INFO);
+        public static void Trace(string message) => Log(message, Level.TRACE);
+        public static void Error(string message) => Log(message, Level.ERROR);
+        public static void Fatal(string message) => Log(message, Level.FATAL);
 
     }
 }

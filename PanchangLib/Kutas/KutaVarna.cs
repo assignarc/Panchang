@@ -8,16 +8,21 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IBrahmana, IKshatriya, IVaishya, ISudra, IAnuloma, IPratiloma
+			IBrahmana, 
+			IKshatriya, 
+			IVaishya, 
+			ISudra, 
+			IAnuloma, 
+			IPratiloma
 		};
-		public static int getMaxScore ()
+        public static int GetMaxScore()
 		{
 			return 2;
 		}
-		public static int getScore (Nakshatra m, Nakshatra f)
+		public static int GetScore (Nakshatra m, Nakshatra f)
 		{
-			EType em = getType(m);
-			EType ef = getType(f);
+			EType em = GetType(m);
+			EType ef = GetType(f);
 			if (em == ef) return 2;
 			if (em == EType.IBrahmana && 
 				(ef == EType.IKshatriya || ef == EType.IVaishya || ef == EType.ISudra)) 
@@ -30,9 +35,9 @@ namespace org.transliteral.panchang
 			if (ef == EType.IAnuloma && em != EType.IAnuloma) return 1;
 			return 0;
 		}
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (((int)n.value)%6)
+			switch (((int)n.Value)%6)
 			{
 				case 1: return EType.IBrahmana;
 				case 2: return EType.IKshatriya;

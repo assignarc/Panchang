@@ -703,8 +703,8 @@ namespace mhora
 		{
 			HoraInfo info = (new JagannathaHoraDescriptor(fileName)).toHoraInfo();
 			Horoscope h = new Horoscope(info, new HoroscopeOptions());
-			if (h.getPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value ==
-				h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house.value)
+			if (h.GetPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value ==
+				h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value)
                 return true;
 
 			return false;

@@ -230,7 +230,7 @@ namespace mhora
 
 				//MhoraControlContainer mcc = new MhoraControlContainer(mc);
 				mc.ControlHoroscope = h;
-				switch (h.info.type)
+				switch (h.Info.type)
 				{
 					case HoraType.TithiPravesh:
 						mc.ViewControl(MhoraControlContainer.BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedTithi);

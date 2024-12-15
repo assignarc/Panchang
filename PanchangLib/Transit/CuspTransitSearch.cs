@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
 
     public class CuspTransitSearch
@@ -31,14 +25,14 @@ namespace org.transliteral.panchang
         {
             bool bDiscard = true;
 
-            Sweph.obtainLock(h);
+            Sweph.ObtainLock(h);
             Transit t = new Transit(h, SearchBody);
-            double ut_base = StartDate.toUniversalTime() - h.info.TimeZone.toDouble() / 24.0;
+            double ut_base = StartDate.ToUniversalTime() - h.Info.TimeZone.toDouble() / 24.0;
             Longitude lon_curr = t.GenericLongitude(ut_base, ref bDiscard);
-            Sweph.releaseLock(h);
+            Sweph.ReleaseLock(h);
 
             double diff = 0;
-            diff = TransitPoint.sub(lon_curr).value;
+            diff = TransitPoint.Subtract(lon_curr).Value;
 
             if (false == Forward)
             {
@@ -46,21 +40,18 @@ namespace org.transliteral.panchang
             }
 
             double ut_diff_approx = diff / 360.0 * this.DirectSpeed(SearchBody);
-            Sweph.obtainLock(h);
+            Sweph.ObtainLock(h);
             double found_ut = 0;
 
             if (SearchBody == Body.Name.Lagna)
                 found_ut = t.LinearSearchBinary(ut_base + ut_diff_approx - 3.0 / 24.0, ut_base + ut_diff_approx + 3.0 / 24.0, TransitPoint, new ReturnLon(t.GenericLongitude));
             else
                 found_ut = t.LinearSearch(ut_base + ut_diff_approx, TransitPoint, new ReturnLon(t.GenericLongitude));
-            FoundLon.value = t.GenericLongitude(found_ut, ref bForward).value;
+            FoundLon.Value = t.GenericLongitude(found_ut, ref bForward).Value;
             bForward = true;
-            Sweph.releaseLock(h);
+            Sweph.ReleaseLock(h);
             return found_ut;
         }
-
-
-
         public double TransitSearch(Body.Name SearchBody, Moment StartDate,
             bool Forward, Longitude TransitPoint,
             Longitude FoundLon, ref bool bForward)
@@ -74,12 +65,12 @@ namespace org.transliteral.panchang
             if (((int)SearchBody <= (int)Body.Name.Moon ||
                 (int)SearchBody > (int)Body.Name.Saturn) &&
                 SearchBody != Body.Name.Lagna)
-                return StartDate.toUniversalTime();
-            Sweph.obtainLock(h);
+                return StartDate.ToUniversalTime();
+            Sweph.ObtainLock(h);
 
             Retrogression r = new Retrogression(h, SearchBody);
 
-            double julday_ut = StartDate.toUniversalTime() - h.info.tz.toDouble() / 24.0;
+            double julday_ut = StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
             double found_ut = julday_ut;
 
             if (Forward)
@@ -87,9 +78,9 @@ namespace org.transliteral.panchang
             else
                 found_ut = r.GetTransitBackward(julday_ut, TransitPoint);
 
-            FoundLon.value = r.GetLon(found_ut, ref bForward).value;
+            FoundLon.Value = r.GetLon(found_ut, ref bForward).Value;
 
-            Sweph.releaseLock(h);
+            Sweph.ReleaseLock(h);
             return found_ut;
         }
     }

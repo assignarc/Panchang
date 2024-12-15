@@ -18,7 +18,7 @@ namespace mhora
 			
 		}
 
-		public override void LogMessage(string mesage)
+		public void LogMessage(string mesage)
 		{
 			MessageBox.Show(mesage);
         }

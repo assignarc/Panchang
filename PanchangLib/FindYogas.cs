@@ -43,14 +43,14 @@ namespace org.transliteral.panchang
 	public class FindYogas
 	{	
 
-		Horoscope h = null;
+		Horoscope horoscope = null;
 		public Node rootNode = null;
-		ZodiacHouse zhLagna = null;
-		Division _dtype = null;
+		ZodiacHouse zodiacLagna = null;
+		Division divisionType = null;
 
-		static public void Test (Horoscope h, Division dtype)
+		static public void Test (Horoscope h, Division division)
 		{
-			FindYogas fy = new FindYogas(h, dtype);
+			FindYogas fy = new FindYogas(h, division);
 			//fy.evaluateYoga ("gr<sun> in hse <1st>");
 			//fy.evaluateYoga ("  gr<sun> in hse <1st>  ");
 			//fy.evaluateYoga ("( gr<sun> in   hse <1st> )");
@@ -78,46 +78,44 @@ namespace org.transliteral.panchang
 		}
 
 
-		public FindYogas(Horoscope _h, Division __dtype)
+		public FindYogas(Horoscope h, Division d)
 		{
-			h = _h;
-			_dtype = __dtype;
-			zhLagna = h.getPosition(Body.Name.Lagna).ToDivisionPosition(_dtype).zodiac_house;
+			horoscope = h;
+			divisionType = d;
+			zodiacLagna = horoscope.GetPosition(Body.Name.Lagna).ToDivisionPosition(divisionType).ZodiacHouse;
 		}
 
 
 		XmlYogaNode xmlNode = null;
 		
-		public string getRuleName ()
+		public string GetRuleName ()
 		{
 			if (xmlNode == null || xmlNode.horaRule == null)
 				return "";
 			return xmlNode.horaRule;
 			
 		}
-		public bool evaluateYoga (XmlYogaNode n)
+        public bool EvaluateYoga(XmlYogaNode node)
 		{
-			xmlNode = n;
-			return this.evaluateYoga(n.horaRule);
+			xmlNode = node;
+			return this.EvaluateYoga(node.horaRule);
 		}
 
-		public bool evaluateYoga (string rule)
+		public bool EvaluateYoga (string rule)
 		{
-			rootNode = new Node (null, rule, this._dtype);
+			rootNode = new Node (null, rule, this.divisionType);
 
-			//Console.WriteLine ("");
-			//Console.WriteLine ("Evaluating yoga .{0}.", rule);
-			this.generateSimpleParseTree();
-			this.expandSimpleNodes();
-			bool bRet = this.reduceTree();
+            Logger.Info(String.Format("Evaluating yoga .{0}.", rule));
+			this.GenerateSimpleParseTree();
+			this.ExpandSimpleNodes();
+			bool bRet = this.ReduceTree();
 
-			//Console.WriteLine ("Final: {0} = {1}", bRet, rule);
-			//Console.WriteLine ("");
+            Logger.Info(String.Format("Final: {0} = {1}", bRet, rule));
 			return bRet;
 		}
 
 
-		public string trimWhitespace (string sCurr)
+		public string TrimWhitespace (string sCurr)
 		{
 			// remove leading & trailing whitespaces
 			sCurr = Regex.Replace(sCurr, @"^\s*(.*?)\s*$", "$1");
@@ -128,7 +126,7 @@ namespace org.transliteral.panchang
 			return sCurr;
 		}
 
-		public string peelOuterBrackets (string sCurr)
+		public string PeelOuterBrackets (string sCurr)
 		{
 			// remove leading "(" and whitespace
 			sCurr = Regex.Replace(sCurr, @"^\s*\(\s*", "");
@@ -137,7 +135,7 @@ namespace org.transliteral.panchang
 			return sCurr;
 		}
 
-		public string[] getComplexTerms (string sInit)
+		public string[] GetComplexTerms (string sInit)
 		{
 			ArrayList al = new ArrayList();
 
@@ -179,140 +177,140 @@ namespace org.transliteral.panchang
 			return (string[])al.ToArray(typeof(string));
 		}
 
-		public bool checkBirthTime (string sTime)
+		public bool CheckBirthTime (string sTime)
 		{
 			switch (sTime)
 			{
 				case "day":
-					return h.isDayBirth();
+					return horoscope.IsDayBirth();
 				case "night":
-					return !h.isDayBirth();
+					return !horoscope.IsDayBirth();
 				default:
-					LogMessage("Unknown birth time: " + sTime + this.getRuleName());
+					Logger.Info("Unknown birth time: " + sTime + this.GetRuleName());
 					return false;
 			}
 		}
-		public bool evaluateNode (Node n)
+		public bool EvaluateNode (Node node)
 		{
-			Debug.Assert (n.type == Node.EType.Single);
+			Debug.Assert (node.type == Node.EType.Single);
 
 			string cats = "";
-			string[] simpleTerms = n.term.Split(new char[] {' '});
+			string[] simpleTerms = node.term.Split(new char[] {' '});
 			string[] simpleVals = new string[simpleTerms.Length];
 			for (int i=0; i<simpleTerms.Length; i++)
 			{
 				cats += " " + this.getCategory(simpleTerms[i]);
-				simpleVals[i] = (string)this.getValues(simpleTerms[i])[0];
+				simpleVals[i] = (string)this.GetValues(simpleTerms[i])[0];
 			}
-			cats = this.trimWhitespace(cats);
+			cats = this.TrimWhitespace(cats);
 
 			Body.Name b1, b2, b3;
 			ZodiacHouseName zh1, zh2;
 			int hse1, hse2;
 
-			Division evalDiv = n.dtype;
+			Division evalDiv = node.dtype;
 			switch (cats)
 			{
 				case "gr: in rasi:":
 				case "gr: in house:":
-					b1 = this.stringToBody(simpleVals[0]);
-					zh1 = this.stringToRasi(simpleVals[2]);
-					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value == zh1)
+					b1 = this.StringToBody(simpleVals[0]);
+					zh1 = this.StringToRasi(simpleVals[2]);
+					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
 						return true;
 					return false;
 				case "gr: in mt":
 				case "gr: in moolatrikona":
-					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).ToDivisionPosition(evalDiv).isInMoolaTrikona();
+					b1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsInMoolaTrikona();
 				case "gr: in exlt":
 				case "gr: in exaltation":
-					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).ToDivisionPosition(evalDiv).isExaltedPhalita();
+					b1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsExaltedPhalita();
 				case "gr: in deb":
 				case "gr: in debilitation":
-					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).ToDivisionPosition(evalDiv).isDebilitatedPhalita();
+					b1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsDebilitatedPhalita();
 				case "gr: in own":
 				case "gr: in ownhouse":
 				case "gr: in own house":
-					b1 = this.stringToBody(simpleVals[0]);
-					return h.getPosition(b1).ToDivisionPosition(evalDiv).isInOwnHouse();
+					b1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsInOwnHouse();
 				case "gr: is gr:":
-					b1 = this.stringToBody(simpleVals[0]);
-					b2 = this.stringToBody(simpleVals[2]);
+					b1 = this.StringToBody(simpleVals[0]);
+					b2 = this.StringToBody(simpleVals[2]);
 					if (b1 == b2)
 						return true;
 					return false;
 				case "gr: with gr:":
-					b1 = this.stringToBody(simpleVals[0]);
-					b2 = this.stringToBody(simpleVals[2]);
-					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
-						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house.value)
+					b1 = this.StringToBody(simpleVals[0]);
+					b2 = this.StringToBody(simpleVals[2]);
+					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse.Value)
 						return true;
 					return false;
 				case "gr: asp gr:":
-					b1 = this.stringToBody(simpleVals[0]);
-					b2 = this.stringToBody(simpleVals[2]);
-					if (h.getPosition(b1).ToDivisionPosition(evalDiv).GrahaDristi(
-						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house))
+					b1 = this.StringToBody(simpleVals[0]);
+					b2 = this.StringToBody(simpleVals[2]);
+					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).GrahaDristi(
+						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse))
 						return true;
 					return false;
 				case "gr: in house: from rasi:":
-					b1 = this.stringToBody(simpleVals[0]);
-					hse1 = this.stringToHouse(simpleVals[2]);
-					zh1 = this.stringToRasi(simpleVals[4]);
-					if (h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
-						new ZodiacHouse(zh1).add(hse1).value)
+					b1 = this.StringToBody(simpleVals[0]);
+					hse1 = this.StringToHouse(simpleVals[2]);
+					zh1 = this.StringToRasi(simpleVals[4]);
+					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+						new ZodiacHouse(zh1).Add(hse1).Value)
 						return true;
 					return false;
 				case "gr: in house: from gr:":
-					b1 = this.stringToBody(simpleVals[0]);
-					hse1 = this.stringToHouse(simpleVals[2]);
-					b2 = this.stringToBody(simpleVals[4]);
-					return h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.value ==
-						h.getPosition(b2).ToDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
+					b1 = this.StringToBody(simpleVals[0]);
+					hse1 = this.StringToHouse(simpleVals[2]);
+					b2 = this.StringToBody(simpleVals[4]);
+					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
 				case "graha in house: from gr: except gr:":
-					hse1 = this.stringToHouse(simpleVals[2]);
-					b1 = this.stringToBody(simpleVals[4]);
-					b2 = this.stringToBody(simpleVals[6]);
-					zh1 = h.getPosition(b1).ToDivisionPosition(evalDiv).zodiac_house.add(hse1).value;
+					hse1 = this.StringToHouse(simpleVals[2]);
+					b1 = this.StringToBody(simpleVals[4]);
+					b2 = this.StringToBody(simpleVals[6]);
+					zh1 = horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
 					for (int i = (int)Body.Name.Sun; i<= (int)Body.Name.Lagna; i++)
 					{
 						Body.Name bExc = (Body.Name) i;
 						if (bExc != b2 &&
-							h.getPosition(bExc).ToDivisionPosition(evalDiv).zodiac_house.value == zh1)
+							horoscope.GetPosition(bExc).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
 							return true;
 					}
 					return false;
 				case "rasi: in house: from rasi:":
-					zh1 = this.stringToRasi(simpleVals[0]);
-					hse1 = this.stringToHouse(simpleVals[2]);
-					zh2 = this.stringToRasi(simpleVals[4]);
-					if (new ZodiacHouse(zh1).add(hse1).value == zh2)
+					zh1 = this.StringToRasi(simpleVals[0]);
+					hse1 = this.StringToHouse(simpleVals[2]);
+					zh2 = this.StringToRasi(simpleVals[4]);
+					if (new ZodiacHouse(zh1).Add(hse1).Value == zh2)
 						return true;
 					return false;
 				case "birth in time:":
-					return this.checkBirthTime(simpleVals[2]);
+					return this.CheckBirthTime(simpleVals[2]);
 				default:
-					LogMessage("Unknown rule: " + cats + this.getRuleName());
+					Logger.Info("Unknown rule: " + cats + this.GetRuleName());
 					return false;
 			}
 		}
 
-		public bool reduceTree (Node n)
+		public bool ReduceTree (Node node)
 		{
-			//Console.WriteLine ("Enter ReduceTree {0} {1}", n.type, n.term);
+            Logger.Info(String.Format("Enter ReduceTree {0} {1}", node.type, node.term));
 			bool bRet = false;
-			switch (n.type)
+			switch (node.type)
 			{
 				case Node.EType.Not:
-					Debug.Assert(n.children.Length == 1);
-					bRet = !(this.reduceTree(n.children[0]));
+					Debug.Assert(node.children.Length == 1);
+					bRet = !(this.ReduceTree(node.children[0]));
 					goto reduceTreeDone;
 				case Node.EType.Or:
-					for (int i=0; i<n.children.Length; i++)
+					for (int i=0; i<node.children.Length; i++)
 					{
-						if (this.reduceTree(n.children[i]) == true)
+						if (this.ReduceTree(node.children[i]) == true)
 						{
 							bRet = true; 
 							goto reduceTreeDone;
@@ -321,9 +319,9 @@ namespace org.transliteral.panchang
 					bRet = false;
 					goto reduceTreeDone;
 				case Node.EType.And:
-					for (int i=0; i<n.children.Length; i++)
+					for (int i=0; i<node.children.Length; i++)
 					{
-						if (this.reduceTree(n.children[i]) == false)
+						if (this.ReduceTree(node.children[i]) == false)
 						{
 							bRet = false;
 							goto reduceTreeDone;
@@ -333,25 +331,25 @@ namespace org.transliteral.panchang
 					goto reduceTreeDone;
 				default:
 				case Node.EType.Single:
-					bRet = this.evaluateNode(n);
+					bRet = this.EvaluateNode(node);
 					goto reduceTreeDone;
 			}
 			reduceTreeDone:
-			//Console.WriteLine ("Exit ReduceTree {0} {1} {2}", n.type, n.term, bRet);
+            Logger.Info(String.Format("Exit ReduceTree {0} {1} {2}", node.type, node.term, bRet));
 			return bRet;
 		}
 
-		public bool reduceTree ()
+		public bool ReduceTree ()
 		{
-			return this.reduceTree(this.rootNode);
+			return this.ReduceTree(this.rootNode);
 		}
 
-		public void generateSimpleParseTreeForNode (Queue q, Node n)
+		public void GenerateSimpleParseTreeForNode (Queue queue, Node node)
 		{
-			string text = n.term;
+			string text = node.term;
 
 			// remove general whitespace
-			text = this.trimWhitespace(text);
+			text = this.TrimWhitespace(text);
 		
 			bool bOpen = Regex.IsMatch(text, @"\(");
 			bool bClose = Regex.IsMatch(text, @"\)");
@@ -359,63 +357,63 @@ namespace org.transliteral.panchang
 			Match mDiv = Regex.Match(text, @"^([^&!<\(]*@)");
 			if (mDiv.Success)
 			{
-				n.dtype = this.stringToDivision(mDiv.Groups[1].Value);
+				node.dtype = this.StringToDivision(mDiv.Groups[1].Value);
 				text = text.Replace(mDiv.Groups[1].Value, "");
-//				Console.WriteLine ("Match. Replaced {0}. Text now {1}", 
-//					mDiv.Groups[1].Value, text);
-			}
+             Logger.Info(String.Format("Match. Replaced {0}. Text now {1}", 
+								mDiv.Groups[1].Value, text));
+            }
 
-			// already in simple format
-			if (false == bOpen && false == bClose)
+            // already in simple format
+            if (false == bOpen && false == bClose)
 			{
-				n.type = Node.EType.Single;
-				n.term = text;
-				//Console.WriteLine ("Need to evaluate simple node {0}", text);
+				node.type = Node.EType.Single;
+				node.term = text;
+                Logger.Info(String.Format("Need to evaluate simple node {0}", text));
 				return;
 			}
 
 			// Find operator. One of !, &&, ||
 			if (text[0] == '!')
 			{
-				Node notChild = new Node(n, text.Substring(1, text.Length-1), n.dtype);
-				q.Enqueue(notChild);
+				Node notChild = new Node(node, text.Substring(1, text.Length-1), node.dtype);
+				queue.Enqueue(notChild);
 
-				n.type = Node.EType.Not;
-				n.addChild(notChild);
+				node.type = Node.EType.Not;
+				node.addChild(notChild);
 				return;
 			}
 
 			if (text[0] == '&' && text[1] == '&')
-				n.type = Node.EType.And;
+				node.type = Node.EType.And;
 			
 			else if (text[0] == '|' && text[1] == '|')
-				n.type = Node.EType.Or;
+				node.type = Node.EType.Or;
 			
 			// non-binary term with brackets. Peel & reparse
 			else
 			{
-				n.term = this.peelOuterBrackets(text);
-				q.Enqueue(n);
+				node.term = this.PeelOuterBrackets(text);
+				queue.Enqueue(node);
 			}
 
 
 			// Parse terms with more than one subterm
-			if (n.type == Node.EType.And ||
-				n.type == Node.EType.Or)
+			if (node.type == Node.EType.And ||
+				node.type == Node.EType.Or)
 			{
-				string[] subTerms = this.getComplexTerms(text);
+				string[] subTerms = this.GetComplexTerms(text);
 				foreach (string subTerm in subTerms)
 				{
-					Node subChild = new Node(n, subTerm, n.dtype);
-					q.Enqueue(subChild);
-					n.addChild(subChild);
+					Node subChild = new Node(node, subTerm, node.dtype);
+					queue.Enqueue(subChild);
+					node.addChild(subChild);
 				}
 			}
 
-			//Console.WriteLine ("Need to evaluate complex node {0}", text);
+            Logger.Info(String.Format("Need to evaluate complex node {0}", text));
 		}
 
-		public void generateSimpleParseTree ()
+		public void GenerateSimpleParseTree ()
 		{
 			Queue q = new Queue();
 			q.Enqueue(rootNode);
@@ -426,12 +424,12 @@ namespace org.transliteral.panchang
 				if (n == null)
 					throw new Exception("FindYogas::generateSimpleParseTree. Dequeued null");
 
-				this.generateSimpleParseTreeForNode(q, n);
+				this.GenerateSimpleParseTreeForNode(q, n);
 			}
 		}
 
 
-		public Body.Name stringToBody (string s)
+		public Body.Name StringToBody (string s)
 		{
 			switch (s)
 			{
@@ -445,12 +443,12 @@ namespace org.transliteral.panchang
 				case "ra": case "rah": case "rahu": return Body.Name.Rahu;
 				case "ke": case "ket": case "ketu": return Body.Name.Ketu;
 				case "la": case "lag": case "lagna": case "asc": return Body.Name.Lagna;
-				default: 
-					LogMessage("Unknown body: " + s + this.getRuleName());
+				default:
+                    Logger.Info("Unknown body: " + s + this.GetRuleName());
 					return Body.Name.Other;
 			}
 		}
-		public Division stringToDivision (string s)
+		public Division StringToDivision (string s)
 		{
 			// trim trailing @
 			s = s.Substring(0, s.Length-1);
@@ -461,13 +459,13 @@ namespace org.transliteral.panchang
 				case "rasi": case "d-1": case "d1": _dtype = DivisionType.Rasi; break;
 				case "navamsa": case "d-9": case "d9": _dtype = DivisionType.Navamsa; break;
 				default:
-					LogMessage("Unknown division: " + s + this.getRuleName());
+					Logger.Info("Unknown division: " + s + this.GetRuleName());
 					_dtype = DivisionType.Rasi;
 					break;
 			}
 			return new Division(_dtype);
 		}
-		public ZodiacHouseName stringToRasi (string s)
+		public ZodiacHouseName StringToRasi (string s)
 		{
 			switch (s)
 			{
@@ -484,11 +482,11 @@ namespace org.transliteral.panchang
 				case "aqu": return ZodiacHouseName.Aqu;
 				case "pis": return ZodiacHouseName.Pis;
 				default:
-					LogMessage("Unknown rasi: " + s + this.getRuleName());
+					Logger.Info("Unknown rasi: " + s + this.GetRuleName());
 					return ZodiacHouseName.Ari;
 			}
 		}
-		public int stringToHouse (string s)
+		public int StringToHouse (string s)
 		{
 			int tempVal = 0;
 
@@ -509,9 +507,9 @@ namespace org.transliteral.panchang
 			}
 			return tempVal;
 		}
-		public string replaceBasicNodeCat (string cat)
+		public string ReplaceBasicNodeCat (string category)
 		{
-			switch (cat)
+			switch (category)
 			{
 				case "simplelordof:":
 				case "lordof:":
@@ -519,59 +517,59 @@ namespace org.transliteral.panchang
 				//case "grahasin":
 					return "";
 				default:
-					return cat;
+					return category;
 			}
 		}
-		public string replaceBasicNodeTermHelper (Division d, string cat, string val)
+		public string ReplaceBasicNodeTermHelper (Division d, string category, string value)
 		{
 			int tempVal = 0;
 			ZodiacHouseName zh;
 			Body.Name b;
-			switch (cat)
+			switch (category)
 			{
 				case "rasi:": case "house:": case "hse:":
-					tempVal = this.stringToHouse(val);
+					tempVal = this.StringToHouse(value);
 					if (tempVal > 0)
-						return zhLagna.add(tempVal).ToString().ToLower();
-				switch (val)
+						return zodiacLagna.Add(tempVal).ToString().ToLower();
+				switch (value)
 				{
 					case "kendra":
 						return "1st,4th,7th,10th";
 				}
 					break;
-				case "gr:": case "graha:":
-				switch (val)
+			 	case "gr:": case "graha:":
+				switch (value)
 				{
 					case "ben":
 						return "mer,jup,ven,moo";
 				}
 					break;
 				case "rasiof:":
-					b = this.stringToBody(val);
-					return h.getPosition(b).ToDivisionPosition(d).zodiac_house.value
+					b = this.StringToBody(value);
+					return horoscope.GetPosition(b).ToDivisionPosition(d).ZodiacHouse.Value
 						.ToString().ToLower();
 				case "lordof:":
-					tempVal = this.stringToHouse(val);
+					tempVal = this.StringToHouse(value);
 					if (tempVal > 0)
-						return h.LordOfZodiacHouse(zhLagna.add(tempVal), d).ToString().ToLower();
-					zh = this.stringToRasi(val);
-					return h.LordOfZodiacHouse(zh, d).ToString().ToLower();
+						return horoscope.LordOfZodiacHouse(zodiacLagna.Add(tempVal), d).ToString().ToLower();
+					zh = this.StringToRasi(value);
+					return horoscope.LordOfZodiacHouse(zh, d).ToString().ToLower();
 				case "simplelordof:":
-					tempVal = this.stringToHouse(val);
+					tempVal = this.StringToHouse(value);
 					if (tempVal > 0)
-						return h.LordOfZodiacHouse(zhLagna.add(tempVal), d).ToString().ToLower();
-					zh = this.stringToRasi(val);
+						return horoscope.LordOfZodiacHouse(zodiacLagna.Add(tempVal), d).ToString().ToLower();
+					zh = this.StringToRasi(value);
 					return Basics.SimpleLordOfZodiacHouse(zh).ToString().ToLower();
 				case "dispof:":
-					b = this.stringToBody(val);
-					return h.LordOfZodiacHouse(
-						h.getPosition(b).ToDivisionPosition(d).zodiac_house, d)
+					b = this.StringToBody(value);
+					return horoscope.LordOfZodiacHouse(
+						horoscope.GetPosition(b).ToDivisionPosition(d).ZodiacHouse, d)
 						.ToString().ToLower();
 			}
-			return val;
+			return value;
 		}
 
-		public string getDivision (string sTerm)
+		public string GetDivision (string sTerm)
 		{
 			Match mDiv = Regex.Match (sTerm, "<(.*)@");
 			if (mDiv.Success)
@@ -590,7 +588,7 @@ namespace org.transliteral.panchang
 			else
 				return sTerm;
 		}
-		public ArrayList getValues (string sTerm)
+		public ArrayList GetValues (string sTerm)
 		{
 			// Find values. Find : or , on the left
 			ArrayList alVals = new ArrayList();
@@ -607,22 +605,22 @@ namespace org.transliteral.panchang
 			return alVals;
 
 		}
-		public string replaceBasicNodeTerm (Division d, string sTerm)
+		public string ReplaceBasicNodeTerm (Division d, string sTerm)
 		{
-			string sDiv = this.getDivision(sTerm);
+			string sDiv = this.GetDivision(sTerm);
 			string sCat = this.getCategory(sTerm);
-			ArrayList alVals = this.getValues(sTerm);
+			ArrayList alVals = this.GetValues(sTerm);
 
 			Hashtable hash = new Hashtable();
 			foreach (string s in alVals)
 			{
-				string sRep = this.replaceBasicNodeTermHelper(d, sCat, s);
+				string sRep = this.ReplaceBasicNodeTermHelper(d, sCat, s);
 				if (!hash.ContainsKey(sRep))
 					hash.Add(sRep, null);
 			}
 
 			bool bStart = false;
-			string sNew = this.replaceBasicNodeCat(sCat);
+			string sNew = this.ReplaceBasicNodeCat(sCat);
 			bool sPreserveCat = sNew.Length == 0;
 
 			if (false == sPreserveCat) sNew = "<" + sNew;
@@ -642,17 +640,17 @@ namespace org.transliteral.panchang
 			}
 			if (false == sPreserveCat)
 				sNew += ">";
-			
-			//Console.WriteLine ("{0} evals to {1}", sTerm, sNew);
+
+            Logger.Info(String.Format("{0} evals to {1}", sTerm, sNew));
 			return sNew;
 		}
 
-		public string simplifyBasicNodeTerm (Node n, string sTerm)
+		public string SimplifyBasicNodeTerm (Node n, string sTerm)
 		{
 
 			while (true)
 			{
-				//Console.WriteLine ("Simplifying basic term: .{0}.", sTerm);		
+                Logger.Info(String.Format("Simplifying basic term: .{0}.", sTerm));		
 				Match m = Regex.Match(sTerm, "<[^<>]*>");
 
 				// No terms found. Nothing to do.
@@ -666,14 +664,14 @@ namespace org.transliteral.panchang
 				Match mDiv = Regex.Match(sInner, "<([^:<>]*@)");
 				if (mDiv.Success == true)
 				{
-					d = this.stringToDivision(mDiv.Groups[1].Value);
+					d = this.StringToDivision(mDiv.Groups[1].Value);
 					sInner.Replace(mDiv.Groups[1].Value, "");
 				}
 
 				// Found a term, evaluated it. Nothing happened. Done.
-				string newInner = this.replaceBasicNodeTerm(d, sInner);
-			
-				//Console.WriteLine ("{0} && {1}", newInner.Length, m.Value.Length);
+				string newInner = this.ReplaceBasicNodeTerm(d, sInner);
+
+                Logger.Info(String.Format("{0} && {1}", newInner.Length, m.Value.Length));
 
 				if (newInner.ToString() == m.Value.ToLower())
 					return sTerm;
@@ -683,52 +681,50 @@ namespace org.transliteral.panchang
 			}
 		}
 
-		public void simplifyBasicNode (Queue q, Node n)
+		public void SimplifyBasicNode (Queue queue, Node node)
 		{
 			// A simple wrapper that takes each individual whitespace
 			// separated term, and tries to simplify it down to bare
 			// bones single stuff ready for true / false evaluation
-			//string cats = "";
+			string cats = "";
 
 			string sNew = "";
-			string[] simpleTerms = n.term.Split(new char[] {' '});
+			string[] simpleTerms = node.term.Split(new char[] {' '});
 			for (int i=0; i<simpleTerms.Length; i++)
 			{
-				simpleTerms[i] = this.simplifyBasicNodeTerm(n, simpleTerms[i]);
+				simpleTerms[i] = this.SimplifyBasicNodeTerm(node, simpleTerms[i]);
 				sNew += " " + simpleTerms[i];
-				//cats += " " + this.getCategory(simpleTerms[i]);
+				cats += " " + this.getCategory(simpleTerms[i]);
 			}
 
-			n.term = this.trimWhitespace(sNew);
+			node.term = this.TrimWhitespace(sNew);
 
-			//cats = this.trimWhitespace(cats);
-			//Console.WriteLine ("Cats = {0}", cats);
+			cats = this.TrimWhitespace(cats);
+			Logger.Info(String.Format("Cats = {0}", cats));
 
 		}
 
-		public void expandSimpleNode (Queue q, Node n)
+		public void ExpandSimpleNode (Queue queue, Node node)
 		{
-			
 			// <a,b,> op <d,e> 
 			// becomes
 			// ||(<a> op <e>)(<a> op <e>)(<b> op <d>)(<b> op <e>)
 
 			Node.EType eLogic = Node.EType.Or;
-
-			//Console.WriteLine ("Inner logic: n.term is {0}", n.term);
-			if (n.term[0] == '&' && n.term[1] == '&')
+            Logger.Info(String.Format("Inner logic: n.term is {0}", node.term));
+			if (node.term[0] == '&' && node.term[1] == '&')
 			{
 				eLogic = Node.EType.And;
-				n.term = this.trimWhitespace(n.term.Substring(2, n.term.Length-2));
+				node.term = this.TrimWhitespace(node.term.Substring(2, node.term.Length-2));
 			} 
-			else if (n.term[0] == '|' && n.term[1] == '|')
+			else if (node.term[0] == '|' && node.term[1] == '|')
 			{
-				n.term = this.trimWhitespace(n.term.Substring(2, n.term.Length-2));
+				node.term = this.TrimWhitespace(node.term.Substring(2, node.term.Length-2));
 			}
-			//Console.WriteLine ("Inner logic: n.term is now {0}", n.term);
+            Logger.Info(String.Format("Inner logic: n.term is now {0}", node.term));
 
 			// find num Vals etc
-			string[] simpleTerms = n.term.Split(new char[] {' '});
+			string[] simpleTerms = node.term.Split(new char[] {' '});
 			string[] catTerms = new string[simpleTerms.Length];
 			int[] simpleTermsValues = new int[simpleTerms.Length];
 			ArrayList[] simpleTermsRealVals = new ArrayList[simpleTerms.Length];
@@ -739,13 +735,13 @@ namespace org.transliteral.panchang
 			for (int i=0; i<simpleTerms.Length; i++)
 			{
 				catTerms[i] = this.getCategory(simpleTerms[i]);
-				simpleTermsRealVals[i] = this.getValues(simpleTerms[i]);
+				simpleTermsRealVals[i] = this.GetValues(simpleTerms[i]);
 				simpleTermsValues[i] = simpleTermsRealVals[i].Count;
 				if (simpleTermsValues[i] > 1)
 					numExps *= simpleTermsValues[i];
 			}
 
-			//Console.WriteLine ("Exp: {0} requires {1} exps", n.term, numExps);
+            Logger.Info(String.Format("Exp: {0} requires {1} exps", node.term, numExps));
 
 			// done
 			if (numExps <= 1)
@@ -790,16 +786,16 @@ namespace org.transliteral.panchang
 				}			
 			}
 
-			n.type = eLogic;
+			node.type = eLogic;
 			for (int i=0; i<sNew.Length; i++)
 			{
-				Node nChild = new Node(n, this.trimWhitespace(sNew[i]), n.dtype);
-				n.addChild(nChild);
-				//Console.WriteLine ("sNew[{0}]: {1}", i, sNew[i]);
+				Node nChild = new Node(node, this.TrimWhitespace(sNew[i]), node.dtype);
+				node.addChild(nChild);
+                Logger.Info(String.Format("sNew[{0}]: {1}", i, sNew[i]));
 			}
 		}
 
-		public void expandSimpleNodes ()
+		public void ExpandSimpleNodes ()
 		{
 			Queue q = new Queue();
 			q.Enqueue(rootNode);
@@ -812,7 +808,7 @@ namespace org.transliteral.panchang
 
 				if (n.type == Node.EType.Single)
 				{
-					this.simplifyBasicNode(q, n);
+					this.SimplifyBasicNode(q, n);
 				}
 				else
 				{
@@ -828,7 +824,7 @@ namespace org.transliteral.panchang
 				Node n = (Node)q.Dequeue();
 				if (n.type == Node.EType.Single)
 				{
-					this.expandSimpleNode(q,n);
+					this.ExpandSimpleNode(q,n);
 				}
 				else
 				{
@@ -838,12 +834,6 @@ namespace org.transliteral.panchang
 			}
 
 		}
-
-		public virtual void LogMessage(string message)
-		{
-			Console.WriteLine(message);
-		}
-
 	}
 
 

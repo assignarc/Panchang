@@ -9,30 +9,30 @@ namespace org.transliteral.panchang
 		public StrengthByKendraConjunction (Horoscope h, Division dtype)
 				: base (h, dtype, true) {}
 
-		public int value (ZodiacHouseName _zh)
+		public int Value (ZodiacHouseName _zh)
 		{
 			int[] kendras = new int[4] {1, 4, 7, 10};
 			int numGrahas=0;
 			ZodiacHouse zh = new ZodiacHouse(_zh);
 			foreach (int i in kendras)
 			{
-				numGrahas += this.numGrahasInZodiacHouse(zh.add(i).value);
+				numGrahas += this.NumGrahasInZodiacHouse(zh.Add(i).Value);
 			}
 			return numGrahas;
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			int numa = value (za);
-			int numb = value (zb);
+			int numa = Value (za);
+			int numb = Value (zb);
 			if (numa > numb) return true;
 			if (numb > numa) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			return stronger (
-				h.getPosition(m).ToDivisionPosition(dtype).zodiac_house.value,
-				h.getPosition(n).ToDivisionPosition(dtype).zodiac_house.value
+			return Stronger (
+				horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value,
+				horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value
 				);
 		}
 	}

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -59,27 +54,27 @@ namespace org.transliteral.panchang
         {
             mValue = (TithiName)Basics.Normalize_inc(1, 30, (int)_mValue);
         }
-        public TithiName value
+        public TithiName Value
         {
             get { return mValue; }
             set { mValue = value; }
         }
-        public Tithi add(int i)
+        public Tithi Add(int i)
         {
-            int tnum = Basics.Normalize_inc(1, 30, (int)this.value + i - 1);
+            int tnum = Basics.Normalize_inc(1, 30, (int)this.Value + i - 1);
             return new Tithi((TithiName)tnum);
         }
-        public Tithi addReverse(int i)
+        public Tithi AddReverse(int i)
         {
-            int tnum = Basics.Normalize_inc(1, 30, (int)this.value - i + 1);
+            int tnum = Basics.Normalize_inc(1, 30, (int)this.Value - i + 1);
             return new Tithi((TithiName)tnum);
         }
-        public Body.Name getLord()
+        public Body.Name GetLord()
         {
             // 1 based index starting with prathama
-            int t = (int)this.value;
+            int t = (int)this.Value;
 
-            //Console.WriteLine ("Looking for lord of tithi {0}", t);
+            Logger.Info(String.Format("Looking for lord of tithi {0}", t));
             // check for new moon and full moon 
             if (t == 30) return Body.Name.Rahu;
             if (t == 15) return Body.Name.Saturn;
@@ -101,10 +96,10 @@ namespace org.transliteral.panchang
             return Body.Name.Sun;
         }
 
-        public NandaType toNandaType()
+        public NandaType ToNandaType()
         {
             // 1 based index starting with prathama
-            int t = (int)this.value;
+            int t = (int)this.Value;
 
             // check for new moon and full moon 
 

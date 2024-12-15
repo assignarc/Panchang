@@ -10,14 +10,14 @@ namespace org.transliteral.panchang
 
     public class KutaBhutaNakshatra
 	{
-		public static int getMaxScore ()
+		public static int GetMaxScore ()
 		{
 			return 1;
 		}
-		public static int getScore (Nakshatra m, Nakshatra n)
+        public static int GetScore(Nakshatra m, Nakshatra n)
 		{
-			EType a = getType(m);
-			EType b = getType(n);
+			EType a = GetType(m);
+			EType b = GetType(n);
 			if (a == b) return 1;
 			
 			if ((a == EType.IFire && b == EType.IAir) ||
@@ -30,11 +30,15 @@ namespace org.transliteral.panchang
 		}
 		public enum EType
 		{
-			IEarth, IWater, IFire, IAir, IEther
+			IEarth, 
+			IWater, 
+			IFire, 
+			IAir, 
+			IEther
 		};
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Bharani:

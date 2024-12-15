@@ -151,15 +151,15 @@ namespace mhora
 			int[] items = new int[29];
 			for (int i=0; i<29; i++)
 				items[i] = 0;
-			foreach (BodyPosition bp in h.positionList)
+			foreach (BodyPosition bp in h.PositionList)
 			{
 				if (bp.type != BodyType.Name.Graha &&
 					bp.type != BodyType.Name.Lagna) continue;
 
-				Nakshatra28 n = bp.Longitude.toNakshatra28();
-				items[(int)n.value]++;
-				Point pxBase = GetCellInRectangle(9, 26, (int)n.value);
-				Point pxOff = GetItemOffset(items[(int)n.value]);
+				Nakshatra28 n = bp.Longitude.ToNakshatra28();
+				items[(int)n.Value]++;
+				Point pxBase = GetCellInRectangle(9, 26, (int)n.Value);
+				Point pxOff = GetItemOffset(items[(int)n.Value]);
 				Point px = new Point(pxBase.X + pxOff.X, pxBase.Y+pxOff.Y);
 				string s = Body.ToShortString(bp.name);
 				g.DrawString(s, f, Brushes.Maroon, px.X, px.Y);
@@ -183,21 +183,21 @@ namespace mhora
 				GlobalOptions.Instance.GeneralFont.SizeInPoints+5);
 			for (int i=1; i<=12; i++)
 			{
-				ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari).add(i);
+				ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari).Add(i);
 				Point pxBase = GetCellInRectangle (5, 11, i);
 				Point pxOff = GetItemOffsetCenter();
 				Point px = new Point(pxBase.X + pxOff.X, pxBase.Y + pxOff.Y);
-				string s = zh.value.ToString();
+				string s = zh.Value.ToString();
 				SizeF sz = g.MeasureString(s, f);
 				g.DrawString(s, f, Brushes.Purple, px.X-sz.Width/2, px.Y-sz.Height/2);
 			}
 			for (int i=1; i<=28; i++)
 			{
-				Nakshatra28 na = new Nakshatra28(Nakshatra28Name.Aswini).add(i);
+				Nakshatra28 na = new Nakshatra28(Nakshatra28Name.Aswini).Add(i);
 				Point pxBase = GetCellInRectangle (9, 26, i);
 				Point pxOff = GetItemOffsetCenter();
 				Point px = new Point(pxBase.X + pxOff.X, pxBase.Y);
-				string s = na.value.ToString().Substring(0, 3);
+				string s = na.Value.ToString().Substring(0, 3);
 				SizeF sz = g.MeasureString(s, f);
 				g.DrawString(s, f, Brushes.DarkGreen, px.X-sz.Width/2, px.Y);
 			}

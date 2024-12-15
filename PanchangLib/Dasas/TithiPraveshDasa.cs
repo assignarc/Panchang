@@ -12,25 +12,22 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 		}
-		public Object GetOptions ()
+        public Object Options => new Object();
+        public object SetOptions (Object a)
 		{
 			return new Object();
 		}
-		public object SetOptions (Object a)
-		{
-			return new Object();
-		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 		}
-		public double paramAyus () 
+		public double ParamAyus () 
 		{
 			return 60.0;
 		}
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList(60);
-			double cycle_start = (double)cycle * this.paramAyus();
+			double cycle_start = (double)cycle * this.ParamAyus();
 			for (int i=0; i<60; i++)
 			{
 				double start = cycle_start + (double)i;
@@ -45,16 +42,16 @@ namespace org.transliteral.panchang
 
 			if (pdi.level == 2)
 			{
-				Longitude l = Basics.CalculateBodyLongitude(start.toUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Sun));
-				ZodiacHouse zh = l.toZodiacHouse();
+				Longitude l = Basics.CalculateBodyLongitude(start.ToUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Sun));
+				ZodiacHouse zh = l.ToZodiacHouse();
 				return zh.ToString();
 			}
 			else if (pdi.level == 3)
 			{
-				Longitude lSun = Basics.CalculateBodyLongitude(start.toUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Sun));
-				Longitude lMoon = Basics.CalculateBodyLongitude(start.toUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Moon));
-				Longitude l = lMoon.sub(lSun);
-				Tithi t = l.toTithi();
+				Longitude lSun = Basics.CalculateBodyLongitude(start.ToUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Sun));
+				Longitude lMoon = Basics.CalculateBodyLongitude(start.ToUniversalTime(), Sweph.BodyNameToSweph(Body.Name.Moon));
+				Longitude l = lMoon.Subtract(lSun);
+				Tithi t = l.ToTithi();
 				return t.ToString();
 			}
 			return "";
@@ -79,7 +76,7 @@ namespace org.transliteral.panchang
 				case 1:
 					al = new ArrayList (13);
 					length = pdi.dasaLength / 13.0;
-					//Console.WriteLine("AD length is {0}", length);
+                    Logger.Info(String.Format("AD length is {0}", length));
 					for (int i=0; i<13; i++)
 					{
 						DasaEntry di = new DasaEntry (Body.Name.Other, start, length, level, desc[level-2]);
@@ -90,11 +87,11 @@ namespace org.transliteral.panchang
 				case 2:
 					al = new ArrayList (30);
 					length = pdi.dasaLength / 30.0;
-					//Console.WriteLine("PD length is {0}", length);
+                    Logger.Info(String.Format("PD length is {0}", length));
 					for (int i=0; i<30; i++)
 					{
 						DasaEntry di = new DasaEntry (Body.Name.Other, start, length, level, desc[level-2]);
-						//Console.WriteLine ("PD: Starg {0}, length {1}", start, length);
+                        Logger.Info(String.Format("PD: Starg {0}, length {1}", start, length));
 						al.Add (di);
 						start += length;
 					}

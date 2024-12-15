@@ -6,20 +6,21 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IKantha, IKati, IPada, ISiro, IKukshi
+			IKantha, 
+			IKati, 
+			IPada, 
+			ISiro, 
+			IKukshi
 		};
-		public static int getScore (Nakshatra m, Nakshatra n)
+        public static int GetScore(Nakshatra m, Nakshatra n)
 		{
-			if (getType(m) != getType(n)) return 1;
+			if (GetType(m) != GetType(n)) return 1;
 			return 0;
 		}
-		public static int getMaxScore ()
+        public static int GetMaxScore() => 1;
+        public static EType GetType (Nakshatra n)
 		{
-			return 1;
-		}
-		public static EType getType (Nakshatra n)
-		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Rohini:
 				case NakshatraName.Aridra:

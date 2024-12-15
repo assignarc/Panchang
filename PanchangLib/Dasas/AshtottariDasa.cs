@@ -9,45 +9,21 @@ namespace org.transliteral.panchang
     public class AshtottariDasa : NakshatraDasa, INakshatraDasa
 	{
 		private Horoscope h;
-		override public Object GetOptions ()
-		{
-			return new Object();
-		}
-		override public object SetOptions (Object a)
-		{
-			return new object();
-		}
-		public ArrayList Dasa(int cycle)
-		{
-			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
-		}
-		public ArrayList AntarDasa (DasaEntry di)
-		{
-			return _AntarDasa (di);
-		}
-		public String Description ()
-		{
-			return ("Ashtottari Dasa");
-		}
-		public AshtottariDasa (Horoscope _h)
+        override public Object Options => new Object();
+        override public object SetOptions(Object a) => new object();
+        public ArrayList Dasa(int cycle) => Dasa(h.GetPosition(Body.Name.Moon).Longitude, 1, cycle);
+        public ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
+        public String Description() => ("Ashtottari Dasa");
+        public AshtottariDasa (Horoscope _h)
 		{
 			common = this;
 			h = _h;
 		}
 
-		public double paramAyus ()
-		{
-			return 108.0;
-		}
-		public int numberOfDasaItems ()
-		{
-			return 8;
-		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
-		{
-			return new DasaEntry (nextDasaLordHelper(di.graha), 0, 0, di.level, "");
-		}
-		private Body.Name nextDasaLordHelper (Body.Name b)
+        public double ParamAyus() => 108.0;
+        public int NumberOfDasaItems() => 8;
+        public DasaEntry NextDasaLord(DasaEntry di) => new DasaEntry(NextDasaLordHelper(di.graha), 0, 0, di.level, "");
+        private Body.Name NextDasaLordHelper(Body.Name b)
 		{
 			switch (b)
 			{
@@ -63,7 +39,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "AshtottariDasa::nextDasaLord");
 			return Body.Name.Lagna;
 		}
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa (Body.Name plt)
 		{
 			switch (plt)
 			{
@@ -79,9 +55,9 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "Ashtottari::lengthOfDasa");
 			return 0;
 		}
-		public Body.Name lordOfNakshatra(Nakshatra n) 
+		public Body.Name LordOfNakshatra(Nakshatra n) 
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini : return Body.Name.Rahu ;
 				case NakshatraName.Bharani : return Body.Name.Rahu ;

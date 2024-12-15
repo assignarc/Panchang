@@ -9,7 +9,7 @@ namespace org.transliteral.panchang
 		public StrengthByLongitude (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
 
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
 			Body.Name[] karakaBodies =
 			{
@@ -20,21 +20,21 @@ namespace org.transliteral.panchang
 			double lona = 0.0, lonb = 0.0;
 			foreach (Body.Name bn in karakaBodies) 
 			{
-				DivisionPosition div = h.getPosition(bn).ToDivisionPosition(new Division(DivisionType.Rasi));
-				double offset = karakaLongitude (bn);
-				if (div.zodiac_house.value == za && offset > lona)
+				DivisionPosition div = horoscope.GetPosition(bn).ToDivisionPosition(new Division(DivisionType.Rasi));
+				double offset = KarakaLongitude (bn);
+				if (div.ZodiacHouse.Value == za && offset > lona)
 					lona = offset;
-				else if (div.zodiac_house.value == zb && offset > lonb)
+				else if (div.ZodiacHouse.Value == zb && offset > lonb)
 					lonb = offset;
 			}
 			if (lona > lonb) return true;
 			if (lonb > lona) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+		public bool Stronger (Body.Name m, Body.Name n)
 		{
-			double lonm = karakaLongitude (m);
-			double lonn = karakaLongitude (n);
+			double lonm = KarakaLongitude (m);
+			double lonn = KarakaLongitude (n);
 			if (lonm > lonn) return true;
 			if (lonn > lonm) return false;
 			throw new EqualStrength();

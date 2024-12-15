@@ -3,10 +3,6 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Text;
-/*using System.Windows.Forms;
-using System.Drawing.Design;
-using System.Windows.Forms.Design;*/
 
 namespace org.transliteral.panchang
 {
@@ -498,7 +494,7 @@ namespace org.transliteral.panchang
 			}
 			catch (SwephException exc)
 			{
-				System.Console.WriteLine ( "Sweph: {0}\n", exc.Message);
+                Logger.Error( "Sweph: {0} " + exc.Message);
 				throw new System.Exception("");
 			}
 		}
@@ -530,7 +526,7 @@ namespace org.transliteral.panchang
 			} 
 			catch (SwephException exc) 
 			{
-				System.Console.WriteLine ( "Sweph: {0}\n", exc.Message	);
+                Logger.Error( "Sweph: {0} " + exc.Message);
 				throw new System.Exception("");
 			}
 		}
@@ -544,8 +540,8 @@ namespace org.transliteral.panchang
 		/// <returns></returns>
 		public static ArrayList CalculateBodyPositions (Horoscope h, double sunrise) 
 		{
-			HoraInfo hi = h.info;
-			HoroscopeOptions o = h.options;
+			HoraInfo hi = h.Info;
+			HoroscopeOptions o = h.Options;
 
 			string ephe_path = GlobalOptions.Instance.HOptions.EphemerisPath;
 
@@ -553,8 +549,8 @@ namespace org.transliteral.panchang
 			ArrayList std_grahas = new ArrayList (20);
 			
 			Sweph.swe_set_ephe_path (ephe_path);
-			double julday_ut = Sweph.swe_julday (hi.tob.year, hi.tob.month, hi.tob.day,
-				hi.tob.time - hi.tz.toDouble());
+			double julday_ut = Sweph.swe_julday (hi.tob.Year, hi.tob.Month, hi.tob.Day,
+				hi.tob.Time - hi.tz.toDouble());
 			//	h.tob.hour + (((double)h.tob.minute) / 60.0) + (((double)h.tob.second) / 3600.0));
 			//	(h.tob.time / 24.0) + (h.tz.toDouble()/24.0));
 				//(h.tob.hour/24.0) + (((double)h.tob.minute) / 60.0) + (((double)h.tob.second) / 3600.0));
@@ -578,21 +574,21 @@ namespace org.transliteral.panchang
 			BodyPosition rahu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Rahu, BodyType.Name.Graha, h);
 
 			BodyPosition ketu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Ketu, BodyType.Name.Graha, h);
-			ketu.Longitude = rahu.Longitude.add (new Longitude (180.0));
+			ketu.Longitude = rahu.Longitude.Add (new Longitude (180.0));
 			std_grahas.Add (rahu);
 			std_grahas.Add (ketu);
 
 			double asc = Sweph.swe_lagna(julday_ut);
 			std_grahas.Add (new BodyPosition (h, Body.Name.Lagna, BodyType.Name.Lagna, new Longitude (asc), 0, 0, 0, 0, 0));
 
-			double ista_ghati = Normalize_exc( 0.0, 24.0, hi.tob.time - sunrise) * 2.5;
-			Longitude gl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0));
-			Longitude hl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0/ 2.5));
-			Longitude bl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(ista_ghati * 30.0/ 5.0));
+			double ista_ghati = Normalize_exc( 0.0, 24.0, hi.tob.Time - sunrise) * 2.5;
+			Longitude gl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0));
+			Longitude hl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0/ 2.5));
+			Longitude bl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0/ 5.0));
 
 			double vl = ista_ghati * 5.0;
 			while (ista_ghati > 12.0) ista_ghati -= 12.0;
-			Longitude vl_lon = ((BodyPosition)std_grahas[0]).Longitude.add(new Longitude(vl * 30.0));
+			Longitude vl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(vl * 30.0));
 
 			std_grahas.Add (new BodyPosition (h, Body.Name.BhavaLagna, BodyType.Name.SpecialLagna, bl_lon,0,0,0,0,0));
 			std_grahas.Add (new BodyPosition (h, Body.Name.HoraLagna, BodyType.Name.SpecialLagna, hl_lon,0,0,0,0,0));

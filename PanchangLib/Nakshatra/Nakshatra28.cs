@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
     /// <summary>
 	/// A list of nakshatras, and related helper functions
@@ -13,7 +7,7 @@ namespace org.transliteral.panchang
     {
        
         private Nakshatra28Name m_nak;
-        public Nakshatra28Name value
+        public Nakshatra28Name Value
         {
             get { return m_nak; }
             set { m_nak = value; }
@@ -22,13 +16,13 @@ namespace org.transliteral.panchang
         {
             m_nak = nak;
         }
-        public int normalize()
+        public int Normalize()
         {
-            return Basics.Normalize_inc(1, 28, (int)this.value);
+            return Basics.Normalize_inc(1, 28, (int)this.Value);
         }
-        public Nakshatra28 add(int i)
+        public Nakshatra28 Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 28, (int)this.value + i - 1);
+            int snum = Basics.Normalize_inc(1, 28, (int)this.Value + i - 1);
             return new Nakshatra28((Nakshatra28Name)snum);
         }
     }

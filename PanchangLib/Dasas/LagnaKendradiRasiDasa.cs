@@ -17,47 +17,41 @@ namespace org.transliteral.panchang
 			h = _h;
 			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
 		}
-		public void recalculateOptions ()
-		{
-			options.recalculate();
-		}
-		private bool isZodiacal ()
+        public void RecalculateOptions() => options.Recalculate();
+        private bool IsZodiacal()
 		{
 			ZodiacHouse zh_start = options.getSeed();
-			zh_start.value = options.findStrongerRasi(options.SeventhStrengths, zh_start.value, zh_start.add(7).value);
+			zh_start.Value = options.findStrongerRasi(options.SeventhStrengths, zh_start.Value, zh_start.Add(7).Value);
 
-			bool forward = zh_start.isOdd();
-			if (options.saturnExceptionApplies(zh_start.value))
+			bool forward = zh_start.IsOdd();
+			if (options.saturnExceptionApplies(zh_start.Value))
 				return forward;
-			if (options.ketuExceptionApplies(zh_start.value))
+			if (options.ketuExceptionApplies(zh_start.Value))
 				forward = !forward;
 			return forward;
 		}
 
-		public double paramAyus () 
-		{
-			return 144;
-		}
+        public double ParamAyus() => 144;
 
-		public ArrayList Dasa(int cycle)
+        public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList (24);
 			int[] order = {1, 4, 7, 10, 2, 5, 8, 11, 3, 6, 9, 12};
 			double dasa_length_sum = 0;
 
 			ZodiacHouse zh_start = options.getSeed();
-			zh_start.value = options.findStrongerRasi(options.SeventhStrengths, zh_start.value, zh_start.add(7).value);
+			zh_start.Value = options.findStrongerRasi(options.SeventhStrengths, zh_start.Value, zh_start.Add(7).Value);
 
-			bool bIsZodiacal = this.isZodiacal();
+			bool bIsZodiacal = this.IsZodiacal();
 			for (int i=0; i<12; i++)
 			{
-				ZodiacHouse zh = zh_start.add(1);
-				if (bIsZodiacal) zh = zh.add(order[i]);
-				else zh = zh.addReverse(order[i]);
+				ZodiacHouse zh = zh_start.Add(1);
+				if (bIsZodiacal) zh = zh.Add(order[i]);
+				else zh = zh.AddReverse(order[i]);
 				Body.Name lord = h.LordOfZodiacHouse(zh, m_dtype);
-				DivisionPosition dp_lord = h.getPosition(lord).ToDivisionPosition(m_dtype);
+				DivisionPosition dp_lord = h.GetPosition(lord).ToDivisionPosition(m_dtype);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh, dp_lord);
-				DasaEntry de = new DasaEntry(zh.value, dasa_length_sum, dasa_length, 1, zh.value.ToString());
+				DasaEntry de = new DasaEntry(zh.Value, dasa_length_sum, dasa_length, 1, zh.Value.ToString());
 				al.Add (de);
 				dasa_length_sum += dasa_length;
 			}
@@ -77,16 +71,13 @@ namespace org.transliteral.panchang
 			nd.options = this.options;
 			return nd.AntarDasa(pdi);
 		}
-		public String Description ()
+		public string Description ()
 		{
 			return "Lagna Kendradi Rasi Dasa seeded from"
 				+ " seeded from " + options.SeedRasi.ToString();
 		}
-		public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		public object SetOptions (Object a)
+        public object Options => this.options.Clone();
+        public object SetOptions(object a)
 		{
 			options.CopyFrom(a);
 			RecalculateEvent();

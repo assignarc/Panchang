@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
 
     public class SunMoonYoga
@@ -15,28 +9,28 @@ namespace org.transliteral.panchang
         {
             mValue = _mvalue;
         }
-        public SunMoonYogaName value
+        public SunMoonYogaName Value
         {
             get { return mValue; }
             set { mValue = value; }
         }
-        public int normalize()
+        public int Normalize()
         {
-            return Basics.Normalize_inc(1, 27, (int)this.value);
+            return Basics.Normalize_inc(1, 27, (int)this.Value);
         }
-        public SunMoonYoga add(int i)
+        public SunMoonYoga Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.value + i - 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.Value + i - 1);
             return new SunMoonYoga((SunMoonYogaName)snum);
         }
-        public SunMoonYoga addReverse(int i)
+        public SunMoonYoga AddReverse(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.value - i + 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.Value - i + 1);
             return new SunMoonYoga((SunMoonYogaName)snum);
         }
-        public Body.Name getLord()
+        public Body.Name GetLord()
         {
-            switch ((int)this.value % 9)
+            switch ((int)this.Value % 9)
             {
                 case 1: return Body.Name.Saturn;
                 case 2: return Body.Name.Mercury;
@@ -51,7 +45,7 @@ namespace org.transliteral.panchang
         }
         public override string ToString()
         {
-            return this.value.ToString();
+            return this.Value.ToString();
         }
 
     }

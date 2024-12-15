@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -64,7 +60,7 @@ namespace org.transliteral.panchang
             object value,
             Type destType)
         {
-            Console.WriteLine("Foo: destType is {0}", destType);
+            Logger.Info(String.Format("Foo: destType is {0}", destType));
             // Trace.Assert (destType == typeof(string) && value is Moment, "MomentConverter::ConvertTo 1");
             Moment m = (Moment)value;
             return m.ToString();

@@ -234,7 +234,7 @@ namespace mhora
 		}
 		public bool IsPropertyVisible (PropertyDescriptor prop)
 		{
-			if (null != prop.Attributes[typeof(PGNotVisible)])
+			if (null != prop.Attributes[typeof(InVisible)])
 				return false;
 
 			return true;
@@ -315,9 +315,9 @@ namespace mhora
 		{
 			get 
 			{
-				PGDisplayName dn = (PGDisplayName)basePropertyDescriptor.Attributes[typeof(PGDisplayName)];
+				DisplayName dn = (DisplayName)basePropertyDescriptor.Attributes[typeof(DisplayName)];
 				if (dn != null)
-					return dn.DisplayName;
+					return dn.Text;
 				return basePropertyDescriptor.DisplayName;
 			}
 		}

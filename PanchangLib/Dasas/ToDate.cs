@@ -32,8 +32,8 @@ namespace org.transliteral.panchang
 			yearLength = _yearLength;
 			compression = _compression;
 			h = _h;
-			spos = h.getPosition(Body.Name.Sun).Longitude.value;
-			mpos = h.getPosition(Body.Name.Moon).Longitude.value;
+			spos = h.GetPosition(Body.Name.Sun).Longitude.Value;
+			mpos = h.GetPosition(Body.Name.Moon).Longitude.Value;
 		}
 		public void SetOffset (double _offset)
 		{
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
 
 			Debug.Assert(years >= 0, "pravesh years only work in the future");
 			t = new Transit (h);
-			soff = h.getPosition(Body.Name.Sun).Longitude.toZodiacHouseOffset();
+			soff = h.GetPosition(Body.Name.Sun).Longitude.ToZodiacHouseOffset();
 			_years = years;
 			tYears=0;
 			tMonths=0;
@@ -70,13 +70,13 @@ namespace org.transliteral.panchang
 			tMonths = Math.Floor(_years);
 			_years = (_years - Math.Floor(_years))*numDays;
 			tDays = _years;
-					
-			//Console.WriteLine ("Searching for {0} {1} {2}", tYears, tMonths, tDays);
+
+            Logger.Info(String.Format("Searching for {0} {1} {2}", tYears, tMonths, tDays));
 			lon = spos - soff;
 			l = new Longitude(lon);
 			jd = t.LinearSearch(h.baseUT + (tYears*365.2425), l, new ReturnLon(t.LongitudeOfSun));
-			double yoga_start = returnLonFunc(jd, ref bDiscard).value;
-			double yoga_end = returnLonFunc(h.baseUT, ref bDiscard).value;
+			double yoga_start = returnLonFunc(jd, ref bDiscard).Value;
+			double yoga_end = returnLonFunc(h.baseUT, ref bDiscard).Value;
 			jd_st = jd + (yoga_end-yoga_start)/360.0*28.0;
 			if (yoga_end < yoga_start) jd_st += 28.0;
 			l = new Longitude(yoga_end);
@@ -86,14 +86,14 @@ namespace org.transliteral.panchang
 				jd = t.LinearSearch(jd+30.0, new Longitude(yoga_end), returnLonFunc);
 			}
 
-			l = l.add(new Longitude(tDays * (360.0/(double)numDays)));
+			l = l.Add(new Longitude(tDays * (360.0/(double)numDays)));
 			jd_st = jd + tDays; // * 25.0/30.0;
 			jd = t.LinearSearch(jd_st, l, returnLonFunc);
-			jd += (h.info.tz.toDouble() / 24.0);
+			jd += (h.Info.tz.toDouble() / 24.0);
 			jd += offset;
 					
 			Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-			Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+			Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 			return new Moment (year, month, day, hour, minute, second);								
 		}
 
@@ -111,12 +111,12 @@ namespace org.transliteral.panchang
 			switch (type) 
 			{
 				case DateType.FixedYear:
-					//Console.WriteLine("Finding {0} fixed years of length {1}", years, yearLength);
+                    Logger.Info(String.Format("Finding {0} fixed years of length {1}", years, yearLength));
 					jd = baseUT + (years * yearLength);
-					//Console.WriteLine("tz = {0}", (h.info.tz.toDouble()) / 24.0);
+                    Logger.Info(String.Format("tz = {0}", (h.Info.tz.toDouble()) / 24.0));
 					jd += offset;
 					Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-					Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+					Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 					return new Moment (year, month, day, hour, minute, second);				
 				case DateType.SolarYear:
 					// Turn into years of 360 degrees, and then search
@@ -126,10 +126,10 @@ namespace org.transliteral.panchang
 					else lon = (years - Math.Ceiling(years)) * 360.0;
 					l = new Longitude(lon + spos);
 					jd = t.LinearSearch(h.baseUT + years * 365.2425, l, new ReturnLon(t.LongitudeOfSun));
-					jd += (h.info.tz.toDouble() / 24.0);
+					jd += (h.Info.tz.toDouble() / 24.0);
 					jd += offset;
 					Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-					Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+					Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 					return new Moment (year, month, day, hour, minute, second);									
 				case DateType.TithiPraveshYear:
 					t = new Transit(h);
@@ -144,43 +144,43 @@ namespace org.transliteral.panchang
 					t = new Transit(h);
 					return this.AddPraveshYears(years, new ReturnLon(t.LongitudeOfMoonDir), 13, 27);
 				case DateType.TithiYear:
-					jd -= (h.info.tz.toDouble()/24.0);
+					jd -= (h.Info.tz.toDouble()/24.0);
 					t = new Transit(h);
 					jd = h.baseUT;
 					Longitude tithi_base = new Longitude(mpos-spos);
 					double days = years * yearLength;
-					//Console.WriteLine("Find {0} tithi days", days);
+                    Logger.Info(String.Format("Find {0} tithi days", days));
 					while (days >= 30*12.0)
 					{
 						jd = t.LinearSearch(jd+29.52916*12.0, tithi_base, new ReturnLon(t.LongitudeOfTithiDir));
 						days -=30*12.0;
 					}
-					tithi_base = tithi_base.add (new Longitude(days*12.0));
-					//Console.WriteLine ("Searching from {0} for {1}", t.LongitudeOfTithiDir(jd+days*28.0/30.0), tithi_base);
+					tithi_base = tithi_base.Add (new Longitude(days*12.0));
+                    //Logger.Info(String.Format("Searching from {0} for {1}", t.LongitudeOfTithiDir(jd+days*28.0/30.0), tithi_base));
 					jd = t.LinearSearch(jd+days*28.0/30.0, tithi_base, new ReturnLon(t.LongitudeOfTithiDir));
-					jd += (h.info.tz.toDouble() / 24.0);
+					jd += (h.Info.tz.toDouble() / 24.0);
 					jd += offset;
 					Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-					Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+					Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 					return new Moment (year, month, day, hour, minute, second);		
 				case DateType.YogaYear:
-					jd -= (h.info.tz.toDouble()/24.0);
+					jd -= (h.Info.tz.toDouble()/24.0);
 					t = new Transit(h);
 					jd = h.baseUT;
 					Longitude yoga_base = new Longitude(mpos+spos);
 					double yogaDays = years * yearLength;
-					//Console.WriteLine ("Find {0} yoga days", yogaDays);
+                    Logger.Info(String.Format("Find {0} yoga days", yogaDays));
 					while (yogaDays >= 27*12)
 					{
 						jd = t.LinearSearch(jd+305, yoga_base, new ReturnLon(t.LongitudeOfSunMoonYogaDir));
 						yogaDays -= 27*12;
 					}
-					yoga_base = yoga_base.add(new Longitude(yogaDays*(360.0/27.0)));
+					yoga_base = yoga_base.Add(new Longitude(yogaDays*(360.0/27.0)));
 					jd = t.LinearSearch(jd+yogaDays*28.0/30.0, yoga_base, new ReturnLon(t.LongitudeOfSunMoonYogaDir));
-					jd += (h.info.tz.toDouble() / 24.0);
+					jd += (h.Info.tz.toDouble() / 24.0);
 					jd += offset;
 					Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-					Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+					Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 					return new Moment (year, month, day, hour, minute, second);		
 				default:
 					//years = years * yearLength;
@@ -190,15 +190,15 @@ namespace org.transliteral.panchang
 					lon *= (yearLength/360.0);
 					new_baseut = h.baseUT;
 					Longitude tithi = t.LongitudeOfTithi (new_baseut);
-					l = tithi.add (new Longitude (lon));
-					//Console.WriteLine("{0} {1} {2}", 354.35, 354.35*yearLength/360.0, yearLength);
+					l = tithi.Add (new Longitude (lon));
+                    Logger.Info(String.Format("{0} {1} {2}", 354.35, 354.35*yearLength/360.0, yearLength));
 					double tyear_approx = 354.35*yearLength/360.0; /*357.93765*/
-					double lapp = t.LongitudeOfTithi(new_baseut + (years* tyear_approx)).value;
+					double lapp = t.LongitudeOfTithi(new_baseut + (years* tyear_approx)).Value;
 					jd = t.LinearSearch(new_baseut + (years* tyear_approx), l, new ReturnLon(t.LongitudeOfTithiDir));
 					jd += offset;
 					//jd += (h.info.tz.toDouble() / 24.0);
 					Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
-					Moment.doubleToHMS (dhour, ref hour, ref minute, ref second);
+					Moment.DoubleToHMS (dhour, ref hour, ref minute, ref second);
 					return new Moment (year, month, day, hour, minute, second);								
 
 			}

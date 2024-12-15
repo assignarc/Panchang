@@ -165,27 +165,27 @@ namespace mhora
 			ListViewItem li;
 
 			li = new ListViewItem ("Date of Birth");
-			li.SubItems.Add (h.info.tob.ToString());
+			li.SubItems.Add (h.Info.tob.ToString());
 			mList.Items.Add (li);
 
 			li = new ListViewItem ("Time Zone");
-			li.SubItems.Add (h.info.tz.ToString());
+			li.SubItems.Add (h.Info.tz.ToString());
 			mList.Items.Add (li);
 
 			li = new ListViewItem ("Latitude");
-			li.SubItems.Add (h.info.lat.ToString());
+			li.SubItems.Add (h.Info.lat.ToString());
 			mList.Items.Add (li);
 
 			li = new ListViewItem ("Longitude");
-			li.SubItems.Add (h.info.lon.ToString());
+			li.SubItems.Add (h.Info.lon.ToString());
 			mList.Items.Add (li);
 
 			li = new ListViewItem ("Altitude");
-			li.SubItems.Add (h.info.alt.ToString());
+			li.SubItems.Add (h.Info.alt.ToString());
 			mList.Items.Add (li);
 
 			{
-				HMSInfo hms_srise = new HMSInfo (h.sunrise);
+				HMSInfo hms_srise = new HMSInfo (h.Sunrise);
 				li = new ListViewItem ("Sunrise");
 				string fmt = String.Format ("{0:00}:{1:00}:{2:00}",
 					hms_srise.degree, hms_srise.minute, hms_srise.second);
@@ -193,7 +193,7 @@ namespace mhora
 				mList.Items.Add (li);
 			}
 			{
-				HMSInfo hms_sset = new HMSInfo (h.sunset);
+				HMSInfo hms_sset = new HMSInfo (h.Sunset);
 				li = new ListViewItem ("Sunset");
 				string fmt = String.Format ("{0:00}:{1:00}:{2:00}",
                     hms_sset.degree, hms_sset.minute, hms_sset.second);
@@ -202,70 +202,70 @@ namespace mhora
 			}
 			{
 				li = new ListViewItem ("Weekday");
-				string fmt = String.Format ("{0}", h.wday);
+				string fmt = String.Format ("{0}", h.Weekday);
 				li.SubItems.Add (fmt);
 				mList.Items.Add (li);
 
 			}
 			{
-				Longitude ltithi = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
-				double offset = (360.0/30.0) - ltithi.toTithiOffset();
-				Tithi ti = ltithi.toTithi();
-				Body.Name tiLord = ti.getLord();
+				Longitude ltithi = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+				double offset = (360.0/30.0) - ltithi.ToTithiOffset();
+				Tithi ti = ltithi.ToTithi();
+				Body.Name tiLord = ti.GetLord();
 				li = new ListViewItem("Tithi");
 				string fmt = String.Format ("{0} ({1}) {2:N}% left", ti.ToString(), tiLord, offset / 12.0 * 100);
 				li.SubItems.Add (fmt);
 				mList.Items.Add (li);
 			}
 			{
-				Longitude lmoon = h.getPosition(Body.Name.Moon).Longitude;
-				Nakshatra nmoon = lmoon.toNakshatra();
-				Body.Name nmoonLord = VimsottariDasa.LordOfNakshatra(nmoon);
-				double offset = (360.0/27.0)-lmoon.toNakshatraOffset();
-				int pada = lmoon.toNakshatraPada();
+				Longitude lmoon = h.GetPosition(Body.Name.Moon).Longitude;
+				Nakshatra nmoon = lmoon.ToNakshatra();
+				Body.Name nmoonLord = VimsottariDasa.LordOfNakshatraS(nmoon);
+				double offset = (360.0/27.0)-lmoon.ToNakshatraOffset();
+				int pada = lmoon.ToNakshatraPada();
 				string fmt = String.Format ("{0} {1} ({2}) {3:N}% left",
-					nmoon.value, pada, nmoonLord, offset/(360.0/27.0)*100);
+					nmoon.Value, pada, nmoonLord, offset/(360.0/27.0)*100);
 				li = new ListViewItem("Nakshatra");
 				li.SubItems.Add(fmt);
 				mList.Items.Add(li);
 			}
 			{
 				li = new ListViewItem("Karana");
-				Longitude lkarana = h.getPosition(Body.Name.Moon).Longitude.sub(h.getPosition(Body.Name.Sun).Longitude);
-				double koffset = (360.0/60.0) - lkarana.toKaranaOffset ();
-				Karana k = lkarana.toKarana();
-				Body.Name kLord = k.getLord();
+				Longitude lkarana = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+				double koffset = (360.0/60.0) - lkarana.ToKaranaOffset ();
+				Karana k = lkarana.ToKarana();
+				Body.Name kLord = k.GetLord();
 				string fmt = string.Format("{0} ({1}) {2:N}% left", k.value, kLord, koffset / 6.0 * 100);
 				li.SubItems.Add (fmt);
 				mList.Items.Add(li);
 			}
 			{
 				li = new ListViewItem("Yoga");
-				Longitude smLon = h.getPosition(Body.Name.Sun).Longitude.add(h.getPosition(Body.Name.Moon).Longitude);
-				double offset = (360.0/27.0) - smLon.toSunMoonYogaOffset();
-				SunMoonYoga smYoga = smLon.toSunMoonYoga();
-				Body.Name smLord = smYoga.getLord();
+				Longitude smLon = h.GetPosition(Body.Name.Sun).Longitude.Add(h.GetPosition(Body.Name.Moon).Longitude);
+				double offset = (360.0/27.0) - smLon.ToSunMoonYogaOffset();
+				SunMoonYoga smYoga = smLon.ToSunMoonYoga();
+				Body.Name smLord = smYoga.GetLord();
 				string fmt = string.Format("{0} ({1}) {2:N}% left", smYoga, smLord, offset / (360.0/27.0) * 100);
 				li.SubItems.Add(fmt);
 				mList.Items.Add(li);
 			}
 			{
 				li = new ListViewItem("Hora");
-				Body.Name b = h.calculateHora();
+				Body.Name b = h.CalculateHora();
 				string fmt = String.Format("{0}", b);
 				li.SubItems.Add(fmt);
 				mList.Items.Add(li);
 			}
 			{
 				li = new ListViewItem("Kala");
-				Body.Name b = h.calculateKala();
+				Body.Name b = h.CalculateKala();
 				string fmt = String.Format("{0}", b);
 				li.SubItems.Add(fmt);
 				mList.Items.Add(li);
 			}			
 			{
 				li = new ListViewItem("Muhurta");
-				int mIndex = (int)(Math.Floor((h.hoursAfterSunrise() / h.lengthOfDay())*30.0)+1);
+				int mIndex = (int)(Math.Floor((h.HoursAfterSunrise() / h.LengthOfDay())*30.0)+1);
 				Muhurta m = (Muhurta)mIndex;
 				string fmt = String.Format("{0} ({1})", m, Basics.NakLordOfMuhurta(m));
 				li.SubItems.Add(fmt);
@@ -273,15 +273,15 @@ namespace mhora
 				
 			}
 			{
-				double ghatisSr = h.hoursAfterSunrise() * 2.5;
-				double ghatisSs = h.hoursAfterSunRiseSet() * 2.5;
+				double ghatisSr = h.HoursAfterSunrise() * 2.5;
+				double ghatisSs = h.HoursAfterSunRiseSet() * 2.5;
 				li = new ListViewItem ("Ghatis");
 				string fmt = String.Format ("{0:0.0000} / {1:0.0000}", ghatisSr, ghatisSs);
 				li.SubItems.Add (fmt);
 				mList.Items.Add (li);
 			}
 			{
-				int vgOff = (int)Math.Ceiling(h.hoursAfterSunRiseSet() * 150.0);
+				int vgOff = (int)Math.Ceiling(h.HoursAfterSunRiseSet() * 150.0);
 				vgOff = vgOff % 9;
 				if (vgOff == 0) vgOff = 9;
 				Body.Name b = (Body.Name) ((int)Body.Name.Sun + vgOff -1);
@@ -309,7 +309,7 @@ namespace mhora
 				mList.Items.Add(li);			
 			}
 			{
-				Sweph.obtainLock(h);
+				Sweph.ObtainLock(h);
 				li = new ListViewItem("Ayanamsa");
 				double aya = Sweph.swe_get_ayanamsa_ut(h.baseUT);
 				int aya_hour = (int)Math.Floor(aya);
@@ -319,7 +319,7 @@ namespace mhora
 				string fmt = String.Format("{0:00}-{1:00}-{2:00.00}", aya_hour, aya_min, aya);
 				li.SubItems.Add (fmt);
 				mList.Items.Add(li);
-				Sweph.releaseLock(h);
+				Sweph.ReleaseLock(h);
 			}
 			{
 				li = new ListViewItem("Universal Time");

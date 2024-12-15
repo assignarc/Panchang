@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
 	public class ZodiacHouse : ICloneable
     {
         private ZodiacHouseName m_zhouse;
-        public ZodiacHouseName value { get { return m_zhouse; } set { m_zhouse = value; } }
+        public ZodiacHouseName Value { get { return m_zhouse; } set { m_zhouse = value; } }
         public ZodiacHouse(ZodiacHouseName zhouse) { m_zhouse = zhouse; }
         
         static public ZodiacHouseName[] AllNames = new ZodiacHouseName[]
@@ -27,36 +27,36 @@ namespace org.transliteral.panchang
         }
         public override string ToString()
         {
-            return value.ToString();
+            return Value.ToString();
         }
 
-        public int normalize()
+        public int Normalize()
         {
             return Basics.Normalize_inc(1, 12, (int)m_zhouse);
         }
-        public ZodiacHouse add(int i)
+        public ZodiacHouse Add(int i) 
         {
             int znum = Basics.Normalize_inc(1, 12, (int)(m_zhouse) + i - 1);
             return new ZodiacHouse((ZodiacHouseName)znum);
         }
-        public ZodiacHouse addReverse(int i)
+        public ZodiacHouse AddReverse(int i)
         {
             int znum = Basics.Normalize_inc(1, 12, (int)(m_zhouse) - i + 1);
             return new ZodiacHouse((ZodiacHouseName)znum);
         }
-        public int numHousesBetweenReverse(ZodiacHouse zrel)
+        public int NumHousesBetweenReverse(ZodiacHouse zrel)
         {
-            return Basics.Normalize_inc(1, 12, (14 - this.numHousesBetween(zrel)));
+            return Basics.Normalize_inc(1, 12, (14 - this.NumHousesBetween(zrel)));
         }
-        public int numHousesBetween(ZodiacHouse zrel)
+        public int NumHousesBetween(ZodiacHouse zrel)
         {
-            int ret = Basics.Normalize_inc(1, 12, (int)zrel.value - (int)m_zhouse + 1);
+            int ret = Basics.Normalize_inc(1, 12, (int)zrel.Value - (int)m_zhouse + 1);
             Trace.Assert(ret >= 1 && ret <= 12, "ZodiacHouse.numHousesBetween failed");
             return ret;
         }
-        public bool isDaySign()
+        public bool IsDaySign()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari:
                 case ZodiacHouseName.Tau:
@@ -83,9 +83,9 @@ namespace org.transliteral.panchang
                     return true;
             }
         }
-        public bool isOdd()
+        public bool IsOdd()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari:
                 case ZodiacHouseName.Gem:
@@ -108,9 +108,9 @@ namespace org.transliteral.panchang
                     return true;
             }
         }
-        public bool isOddFooted()
+        public bool IsOddFooted()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari: return true;
                 case ZodiacHouseName.Tau: return true;
@@ -130,16 +130,16 @@ namespace org.transliteral.panchang
         }
         public bool RasiDristi(ZodiacHouse b)
         {
-            int ma = (int)value % 3;
-            int mb = (int)b.value % 3;
+            int ma = (int)Value % 3;
+            int mb = (int)b.Value % 3;
 
             switch (ma)
             {
                 case 1:
-                    if (mb == 2 && this.add(2).value != b.value) return true;
+                    if (mb == 2 && this.Add(2).Value != b.Value) return true;
                     return false;
                 case 2:
-                    if (mb == 1 && this.addReverse(2).value != b.value) return true;
+                    if (mb == 1 && this.AddReverse(2).Value != b.Value) return true;
                     return false;
                 case 0:
                     if (mb == 0) return true;
@@ -151,7 +151,7 @@ namespace org.transliteral.panchang
         }
         public RiseType RisesWith()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari:
                 case ZodiacHouseName.Tau:
@@ -173,7 +173,7 @@ namespace org.transliteral.panchang
         public ZodiacHouse LordsOtherSign()
         {
             ZodiacHouseName ret = ZodiacHouseName.Ari;
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari: ret = ZodiacHouseName.Sco; break;
                 case ZodiacHouseName.Tau: ret = ZodiacHouseName.Lib; break;
@@ -194,7 +194,7 @@ namespace org.transliteral.panchang
         public ZodiacHouse AdarsaSign()
         {
             ZodiacHouseName ret = ZodiacHouseName.Ari;
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari: ret = ZodiacHouseName.Sco; break;
                 case ZodiacHouseName.Tau: ret = ZodiacHouseName.Lib; break;
@@ -215,7 +215,7 @@ namespace org.transliteral.panchang
         public ZodiacHouse AbhimukhaSign()
         {
             ZodiacHouseName ret = ZodiacHouseName.Ari;
-            switch (this.value)
+            switch (this.Value)
             {
                 case ZodiacHouseName.Ari: ret = ZodiacHouseName.Sco; break;
                 case ZodiacHouseName.Tau: ret = ZodiacHouseName.Lib; break;

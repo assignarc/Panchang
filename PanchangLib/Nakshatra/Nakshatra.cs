@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.transliteral.panchang
+﻿namespace org.transliteral.panchang
 {
 
     public class Nakshatra
@@ -45,7 +39,7 @@ namespace org.transliteral.panchang
             }
         }
 
-        public string toShortString()
+        public string ToShortString()
         {
             switch (m_nak)
             {
@@ -81,7 +75,7 @@ namespace org.transliteral.panchang
 
         }
         private NakshatraName m_nak;
-        public NakshatraName value
+        public NakshatraName Value
         {
             get { return m_nak; }
             set { m_nak = value; }
@@ -90,18 +84,18 @@ namespace org.transliteral.panchang
         {
             m_nak = (NakshatraName)Basics.Normalize_inc(1, 27, (int)nak);
         }
-        public int normalize()
+        public int Normalize()
         {
-            return Basics.Normalize_inc(1, 27, (int)this.value);
+            return Basics.Normalize_inc(1, 27, (int)this.Value);
         }
-        public Nakshatra add(int i)
+        public Nakshatra Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.value + i - 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.Value + i - 1);
             return new Nakshatra((NakshatraName)snum);
         }
-        public Nakshatra addReverse(int i)
+        public Nakshatra AddReverse(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.value - i + 1);
+            int snum = Basics.Normalize_inc(1, 27, (int)this.Value - i + 1);
             return new Nakshatra((NakshatraName)snum);
         }
     }

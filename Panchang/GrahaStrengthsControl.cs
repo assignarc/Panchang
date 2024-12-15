@@ -27,14 +27,14 @@ namespace mhora
 		{
 			Division m_dtype;
 
-			[PGNotVisible]
+			[InVisible]
 			public Division Division
 			{
 				get { return m_dtype; }
 				set { m_dtype = value; }
 			}
 
-			[PGDisplayName("Varga")]
+			[@DisplayName("Varga")]
 			public DivisionType UIDivision
 			{
 				get { return m_dtype.MultipleDivisions[0].Varga; }

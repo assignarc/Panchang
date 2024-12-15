@@ -10,11 +10,11 @@ namespace org.transliteral.panchang
 		public StrengthByAtmaKaraka (Horoscope h, Division dtype)
 			: base (h, dtype, true) {}
 
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
-		{
-			ArrayList ala = findGrahasInHouse (za);
-			ArrayList alb = findGrahasInHouse (zb);
-			Body.Name ak = findAtmaKaraka();
+        public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb)
+        {
+			ArrayList ala = FindGrahasInHouse (za);
+			ArrayList alb = FindGrahasInHouse (zb);
+			Body.Name ak = FindAtmaKaraka();
 			foreach (Body.Name ba in ala) 
 			{
 				if (ba == ak) return true;
@@ -25,9 +25,9 @@ namespace org.transliteral.panchang
 			}
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+        public bool Stronger(Body.Name m, Body.Name n)
 		{
-			Body.Name ak = findAtmaKaraka();
+			Body.Name ak = FindAtmaKaraka();
 			if (m == ak) return true;
 			if (n == ak) return false;
 			throw new EqualStrength();

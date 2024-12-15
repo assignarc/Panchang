@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -30,7 +26,7 @@ namespace org.transliteral.panchang
 
             int hour = 1, min = 1, sec = 1;
 
-            Direction dir = Direction.NS;
+            Direction dir = Direction.NorthSouth;
             string[] _arr = s.Split(new Char[3] { '.', ' ', ':' });
             ArrayList arr = new ArrayList(_arr);
 
@@ -47,9 +43,9 @@ namespace org.transliteral.panchang
                 if (sdir == "W" || sdir == "w" || sdir == "S" || sdir == "s")
                     hour *= -1;
                 if (sdir == "W" || sdir == "w" || sdir == "E" || sdir == "e")
-                    dir = Direction.EW;
+                    dir = Direction.EastWest;
                 else
-                    dir = Direction.NS;
+                    dir = Direction.NorthSouth;
 
                 min = int.Parse((String)arr[2]);
                 sec = int.Parse((String)arr[3]);

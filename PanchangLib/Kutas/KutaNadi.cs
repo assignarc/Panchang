@@ -6,23 +6,22 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IVata, IPitta, ISleshma
+			IVata, 
+			IPitta, 
+			ISleshma
 		};
-		public static int getMaxScore ()
+        public static int GetMaxScore() => 2;
+        public static int GetScore(Nakshatra m, Nakshatra n)
 		{
-			return 2;
-		}
-		public static int getScore (Nakshatra m, Nakshatra n)
-		{
-			EType ea = getType(m);
-			EType eb = getType(n);
+			EType ea = GetType(m);
+			EType eb = GetType(n);
 			if (ea != eb) return 2;
 			if (ea == EType.IVata || ea == EType.ISleshma) return 1;
 			return 0;
 		}
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Aridra:

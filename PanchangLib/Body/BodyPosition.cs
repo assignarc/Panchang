@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -25,9 +21,9 @@ namespace org.transliteral.panchang
         public Longitude Longitude { get { return m_lon; } set { m_lon = value; } }
         public double Latitude { get { return m_lat; } set { m_lat = value; } }
         public double Distance { get { return m_dist; } set { m_dist = value; } }
-        public double Speed_longitude { get { return m_splon; } set { m_splon = value; } }
-        public double Speed_latitude { get { return m_splat; } set { m_splat = value; } }
-        public double Speed_distance { get { return m_spdist; } set { m_spdist = value; } }
+        public double SpeedLongitude { get { return m_splon; } set { m_splon = value; } }
+        public double SpeedLatitude { get { return m_splat; } set { m_splat = value; } }
+        public double SpeedDistance { get { return m_spdist; } set { m_spdist = value; } }
         public BodyPosition(Horoscope _h, Body.Name aname, BodyType.Name atype, Longitude lon, double lat, double dist, double splon, double splat, double spdist)
         {
             this.Longitude = lon;
@@ -39,11 +35,11 @@ namespace org.transliteral.panchang
             name = aname;
             type = atype;
             h = _h;
-            //Console.WriteLine ("{0} {1} {2}", aname.ToString(), lon.value, splon);
+            Logger.Info(String.Format("{0} {1} {2}", aname.ToString(), lon.Value, splon));
         }
         public object Clone()
         {
-            return  new BodyPosition(h, name, type, m_lon.add(0), m_lat,m_dist, m_splon, m_splat, m_spdist)
+            return  new BodyPosition(h, name, type, m_lon.Add(0), m_lat,m_dist, m_splon, m_splat, m_spdist)
             {
                 otherString = this.otherString
             };
@@ -53,7 +49,7 @@ namespace org.transliteral.panchang
         public int PartOfZodiacHouse(int n)
         {
             Longitude l = this.Longitude;
-            double offset = l.toZodiacHouseOffset();
+            double offset = l.ToZodiacHouseOffset();
             int part = (int)(Math.Floor(offset / (30.0 / n))) + 1;
             Trace.Assert(part >= 1 && part <= n);
             return part;
@@ -62,17 +58,13 @@ namespace org.transliteral.panchang
         {
             int part = PartOfZodiacHouse(n);
             double cusp_length = 30.0 / ((double)n);
-            dp.cusp_lower = ((double)(part - 1)) * cusp_length;
-            dp.cusp_lower += m_lon.toZodiacHouseBase();
-            dp.cusp_higher = dp.cusp_lower + cusp_length;
-            dp.part = part;
+            dp.CuspLower = ((double)(part - 1)) * cusp_length;
+            dp.CuspLower += m_lon.ToZodiacHouseBase();
+            dp.CuspHigher = dp.CuspLower + cusp_length;
+            dp.Part = part;
 
-            //if (dp.type == BodyType.Name.Graha || dp.type == BodyType.Name.Lagna)
-            //Console.WriteLine ("D: {0} {1} {2} {3} {4} {5}", 
-            //	n, dp.name, cusp_length,
-            //	dp.cusp_lower, m_lon.value, dp.cusp_higher);
-
-
+            if (dp.Type == BodyType.Name.Graha || dp.Type == BodyType.Name.Lagna)
+                Logger.Info(String.Format("D: {0} {1} {2} {3} {4} {5}", n, dp.Name, cusp_length,dp.CuspLower, m_lon.Value, dp.CuspHigher));
             return dp;
         }
 
@@ -85,9 +77,9 @@ namespace org.transliteral.panchang
         /// 
         private DivisionPosition ToRegularDivisionPosition(int n)
         {
-            int zhouse = (int)(m_lon.toZodiacHouse().value);
+            int zhouse = (int)(m_lon.ToZodiacHouse().Value);
             int num_parts = (((int)zhouse) - 1) * n + PartOfZodiacHouse(n);
-            ZodiacHouse div_house = (new ZodiacHouse(ZodiacHouseName.Ari)).add(num_parts);
+            ZodiacHouse div_house = (new ZodiacHouse(ZodiacHouseName.Ari)).Add(num_parts);
             DivisionPosition dp = new DivisionPosition(name, type, div_house, 0, 0, 0);
             PopulateRegularCusps(n, dp);
             return dp;
@@ -95,9 +87,9 @@ namespace org.transliteral.panchang
 
         private DivisionPosition ToRegularDivisionPositionFromCurrentHouseOddEven(int n=0)
         {
-            int zhouse = (int)(m_lon.toZodiacHouse().value);
+            int zhouse = (int)(m_lon.ToZodiacHouse().Value);
             int num_parts = PartOfZodiacHouse(n);
-            ZodiacHouse div_house = m_lon.toZodiacHouse().add(num_parts);
+            ZodiacHouse div_house = m_lon.ToZodiacHouse().Add(num_parts);
             DivisionPosition dp = new DivisionPosition(name, type, div_house, 0, 0, 0);
             PopulateRegularCusps(n, dp);
             return dp;
@@ -110,9 +102,9 @@ namespace org.transliteral.panchang
             cusps[12] = cusps[0];
             for (int i = 0; i < 12; i++)
             {
-                if (m_lon.sub(cusps[i]).value <= cusps[i + 1].sub(cusps[i]).value)
+                if (m_lon.Subtract(cusps[i]).Value <= cusps[i + 1].Subtract(cusps[i]).Value)
                     return new DivisionPosition(name, type, new ZodiacHouse((ZodiacHouseName)i + 1),
-                        cusps[i].value, cusps[i + 1].value, 1);
+                        cusps[i].Value, cusps[i + 1].Value, 1);
             }
             throw new Exception();
         }
@@ -120,24 +112,24 @@ namespace org.transliteral.panchang
         {
             Debug.Assert(cusps.Length == 13);
 
-            ZodiacHouse zlagna = h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+            ZodiacHouse zlagna = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
             for (int i = 0; i < 12; i++)
             {
-                if (m_lon.sub(cusps[i]).value < cusps[i + 1].sub(cusps[i]).value)
+                if (m_lon.Subtract(cusps[i]).Value < cusps[i + 1].Subtract(cusps[i]).Value)
                 {
-                    //Console.WriteLine ("Found {4} - {0} in cusp {3} between {1} and {2}", this.m_lon.value,
-                    //	cusps[i].value, cusps[i+1].value, i+1, this.name.ToString());
+                    Logger.Info(String.Format("Found {4} - {0} in cusp {3} between {1} and {2}", 
+                            this.m_lon.Value,cusps[i].Value, cusps[i+1].Value, i+1, this.name.ToString()));
 
                     return new DivisionPosition(name, type,
-                        zlagna.add(i + 1), cusps[i].value, cusps[i + 1].value, 1);
+                        zlagna.Add(i + 1), cusps[i].Value, cusps[i + 1].Value, 1);
                 }
             }
             return new DivisionPosition(name, type,
-                zlagna.add(1), cusps[0].value, cusps[1].value, 1);
+                zlagna.Add(1), cusps[0].Value, cusps[1].Value, 1);
         }
         private DivisionPosition ToDivisionPositionBhavaEqual()
         {
-            double offset = h.getPosition(Body.Name.Lagna).Longitude.toZodiacHouseOffset();
+            double offset = h.GetPosition(Body.Name.Lagna).Longitude.ToZodiacHouseOffset();
             Longitude[] cusps = new Longitude[13];
             for (int i = 0; i < 12; i++)
                 cusps[i] = new Longitude(i * 30.0 + offset - 15.0);
@@ -146,7 +138,7 @@ namespace org.transliteral.panchang
         private DivisionPosition ToDivisionPositionBhavaPada()
         {
             Longitude[] cusps = new Longitude[13];
-            double offset = h.getPosition(Body.Name.Lagna).Longitude.toZodiacHouseOffset();
+            double offset = h.GetPosition(Body.Name.Lagna).Longitude.ToZodiacHouseOffset();
             int padasOffset = (int)Math.Floor(offset / (360.0 / 108.0));
             double startOffset = (double)padasOffset * (360.0 / 108.0);
 
@@ -160,18 +152,18 @@ namespace org.transliteral.panchang
             double[] dCusps = new double[13];
             double[] ascmc = new double[10];
 
-            if (hsys != h.swephHouseSystem)
+            if (hsys != h.SwephHouseSystem)
             {
-                h.swephHouseSystem = hsys;
-                h.populateHouseCusps();
+                h.SwephHouseSystem = hsys;
+                h.PopulateHouseCusps();
             }
-            return this.ToBhavaDivisionPositionHouse(h.swephHouseCusps);
+            return this.ToBhavaDivisionPositionHouse(h.SwephHouseCusps);
         }
         private bool HoraSunDayNight()
         {
-            int sign = (int)m_lon.toZodiacHouse().value;
+            int sign = (int)m_lon.ToZodiacHouse().Value;
             int part = PartOfZodiacHouse(2);
-            if (m_lon.toZodiacHouse().isDaySign())
+            if (m_lon.ToZodiacHouse().IsDaySign())
             {
                 if (part == 1) return true;
                 return false;
@@ -184,7 +176,7 @@ namespace org.transliteral.panchang
         }
         private bool HoraSunOddEven()
         {
-            int sign = (int)m_lon.toZodiacHouse().value;
+            int sign = (int)m_lon.ToZodiacHouse().Value;
             int part = PartOfZodiacHouse(2);
             int mod = sign % 2;
             switch (mod)
@@ -203,7 +195,7 @@ namespace org.transliteral.panchang
             int[] nightSigns = new int[13] { 0, 1, 2, 3, 4, 4, 3, 2, 1, 9, 10, 10, 9 };
 
             ZodiacHouse zh;
-            int sign = (int)m_lon.toZodiacHouse().value;
+            int sign = (int)m_lon.ToZodiacHouse().Value;
             if (this.HoraSunOddEven()) zh = new ZodiacHouse((ZodiacHouseName)daySigns[sign]);
             else zh = new ZodiacHouse((ZodiacHouseName)nightSigns[sign]);
             DivisionPosition dp = new DivisionPosition(name, type, zh, 0, 0, 0);
@@ -212,17 +204,17 @@ namespace org.transliteral.panchang
         }
         private DivisionPosition ToDivisionPositionHoraJagannath()
         {
-            ZodiacHouse zh = m_lon.toZodiacHouse();
+            ZodiacHouse zh = m_lon.ToZodiacHouse();
 
-            Console.WriteLine("{2} in {3}: OddEven is {0}, DayNight is {1}",
-                this.HoraSunOddEven(), this.HoraSunDayNight(), this.name, zh.value);
+            Logger.Info(String.Format("{2} in {3}: OddEven is {0}, DayNight is {1}",
+                this.HoraSunOddEven(), this.HoraSunDayNight(), this.name, zh.Value));
 
             if (this.HoraSunDayNight() && false == this.HoraSunOddEven())
-                zh = zh.add(7);
+                zh = zh.Add(7);
             else if (false == this.HoraSunDayNight() && true == this.HoraSunOddEven())
-                zh = zh.add(7);
+                zh = zh.Add(7);
 
-            Console.WriteLine("{0} ends in {1}", this.name, zh.value);
+            Logger.Info(String.Format("{0} ends in {1}", this.name, zh.Value));
 
             DivisionPosition dp = new DivisionPosition(name, type, zh, 0, 0, 0);
             this.PopulateRegularCusps(2, dp);
@@ -244,47 +236,47 @@ namespace org.transliteral.panchang
             }
             DivisionPosition dp = new DivisionPosition(name, type, zh, 0, 0, 0)
             {
-                ruler_index = ruler_index
+                RulerIndex = ruler_index
             };
             return this.PopulateRegularCusps(2, dp);
         }
         private DivisionPosition ToDivisionPositionDrekanna(int n)
         {
             int[] offset = new int[4] { 9, 1, 5, 9 };
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = zhouse.add(offset[part % 3]);
+            ZodiacHouse dhouse = zhouse.Add(offset[part % 3]);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             PopulateRegularCusps(n, dp);
             if (n == 3)
             {
-                int ruler_index = (int)dp.zodiac_house.value % 3;
+                int ruler_index = (int)dp.ZodiacHouse.Value % 3;
                 if (ruler_index == 0) ruler_index = 3;
-                dp.ruler_index = ruler_index;
+                dp.RulerIndex = ruler_index;
             }
             return dp;
         }
         private DivisionPosition ToDivisionPositionDrekannaJagannath()
         {
-            ZodiacHouse zh = m_lon.toZodiacHouse();
+            ZodiacHouse zh = m_lon.ToZodiacHouse();
             ZodiacHouse zhm;
             ZodiacHouse dhouse;
-            int mod = ((int)(m_lon.toZodiacHouse().value)) % 3;
+            int mod = ((int)(m_lon.ToZodiacHouse().Value)) % 3;
             // Find moveable sign in trines
             switch (mod)
             {
-                case 1: zhm = zh.add(1); break;
-                case 2: zhm = zh.add(9); break;
-                default: zhm = zh.add(5); break;
+                case 1: zhm = zh.Add(1); break;
+                case 2: zhm = zh.Add(9); break;
+                default: zhm = zh.Add(5); break;
             }
 
             // From moveable sign, 3 parts belong to the trines
             int part = PartOfZodiacHouse(3);
             switch (part)
             {
-                case 1: dhouse = zhm.add(1); break;
-                case 2: dhouse = zhm.add(5); break;
-                default: dhouse = zhm.add(9); break;
+                case 1: dhouse = zhm.Add(1); break;
+                case 2: dhouse = zhm.Add(5); break;
+                default: dhouse = zhm.Add(9); break;
             }
 
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
@@ -292,10 +284,10 @@ namespace org.transliteral.panchang
         }
         private DivisionPosition ToDivisionPositionDrekkanaSomnath()
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 2;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 2;
             int part = PartOfZodiacHouse(3);
-            ZodiacHouse zh = m_lon.toZodiacHouse();
-            int p = (int)zh.value;
+            ZodiacHouse zh = m_lon.ToZodiacHouse();
+            int p = (int)zh.Value;
 
             if (mod == 0) p--;
             p = (p - 1) / 2;
@@ -303,45 +295,45 @@ namespace org.transliteral.panchang
 
             ZodiacHouse zh1 = new ZodiacHouse(ZodiacHouseName.Ari);
             ZodiacHouse zh2;
-            if (mod == 1) zh2 = zh1.add(num_done + part);
-            else zh2 = zh1.addReverse(num_done + part + 1);
+            if (mod == 1) zh2 = zh1.Add(num_done + part);
+            else zh2 = zh1.AddReverse(num_done + part + 1);
             DivisionPosition dp = new DivisionPosition(name, type, zh2, 0, 0, 0);
             return this.PopulateRegularCusps(3, dp);
         }
         private DivisionPosition ToDivisionPositionChaturthamsa(int n)
         {
             int[] offset = new int[5] { 10, 1, 4, 7, 10 };
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = zhouse.add(offset[part % 4]);
+            ZodiacHouse dhouse = zhouse.Add(offset[part % 4]);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 4)
-                dp.ruler_index = part;
+                dp.RulerIndex = part;
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionShashthamsa(int n)
         {
-            int mod = ((int)(m_lon.toZodiacHouse().value)) % 2;
+            int mod = ((int)(m_lon.ToZodiacHouse().Value)) % 2;
             ZodiacHouseName dhousen = (mod % 2 == 1) ? ZodiacHouseName.Ari : ZodiacHouseName.Lib;
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousen)).add(PartOfZodiacHouse(n));
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousen)).Add(PartOfZodiacHouse(n));
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionSaptamsa(int n)
         {
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse zh = m_lon.toZodiacHouse();
-            if (false == zh.isOdd())
-                zh = zh.add(7);
-            zh = zh.add(part);
+            ZodiacHouse zh = m_lon.ToZodiacHouse();
+            if (false == zh.IsOdd())
+                zh = zh.Add(7);
+            zh = zh.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, zh, 0, 0, 0);
 
             if (n == 7)
             {
-                if (this.Longitude.toZodiacHouse().isOdd())
-                    dp.ruler_index = part;
+                if (this.Longitude.ToZodiacHouse().IsOdd())
+                    dp.RulerIndex = part;
                 else
-                    dp.ruler_index = 8 - part;
+                    dp.RulerIndex = 8 - part;
             }
             return this.PopulateRegularCusps(n, dp);
         }
@@ -349,19 +341,19 @@ namespace org.transliteral.panchang
         {
             int part = PartOfZodiacHouse(9);
             DivisionPosition dp = this.ToRegularDivisionPosition(9);
-            switch ((int)this.Longitude.toZodiacHouse().value % 3)
+            switch ((int)this.Longitude.ToZodiacHouse().Value % 3)
             {
-                case 1: dp.ruler_index = part; break;
-                case 2: dp.ruler_index = part + 1; break;
-                case 0: dp.ruler_index = part + 2; break;
+                case 1: dp.RulerIndex = part; break;
+                case 2: dp.RulerIndex = part + 1; break;
+                case 0: dp.RulerIndex = part + 2; break;
             }
-            while (dp.ruler_index > 3) dp.ruler_index -= 3;
+            while (dp.RulerIndex > 3) dp.RulerIndex -= 3;
             return dp;
         }
         private DivisionPosition ToDivisionPositionAshtamsaRaman()
         {
             ZodiacHouse zstart = null;
-            switch ((int)m_lon.toZodiacHouse().value % 3)
+            switch ((int)m_lon.ToZodiacHouse().Value % 3)
             {
                 case 1: zstart = new ZodiacHouse(ZodiacHouseName.Ari); break;
                 case 2: zstart = new ZodiacHouse(ZodiacHouseName.Leo); break;
@@ -369,7 +361,7 @@ namespace org.transliteral.panchang
                 default:
                     zstart = new ZodiacHouse(ZodiacHouseName.Sag); break;
             }
-            ZodiacHouse dhouse = zstart.add(PartOfZodiacHouse(8));
+            ZodiacHouse dhouse = zstart.Add(PartOfZodiacHouse(8));
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             return this.PopulateRegularCusps(8, dp);
         }
@@ -384,7 +376,7 @@ namespace org.transliteral.panchang
                             ZodiacHouseName.Tau, ZodiacHouseName.Vir, ZodiacHouseName.Pis,
                             ZodiacHouseName.Cap, ZodiacHouseName.Sco};
             int part = PartOfZodiacHouse(5);
-            int mod = ((int)(m_lon.toZodiacHouse().value)) % 2;
+            int mod = ((int)(m_lon.ToZodiacHouse().Value)) % 2;
             ZodiacHouseName dhouse = (mod % 2 == 1) ? offset_odd[part - 1] : offset_even[part - 1];
             DivisionPosition dp = new DivisionPosition(name, type, new ZodiacHouse(dhouse), 0, 0, 0);
             return this.PopulateRegularCusps(5, dp);
@@ -392,47 +384,47 @@ namespace org.transliteral.panchang
         private DivisionPosition ToDivisionPositionRudramsa()
         {
             ZodiacHouse zari = new ZodiacHouse(ZodiacHouseName.Ari);
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
-            int diff = zari.numHousesBetween(zhouse);
-            ZodiacHouse zstart = zari.addReverse(diff);
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
+            int diff = zari.NumHousesBetween(zhouse);
+            ZodiacHouse zstart = zari.AddReverse(diff);
             int part = PartOfZodiacHouse(11);
-            ZodiacHouse zend = zstart.add(part);
+            ZodiacHouse zend = zstart.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, zend, 0, 0, 0);
             return this.PopulateRegularCusps(11, dp);
         }
         private DivisionPosition ToDivisionPositionRudramsaRaman()
         {
-            ZodiacHouse zhstart = m_lon.toZodiacHouse().add(12);
+            ZodiacHouse zhstart = m_lon.ToZodiacHouse().Add(12);
             int part = PartOfZodiacHouse(11);
-            ZodiacHouse zend = zhstart.addReverse(part);
+            ZodiacHouse zend = zhstart.AddReverse(part);
             DivisionPosition dp = new DivisionPosition(name, type, zend, 0, 0, 0);
             return this.PopulateRegularCusps(11, dp);
         }
         private DivisionPosition ToDivisionPositionDasamsa(int n)
         {
             int[] offset = new int[2] { 9, 1 };
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
-            ZodiacHouse dhouse = zhouse.add(offset[((int)zhouse.value) % 2]);
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
+            ZodiacHouse dhouse = zhouse.Add(offset[((int)zhouse.Value) % 2]);
             int part = PartOfZodiacHouse(n);
-            dhouse = dhouse.add(part);
+            dhouse = dhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 10)
             {
-                if (this.Longitude.toZodiacHouse().isOdd())
-                    dp.ruler_index = part;
+                if (this.Longitude.ToZodiacHouse().IsOdd())
+                    dp.RulerIndex = part;
                 else
-                    dp.ruler_index = 11 - part;
+                    dp.RulerIndex = 11 - part;
             }
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionDwadasamsa(int n)
         {
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = zhouse.add(part);
+            ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 12)
-                dp.ruler_index = Basics.Normalize_inc(1, 4, part);
+                dp.RulerIndex = Basics.Normalize_inc(1, 4, part);
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionShodasamsa()
@@ -440,16 +432,16 @@ namespace org.transliteral.panchang
             int part = PartOfZodiacHouse(16);
             DivisionPosition dp = this.ToRegularDivisionPosition(16);
             int ruler = part;
-            if (this.Longitude.toZodiacHouse().isOdd())
+            if (this.Longitude.ToZodiacHouse().IsOdd())
                 ruler = part;
             else
                 ruler = 17 - part;
-            dp.ruler_index = Basics.Normalize_inc(1, 4, ruler);
+            dp.RulerIndex = Basics.Normalize_inc(1, 4, ruler);
             return dp;
         }
         private DivisionPosition ToDivisionPositionVimsamsa(int n)
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 3;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 3;
             ZodiacHouseName dhousename;
             switch (mod)
             {
@@ -458,7 +450,7 @@ namespace org.transliteral.panchang
                 default: dhousename = ZodiacHouseName.Leo; break;
             }
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).add(part);
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             return this.PopulateRegularCusps(n, dp);
         }
@@ -466,32 +458,32 @@ namespace org.transliteral.panchang
         {
             int part = PartOfZodiacHouse(20);
             DivisionPosition dp = this.ToRegularDivisionPosition(20);
-            if (this.Longitude.toZodiacHouse().isOdd())
-                dp.ruler_index = part;
+            if (this.Longitude.ToZodiacHouse().IsOdd())
+                dp.RulerIndex = part;
             else
-                dp.ruler_index = 20 + part;
+                dp.RulerIndex = 20 + part;
             return dp;
         }
         private DivisionPosition ToDivisionPositionChaturvimsamsa(int n)
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 2;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 2;
             ZodiacHouseName dhousename = (mod % 2 == 1) ? ZodiacHouseName.Leo : ZodiacHouseName.Can;
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).add(part);
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 24)
             {
-                if (this.Longitude.toZodiacHouse().isOdd())
-                    dp.ruler_index = part;
+                if (this.Longitude.ToZodiacHouse().IsOdd())
+                    dp.RulerIndex = part;
                 else
-                    dp.ruler_index = 25 - part;
-                dp.ruler_index = Basics.Normalize_inc(1, 12, dp.ruler_index);
+                    dp.RulerIndex = 25 - part;
+                dp.RulerIndex = Basics.Normalize_inc(1, 12, dp.RulerIndex);
             }
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionNakshatramsa(int n)
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 4;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 4;
             ZodiacHouseName dhousename;
             switch (mod)
             {
@@ -501,28 +493,28 @@ namespace org.transliteral.panchang
                 default: dhousename = ZodiacHouseName.Cap; break;
             }
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).add(part);
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionNakshatramsa()
         {
             DivisionPosition dp = this.ToRegularDivisionPosition(27);
-            dp.ruler_index = this.PartOfZodiacHouse(27);
+            dp.RulerIndex = this.PartOfZodiacHouse(27);
             return dp;
         }
         private DivisionPosition ToDivisionPositionTrimsamsaSimple()
         {
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(30);
-            ZodiacHouse dhouse = zhouse.add(part);
+            ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             return this.PopulateRegularCusps(30, dp);
         }
         private DivisionPosition ToDivisionPositionTrimsamsa()
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 2;
-            double off = m_lon.toZodiacHouseOffset();
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 2;
+            double off = m_lon.ToZodiacHouseOffset();
             ZodiacHouse dhouse;
             double cusp_lower = 0;
             double cusp_higher = 0;
@@ -604,31 +596,31 @@ namespace org.transliteral.panchang
                     part = 5;
                 }
             }
-            cusp_lower += m_lon.toZodiacHouseBase();
-            cusp_higher += m_lon.toZodiacHouseBase();
+            cusp_lower += m_lon.ToZodiacHouseBase();
+            cusp_higher += m_lon.ToZodiacHouseBase();
 
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, cusp_lower, cusp_higher, 0)
             {
-                ruler_index = ruler_index,
-                part = part
+                RulerIndex = ruler_index,
+                Part = part
             };
             return dp;
         }
         private DivisionPosition ToDivisionPositionKhavedamsa()
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 2;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 2;
             ZodiacHouseName dhousename = (mod % 2 == 1) ? ZodiacHouseName.Ari : ZodiacHouseName.Lib;
             int part = PartOfZodiacHouse(40);
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).add(part);
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0)
             {
-                ruler_index = Basics.Normalize_inc(1, 12, part)
+                RulerIndex = Basics.Normalize_inc(1, 12, part)
             };
             return this.PopulateRegularCusps(40, dp);
         }
         private DivisionPosition ToDivisionPositionAkshavedamsa(int n)
         {
-            int mod = ((int)(m_lon.toZodiacHouse()).value) % 3;
+            int mod = ((int)(m_lon.ToZodiacHouse()).Value) % 3;
             ZodiacHouseName dhousename;
             switch (mod)
             {
@@ -637,30 +629,30 @@ namespace org.transliteral.panchang
                 default: dhousename = ZodiacHouseName.Sag; break;
             }
             int part = PartOfZodiacHouse(n);
-            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).add(part);
+            ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 45)
             {
-                switch ((int)this.Longitude.toZodiacHouse().value % 3)
+                switch ((int)this.Longitude.ToZodiacHouse().Value % 3)
                 {
-                    case 1: dp.ruler_index = part; break;
-                    case 2: dp.ruler_index = part + 1; break;
-                    case 0: dp.ruler_index = part + 2; break;
+                    case 1: dp.RulerIndex = part; break;
+                    case 2: dp.RulerIndex = part + 1; break;
+                    case 0: dp.RulerIndex = part + 2; break;
                 }
-                dp.ruler_index = Basics.Normalize_inc(1, 3, dp.ruler_index);
+                dp.RulerIndex = Basics.Normalize_inc(1, 3, dp.RulerIndex);
             }
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionShashtyamsa()
         {
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(60);
-            ZodiacHouse dhouse = zhouse.add(part);
+            ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
-            if (this.Longitude.toZodiacHouse().isOdd())
-                dp.ruler_index = part;
+            if (this.Longitude.ToZodiacHouse().IsOdd())
+                dp.RulerIndex = part;
             else
-                dp.ruler_index = 61 - part;
+                dp.RulerIndex = 61 - part;
             return this.PopulateRegularCusps(60, dp);
         }
         private DivisionPosition ToDivisionPositionNadiamsa()
@@ -679,15 +671,15 @@ namespace org.transliteral.panchang
 			}
 			DivisionPosition dp = new DivisionPosition (name, type, dhouse, 0, 0, 0);
 #endif
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
             int part = PartOfZodiacHouse(150);
-            ZodiacHouse dhouse = zhouse.add(part);
+            ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
-            switch ((int)this.Longitude.toZodiacHouse().value % 3)
+            switch ((int)this.Longitude.ToZodiacHouse().Value % 3)
             {
-                case 1: dp.ruler_index = part; break;
-                case 2: dp.ruler_index = 151 - part; break;
-                case 0: dp.ruler_index = Basics.Normalize_inc(1, 150, 75 + part); break;
+                case 1: dp.RulerIndex = part; break;
+                case 2: dp.RulerIndex = 151 - part; break;
+                case 0: dp.RulerIndex = Basics.Normalize_inc(1, 150, 75 + part); break;
             }
             return this.PopulateRegularCusps(150, dp);
         }
@@ -735,9 +727,9 @@ namespace org.transliteral.panchang
             {
                 Longitude lonLow = new Longitude(BodyPosition.mNadiamsaCusps[part]);
                 Longitude lonHigh = new Longitude(BodyPosition.mNadiamsaCusps[part + 1]);
-                Longitude offset = new Longitude(this.Longitude.toZodiacHouseOffset());
+                Longitude offset = new Longitude(this.Longitude.ToZodiacHouseOffset());
 
-                if (offset.sub(lonLow).value <= lonHigh.sub(lonLow).value)
+                if (offset.Subtract(lonLow).Value <= lonHigh.Subtract(lonLow).Value)
                     break;
             }
             part++;
@@ -756,20 +748,20 @@ namespace org.transliteral.panchang
 			DivisionPosition dp = new DivisionPosition (name, type, dhouse, 0, 0, 0);
 #endif
 
-            ZodiacHouse zhouse = m_lon.toZodiacHouse();
-            ZodiacHouse dhouse = zhouse.add(part);
+            ZodiacHouse zhouse = m_lon.ToZodiacHouse();
+            ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
 
 
-            switch ((int)this.Longitude.toZodiacHouse().value % 3)
+            switch ((int)this.Longitude.ToZodiacHouse().Value % 3)
             {
-                case 1: dp.ruler_index = part; break;
-                case 2: dp.ruler_index = 151 - part; break;
-                case 0: dp.ruler_index = Basics.Normalize_inc(1, 150, 75 + part); break;
+                case 1: dp.RulerIndex = part; break;
+                case 2: dp.RulerIndex = 151 - part; break;
+                case 0: dp.RulerIndex = Basics.Normalize_inc(1, 150, 75 + part); break;
             }
-            dp.cusp_lower = this.Longitude.toZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part - 1];
-            dp.cusp_higher = this.Longitude.toZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part];
-            dp.part = part;
+            dp.CuspLower = this.Longitude.ToZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part - 1];
+            dp.CuspHigher = this.Longitude.ToZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part];
+            dp.Part = part;
             return dp;
         }
         private DivisionPosition ToDivisionPositionNavamsaDwadasamsa()
@@ -940,12 +932,12 @@ namespace org.transliteral.panchang
         public Longitude ExtrapolateLongitude(Division.SingleDivision d)
         {
             DivisionPosition dp = this.ToDivisionPosition(d);
-            Longitude lOffset = this.Longitude.sub(dp.cusp_lower);
-            Longitude lRange = new Longitude(dp.cusp_higher).sub(dp.cusp_lower);
-            Trace.Assert(lOffset.value <= lRange.value, "Extrapolation internal error: Slice smaller than range. Weird.");
+            Longitude lOffset = this.Longitude.Subtract(dp.CuspLower);
+            Longitude lRange = new Longitude(dp.CuspHigher).Subtract(dp.CuspLower);
+            Trace.Assert(lOffset.Value <= lRange.Value, "Extrapolation internal error: Slice smaller than range. Weird.");
 
-            double newOffset = (lOffset.value / lRange.value) * 30.0;
-            double newBase = ((double)((int)dp.zodiac_house.value - 1)) * 30.0;
+            double newOffset = (lOffset.Value / lRange.Value) * 30.0;
+            double newBase = ((double)((int)dp.ZodiacHouse.Value - 1)) * 30.0;
             return (new Longitude(newOffset + newBase));
         }
     }

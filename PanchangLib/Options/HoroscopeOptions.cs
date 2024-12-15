@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -12,9 +8,6 @@ namespace org.transliteral.panchang
     [Serializable]
     public class HoroscopeOptions : HoraSerializableOptions, ICloneable, ISerializable
     {
-       
-
-       
         public HoroscopeOptions()
         {
             //sunrisePosition = SunrisePositionType.TrueDiscEdge;
@@ -25,12 +18,12 @@ namespace org.transliteral.panchang
             grahaPositionType = EGrahaPositionType.True;
             nodeType = ENodeType.Mean;
             Ayanamsa = AyanamsaType.Lahiri;
-            AyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EW);
+            AyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
             this.mUserLongitude = new Longitude(0);
             this.MaandiType = EMaandiType.SaturnBegin;
             this.GulikaType = EMaandiType.SaturnMid;
             this.UpagrahaType = EUpagrahaType.Mid;
-            mEphemPath = @getExeDir() + "\\eph";
+            mEphemPath = GetExeDir() + "\\eph";
         }
         public object Clone()
         {
@@ -43,7 +36,7 @@ namespace org.transliteral.panchang
             o.HoraType = this.HoraType;
             o.KalaType = this.KalaType;
             o.BhavaType = this.BhavaType;
-            o.mUserLongitude = this.mUserLongitude.add(0);
+            o.mUserLongitude = this.mUserLongitude.Add(0);
             o.MaandiType = this.MaandiType;
             o.GulikaType = this.GulikaType;
             o.UpagrahaType = this.UpagrahaType;
@@ -60,7 +53,7 @@ namespace org.transliteral.panchang
             this.HoraType = o.HoraType;
             this.KalaType = o.KalaType;
             this.BhavaType = o.BhavaType;
-            this.mUserLongitude = o.mUserLongitude.add(0);
+            this.mUserLongitude = o.mUserLongitude.Add(0);
             this.MaandiType = o.MaandiType;
             this.GulikaType = o.GulikaType;
             this.UpagrahaType = o.UpagrahaType;
@@ -80,79 +73,79 @@ namespace org.transliteral.panchang
         private EUpagrahaType mUpagrahaType;
         private string mEphemPath;
 
-        protected const string CAT_GENERAL = "1: General Settings";
-        protected const string CAT_GRAHA = "2: Graha Settings";
-        protected const string CAT_SUNRISE = "3: Sunrise Settings";
-        protected const string CAT_UPAGRAHA = "4: Upagraha Settings";
+        protected const string CATEGORY_GENERAL = "1: General Settings";
+        protected const string CATEGORY_GRAHA = "2: Graha Settings";
+        protected const string CATEGORY_SUNRISE = "3: Sunrise Settings";
+        protected const string CATEGORY_UPAGRAHA = "4: Upagraha Settings";
 
 
-        [Category(CAT_GENERAL)]
-        [PropertyOrder(1), PGDisplayName("Full Ephemeris Path")]
+        [Category(CATEGORY_GENERAL)]
+        [PropertyOrder(1), @DisplayName("Full Ephemeris Path")]
         public string EphemerisPath
         {
             get { return mEphemPath; }
             set { this.mEphemPath = value; }
         }
-        [PropertyOrder(2), Category(CAT_GENERAL)]
+        [PropertyOrder(2), Category(CATEGORY_GENERAL)]
         public AyanamsaType Ayanamsa
         {
             get { return mAyanamsa; }
             set { mAyanamsa = value; }
         }
-        [PropertyOrder(4), Category(CAT_GENERAL)]
-        [PGDisplayName("Custom Longitude")]
+        [PropertyOrder(4), Category(CATEGORY_GENERAL)]
+        [@DisplayName("Custom Longitude")]
         public Longitude CustomBodyLongitude
         {
             get { return mUserLongitude; }
             set { this.mUserLongitude = value; }
         }
-        [Category(CAT_GENERAL)]
-        [PropertyOrder(3), PGDisplayName("Ayanamsa Offset")]
+        [Category(CATEGORY_GENERAL)]
+        [PropertyOrder(3), @DisplayName("Ayanamsa Offset")]
         public HMSInfo AyanamsaOffset
         {
             get { return mAyanamsaOffset; }
             set { mAyanamsaOffset = value; }
         }
 
-        [Category(CAT_UPAGRAHA)]
-        [PropertyOrder(1), PGDisplayName("Upagraha")]
+        [Category(CATEGORY_UPAGRAHA)]
+        [PropertyOrder(1), @DisplayName("Upagraha")]
         public EUpagrahaType UpagrahaType
         {
             get { return mUpagrahaType; }
             // TODO: Check this again.
             set { mUpagrahaType = this.mUpagrahaType; }
         }
-        [Category(CAT_UPAGRAHA)]
-        [PropertyOrder(2), PGDisplayName("Maandi")]
+        [Category(CATEGORY_UPAGRAHA)]
+        [PropertyOrder(2), @DisplayName("Maandi")]
         public EMaandiType MaandiType
         {
             get { return mMaandiType; }
             set { mMaandiType = value; }
         }
-        [Category(CAT_UPAGRAHA)]
-        [PropertyOrder(3), PGDisplayName("Gulika")]
+        [Category(CATEGORY_UPAGRAHA)]
+        [PropertyOrder(3), @DisplayName("Gulika")]
         public EMaandiType GulikaType
         {
             get { return mGulikaType; }
             set { mGulikaType = value; }
         }
 
-        [Category(CAT_SUNRISE)]
-        [PropertyOrder(1), PGDisplayName("Sunrise")]
+        [Category(CATEGORY_SUNRISE)]
+        [PropertyOrder(1), @DisplayName("Sunrise")]
         public SunrisePositionType sunrisePosition
         {
             get { return mSunrisePosition; }
             set { mSunrisePosition = value; }
         }
-        [Category(CAT_SUNRISE)]
-        [PropertyOrder(2), PGDisplayName("Hora")]
+        [Category(CATEGORY_SUNRISE)]
+        [PropertyOrder(2), @DisplayName("Hora")]
         public EHoraType HoraType
         {
             get { return mHoraType; }
             set { mHoraType = value; }
         }
-        [Category(CAT_SUNRISE)]
-        [PropertyOrder(3), PGDisplayName("Kala")]
+        [Category(CATEGORY_SUNRISE)]
+        [PropertyOrder(3), @DisplayName("Kala")]
         public EHoraType KalaType
         {
             get { return mKalaType; }
@@ -163,16 +156,16 @@ namespace org.transliteral.panchang
         //	get { return grahaPositionType; }
         //	set { grahaPositionType = value; }
         //}
-        [Category(CAT_GRAHA)]
-        [PropertyOrder(1), PGDisplayName("Rahu / Ketu")]
+        [Category(CATEGORY_GRAHA)]
+        [PropertyOrder(1), @DisplayName("Rahu / Ketu")]
         public ENodeType NodeType
         {
             get { return nodeType; }
             set { nodeType = value; }
         }
 
-        [Category(CAT_GRAHA)]
-        [PropertyOrder(2), PGDisplayName("Bhava")]
+        [Category(CATEGORY_GRAHA)]
+        [PropertyOrder(2), @DisplayName("Bhava")]
         public EBhavaType BhavaType
         {
             get { return mBhavaType; }
@@ -184,8 +177,7 @@ namespace org.transliteral.panchang
             this.GetObjectData(this.GetType(), info, context);
         }
 
-        protected HoroscopeOptions(SerializationInfo info, StreamingContext context) :
-        this()
+        protected HoroscopeOptions(SerializationInfo info, StreamingContext context) :this()
         {
             this.Constructor(this.GetType(), info, context);
         }

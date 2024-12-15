@@ -20,7 +20,7 @@ namespace org.transliteral.panchang
 		public Longitude LongitudeOfSun (double ut, ref bool bDirRetro)
 		{
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
-			if (bp.Speed_longitude >= 0) bDirRetro = false;
+			if (bp.SpeedLongitude >= 0) bDirRetro = false;
 			else bDirRetro = true;
 			return bp.Longitude;
 		}
@@ -32,7 +32,7 @@ namespace org.transliteral.panchang
 
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, 
 				Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
-			if (bp.Speed_longitude >= 0) bDirRetro = false;
+			if (bp.SpeedLongitude >= 0) bDirRetro = false;
 			else bDirRetro = true;
 			return bp.Longitude;
 		}		
@@ -45,7 +45,7 @@ namespace org.transliteral.panchang
 		{
 			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			Longitude rel = bp_moon.Longitude.sub ( bp_sun.Longitude);
+			Longitude rel = bp_moon.Longitude.Subtract ( bp_sun.Longitude);
 			return rel;
 		}
 		public Longitude LongitudeOfMoonDir (double ut, ref bool bDirRetro)
@@ -56,7 +56,7 @@ namespace org.transliteral.panchang
 		public Longitude LongitudeOfMoon (double ut)
 		{
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			return bp_moon.Longitude.add(0);
+			return bp_moon.Longitude.Add(0);
 		}
 		public Longitude LongitudeOfSunMoonYogaDir (double ut, ref bool bDirRetro)
 		{
@@ -67,7 +67,7 @@ namespace org.transliteral.panchang
 		{
 			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
 			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
-			Longitude rel = bp_moon.Longitude.add ( bp_sun.Longitude);
+			Longitude rel = bp_moon.Longitude.Add ( bp_sun.Longitude);
 			return rel;
 		}
 		public bool CircularLonLessThan (Longitude a, Longitude b)
@@ -78,13 +78,13 @@ namespace org.transliteral.panchang
 		{
 			double bounds = 40.0;
 
-			if (a.value > 360.0 - bounds && b.value < bounds)
+			if (a.Value > 360.0 - bounds && b.Value < bounds)
 				return true;
 
-			if (a.value < bounds && b.value > 360.0 - bounds)
+			if (a.Value < bounds && b.Value > 360.0 - bounds)
 				return false;
 
-			return (a.value < b.value);
+			return (a.Value < b.Value);
 		}
 		public double LinearSearch (double approx_ut, Longitude lon_to_find, ReturnLon func)
 		{

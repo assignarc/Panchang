@@ -152,7 +152,7 @@ namespace mhora
 
 		private void evaluateYoga (XmlYogaNode n)
 		{
-			bool bRet = fy.evaluateYoga(n);
+			bool bRet = fy.EvaluateYoga(n);
 			ListViewItem li = new ListViewItem();
 			li.Text = bRet.ToString();
 			li.SubItems.Add (n.yogaCat);

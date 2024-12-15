@@ -9,21 +9,18 @@ namespace org.transliteral.panchang
     public class ShodashottariDasa : NakshatraDasa, INakshatraDasa
 	{
 		private Horoscope h;
-		override public Object GetOptions ()
-		{
-			return new Object();
-		}
-		override public object SetOptions (Object a)
+        override public Object Options => new Object();
+        override public object SetOptions (Object a)
 		{
 			return new object();
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			return _Dasa (h.getPosition(Body.Name.Moon).Longitude, 1, cycle );
+			return Dasa (h.GetPosition(Body.Name.Moon).Longitude, 1, cycle );
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
-			return _AntarDasa (di);
+			return base.AntarDasa (di);
 		}
 		public String Description ()
 		{
@@ -35,19 +32,19 @@ namespace org.transliteral.panchang
 			h = _h;
 		}
 
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
 			return 116.0;
 		}
-		public int numberOfDasaItems ()
+		public int NumberOfDasaItems ()
 		{
 			return 8;
 		}
-		public DasaEntry nextDasaLord (DasaEntry di) 
+		public DasaEntry NextDasaLord(DasaEntry di) 
 		{
-			return new DasaEntry (nextDasaLordHelper(di.graha), 0, 0, di.level, "");
+			return new DasaEntry (NextDasaLordHelper(di.graha), 0, 0, di.level, "");
 		}
-		private Body.Name nextDasaLordHelper (Body.Name b)
+        private Body.Name NextDasaLordHelper(Body.Name b)
 		{
 			switch (b)
 			{
@@ -63,7 +60,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "ShodashottariDasa::nextDasaLord");
 			return Body.Name.Lagna;
 		}
-		public double lengthOfDasa (Body.Name plt)
+		public double LengthOfDasa(Body.Name plt)
 		{
 			switch (plt)
 			{
@@ -79,7 +76,7 @@ namespace org.transliteral.panchang
 			Trace.Assert (false, "Shodashottari::lengthOfDasa");
 			return 0;
 		}
-		public Body.Name lordOfNakshatra(Nakshatra n) 
+		public Body.Name LordOfNakshatra(Nakshatra n) 
 		{
 			Body.Name[] lords = new Body.Name[8] 
 			{
@@ -87,7 +84,7 @@ namespace org.transliteral.panchang
 				Body.Name.Saturn, Body.Name.Ketu, Body.Name.Moon,
 				Body.Name.Mercury, Body.Name.Venus
 			};				
-			int nak_val = ((int)n.value);
+			int nak_val = ((int)n.Value);
 			int pus_val = (int)NakshatraName.Pushya;
 			int diff_val = Basics.Normalize_inc(
 				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 

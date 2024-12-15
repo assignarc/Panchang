@@ -7,9 +7,9 @@ namespace org.transliteral.panchang
     /// </summary>
     public interface INakshatraDasa: IDasa
 	{
-		int numberOfDasaItems ();                 // Number of dasas for 1 cycle
-		DasaEntry nextDasaLord (DasaEntry di);      // Order of Dasas
-		double lengthOfDasa (Body.Name plt);      // Length of a maha dasa
-		Body.Name lordOfNakshatra(Nakshatra n);   // Dasa lord of given nakshatra
+        int NumberOfDasaItems();                 // Number of dasas for 1 cycle
+        DasaEntry NextDasaLord(DasaEntry di);      // Order of Dasas
+        double LengthOfDasa (Body.Name plt);      // Length of a maha dasa
+		Body.Name LordOfNakshatra(Nakshatra n);   // Dasa lord of given nakshatra
 	}
 }

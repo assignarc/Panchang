@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -37,7 +33,7 @@ namespace org.transliteral.panchang
         {
             int swephBody = BodyNameToSweph(b);
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, swephBody, b, BodyType.Name.Other, h);
-            if (bp.Speed_longitude >= 0) bForwardDir = true;
+            if (bp.SpeedLongitude >= 0) bForwardDir = true;
             else bForwardDir = false;
             return bp.Longitude;
         }
@@ -48,7 +44,7 @@ namespace org.transliteral.panchang
 
             if (Math.Abs(ut_end - ut_start) < (1.0 / (24.0 * 60.0 * 60.0 * 60.0)))
             {
-                //Console.WriteLine ("BinarySearchNormal: Found {0} at {1}", lon_to_find, ut_start);
+                Logger.Info(String.Format("BinarySearchNormal: Found {0} at {1}", lon_to_find, ut_start));
                 if (Transit.CircLonLessThan(GetLongitude(ut_start, ref bDiscard), lon_to_find))
                     return ut_end;
                 else
@@ -58,7 +54,7 @@ namespace org.transliteral.panchang
             double ut_middle = (ut_start + ut_end) / 2.0;
 
             Longitude lon = GetLongitude(ut_middle, ref bDiscard);
-            //Console.WriteLine ("BinarySearchNormal {0} Find:{1} {2} curr:{3}", b, lon_to_find.value, ut_middle, lon.value);
+            Logger.Info(String.Format("BinarySearchNormal {0} Find:{1} {2} curr:{3}", b, lon_to_find.Value, ut_middle, lon.Value));
             if (Transit.CircLonLessThan(lon, lon_to_find))
                 return BinarySearchNormal(ut_middle, ut_end, lon_to_find);
             else
@@ -69,14 +65,14 @@ namespace org.transliteral.panchang
         {
             if (Math.Abs(ut_end - ut_start) < (1.0 / (24.0 * 60.0 * 60.0 * 60.0)))
             {
-                //Console.WriteLine ("BinarySearchRetro: Found {0} at {1}", lon_to_find, ut_start);
+                Logger.Info(String.Format("BinarySearchRetro: Found {0} at {1}", lon_to_find, ut_start));
                 return ut_start;
             }
 
             double ut_middle = (ut_start + ut_end) / 2.0;
             bool bDiscard = true;
             Longitude lon = GetLongitude(ut_middle, ref bDiscard);
-            //Console.WriteLine ("BinarySearchRetro {0} Find:{1} {2} curr:{3}", b, lon_to_find.value, ut_middle, lon.value);
+            Logger.Info(String.Format("BinarySearchRetro {0} Find:{1} {2} curr:{3}", b, lon_to_find.Value, ut_middle, lon.Value));
             if (Transit.CircLonLessThan(lon, lon_to_find))
                 return BinarySearchRetro(ut_start, ut_middle, lon_to_find);
             else
@@ -96,12 +92,12 @@ namespace org.transliteral.panchang
                     if (Transit.CircLonLessThan(lStart, lonToFind) &&
                         Transit.CircLonLessThan(lonToFind, lEnd))
                     {
-                        //Console.WriteLine("2: (N) +1.0. {0} Curr:{1} Start:{2} End:{3}", b, lonToFind.value, lStart.value, lEnd.value);
+                        Logger.Info(String.Format("2: (N) +1.0. {0} Curr:{1} Start:{2} End:{3}", b, lonToFind.Value, lStart.Value, lEnd.Value));
                         return this.BinarySearchNormal(ut, ut + 1.0, lonToFind);
                     }
                     else
                     {
-                        //Console.WriteLine("1: (N) +1.0. {0} Find:{1} Start:{2} End:{3}", b, lonToFind.value, lStart.value, lEnd.value);
+                        Logger.Info(String.Format("1: (N) +1.0. {0} Find:{1} Start:{2} End:{3}", b, lonToFind.Value, lStart.Value, lEnd.Value));
                         ut += 10.0;
                     }
                 }
@@ -110,18 +106,18 @@ namespace org.transliteral.panchang
                     if (Transit.CircLonLessThan(lEnd, lonToFind) &&
                         Transit.CircLonLessThan(lonToFind, lStart))
                     {
-                        //Console.WriteLine("2: (R) +1.0. {0} Curr:{1} Start:{2} End:{3}", b, lonToFind.value, lStart.value, lEnd.value);
+                        Logger.Info(String.Format("2: (R) +1.0. {0} Curr:{1} Start:{2} End:{3}", b, lonToFind.Value, lStart.Value, lEnd.Value));
                         return this.BinarySearchRetro(ut, ut + 1.0, lonToFind);
                     }
                     else
                     {
-                        //Console.WriteLine("1: (R) +1.0. {0} Find:{1} Start:{2} End:{3}", b, lonToFind.value, lStart.value, lEnd.value);
+                        Logger.Info(String.Format("1: (R) +1.0. {0} Find:{1} Start:{2} End:{3}", b, lonToFind.Value, lStart.Value, lEnd.Value));
                         ut += 10.0;
                     }
                 }
                 else
                 {
-                    //Console.WriteLine ("Retrograde Cusp date at {0}. Skipping for now.", ut);
+                    Logger.Info(String.Format("Retrograde Cusp date at {0}. Skipping for now.", ut));
                     ut += 10.0;
                 }
             }

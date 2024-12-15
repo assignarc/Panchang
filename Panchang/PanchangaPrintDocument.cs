@@ -32,7 +32,7 @@ namespace mhora
 			locals = _locals;
 
 			if (locals.Count > 0 &&
-				((PanchangaLocalMoments)locals[0]).lagnas_ut.Count > 1)
+				((PanchangaLocalMoments)locals[0]).LagnasUT.Count > 1)
 				bPrintLagna = true;
 		}
 
@@ -146,7 +146,7 @@ namespace mhora
 			// turn into horoscope
 			int year=0, month=0, day=0;
 			double hour =0;
-			found_ut += (h.info.tz.toDouble() / 24.0);
+			found_ut += (h.Info.tz.toDouble() / 24.0);
 			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
 			Moment m = new Moment(year, month, day, hour);
 			return m;
@@ -154,7 +154,7 @@ namespace mhora
 		private string utTimeToString (double ut_event, double ut_sr, double sunrise)
 		{
 			Moment m = this.utToMoment(ut_event);
-			HMSInfo hms = new HMSInfo(m.time);
+			HMSInfo hms = new HMSInfo(m.Time);
 
 			if (ut_event >= (ut_sr - (sunrise/24.0) + 1.0))
 			{
@@ -175,8 +175,8 @@ namespace mhora
 			for (int j=1; j<=12; j++)
 			{
 				ZodiacHouse zh = new ZodiacHouse((ZodiacHouseName)j);
-				g.DrawString(zh.value.ToString(), f, b, 
-					day_offset+100+(int)zh.value*time_width, 0);
+				g.DrawString(zh.Value.ToString(), f, b, 
+					day_offset+100+(int)zh.Value*time_width, 0);
 			}
 			g.TranslateTransform(0, f.Height);
 
@@ -184,24 +184,24 @@ namespace mhora
 			while (i < locals.Count)
 			{
 				PanchangaLocalMoments local = (PanchangaLocalMoments)locals[i];
-				Moment m_sunrise = new Moment(local.sunrise_ut, h);
+				Moment m_sunrise = new Moment(local.SunriseUT, h);
 				g.DrawString(m_sunrise.ToString(), f, b, day_offset, 0);
 
-				for (int j=0; j<local.lagnas_ut.Count; j++)
+				for (int j=0; j<local.LagnasUT.Count; j++)
 				{
-					PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.lagnas_ut[j];
+					PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.LagnasUT[j];
 					//Moment m_lagna = new Moment(pmi.ut, h);
-					ZodiacHouse zh = new ZodiacHouse((ZodiacHouseName)pmi.info);
-					zh = zh.add(12);
+					ZodiacHouse zh = new ZodiacHouse((ZodiacHouseName)pmi.Info);
+					zh = zh.Add(12);
 					Font _f = f;
 
-					if (local.lagna_zh == zh.value)
+					if (local.LagnaZodiacHouse == zh.Value)
 						_f = this.f_u;
 
 					g.DrawString(
-						this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise),
+						this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
 						_f, b, 
-						day_offset + 100 + (int)zh.value * time_width, 0);
+						day_offset + 100 + (int)zh.Value * time_width, 0);
 				}
 
 				local_index = ++i;
@@ -243,11 +243,11 @@ namespace mhora
 			{
 				int numLines = 1;
 				PanchangaLocalMoments local = (PanchangaLocalMoments)locals[i];
-				Moment m_sunrise = new Moment(local.sunrise_ut, h);
-				Moment m_sunset = new Moment(0, 0, 0, local.sunset);
+				Moment m_sunrise = new Moment(local.SunriseUT, h);
+				Moment m_sunset = new Moment(0, 0, 0, local.Sunset);
 
 				g.DrawString(m_sunrise.ToShortDateString(), f, b, day_offset, 0);
-				g.DrawString(Basics.WeekdayToShortString(local.wday), f, b, wday_offset, 0);
+				g.DrawString(Basics.WeekdayToShortString(local.WeekDay), f, b, wday_offset, 0);
 
 				if (opts.ShowSunriset)
 				{
@@ -255,21 +255,21 @@ namespace mhora
 					g.DrawString(m_sunset.ToTimeString(), f, b, sunset_offset, 0);
 				}
 	
-				int numTithis = local.tithi_index_end - local.tithi_index_start;
-				int numNaks = local.nakshatra_index_end - local.nakshatra_index_start;
-				int numSMYogas = local.smyoga_index_end - local.smyoga_index_start;
-				int numKaranas = local.karana_index_end - local.karana_index_start;
+				int numTithis = local.TithiIndexEnd - local.TithiIndexStart;
+				int numNaks = local.TithiIndexEnd - local.TithiIndexStart;
+				int numSMYogas = local.TithiIndexEnd - local.TithiIndexStart;
+				int numKaranas = local.TithiIndexEnd - local.TithiIndexStart;
 
 				if (opts.CalcTithiCusps)
 				{
 					numLines = Math.Max(numLines, numTithis);
 					for (int j = 0; j < numTithis; j++)
 					{
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.tithis_ut[local.tithi_index_start+1+j];
-						Tithi t = new Tithi((TithiName)pmi.info);
-						Moment mTithi = new Moment(pmi.ut, h);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[local.TithiIndexStart+1+j];
+						Tithi t = new Tithi((TithiName)pmi.Info);
+						Moment mTithi = new Moment(pmi.UT, h);
 						g.DrawString(t.ToUnqualifiedString(), f, b, tithi_name_offset, j*f.Height);
-						g.DrawString(this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise),
+						g.DrawString(this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
 							f, b, tithi_time_offset, j * f.Height);
 					}
 				}
@@ -279,9 +279,9 @@ namespace mhora
 					numLines = Math.Max(numLines, (int)Math.Ceiling(numKaranas/2.0));
 					for (int j = 0; j < numKaranas; j++)
 					{
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.karanas_ut[local.karana_index_start+1+j];
-						Karana k = new Karana((KaranaName)pmi.info);
-						Moment mKarana = new Moment(pmi.ut, h);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[local.KaranaIndexStart+1+j];
+						Karana k = new Karana((KaranaName)pmi.Info);
+						Moment mKarana = new Moment(pmi.UT, h);
 						int jRow = (int)Math.Floor((decimal)j/2);
 						int name_offset = karana_name_1_offset;
 						int time_offset = karana_time_1_offset;
@@ -292,7 +292,7 @@ namespace mhora
 						}
 
 						g.DrawString(k.value.ToString(), f, b, name_offset, jRow*f.Height);
-						g.DrawString(this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise),
+						g.DrawString(this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
 							f, b, time_offset, jRow * f.Height);
 					}
 				}
@@ -302,11 +302,11 @@ namespace mhora
 					numLines = Math.Max(numLines, numNaks);
 					for (int j=0; j< numNaks; j++)
 					{
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.nakshatras_ut[local.nakshatra_index_start+1+j];
-						Nakshatra n = new Nakshatra((NakshatraName)pmi.info);
-						Moment mNak = new Moment(pmi.ut, h);
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart+1+j];
+						Nakshatra n = new Nakshatra((NakshatraName)pmi.Info);
+						Moment mNak = new Moment(pmi.UT, h);
 						g.DrawString(n.ToString(), f, b, nak_name_offset, j*f.Height);
-						g.DrawString(this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise),
+						g.DrawString(this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
 							f, b, nak_time_offset, j*f.Height);
 					}
 				}
@@ -316,11 +316,11 @@ namespace mhora
 					numLines = Math.Max(numLines, numSMYogas);
 					for (int j=0; j<numSMYogas; j++)
 					{
-						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.smyogas_ut[local.smyoga_index_start+1+j];
-						SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.info);
-						Moment mSMYoga = new Moment(pmi.ut, h);
-						g.DrawString(sm.value.ToString(), f, b, sm_name_offset, j*f.Height);
-						g.DrawString(this.utTimeToString(pmi.ut, local.sunrise_ut, local.sunrise),
+						PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart+1+j];
+						SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info);
+						Moment mSMYoga = new Moment(pmi.UT, h);
+						g.DrawString(sm.Value.ToString(), f, b, sm_name_offset, j*f.Height);
+						g.DrawString(this.utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
 							f, b, sm_time_offset, j*f.Height);
 					}
 				}
@@ -350,9 +350,9 @@ namespace mhora
 			float offsetY = g.Transform.OffsetY;
 			float offsetX = margin_offset+sm_time_offset+sm_time_width;
 
-			Moment mCurr = new Moment(((PanchangaLocalMoments)locals[iStart]).sunrise_ut, h);
-			HoraInfo hiCurr = new HoraInfo(mCurr, h.info.lat, h.info.lon, h.info.tz);
-			Horoscope hCurr = new Horoscope(hiCurr, h.options);
+			Moment mCurr = new Moment(((PanchangaLocalMoments)locals[iStart]).SunriseUT, h);
+			HoraInfo hiCurr = new HoraInfo(mCurr, h.Info.lat, h.Info.lon, h.Info.tz);
+			Horoscope hCurr = new Horoscope(hiCurr, h.Options);
 			DivisionalChart dc = new DivisionalChart(hCurr);
 			dc.PrintMode = true;
 			dc.options.ViewStyle = EViewStyle.Panchanga;

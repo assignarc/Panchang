@@ -4,7 +4,7 @@ namespace org.transliteral.panchang
 {
     public interface INakshatraKaranaDasa : IDasa
 	{
-		Body.Name lordOfKarana (Longitude l);
-		double lengthOfDasa (Body.Name plt);
+        Body.Name LordOfKarana(Longitude l);
+		double LengthOfDasa(Body.Name plt);
 	}
 }

@@ -4,9 +4,9 @@ namespace org.transliteral.panchang
 {
     public class GhatakaDay
 	{
-		static public bool checkDay (ZodiacHouse janmaRasi, Basics.Weekday wd)
+        static public bool CheckDay(ZodiacHouse janmaRasi, Basics.Weekday wd)
 		{
-			ZodiacHouseName ja = janmaRasi.value;
+			ZodiacHouseName ja = janmaRasi.Value;
 			Basics.Weekday gh = Basics.Weekday.Sunday;
 			switch (ja)
 			{

@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace org.transliteral.panchang
 {
     // Stronger rasi has its lord in a house of different oddity
@@ -9,32 +11,32 @@ namespace org.transliteral.panchang
 		public StrengthByLordInDifferentOddity (Horoscope h, Division dtype, bool bSimpleLord)
 			: base (h, dtype, bSimpleLord) {}
 
-		protected int oddityValueForZodiacHouse (ZodiacHouseName zh)
+        protected int OddityValueForZodiacHouse(ZodiacHouseName zh)
 		{
 			Body.Name lname = this.GetStrengthLord(zh);
-			BodyPosition lbpos = h.getPosition(lname);
-			DivisionPosition ldpos = h.CalculateDivisionPosition(lbpos, dtype);
-			ZodiacHouse zh_lor = ldpos.zodiac_house;
+			BodyPosition lbpos = horoscope.GetPosition(lname);
+			DivisionPosition ldpos = horoscope.CalculateDivisionPosition(lbpos, divisionType);
+			ZodiacHouse zh_lor = ldpos.ZodiacHouse;
 
-			//System.Console.WriteLine("   DiffOddity {0} {1} {2}", zh.ToString(), zh_lor.value.ToString(), (int)zh %2==(int)zh_lor.value%2);
-			if ((int)zh % 2 == (int)zh_lor.value % 2)
+            Logger.Info(String.Format("DiffOddity {0} {1} {2}", zh.ToString(), zh_lor.Value.ToString(), (int)zh %2==(int)zh_lor.Value%2));
+			if ((int)zh % 2 == (int)zh_lor.Value % 2)
 				return 0;
 
 			return 1;
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb) 
+		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			int a = this.oddityValueForZodiacHouse(za);
-			int b = this.oddityValueForZodiacHouse(zb);
+			int a = this.OddityValueForZodiacHouse(za);
+			int b = this.OddityValueForZodiacHouse(zb);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name ba, Body.Name bb)
+		public bool Stronger (Body.Name ba, Body.Name bb)
 		{
-			ZodiacHouseName za = h.getPosition(ba).ToDivisionPosition(dtype).zodiac_house.value;
-			ZodiacHouseName zb = h.getPosition(bb).ToDivisionPosition(dtype).zodiac_house.value;
-			return stronger (za, zb);
+			ZodiacHouseName za = horoscope.GetPosition(ba).ToDivisionPosition(divisionType).ZodiacHouse.Value;
+			ZodiacHouseName zb = horoscope.GetPosition(bb).ToDivisionPosition(divisionType).ZodiacHouse.Value;
+			return Stronger (za, zb);
 		}
 	}
 

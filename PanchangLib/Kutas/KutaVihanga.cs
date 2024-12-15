@@ -12,12 +12,16 @@ namespace org.transliteral.panchang
 		};
 		public enum EType
 		{
-			IBharandhaka, IPingala, ICrow, ICock, IPeacock
+			IBharandhaka, 
+			IPingala, 
+			ICrow, 
+			ICock, 
+			IPeacock
 		};
-		public static EDominator getDominator (Nakshatra m, Nakshatra n)
+		public static EDominator GetDominator (Nakshatra m, Nakshatra n)
 		{
-			EType em = getType(m);
-			EType en = getType(n);
+			EType em = GetType(m);
+			EType en = GetType(n);
 
 			EType[] order = new EType[] 
 			{
@@ -31,9 +35,9 @@ namespace org.transliteral.panchang
 			}
 			return EDominator.IEqual;
 		}
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Bharani:

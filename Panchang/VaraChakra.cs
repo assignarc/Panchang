@@ -126,7 +126,7 @@ namespace mhora
 				g.DrawString(Body.ToString(bodies[i]), f, b_black, -sz.Width/2, 0);
 			}
 
-			if (h.isDayBirth())
+			if (h.IsDayBirth())
 			{
 
 			}

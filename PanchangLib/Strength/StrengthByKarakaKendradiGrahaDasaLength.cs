@@ -9,36 +9,36 @@ namespace org.transliteral.panchang
 	{
 		public StrengthByKarakaKendradiGrahaDasaLength (Horoscope h, Division dtype)
 			: base (h, dtype, false) { }
-		protected double value (ZodiacHouseName zh)
+        protected double Value(ZodiacHouseName zh)
 		{
 			double length = 0;
-			foreach (BodyPosition bp in h.positionList)
+			foreach (BodyPosition bp in horoscope.PositionList)
 			{
 				if (bp.type == BodyType.Name.Graha)
 				{
-					DivisionPosition dp = bp.ToDivisionPosition(dtype);
-					length = Math.Max(length, KarakaKendradiGrahaDasa.LengthOfDasa(h, dtype, bp.name, dp));
+					DivisionPosition dp = bp.ToDivisionPosition(divisionType);
+					length = Math.Max(length, KarakaKendradiGrahaDasa.LengthOfDasa(horoscope, divisionType, bp.name, dp));
 				}
 			}
 			return length;
 		}
-		protected double value (Body.Name b)
+        protected double Value(Body.Name b)
 		{
-			DivisionPosition dp = h.getPosition(b).ToDivisionPosition(dtype);
-			return KarakaKendradiGrahaDasa.LengthOfDasa(h, dtype, b, dp);
+			DivisionPosition dp = horoscope.GetPosition(b).ToDivisionPosition(divisionType);
+			return KarakaKendradiGrahaDasa.LengthOfDasa(horoscope, divisionType, b, dp);
 		}
-		public bool stronger (ZodiacHouseName za, ZodiacHouseName zb)
+        public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb)
 		{
-			double a = value(za);
-			double b = value(zb);
+			double a = Value(za);
+			double b = Value(zb);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool stronger (Body.Name m, Body.Name n)
+        public bool Stronger(Body.Name m, Body.Name n)
 		{
-			double a = value (m);
-			double b = value (n);
+			double a = Value (m);
+			double b = Value (n);
 			if (a > b) return true;
 			if (a < b) return false;
 			throw new EqualStrength();

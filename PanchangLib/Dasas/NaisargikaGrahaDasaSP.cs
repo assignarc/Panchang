@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
 			public UserOptions () 
 			{
 			}
-			public Object Clone () 
+			public object Clone () 
 			{
 				UserOptions uo = new UserOptions();
 				return uo;
@@ -26,11 +26,11 @@ namespace org.transliteral.panchang
 			h = _h;
 			options = new UserOptions();
 		}
-		public double paramAyus () 
+		public double ParamAyus () 
 		{
 			return 108.0;
 		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 		}
 		public ArrayList Dasa(int cycle)
@@ -42,7 +42,7 @@ namespace org.transliteral.panchang
 					Body.Name.Venus, Body.Name.Jupiter,	Body.Name.Sun,
 					Body.Name.Ketu,	Body.Name.Rahu,	Body.Name.Saturn };
 
-			double cycle_start = paramAyus() * (double)cycle;
+			double cycle_start = ParamAyus() * (double)cycle;
 			double curr = 0.0;
 			for (int i=0; i<3; i++) 
 			{
@@ -58,15 +58,12 @@ namespace org.transliteral.panchang
 		{
 			return new ArrayList();
 		}
-		public String Description ()
+		public string Description ()
 		{
 			return "Naisargika Graha Dasa (SP)";
 		}
-		public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		public object SetOptions (Object a)
+        public object Options => this.options.Clone();
+        public object SetOptions (object a)
 		{
 			UserOptions uo = (UserOptions)a;
 			if (RecalculateEvent != null)

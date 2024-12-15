@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -59,7 +55,7 @@ namespace org.transliteral.panchang
         public HMSInfo()
         {
             m_hour = m_minute = m_second = 0;
-            direction = Direction.NS;
+            direction = Direction.NorthSouth;
         }
         public HMSInfo(int hour, int min, int sec, Direction dt)
         {
@@ -78,14 +74,14 @@ namespace org.transliteral.panchang
             m_hour = (int)hour;
             m_minute = (int)min;
             m_second = (int)sec;
-            direction = Direction.NS;
+            direction = Direction.NorthSouth;
         }
         override public string ToString()
         {
             string dirs;
-            if (direction == Direction.EW && m_hour < 0) dirs = "W";
-            else if (direction == Direction.EW) dirs = "E";
-            else if (direction == Direction.NS && m_hour < 0) dirs = "S";
+            if (direction == Direction.EastWest && m_hour < 0) dirs = "W";
+            else if (direction == Direction.EastWest) dirs = "E";
+            else if (direction == Direction.NorthSouth && m_hour < 0) dirs = "S";
             else dirs = "N";
 
 

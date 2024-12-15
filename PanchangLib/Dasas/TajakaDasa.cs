@@ -12,25 +12,22 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 		}
-		public Object GetOptions ()
+        public Object Options => new Object();
+        public object SetOptions (Object a)
 		{
 			return new Object();
 		}
-		public object SetOptions (Object a)
-		{
-			return new Object();
-		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 		}
-		public double paramAyus () 
+		public double ParamAyus () 
 		{
 			return 60.0;
 		}
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList(60);
-			double cycle_start = (double)cycle * this.paramAyus();
+			double cycle_start = (double)cycle * this.ParamAyus();
 			for (int i=0; i<60; i++)
 			{
 				double start = cycle_start + (double)i;

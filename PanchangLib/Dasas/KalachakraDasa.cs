@@ -14,7 +14,7 @@ namespace org.transliteral.panchang
 		
 		public NakshatraGroupType NakshatraToGroup (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Krittika:
@@ -40,7 +40,7 @@ namespace org.transliteral.panchang
 				default:
 					return NakshatraGroupType.ApasavyaMirrored;
 			}
-			switch ((int)n.value % 6)
+			switch ((int)n.Value % 6)
 			{
 				case 1:	return NakshatraGroupType.Savya;
 				case 2: return NakshatraGroupType.SavyaMirrored;
@@ -50,10 +50,10 @@ namespace org.transliteral.panchang
 				default: return NakshatraGroupType.ApasavyaMirrored;
 			}
 		}
-		private void initHelper (Longitude lon, ref ZodiacHouse[] mzhOrder, ref int offset)
+        private void InitHelper(Longitude lon, ref ZodiacHouse[] mzhOrder, ref int offset)
 		{
-			NakshatraGroupType grp = this.NakshatraToGroup(lon.toNakshatra());
-			int pada = lon.toNakshatraPada();
+			NakshatraGroupType grp = this.NakshatraToGroup(lon.ToNakshatra());
+			int pada = lon.ToNakshatraPada();
 
 			switch (grp)
 			{
@@ -86,19 +86,16 @@ namespace org.transliteral.panchang
 			ZodiacHouse zSag = new ZodiacHouse(ZodiacHouseName.Sag);
 			for (int i=0; i<12; i++)
 			{
-				mzhSavya[i] = zAri.add(i+1);
+				mzhSavya[i] = zAri.Add(i+1);
 				mzhSavya[i+12] = mzhSavya[i].LordsOtherSign();
-				mzhApasavya[i] = zSag.add(i+1);
+				mzhApasavya[i] = zSag.Add(i+1);
 				mzhApasavya[i+12] = mzhApasavya[i].LordsOtherSign();
 			}
 		}
-		public double paramAyus () 
+        public double ParamAyus() => 144;
+        public double DasaLength (ZodiacHouse zh)
 		{
-			return 144;
-		}
-		public double DasaLength (ZodiacHouse zh)
-		{
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Ari:
 				case ZodiacHouseName.Sco:
@@ -126,11 +123,11 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			Division dRasi = new Division(DivisionType.Rasi);
-			Longitude mLon = h.getPosition(Body.Name.Moon).ExtrapolateLongitude(dRasi);
+			Longitude mLon = h.GetPosition(Body.Name.Moon).ExtrapolateLongitude(dRasi);
 
 			int offset = 0;
 			ZodiacHouse[] zhOrder = null;
-			this.initHelper(mLon, ref zhOrder, ref offset);
+			this.InitHelper(mLon, ref zhOrder, ref offset);
 
 			ArrayList al = new ArrayList();
 
@@ -139,12 +136,12 @@ namespace org.transliteral.panchang
 			{
 				ZodiacHouse zhCurr = zhOrder[(int)Basics.Normalize_exc_lower(0,24,offset+i)];
 				double dasa_length = this.DasaLength(zhCurr);
-				DasaEntry de = new DasaEntry(zhCurr.value, dasa_length_sum, dasa_length, 1, zhCurr.value.ToString());
+				DasaEntry de = new DasaEntry(zhCurr.Value, dasa_length_sum, dasa_length, 1, zhCurr.Value.ToString());
 				al.Add(de);
 				dasa_length_sum += dasa_length;
 			}
 
-			double offsetLength = mLon.toNakshatraPadaPercentage() / 100.0 * dasa_length_sum;
+			double offsetLength = mLon.ToNakshatraPadaPercentage() / 100.0 * dasa_length_sum;
 	
 			foreach (DasaEntry de in al)
 			{
@@ -161,15 +158,12 @@ namespace org.transliteral.panchang
 		{
 			return "Kalachakra Dasa";
 		}
-		public object GetOptions ()
-		{
-			return new object();
-		}
-		public object SetOptions (object o)
+        public object Options => new object();
+        public object SetOptions (object o)
 		{
 			return o;
 		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 		}
 	}

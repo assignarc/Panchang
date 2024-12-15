@@ -23,9 +23,14 @@ namespace org.transliteral.panchang
 			dtype = _dtype;
 			avBodies = new Body.Name[]
 			{
-				Body.Name.Sun, Body.Name.Moon, Body.Name.Mars,
-				Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
-				Body.Name.Saturn, Body.Name.Lagna
+				Body.Name.Sun, 
+				Body.Name.Moon, 
+				Body.Name.Mars,
+				Body.Name.Mercury,
+				Body.Name.Jupiter, 
+				Body.Name.Venus,
+				Body.Name.Saturn, 
+				Body.Name.Lagna
 			};
 		}
 
@@ -36,16 +41,27 @@ namespace org.transliteral.panchang
 			case EKakshya.EKStandard:
 				avBodies = new Body.Name[]
 				{
-					Body.Name.Sun, Body.Name.Moon, Body.Name.Mars,
-					Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
-					Body.Name.Saturn, Body.Name.Lagna
+					Body.Name.Sun, 
+					Body.Name.Moon, 
+					Body.Name.Mars,
+					Body.Name.Mercury, 
+					Body.Name.Jupiter, 
+					Body.Name.Venus,
+					Body.Name.Saturn, 
+					Body.Name.Lagna
 				};
 				break;
 			case EKakshya.EKRegular:
 				avBodies = new Body.Name[]
 				{
-					Body.Name.Saturn, Body.Name.Jupiter, Body.Name.Mars, Body.Name.Sun,
-					Body.Name.Venus, Body.Name.Mercury, Body.Name.Moon, Body.Name.Lagna
+					Body.Name.Saturn, 
+					Body.Name.Jupiter, 
+					Body.Name.Mars, 
+					Body.Name.Sun,
+					Body.Name.Venus, 
+					Body.Name.Mercury, 
+					Body.Name.Moon, 
+					Body.Name.Lagna
 				};
 				break;
 
@@ -180,9 +196,9 @@ namespace org.transliteral.panchang
 			return bindus;
 		}
 
-		public int BodyToInt (Body.Name b)
+		public int BodyToInt (Body.Name bodyName)
 		{
-			switch (b)
+			switch (bodyName)
 			{
 				case Body.Name.Sun: return 0;
 				case Body.Name.Moon: return 1;
@@ -196,16 +212,16 @@ namespace org.transliteral.panchang
 					return 0;
 			}
 		}
-		public Body.Name[] getBodies ()
+		public Body.Name[] GetBodies ()
 		{
 			return this.avBodies;
 		}
-		public int[] getPav (Body.Name m)
+		public int[] GetPav (Body.Name bodyName)
 		{
 			int[] ret = new int[12] {0,0,0,0,0,0,0,0,0,0,0,0};
-			foreach (Body.Name inner in getBodies())
+			foreach (Body.Name inner in GetBodies())
 			{
-				foreach (ZodiacHouseName zh in this.getBindus(m, inner))
+				foreach (ZodiacHouseName zh in this.GetBindus(bodyName, inner))
 				{
 					ret[((int)zh)-1]++;
 				}
@@ -213,41 +229,41 @@ namespace org.transliteral.panchang
 			return ret;
 		}
 
-		public int[] getSavRao ()
+        public int[] GetSavRao()
 		{
 			int[] sav = new int[12]{0,0,0,0,0,0,0,0,0,0,0,0};
 
-			ZodiacHouse zl = h.getPosition(Body.Name.Lagna).ToDivisionPosition(this.dtype).zodiac_house;
+			ZodiacHouse zl = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(this.dtype).ZodiacHouse;
 
-			foreach (Body.Name b in getBodies())
+			foreach (Body.Name b in GetBodies())
 			{
 
-				int[] pav = this.getPav(b);
+				int[] pav = this.GetPav(b);
 				Debug.Assert(pav.Length == 12, "Internal error: Pav didn't have 12 entries");
 				
-				ZodiacHouse zb = h.getPosition(b).ToDivisionPosition(this.dtype).zodiac_house;
+				ZodiacHouse zb = h.GetPosition(b).ToDivisionPosition(this.dtype).ZodiacHouse;
 
 				for (int i=0; i<12; i++)
 				{
 					ZodiacHouse zi = new ZodiacHouse((ZodiacHouseName)i+1);
-					int rasi = zb.numHousesBetween(zi);
-					rasi = (int)zl.add(rasi).value;
+					int rasi = zb.NumHousesBetween(zi);
+					rasi = (int)zl.Add(rasi).Value;
 					sav[rasi-1] += pav[i];
 				}
 			}
 			return sav;
 		}
 
-		public int[] getSav ()
+		public int[] GetSav ()
 		{
 			int[] sav = new int[12]{0,0,0,0,0,0,0,0,0,0,0,0};
-			foreach (Body.Name b in getBodies())
+			foreach (Body.Name b in GetBodies())
 			{
 				// Lagna's bindus are not included in SAV
 				if (b == Body.Name.Lagna)
 					continue;
 
-				int[] pav = this.getPav(b);
+				int[] pav = this.GetPav(b);
 				Debug.Assert(pav.Length == 12, "Internal error: Pav didn't have 12 entries");
 				for (int i=0; i<12; i++)
 				{
@@ -257,7 +273,7 @@ namespace org.transliteral.panchang
 			return sav;
 		}
 
-		public ZodiacHouseName[] getBindus (Body.Name m, Body.Name n)
+		public ZodiacHouseName[] GetBindus (Body.Name bodyName1, Body.Name bodyName2)
 		{
 			int[][][] allBindus = new int[8][][];
 			allBindus [0] = BindusSun();
@@ -271,10 +287,10 @@ namespace org.transliteral.panchang
 
 			ArrayList al = new ArrayList();
 
-			ZodiacHouse zh = h.getPosition(n).ToDivisionPosition(this.dtype).zodiac_house;
-			foreach (int i in allBindus[BodyToInt(m)][BodyToInt(n)])
+			ZodiacHouse zh = h.GetPosition(bodyName2).ToDivisionPosition(this.dtype).ZodiacHouse;
+			foreach (int i in allBindus[BodyToInt(bodyName1)][BodyToInt(bodyName2)])
 			{
-				al.Add(zh.add(i).value);
+				al.Add(zh.Add(i).Value);
 			}
 			return (ZodiacHouseName[])al.ToArray(typeof(ZodiacHouseName));
 

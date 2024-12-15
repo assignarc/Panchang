@@ -12,10 +12,18 @@ namespace org.transliteral.panchang
         [TypeConverter(typeof(EnumDescConverter))]
         public enum Name : int
         {
-            // Do NOT CHANGE ORDER WITHOUT CHANING NARAYANA DASA ETC
+            // DO NOT CHANGE ORDER WITHOUT CHANING NARAYANA DASA ETC
             // RELY ON EXPLICIT EQUAL CONVERSION FOR STRONGER CO_LORD ETC
-            Sun = 0, Moon = 1, Mars = 2, Mercury = 3, Jupiter = 4, Venus = 5, Saturn = 6,
-            Rahu = 7, Ketu = 8, Lagna = 9,
+            Sun = 0, 
+            Moon = 1, 
+            Mars = 2, 
+            Mercury = 3, 
+            Jupiter = 4, 
+            Venus = 5, 
+            Saturn = 6,
+            Rahu = 7, 
+            Ketu = 8, 
+            Lagna = 9,
 
             // And now, we're no longer uptight about the ordering :-)
             [Description("Bhava Lagna")] BhavaLagna,
@@ -54,7 +62,7 @@ namespace org.transliteral.panchang
         }
         public static Longitude DebilitationDegree(Body.Name b)
         {
-            return ExaltationDegree(b).add(180);
+            return ExaltationDegree(b).Add(180);
         }
         public static string ToString(Body.Name b)
         {

@@ -6,11 +6,14 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IPakshi, IReptile, IPasu, INara
+			IPakshi, 
+			IReptile,
+			IPasu, 
+			INara
 		};
-		public static EType getType (ZodiacHouse z)
+        public static EType getType(ZodiacHouse z)
 		{
-			switch (z.value)
+			switch (z.Value)
 			{
 				case ZodiacHouseName.Cap:
 				case ZodiacHouseName.Pis:

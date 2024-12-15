@@ -20,49 +20,49 @@ namespace org.transliteral.panchang
 			h = _h;
 			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
 		}
-		public double paramAyus () 
+		public double ParamAyus () 
 		{
 			return 144;
 		}
-		public void recalculateOptions()
+		public void RecalculateOptions()
 		{
-			options.recalculate();
+			options.Recalculate();
 		}
 		Body.Name GetLord (ZodiacHouse zh)
 		{
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Aqu:
 					return options.ColordAqu;
 				case ZodiacHouseName.Sco:
 					return options.ColordSco;
 				default:
-					return Basics.SimpleLordOfZodiacHouse(zh.value);
+					return Basics.SimpleLordOfZodiacHouse(zh.Value);
 			}
 		}
 		int[] order = new int[] { 0,1,4,7,10,2,5,8,11,3,6,9,12 };
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList();
-			BodyPosition bp_sl = h.getPosition(Body.Name.SreeLagna);
-			ZodiacHouse zh_seed = bp_sl.ToDivisionPosition(options.Division).zodiac_house;
-			zh_seed.value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.value, zh_seed.add(7).value);
+			BodyPosition bp_sl = h.GetPosition(Body.Name.SreeLagna);
+			ZodiacHouse zh_seed = bp_sl.ToDivisionPosition(options.Division).ZodiacHouse;
+			zh_seed.Value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.Value, zh_seed.Add(7).Value);
 
-			bool bIsForward = zh_seed.isOdd();
+			bool bIsForward = zh_seed.IsOdd();
 
 			double dasa_length_sum = 0.0;
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse zh_dasa = null;
 				if (bIsForward)
-					zh_dasa = zh_seed.add(order[i]);
+					zh_dasa = zh_seed.Add(order[i]);
 				else
-					zh_dasa = zh_seed.addReverse(order[i]);
+					zh_dasa = zh_seed.AddReverse(order[i]);
 
 				Body.Name bl = this.GetLord(zh_dasa);
-				DivisionPosition dp = h.getPosition(bl).ToDivisionPosition(options.Division);
+				DivisionPosition dp = h.GetPosition(bl).ToDivisionPosition(options.Division);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh_dasa, dp);
-				DasaEntry di = new DasaEntry (zh_dasa.value, dasa_length_sum, dasa_length, 1, zh_dasa.value.ToString());
+				DasaEntry di = new DasaEntry (zh_dasa.Value, dasa_length_sum, dasa_length, 1, zh_dasa.Value.ToString());
 				al.Add (di);
 				dasa_length_sum += dasa_length;
 			}
@@ -76,12 +76,12 @@ namespace org.transliteral.panchang
 				dasa_length_sum += dasa_length;
 			}
 
-			double cycle_length = (double)cycle * this.paramAyus();
-			double offset_length = (bp_sl.Longitude.toZodiacHouseOffset() / 30.0) *
+			double cycle_length = (double)cycle * this.ParamAyus();
+			double offset_length = (bp_sl.Longitude.ToZodiacHouseOffset() / 30.0) *
 				((DasaEntry)al[0]).dasaLength;
 
-			//Console.WriteLine ("Completed {0}, going back {1} of {2} years", bp_sl.longitude.toZodiacHouseOffset() / 30.0,
-			//	offset_length, ((DasaEntry)al[0]).dasaLength);
+            Logger.Info(String.Format("Completed {0}, going back {1} of {2} years", bp_sl.Longitude.ToZodiacHouseOffset() / 30.0,
+				offset_length, ((DasaEntry)al[0]).dasaLength));
 
 			cycle_length -= offset_length;
 
@@ -102,10 +102,10 @@ namespace org.transliteral.panchang
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse zh_dasa = null;
-				zh_dasa = zh_seed.addReverse(order[i]);
+				zh_dasa = zh_seed.AddReverse(order[i]);
 
-				DasaEntry di = new DasaEntry(zh_dasa.value, dasa_length_sum, dasa_length, pdi.level+1, 
-					pdi.shortDesc + " " + zh_dasa.value.ToString());
+				DasaEntry di = new DasaEntry(zh_dasa.Value, dasa_length_sum, dasa_length, pdi.level+1, 
+					pdi.shortDesc + " " + zh_dasa.Value.ToString());
 				al.Add (di);
 				dasa_length_sum += dasa_length;
 			}
@@ -115,11 +115,8 @@ namespace org.transliteral.panchang
 		{
 			return "Sudasa";
 		}
-		public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		public object SetOptions (Object a)
+        public Object Options => this.options.Clone();
+        public object SetOptions (Object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;
 			options.CopyFrom (uo);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace org.transliteral.panchang
 {
@@ -12,12 +7,16 @@ namespace org.transliteral.panchang
     public enum EKakshya { EKRegular, EKStandard }
     public enum Direction : int
     {
-        NS = 1, EW = 2
+        NorthSouth = 1, 
+        EastWest = 2
     }
 
     public enum NakshatraGroupType
     {
-        Savya, SavyaMirrored, Apasavya, ApasavyaMirrored
+        Savya, 
+        SavyaMirrored, 
+        Apasavya, 
+        ApasavyaMirrored
     }
 
     public enum ParamAyusType : int
@@ -25,13 +24,18 @@ namespace org.transliteral.panchang
         Short, Middle, Long
     }
 
-    public enum Tattwa : int
-    { Bhoomi, Jala, Agni, Vayu, Akasha }
+    public enum Tattwa : int { Bhoomi, Jala, Agni, Vayu, Akasha }
 
     public enum DateType : int
     {
-        FixedYear, SolarYear, TithiYear, YogaYear,
-        TithiPraveshYear, KaranaPraveshYear, YogaPraveshYear, NakshatraPraveshYear
+        FixedYear, 
+        SolarYear, 
+        TithiYear, 
+        YogaYear,
+        TithiPraveshYear, 
+        KaranaPraveshYear, 
+        YogaPraveshYear, 
+        NakshatraPraveshYear
     }
 
     [TypeConverter(typeof(EnumDescConverter))]
@@ -97,17 +101,26 @@ namespace org.transliteral.panchang
 
     public enum EFileType
     {
-        JagannathaHora, MudgalaHora
+        JagannathaHora, 
+        PanchangHora
     }
 
     public enum HoraType : int
     {
-        Birth, Progression, TithiPravesh, Transit, Dasa
+        Birth, 
+        Progression, 
+        TithiPravesh, 
+        Transit, 
+        Dasa
     }
 
     public enum AyanamsaType : int
     {
-        Fagan = 0, Lahiri = 1, Raman = 3, Ushashashi = 4, Krishnamurti = 5
+        Fagan = 0, 
+        Lahiri = 1, 
+        Raman = 3, 
+        Ushashashi = 4, 
+        Krishnamurti = 5
     }
 
     //HoroscopeOptions.cs
@@ -155,7 +168,8 @@ namespace org.transliteral.panchang
 
     public enum EGrahaPositionType : int
     {
-        Apparent, True
+        Apparent, 
+        True
     }
 
     [TypeConverter(typeof(EnumDescConverter))]

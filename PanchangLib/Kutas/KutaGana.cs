@@ -6,12 +6,14 @@ namespace org.transliteral.panchang
 	{
 		public enum EType
 		{
-			IDeva, INara, IRakshasa
+			IDeva, 
+			INara, 
+			IRakshasa
 		};
-		public static int getScore (Nakshatra m, Nakshatra f)
+        public static int GetScore(Nakshatra m, Nakshatra f)
 		{
-			EType em = KutaGana.getType(m);
-			EType ef = KutaGana.getType(f);
+			EType em = KutaGana.GetType(m);
+			EType ef = KutaGana.GetType(f);
 
 			if (em == ef) return 5;
 			if (em == EType.IDeva && ef == EType.INara) return 4;
@@ -19,13 +21,13 @@ namespace org.transliteral.panchang
 			if (em == EType.INara && ef == EType.IDeva) return 2;
 			return 1;
 		}
-		public static int getMaxScore ()
+		public static int GetMaxScore ()
 		{
 			return 5;
 		}
-		public static EType getType (Nakshatra n)
+		public static EType GetType (Nakshatra n)
 		{
-			switch (n.value)
+			switch (n.Value)
 			{
 				case NakshatraName.Aswini:
 				case NakshatraName.Mrigarirsa:

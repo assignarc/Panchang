@@ -210,10 +210,10 @@ namespace mhora
 					dc.DasaOptions.YearType = DateType.TithiYear;
 					ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
 					ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
-					Sweph.obtainLock(h);
-					if (td_tithi.AddYears(1).toUniversalTime() + 15.0 < td_pravesh.AddYears(1).toUniversalTime())
+					Sweph.ObtainLock(h);
+					if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
 						dc.DasaOptions.YearLength = 390;
-					Sweph.releaseLock(h);
+					Sweph.ReleaseLock(h);
 					dc.DasaOptions.Compression = 1;
 
 					TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
@@ -228,11 +228,11 @@ namespace mhora
 				{
 					DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
 					ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-					Sweph.obtainLock(h);
+					Sweph.ObtainLock(h);
 					dc.DasaOptions.YearType = DateType.FixedYear;
-					dc.DasaOptions.YearLength = td_pravesh.AddYears(1).toUniversalTime() - 
-						td_pravesh.AddYears(0).toUniversalTime();
-					Sweph.releaseLock(h);
+					dc.DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() - 
+						td_pravesh.AddYears(0).ToUniversalTime();
+					Sweph.ReleaseLock(h);
 
 					TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
 					tuo.UseTithiRemainder = true;
@@ -247,20 +247,20 @@ namespace mhora
 				{
 					DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
 					ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-					Sweph.obtainLock(h);
-					double ut_start = td_pravesh.AddYears(0).toUniversalTime();
-					double ut_end = td_pravesh.AddYears(1).toUniversalTime();
+					Sweph.ObtainLock(h);
+					double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
+					double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
 					BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
 						ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
 					BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
 						ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, this.h);
-					Longitude lDiff = sp_end.Longitude.sub(sp_start.Longitude);
-					double diff = lDiff.value;
+					Longitude lDiff = sp_end.Longitude.Subtract(sp_start.Longitude);
+					double diff = lDiff.Value;
 					if (diff < 120.0) diff += 360.0;
 
 					dc.DasaOptions.YearType = DateType.SolarYear;
 					dc.DasaOptions.YearLength = diff;
-					Sweph.releaseLock(h);
+					Sweph.ReleaseLock(h);
 
 					TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
 					tuo.UseTithiRemainder = true;

@@ -4,9 +4,9 @@ namespace org.transliteral.panchang
 {
     public class GhatakaStar
 	{
-		static public bool checkStar (ZodiacHouse janmaRasi, Nakshatra nak)
+        static public bool CheckStar(ZodiacHouse janmaRasi, Nakshatra nak)
 		{
-			ZodiacHouseName ja = janmaRasi.value;
+			ZodiacHouseName ja = janmaRasi.Value;
 			NakshatraName gh = NakshatraName.Aswini;
 			switch (ja)
 			{
@@ -24,7 +24,7 @@ namespace org.transliteral.panchang
 				case ZodiacHouseName.Aqu: gh = NakshatraName.Aridra; break;
 				case ZodiacHouseName.Pis: gh = NakshatraName.Aslesha; break;
 			}
-			return nak.value == gh;
+			return nak.Value == gh;
 		}
 	}
 

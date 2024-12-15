@@ -356,7 +356,7 @@ namespace mhora
 
 		public void menuShowDobOptions ()
 		{
-			MhoraOptions f = new MhoraOptions (h.info.Clone(), new ApplyOptions(h.UpdateHoraInfo));
+			MhoraOptions f = new MhoraOptions (h.Info.Clone(), new ApplyOptions(h.UpdateHoraInfo));
 			f.ShowDialog();
 		}
 		private void menuDobOptions_Click(object sender, System.EventArgs e)
@@ -371,10 +371,10 @@ namespace mhora
 				this.saveAsJhdFile();
 			try
 			{
-				if (h.info.FileType == EFileType.JagannathaHora)
-					new JagannathaHoraDescriptor(this.mJhdFileName).ToFile(h.info);
+				if (h.Info.FileType == EFileType.JagannathaHora)
+					new JagannathaHoraDescriptor(this.mJhdFileName).ToFile(h.Info);
 				else
-					new HoroscopeDescriptor(this.mJhdFileName).ToFile(h.info);
+					new HoroscopeDescriptor(this.mJhdFileName).ToFile(h.Info);
 			}
 			catch (System.ArgumentNullException)
 			{
@@ -403,13 +403,13 @@ namespace mhora
 			{
 				if (sparts[sparts.Length-1] == "jhd")
 				{
-					h.info.FileType = EFileType.JagannathaHora;
-					new JagannathaHoraDescriptor(ofd.FileName).ToFile(h.info);
+					h.Info.FileType = EFileType.JagannathaHora;
+					new JagannathaHoraDescriptor(ofd.FileName).ToFile(h.Info);
 				}
 				else
 				{
-					h.info.FileType = EFileType.MudgalaHora;
-					new HoroscopeDescriptor(ofd.FileName).ToFile(h.info);
+					h.Info.FileType = EFileType.PanchangHora;
+					new HoroscopeDescriptor(ofd.FileName).ToFile(h.Info);
 				}
 
 				this.mJhdFileName = ofd.FileName;
@@ -562,30 +562,30 @@ namespace mhora
 		public object SetCalcOptions (Object o)
 		{
 			HoroscopeOptions ho = (HoroscopeOptions)o;
-			h.options.Copy(ho);
+			h.Options.Copy(ho);
 			h.OnChanged();
-			return h.options.Clone();
+			return h.Options.Clone();
 		}
 		public object SetStrengthOptions (Object o)
 		{
 			StrengthOptions so = (StrengthOptions)o;
-			h.strength_options.Copy(so);
+			h.StrengthOptions.Copy(so);
 			h.OnChanged();
-			return h.strength_options.Clone();
+			return h.StrengthOptions.Clone();
 		}
 		private void menuCalcOpts_Click(object sender, System.EventArgs e)
 		{
-			MhoraOptions f = new MhoraOptions(h.options, new ApplyOptions(this.SetCalcOptions));
+			MhoraOptions f = new MhoraOptions(h.Options, new ApplyOptions(this.SetCalcOptions));
 			f.ShowDialog();
 		}
 
 		
 		private void menuStrengthOpts_Click(object sender, System.EventArgs e)
 		{
-			if (this.h.strength_options == null)
-				this.h.strength_options = (StrengthOptions)GlobalOptions.Instance.SOptions.Clone();
+			if (this.h.StrengthOptions == null)
+				this.h.StrengthOptions = (StrengthOptions)GlobalOptions.Instance.SOptions.Clone();
 
-			MhoraOptions f = new MhoraOptions(h.strength_options, new ApplyOptions(this.SetStrengthOptions));
+			MhoraOptions f = new MhoraOptions(h.StrengthOptions, new ApplyOptions(this.SetStrengthOptions));
 			f.ShowDialog();
 		}
 
@@ -661,14 +661,14 @@ namespace mhora
 
 		public object OnCalcOptsChanged (object o)
 		{
-			h.options.Copy((HoroscopeOptions)o);
+			h.Options.Copy((HoroscopeOptions)o);
 			h.OnChanged();
-			return h.options.Clone();
+			return h.Options.Clone();
 		}
 
 		private void menuEditCalcOpts_Click(object sender, System.EventArgs e)
 		{
-			new MhoraOptions(this.h.options, new ApplyOptions(OnCalcOptsChanged)).ShowDialog();
+			new MhoraOptions(this.h.Options, new ApplyOptions(OnCalcOptsChanged)).ShowDialog();
 		}
 
 		public void menuPrint ()

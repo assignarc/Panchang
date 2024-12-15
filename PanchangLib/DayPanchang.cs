@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace org.transliteral.panchang.data
 {
-    public struct PDay
+    public struct PanchangDay
     {
         public Basics.Weekday LocalWeekday { get; set; }
         public Moment Moment { get; set; }

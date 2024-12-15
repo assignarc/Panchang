@@ -4,9 +4,9 @@ namespace org.transliteral.panchang
 {
     public class GhatakaLagnaOpp
 	{
-		static public bool checkLagna (ZodiacHouse janma, ZodiacHouse same)
+        static public bool CheckLagna(ZodiacHouse janma, ZodiacHouse same)
 		{
-			ZodiacHouseName ja = janma.value;
+			ZodiacHouseName ja = janma.Value;
 			ZodiacHouseName gh = ZodiacHouseName.Ari;
 			switch (ja)
 			{
@@ -23,7 +23,7 @@ namespace org.transliteral.panchang
 				case ZodiacHouseName.Aqu: gh = ZodiacHouseName.Sag; break;
 				case ZodiacHouseName.Pis: gh = ZodiacHouseName.Aqu; break;
 			}
-			return same.value == gh;
+			return same.Value == gh;
 		}
 	}
 

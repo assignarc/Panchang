@@ -10,14 +10,14 @@ namespace org.transliteral.panchang
 		{
 			int length=0;
 
-			if (zh.isOddFooted())
-				length = zh.numHousesBetween(dp.zodiac_house);
+			if (zh.IsOddFooted())
+				length = zh.NumHousesBetween(dp.ZodiacHouse);
 			else
-				length = zh.numHousesBetweenReverse(dp.zodiac_house);
+				length = zh.NumHousesBetweenReverse(dp.ZodiacHouse);
 		
-			if (dp.isExaltedPhalita())
+			if (dp.IsExaltedPhalita())
 				length++;
-			else if (dp.isDebilitatedPhalita())
+			else if (dp.IsDebilitatedPhalita())
 				length--;
 
 			length = Basics.Normalize_inc(1, 12, length-1);
@@ -51,14 +51,14 @@ namespace org.transliteral.panchang
 				_YearLength = 360.0;
 				_Compression = 0.0;
 			}
-			[PGDisplayName("Year Type")]
+			[DisplayName("Year Type")]
 			public DateType YearType
 			{
 				get { return DateType; }
 				set { DateType = value; }
 			}
 
-			[PGDisplayName("Dasa Compression")]
+			[DisplayName("Dasa Compression")]
 			public double Compression
 			{
 				get { return _Compression; }
@@ -68,7 +68,7 @@ namespace org.transliteral.panchang
 						_Compression = value; 
 				}
 			}
-			[PGDisplayName("Year Length")]
+			[DisplayName("Year Length")]
 			public double YearLength
 			{
 				get { return _YearLength; }
@@ -78,19 +78,19 @@ namespace org.transliteral.panchang
 						_YearLength = value; 
 				}
 			}
-			[PGDisplayName("Offset Dates by Days")]
+			[DisplayName("Offset Dates by Days")]
 			public double OffsetDays
 			{
 				get { return this._OffsetDays; }
 				set { this._OffsetDays = value; }
 			}
-			[PGDisplayName("Offset Dates by Hours")]
+			[DisplayName("Offset Dates by Hours")]
 			public double OffsetHours
 			{
 				get { return _OffsetHours; }
 				set { _OffsetHours = value; }
 			}			
-			[PGDisplayName("Offset Dates by Minutes")]
+			[DisplayName("Offset Dates by Minutes")]
 			public double OffsetMinutes
 			{
 				get { return _OffsetMins; }
@@ -118,9 +118,6 @@ namespace org.transliteral.panchang
 			}
 		}
 
-		public string EntryDescription (DasaEntry de, Moment start, Moment end)
-		{
-			return "";
-		}
-	}
+        public string EntryDescription(DasaEntry de, Moment start, Moment end) => "";
+    }
 }

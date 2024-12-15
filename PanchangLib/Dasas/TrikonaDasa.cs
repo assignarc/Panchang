@@ -23,7 +23,7 @@ namespace org.transliteral.panchang
 			private void calculateTrikonaStrengths ()
 			{
 				ZodiacHouse zh = this.getSeed();
-				ZodiacHouseName[] zh_t = new ZodiacHouseName[3] { zh.add(1).value, zh.add(5).value, zh.add(9).value };
+				ZodiacHouseName[] zh_t = new ZodiacHouseName[3] { zh.Add(1).Value, zh.Add(5).Value, zh.Add(9).Value };
 				FindStronger fs = new FindStronger(h, this.Division, this.mRules);
 				mTrikonaStrengths = fs.GetOrderedHouses(zh_t);
 			}
@@ -66,11 +66,11 @@ namespace org.transliteral.panchang
 			h = _h;
 			options = new UserOptions(h, FindStronger.RulesNavamsaDasaRasi(h));
 		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 			options.recalculate();
 		}
-		public double paramAyus () 
+		public double ParamAyus () 
 		{
 			return 144;
 		}
@@ -78,11 +78,11 @@ namespace org.transliteral.panchang
 		public DivisionPosition getLordsPosition (ZodiacHouse zh)
 		{
 			Body.Name b;
-			if (zh.value == ZodiacHouseName.Sco) b = options.ColordSco;
-			else if (zh.value == ZodiacHouseName.Aqu) b = options.ColordAqu;
-			else b = Basics.SimpleLordOfZodiacHouse(zh.value);
+			if (zh.Value == ZodiacHouseName.Sco) b = options.ColordSco;
+			else if (zh.Value == ZodiacHouseName.Aqu) b = options.ColordAqu;
+			else b = Basics.SimpleLordOfZodiacHouse(zh.Value);
 
-			return h.getPosition(b).ToDivisionPosition(options.Division);
+			return h.GetPosition(b).ToDivisionPosition(options.Division);
 		}
 		int[] order = {1,5,9,2,6,10,3,7,11,4,8,12};
 		public ArrayList Dasa(int cycle)
@@ -90,23 +90,23 @@ namespace org.transliteral.panchang
 			ArrayList al = new ArrayList (12);
 			ZodiacHouse zh_seed = options.getSeed();
 			if (options.TrikonaStrengths.houses.Count >= 1)
-				zh_seed.value = (ZodiacHouseName)options.TrikonaStrengths.houses[0];
-			zh_seed.value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.value, zh_seed.add(7).value);
+				zh_seed.Value = (ZodiacHouseName)options.TrikonaStrengths.houses[0];
+			zh_seed.Value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.Value, zh_seed.Add(7).Value);
 
-			bool bIsZodiacal = zh_seed.isOdd();
+			bool bIsZodiacal = zh_seed.IsOdd();
 
 			double dasa_length_sum = 0.0;
 			for (int i=0; i<12; i++)
 			{
 				ZodiacHouse zh_dasa = null;
 				if (bIsZodiacal)
-					zh_dasa = zh_seed.add (order[i]);
+					zh_dasa = zh_seed.Add (order[i]);
 				else
-					zh_dasa = zh_seed.addReverse (order[i]);
+					zh_dasa = zh_seed.AddReverse (order[i]);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh_dasa, this.getLordsPosition(zh_dasa));
 
 
-				DasaEntry di = new DasaEntry (zh_dasa.value, dasa_length_sum, dasa_length, 1, zh_dasa.value.ToString());
+				DasaEntry di = new DasaEntry (zh_dasa.Value, dasa_length_sum, dasa_length, 1, zh_dasa.Value.ToString());
 				al.Add (di);
 				dasa_length_sum += dasa_length;
 			}
@@ -121,7 +121,7 @@ namespace org.transliteral.panchang
 			}
 
 
-			double cycle_length = (double)cycle * this.paramAyus();
+			double cycle_length = (double)cycle * this.ParamAyus();
 			foreach (DasaEntry di in al)
 			{
 				di.startUT += cycle_length;
@@ -139,11 +139,8 @@ namespace org.transliteral.panchang
 		{
 			return "Trikona Dasa seeded from " + options.SeedRasi.ToString();
 		}
-		public Object GetOptions ()
-		{
-			return this.options.Clone();
-		}
-		public object SetOptions (Object a)
+        public Object Options => this.options.Clone();
+        public object SetOptions (Object a)
 		{
 			UserOptions uo = (UserOptions)a;
 			options.CopyFrom (uo);

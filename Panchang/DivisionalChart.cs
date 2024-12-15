@@ -216,7 +216,7 @@ namespace mhora
 			// TODO: Add any initialization after the InitForm call
 			h = _h;
 			options = new UserOptions();
-			calculation_options = h.options;
+			calculation_options = h.Options;
 			h.Changed += new EvtChanged(OnRecalculate);
 			GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
 			this.OnRecalculate(h);
@@ -891,11 +891,11 @@ namespace mhora
 		{
 			String s = null;
 
-			if (dp.type == BodyType.Name.GrahaArudha ||
-				dp.type == BodyType.Name.Varnada)
+			if (dp.Type == BodyType.Name.GrahaArudha ||
+				dp.Type == BodyType.Name.Varnada)
 				s = dp.otherString;
 			else
-				s = Body.ToShortString(dp.name);
+				s = Body.ToShortString(dp.Name);
 
 			AddItem (g, zh, item, dp, large, s);
 		}
@@ -916,13 +916,13 @@ namespace mhora
 			{
 				p = dc.GetItemOffset(zh, item);
 				f = fBase;
-				if (dp.type == BodyType.Name.Graha) 
+				if (dp.Type == BodyType.Name.Graha) 
 				{
-					BodyPosition bp = h.getPosition(dp.name);
-					if (bp.Speed_longitude < 0.0 && bp.name != Body.Name.Rahu && bp.name != Body.Name.Ketu)
+					BodyPosition bp = h.GetPosition(dp.Name);
+					if (bp.SpeedLongitude < 0.0 && bp.name != Body.Name.Rahu && bp.name != Body.Name.Ketu)
 					f = new Font (fBase.Name, fBase.Size, FontStyle.Underline);
 				} 
-				else if (dp.name == Body.Name.Lagna)
+				else if (dp.Name == Body.Name.Lagna)
 				{
 					f = new Font (fBase.Name, fBase.Size, FontStyle.Bold);
 				}
@@ -931,19 +931,19 @@ namespace mhora
 			else
 			{
 				FontStyle fs = FontStyle.Regular;
-				if (dp.type == BodyType.Name.BhavaArudhaSecondary)
+				if (dp.Type == BodyType.Name.BhavaArudhaSecondary)
 					fs = FontStyle.Italic;
 
 				p = dc.GetSmallItemOffset(zh, item);
 				f = new Font(fBase.Name, fBase.SizeInPoints-1, fs);
 			}
 
-			if (dp.type == BodyType.Name.GrahaArudha)
+			if (dp.Type == BodyType.Name.GrahaArudha)
 			{
 				f = new Font(fBase.Name, fBase.SizeInPoints-1);
 			}
 
-			switch (dp.type) 
+			switch (dp.Type) 
 			{
 				case BodyType.Name.Graha: 
 				case BodyType.Name.GrahaArudha:
@@ -974,12 +974,12 @@ namespace mhora
 			if (options.Varga.MultipleDivisions.Length == 1 &&
 				options.Varga.MultipleDivisions[0].Varga == DivisionType.Rasi &&
 				this.PrintMode == false &&
-				( dp.type == BodyType.Name.Graha ||
-				  dp.type == BodyType.Name.Lagna ) )
+				( dp.Type == BodyType.Name.Graha ||
+				  dp.Type == BodyType.Name.Lagna ) )
 			{
-				Point pLon = dc.GetDegreeOffset(h.getPosition(dp.name).Longitude);
-				Pen pn = new Pen(GlobalOptions.Instance.getBinduColor(dp.name), (float)0.01);
-				Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(dp.name));
+				Point pLon = dc.GetDegreeOffset(h.GetPosition(dp.Name).Longitude);
+				Pen pn = new Pen(GlobalOptions.Instance.getBinduColor(dp.Name), (float)0.01);
+				Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(dp.Name));
 				g.FillEllipse(br, pLon.X-1, pLon.Y-1, 4, 4);
 				//g.DrawEllipse(pn, pLon.X-1, pLon.Y-1, 2, 2);
 				g.DrawEllipse(new Pen(Color.Gray), pLon.X-1, pLon.Y-1,4,4);
@@ -1030,7 +1030,7 @@ namespace mhora
 			for (int i=(int)org.transliteral.panchang.Body.Name.Sun; i<=max; i++)
 			{
 				org.transliteral.panchang.Body.Name b = (org.transliteral.panchang.Body.Name)i;
-				BodyPosition bp = h.getPosition(b);
+				BodyPosition bp = h.GetPosition(b);
 				BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
 				al.Add (bkc);
 			}
@@ -1049,8 +1049,8 @@ namespace mhora
 			{
 				org.transliteral.panchang.Body.Name b = (org.transliteral.panchang.Body.Name)i;
 				DivisionPosition dp = (DivisionPosition)this.div_pos[i];
-				ZodiacHouse zh = dp.zodiac_house;
-				int j = (int)zh.value;
+				ZodiacHouse zh = dp.ZodiacHouse;
+				int j = (int)zh.Value;
 				nItems[j]++;
 				if (options.ViewStyle == EViewStyle.CharaKarakas7)
 					AddItem (g, zh, nItems[j], dp, true, karakas_s7[kindex[i]]);
@@ -1060,8 +1060,8 @@ namespace mhora
 			}
 
 			DivisionPosition dp2 = (DivisionPosition)this.div_pos[(int)org.transliteral.panchang.Body.Name.Lagna];
-			ZodiacHouse zh2 = dp2.zodiac_house;
-			int j2 = (int)zh2.value;
+			ZodiacHouse zh2 = dp2.ZodiacHouse;
+			int j2 = (int)zh2.Value;
 			nItems[j2]++;
 			AddItem (g, zh2, nItems[j2], dp2, true);
 		}
@@ -1071,17 +1071,17 @@ namespace mhora
 
 			DivisionPosition dpo;
 			int i;
-			dpo = h.getPosition(Body.Name.Lagna).ToDivisionPosition(options.Varga);
-			i = (int)dpo.zodiac_house.value;
+			dpo = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(options.Varga);
+			i = (int)dpo.ZodiacHouse.Value;
 			nItems[i]++;
-			AddItem(g, dpo.zodiac_house, nItems[i], dpo, true);
+			AddItem(g, dpo.ZodiacHouse, nItems[i], dpo, true);
 
 
 			foreach (DivisionPosition dp in this.graha_arudha_pos)
 			{
-				i = (int)dp.zodiac_house.value;
+				i = (int)dp.ZodiacHouse.Value;
 				nItems[i]++;
-				AddItem (g, dp.zodiac_house, nItems[i], dp, true);
+				AddItem (g, dp.ZodiacHouse, nItems[i], dp, true);
 			}
 		}
 
@@ -1099,7 +1099,7 @@ namespace mhora
 			Font f = GlobalOptions.Instance.GeneralFont;
 			for (int i=1; i<=12; i++)
 			{
-				ZodiacHouse zhi = zh.add(i);
+				ZodiacHouse zhi = zh.Add(i);
 				Point p = dc.GetSingleItemOffset(zhi);
 				g.DrawString(this.sav_bindus[i-1].ToString(), f, b, p.X, p.Y);
 			}
@@ -1138,13 +1138,13 @@ namespace mhora
 			foreach (DivisionPosition dp in div_pos) 
 			{
 				if (this.options.ViewStyle == EViewStyle.Panchanga &&
-					dp.type != BodyType.Name.Graha)
+					dp.Type != BodyType.Name.Graha)
 					continue;
 
-				if (dp.type != BodyType.Name.Graha && dp.type != BodyType.Name.Lagna)
+				if (dp.Type != BodyType.Name.Graha && dp.Type != BodyType.Name.Lagna)
 					continue;
-				ZodiacHouse zh = dp.zodiac_house;
-				int i = (int)zh.value;
+				ZodiacHouse zh = dp.ZodiacHouse;
+				int i = (int)zh.Value;
 				nItems[i]++;
 				AddItem (g, zh, nItems[i], dp, true);
 			}
@@ -1155,10 +1155,10 @@ namespace mhora
 			
 			foreach (DivisionPosition dp in div_pos) 
 			{
-				if (dp.type != BodyType.Name.SpecialLagna)
+				if (dp.Type != BodyType.Name.SpecialLagna)
 					continue;
-				ZodiacHouse zh = dp.zodiac_house;
-				int i = (int)zh.value;
+				ZodiacHouse zh = dp.ZodiacHouse;
+				int i = (int)zh.Value;
 				nItems[i]++;
 				AddItem (g, zh, nItems[i], dp, true);
 			}
@@ -1174,8 +1174,8 @@ namespace mhora
 
 			foreach (DivisionPosition dp in secondary_pos) 
 			{
-				ZodiacHouse zh = dp.zodiac_house;
-				int i = (int)zh.value;
+				ZodiacHouse zh = dp.ZodiacHouse;
+				int i = (int)zh.Value;
 				nItems[i]++;
 				AddItem (g, zh, nItems[i], dp, false);
 			}	
@@ -1264,16 +1264,16 @@ namespace mhora
 				true == GlobalOptions.Instance.VargaShowDob && 
 				false == this.PrintMode && false == bDrawInner)
 			{
-				string tob = h.info.tob.ToString();
+				string tob = h.Info.tob.ToString();
 				hint = g.MeasureString(tob, f);
 				g.DrawString(tob, f, System.Drawing.Brushes.Black, xw*2/4-hint.Width/2, (float)(yw*2/4-hint.Height/2+f.Height*1.5));
 
-				string latlon = h.info.lat.ToString() + " " + h.info.lon.ToString();
+				string latlon = h.Info.lat.ToString() + " " + h.Info.lon.ToString();
 				hint = g.MeasureString(latlon, f);
 				g.DrawString(latlon, f, System.Drawing.Brushes.Black, xw*2/4-hint.Width/2, (float)(yw*2/4-hint.Height/2+f.Height*2.5));
 
-				hint = g.MeasureString(h.info.name, f);
-				g.DrawString(h.info.name, f, System.Drawing.Brushes.Black, xw*2/4-hint.Width/2, (float)(yw*2/4-hint.Height/2-f.Height*1.5));
+				hint = g.MeasureString(h.Info.name, f);
+				g.DrawString(h.Info.name, f, System.Drawing.Brushes.Black, xw*2/4-hint.Width/2, (float)(yw*2/4-hint.Height/2-f.Height*1.5));
 			}
 			
 
@@ -1330,9 +1330,9 @@ namespace mhora
 		private void CalculateBindus()
 		{
 			if (GlobalOptions.Instance.VargaShowSAVVarga)
-				sav_bindus = new Ashtakavarga(h, options.Varga).getSav();
+				sav_bindus = new Ashtakavarga(h, options.Varga).GetSav();
 			else if (GlobalOptions.Instance.VargaShowSAVRasi)
-				sav_bindus = new Ashtakavarga(h, new Division(DivisionType.Rasi)).getSav();
+				sav_bindus = new Ashtakavarga(h, new Division(DivisionType.Rasi)).GetSav();
 		}
 		private void OnRedisplay (Object o)
 		{
@@ -1637,16 +1637,16 @@ namespace mhora
 		private void mExtrapolate_Click(object sender, System.EventArgs e)
 		{
 
-			foreach (BodyPosition bp in h.positionList)
+			foreach (BodyPosition bp in h.PositionList)
 			{
 				DivisionPosition dp = bp.ToDivisionPosition(this.options.Varga);
-				Longitude lLower = new Longitude(dp.cusp_lower);
-				Longitude lOffset = bp.Longitude.sub(lLower);
-				Longitude lRange = new Longitude(dp.cusp_higher).sub(lLower);
-				Trace.Assert(lOffset.value <= lRange.value, "Extrapolation internal error: Slice smaller than range. Weird.");
+				Longitude lLower = new Longitude(dp.CuspLower);
+				Longitude lOffset = bp.Longitude.Subtract(lLower);
+				Longitude lRange = new Longitude(dp.CuspHigher).Subtract(lLower);
+				Trace.Assert(lOffset.Value <= lRange.Value, "Extrapolation internal error: Slice smaller than range. Weird.");
 
-				double newOffset = (lOffset.value / lRange.value)*30.0;
-				double newBase = ((double)((int)dp.zodiac_house.value-1))*30.0;
+				double newOffset = (lOffset.Value / lRange.Value)*30.0;
+				double newBase = ((double)((int)dp.ZodiacHouse.Value-1))*30.0;
 				bp.Longitude = new Longitude(newOffset + newBase);
 			}
 
@@ -1931,7 +1931,7 @@ namespace mhora
 		public Point GetZhouseOffset(ZodiacHouse zh)
 		{
 			int iOff = xw/3;
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Ari: return new Point (iOff*2, 0);
 				case ZodiacHouseName.Tau: return new Point (iOff,0);
@@ -1950,10 +1950,10 @@ namespace mhora
 		}
 		public Point GetDegreeOffset (Longitude l)
 		{
-			ZodiacHouseName zh = l.toZodiacHouse().value;
-			double dOffset = l.toZodiacHouseOffset();
+			ZodiacHouseName zh = l.ToZodiacHouse().Value;
+			double dOffset = l.ToZodiacHouseOffset();
 			int iOff = (int)((dOffset/30.0)*(xw/3));
-			Point pBase = this.GetZhouseOffset(l.toZodiacHouse());
+			Point pBase = this.GetZhouseOffset(l.ToZodiacHouse());
 			switch (zh)
 			{
 				case ZodiacHouseName.Pis:
@@ -2014,7 +2014,7 @@ namespace mhora
 		}
 		public Point GetSingleItemOffset (ZodiacHouse zh)
 		{
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Ari: return new Point(90, 0);
 				case ZodiacHouseName.Can: return new Point(5, 90);
@@ -2034,7 +2034,7 @@ namespace mhora
 		{
 			int wi = (xw/3)/4;
 			int yi = (yw/3)/6;
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Gem:
 					return pret;
@@ -2087,7 +2087,7 @@ namespace mhora
 			int wi = (xw/3)/5;
 			//int yi = (xw/3)/6;
 			Point pret;
-			switch (zh.value)
+			switch (zh.Value)
 			{
 				case ZodiacHouseName.Gem:
 					return this.GetSmallGemOffset(n);
@@ -2176,10 +2176,10 @@ namespace mhora
 
 		public Point GetDegreeOffset (Longitude l)
 		{
-			ZodiacHouseName zh = l.toZodiacHouse().value;
-			double dOffset = l.toZodiacHouseOffset();
+			ZodiacHouseName zh = l.ToZodiacHouse().Value;
+			double dOffset = l.ToZodiacHouseOffset();
 			int iOff = (int)((dOffset/30.0)*(xw/4));
-			Point pBase = this.GetZhouseOffset(l.toZodiacHouse());
+			Point pBase = this.GetZhouseOffset(l.ToZodiacHouse());
 			switch (zh)
 			{
 				case ZodiacHouseName.Ari:	
@@ -2278,7 +2278,7 @@ namespace mhora
 		}
 		private Point GetZhouseOffset (ZodiacHouse zh)
 		{
-			switch ((int)zh.value)
+			switch ((int)zh.Value)
 			{
 				case 1: return new Point (xo + xw/4, yo + 0);
 				case 2: return new Point (xo + xw*2/4, yo+0);

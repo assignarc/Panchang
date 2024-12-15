@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -56,7 +50,7 @@ namespace org.transliteral.panchang
 
         private SingleDivision[] mMultipleDivisions = null;
 
-        [PGDisplayName("Composite Division")]
+        [@DisplayName("Composite Division")]
         public SingleDivision[] MultipleDivisions
         {
             get { return this.mMultipleDivisions; }
@@ -103,10 +97,10 @@ namespace org.transliteral.panchang
         }
         public static bool operator ==(Division d1, Division d2)
         {
-            if ((object)d1 == null && (object)d2 == null)
+            if (d1 is null && d2 is null)
                 return true;
 
-            if ((object)d1 == null || (object)d2 == null)
+            if (d1 is null || d2 is null)
                 return false;
 
             if (d1.MultipleDivisions.Length != d2.MultipleDivisions.Length)

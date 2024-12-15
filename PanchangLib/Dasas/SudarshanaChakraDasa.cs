@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 		}
-		public double paramAyus ()
+		public double ParamAyus ()
 		{
 			return 12;
 		}
@@ -20,26 +20,23 @@ namespace org.transliteral.panchang
 		{
 			return "Sudarshana Chakra Dasa";
 		}
-		public object GetOptions ()
-		{
-			return new Object();
-		}
-		public object SetOptions (object o)
+        public object Options => new Object();
+        public object SetOptions (object o)
 		{
 			return o;
 		}
-		public void recalculateOptions ()
+		public void RecalculateOptions ()
 		{
 		}
 		public ArrayList Dasa (int cycle)
 		{
 			ArrayList al = new ArrayList(12);
-			double start = cycle * paramAyus();
-			ZodiacHouse lzh = h.getPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).zodiac_house;
+			double start = cycle * ParamAyus();
+			ZodiacHouse lzh = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
 			for (int i=1; i<=12; i++)
 			{
-				ZodiacHouse czh = lzh.add(i);
-				al.Add (new DasaEntry(czh.value, start, 1, 1, czh.value.ToString()));
+				ZodiacHouse czh = lzh.Add(i);
+				al.Add (new DasaEntry(czh.Value, start, 1, 1, czh.Value.ToString()));
 				start += 1;
 			}
 			return al;
@@ -52,9 +49,9 @@ namespace org.transliteral.panchang
 			ZodiacHouse zh = new ZodiacHouse(de.zodiacHouse);
 			for (int i=1; i<=12; i++)
 			{
-				ZodiacHouse czh = zh.add(i);
-				al.Add (new DasaEntry(czh.value, start, length, de.level+1, 
-					de.shortDesc + " " + czh.value.ToString()));
+				ZodiacHouse czh = zh.Add(i);
+				al.Add (new DasaEntry(czh.Value, start, length, de.level+1, 
+					de.shortDesc + " " + czh.Value.ToString()));
 				start += length;
 			}
 			return al;

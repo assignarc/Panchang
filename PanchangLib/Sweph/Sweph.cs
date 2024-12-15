@@ -1,9 +1,8 @@
+using SwissEphNet;
 using System;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Diagnostics;
 using System.IO;
-using SwissEphNet;
+using System.Text;
 namespace org.transliteral.panchang
 {
 
@@ -78,15 +77,15 @@ namespace org.transliteral.panchang
         {
             if (File.Exists(e.FileName))
             {
-                Console.WriteLine($"{e.FileName} - Loaded");
+                Logger.Info(String.Format($"{e.FileName} - Loaded"));
                 e.File = File.OpenRead(e.FileName);
             }
             else
-                Console.WriteLine($"{e.FileName} - Does not exist");
+                Logger.Info(String.Format($"{e.FileName} - Does not exist"));
 
         }
 
-        public static void checkLock()
+        public static void CheckLock()
         {
             Sweph.Initialize();
             lock (Sweph.SwephLockObject)
@@ -95,7 +94,7 @@ namespace org.transliteral.panchang
                     throw new Exception("Sweph: Unable to run. Sweph lock not obtained");
             }
         }
-        public static void obtainLock(Horoscope h)
+        public static void ObtainLock(Horoscope h)
         {
             Sweph.Initialize();
             if (Sweph.SwephLockObject == null)
@@ -108,10 +107,10 @@ namespace org.transliteral.panchang
 
                 //Debug.WriteLine("Sweph Lock obtained");
                 mCurrentLockHolder = h;
-                Sweph.swe_set_sid_mode((int)h.options.Ayanamsa, 0.0, 0.0);
+                Sweph.swe_set_sid_mode((int)h.Options.Ayanamsa, 0.0, 0.0);
             }
         }
-        public static void releaseLock(Horoscope h)
+        public static void ReleaseLock(Horoscope h)
         {
             if (mCurrentLockHolder == null)
                 throw new Exception("Sweph: releaseLock failed. Lock not held");
@@ -144,7 +143,7 @@ namespace org.transliteral.panchang
 
         public static void swe_set_sid_mode(int sid_mode, double t0, double ayan_t0)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             swissEphemerides.swe_set_sid_mode(sid_mode, 0.0, 0.0);
         }
 
@@ -160,49 +159,49 @@ namespace org.transliteral.panchang
 
         public static void swe_calc_ut(double tjd_ut, int ipl, int addFlags, double[] xx)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             int ret = swissEphemerides.swe_calc_ut(tjd_ut, ipl, iflag | addFlags, xx, ref serr);
             if (ret < 0)
             {
-                Console.WriteLine("Sweph Error: {0}", serr);
+                Logger.Info(String.Format("Sweph Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
-            xx[0] += Sweph.mCurrentLockHolder.options.AyanamsaOffset.toDouble();
+            xx[0] += Sweph.mCurrentLockHolder.Options.AyanamsaOffset.toDouble();
         }
 
         public static void swe_sol_eclipse_when_glob(double tjd_ut, double[] tret, bool forward)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             int ret = swissEphemerides.swe_sol_eclipse_when_glob(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
-                Console.WriteLine("Sweph Error: {0}", serr);
+                Logger.Info(String.Format("Sweph Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
 
         public static void swe_sol_eclipse_when_loc(HoraInfo hi, double tjd_ut, double[] tret, double[] attr, bool forward)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             double[] geopos = new Double[3] { hi.lon.toDouble(), hi.lat.toDouble(), hi.alt };
             int ret = swissEphemerides.swe_sol_eclipse_when_loc(tjd_ut, iflag, geopos, tret, attr, !forward, ref serr);
             if (ret < 0)
             {
-                Console.WriteLine("Sweph Error: {0}", serr);
+                Logger.Info(String.Format("Sweph Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
         public static void swe_lun_eclipse_when(double tjd_ut, double[] tret, bool forward)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
              string serr = "";
             int ret = swissEphemerides.swe_lun_eclipse_when(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
-                Console.WriteLine("Sweph Error: {0}", serr);
+                Logger.Info(String.Format("Sweph Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
@@ -216,7 +215,7 @@ namespace org.transliteral.panchang
  
         public static double swe_get_ayanamsa_ut(double tjd_ut)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             return swissEphemerides.swe_get_ayanamsa_ut(tjd_ut);
         }
 
@@ -224,7 +223,7 @@ namespace org.transliteral.panchang
       
         public static void swe_rise(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_RISE | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
 
@@ -236,7 +235,7 @@ namespace org.transliteral.panchang
         }
         public static void swe_set(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, SwissEph.SE_CALC_SET | rsflag, geopos, atpress, attemp,ref tret[0],ref serr);
             if (ret < 0)
@@ -247,7 +246,7 @@ namespace org.transliteral.panchang
         }
         public static void swe_lmt(double tjd_ut, int ipl, int rsflag, double[] geopos, double atpress, double attemp, double[] tret)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             string serr = "";
             int ret = swissEphemerides.swe_rise_trans(tjd_ut, ipl, "", iflag, rsflag,geopos, atpress, attemp, ref tret[0],ref serr);
 
@@ -261,24 +260,24 @@ namespace org.transliteral.panchang
      
         public static int swe_houses_ex(double tjd_ut, int iflag, double lat, double lon, int hsys, double[] cusps, double[] ascmc)
         {
-            Sweph.checkLock();
+            Sweph.CheckLock();
             int ret = swissEphemerides.swe_houses_ex(tjd_ut, iflag, lat, lon, Convert.ToChar(hsys), cusps, ascmc);
 
-            Longitude lOffset = new Longitude(Sweph.mCurrentLockHolder.options.AyanamsaOffset.toDouble());
+            Longitude lOffset = new Longitude(Sweph.mCurrentLockHolder.Options.AyanamsaOffset.toDouble());
 
             // House cusps defined from 1 to 12 inclusive as per sweph docs
             // Ascendants defined from 0 to 7 inclusive as per sweph docs
             for (int i = 1; i <= 12; i++)
-                cusps[i] = new Longitude(cusps[i]).add(lOffset).value;
+                cusps[i] = new Longitude(cusps[i]).Add(lOffset).Value;
             for (int i = 0; i <= 7; i++)
-                ascmc[i] = new Longitude(ascmc[i]).add(lOffset).value;
+                ascmc[i] = new Longitude(ascmc[i]).Add(lOffset).Value;
             return ret;
         }
 
         public static double swe_lagna(double tjd_ut)
         {
-            Sweph.checkLock();
-            HoraInfo hi = Sweph.mCurrentLockHolder.info;
+            Sweph.CheckLock();
+            HoraInfo hi = Sweph.mCurrentLockHolder.Info;
             double[] cusps = new double[13];
             double[] ascmc = new double[10];
             int ret = swe_houses_ex(tjd_ut, SwissEph.SEFLG_SIDEREAL, hi.lat.toDouble(), hi.lon.toDouble(), 'R', cusps, ascmc);
