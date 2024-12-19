@@ -19,7 +19,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>mhora</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>mhora.MhoraContainer</StartupObject>
+    <StartupObject>org.transliteral.panchang.app.PanchangContainer</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -145,7 +145,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutMhora.cs">
+    <Compile Include="About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AboutSjc.cs">
@@ -197,28 +197,33 @@
     <Compile Include="Link.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Localization.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
     <Compile Include="LongStringEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MhoraChild.cs">
+    <Compile Include="PanchangChild.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MhoraContainer.cs">
+    <Compile Include="PanchangContainer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MhoraControl.cs">
+    <Compile Include="PanchangControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MhoraControlContainer.cs">
+    <Compile Include="PanchangControlContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MhoraOptions.cs">
+    <Compile Include="Options.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MhoraSplash.cs">
+    <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MhoraSplitContainer.cs">
+    <Compile Include="SplitContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="NavamsaControl.cs">
@@ -262,8 +267,8 @@
     <Compile Include="YogaControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <EmbeddedResource Include="AboutMhora.resx">
-      <DependentUpon>AboutMhora.cs</DependentUpon>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AboutSjc.resx">
       <DependentUpon>AboutSjc.cs</DependentUpon>
@@ -288,6 +293,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DivisionalChart.resx">
       <DependentUpon>DivisionalChart.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GrahaStrengthsControl.resx">
       <DependentUpon>GrahaStrengthsControl.cs</DependentUpon>
@@ -304,30 +310,36 @@
     <EmbeddedResource Include="KutaMatchingControl.resx">
       <DependentUpon>KutaMatchingControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization.resx" />
+    <EmbeddedResource Include="Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="LongStringEditor.resx">
       <DependentUpon>LongStringEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraChild.resx">
-      <DependentUpon>MhoraChild.cs</DependentUpon>
+    <EmbeddedResource Include="PanchangChild.resx">
+      <DependentUpon>PanchangChild.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraContainer.resx">
-      <DependentUpon>MhoraContainer.cs</DependentUpon>
+    <EmbeddedResource Include="PanchangContainer.resx">
+      <DependentUpon>PanchangContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraControl.resx">
-      <DependentUpon>MhoraControl.cs</DependentUpon>
+    <EmbeddedResource Include="PanchangControl.resx">
+      <DependentUpon>PanchangControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraControlContainer.resx">
-      <DependentUpon>MhoraControlContainer.cs</DependentUpon>
+    <EmbeddedResource Include="PanchangControlContainer.resx">
+      <DependentUpon>PanchangControlContainer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraOptions.resx">
-      <DependentUpon>MhoraOptions.cs</DependentUpon>
+    <EmbeddedResource Include="Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraSplash.resx">
-      <DependentUpon>MhoraSplash.cs</DependentUpon>
+    <EmbeddedResource Include="Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MhoraSplitContainer.resx">
-      <DependentUpon>MhoraSplitContainer.cs</DependentUpon>
+    <EmbeddedResource Include="SplitContainer.resx">
+      <DependentUpon>SplitContainer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NavamsaControl.resx">
       <DependentUpon>NavamsaControl.cs</DependentUpon>

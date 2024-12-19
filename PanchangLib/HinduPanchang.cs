@@ -46,7 +46,7 @@ namespace org.transliteral.panchang
             HoroscopeOptions horaOptions = new HoroscopeOptions()
             {
                 Ayanamsa = AyanamsaType.Lahiri,
-                sunrisePosition = SunrisePositionType.ApparentDiscCenter,
+                SunrisePosition = SunrisePositionType.ApparentDiscCenter,
                 EphemerisPath = globalOptions.HOptions.EphemerisPath
 
             };

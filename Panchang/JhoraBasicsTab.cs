@@ -1,214 +1,210 @@
-
-
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
-using org.transliteral.panchang;
-namespace mhora
+namespace org.transliteral.panchang.app
 {
-	/// <summary>
-	/// Summary description for JhoraBasicsTab.
-	/// </summary>
-	public class JhoraBasicsTab : MhoraControl
-	{
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage tabKeyInfo;
-		private System.Windows.Forms.TabPage tabCalculations;
-		private System.Windows.Forms.TabPage tabAshtakavarga;
-		private System.Windows.Forms.TabPage tabNavamsaChakra;
-		private System.Windows.Forms.TabPage tabYogas;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for JhoraBasicsTab.
+    /// </summary>
+    public class JhoraBasicsTab : PanchangControl
+    {
+        private TabControl tabControl1;
+        private TabPage tabKeyInfo;
+        private TabPage tabCalculations;
+        private TabPage tabAshtakavarga;
+        private TabPage tabNavamsaChakra;
+        private TabPage tabYogas;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private Container components = null;
 
-		private void AddControlToTab (TabPage tab, MhoraControl mcontrol)
-		{
-			MhoraControlContainer container = new MhoraControlContainer (mcontrol);
-			container.Dock = DockStyle.Fill;
-			tab.Controls.Add (container);
-		}
+        private void AddControlToTab(TabPage tab, PanchangControl mcontrol)
+        {
+            PanchangControlContainer container = new PanchangControlContainer(mcontrol);
+            container.Dock = DockStyle.Fill;
+            tab.Controls.Add(container);
+        }
 
-		//bool bTabKeyInfoLoaded = false;
-		bool bTabCalculationsLoaded = false;
-		bool bTabAshtakavargaLoaded = false;
-		bool bTabNavamsaChakraLoaded = false;
-		bool bTabYogasLoaded = false;
-		public JhoraBasicsTab(Horoscope _h)
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        //bool bTabKeyInfoLoaded = false;
+        bool bTabCalculationsLoaded = false;
+        bool bTabAshtakavargaLoaded = false;
+        bool bTabNavamsaChakraLoaded = false;
+        bool bTabYogasLoaded = false;
+        public JhoraBasicsTab(Horoscope _h)
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-			h = _h;
-			GlobalOptions.DisplayPrefsChanged += new EvtChanged (OnRedisplay);
-			this.OnRedisplay(GlobalOptions.Instance);
-			this.AddControlToTab (tabKeyInfo, new KeyInfoControl(h));
-			//this.AddControlToTab (tabTest, new BalasControl(h));
-			//this.AddControlToTab (tabTest, new Sarvatobhadra81Control(h));
-			//this.AddControlToTab (tabTest, new KutaMatchingControl(h, h));
-			//this.AddControlToTab (tabTest, new VaraChakra(h));
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            h = _h;
+            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            OnRedisplay(GlobalOptions.Instance);
+            AddControlToTab(tabKeyInfo, new KeyInfoControl(h));
+            //this.AddControlToTab (tabTest, new BalasControl(h));
+            //this.AddControlToTab (tabTest, new Sarvatobhadra81Control(h));
+            //this.AddControlToTab (tabTest, new KutaMatchingControl(h, h));
+            //this.AddControlToTab (tabTest, new VaraChakra(h));
 
-			this.tabControl1.TabPages[0] = tabKeyInfo;
-			this.tabControl1.TabPages[1] = tabCalculations;
-			this.tabControl1.TabPages[2] = tabNavamsaChakra;
-			this.tabControl1.TabPages[3] = tabAshtakavarga;
-			this.tabControl1.TabPages[4] = tabYogas;
+            tabControl1.TabPages[0] = tabKeyInfo;
+            tabControl1.TabPages[1] = tabCalculations;
+            tabControl1.TabPages[2] = tabNavamsaChakra;
+            tabControl1.TabPages[3] = tabAshtakavarga;
+            tabControl1.TabPages[4] = tabYogas;
 
-			this.tabControl1.SelectedTab = tabKeyInfo;
-			//this.tabControl1.SelectedTab = tabTest;
-		}
+            tabControl1.SelectedTab = tabKeyInfo;
+            //this.tabControl1.SelectedTab = tabTest;
+        }
 
-		public void OnRedisplay(object o)
-		{
-			this.Font = GlobalOptions.Instance.GeneralFont;
-		}
+        public void OnRedisplay(object o)
+        {
+            Font = GlobalOptions.Instance.GeneralFont;
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabKeyInfo = new System.Windows.Forms.TabPage();
-			this.tabNavamsaChakra = new System.Windows.Forms.TabPage();
-			this.tabCalculations = new System.Windows.Forms.TabPage();
-			this.tabAshtakavarga = new System.Windows.Forms.TabPage();
-			this.tabYogas = new System.Windows.Forms.TabPage();
-			this.tabControl1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// tabControl1
-			// 
-			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-			this.tabControl1.Controls.Add(this.tabKeyInfo);
-			this.tabControl1.Controls.Add(this.tabCalculations);
-			this.tabControl1.Controls.Add(this.tabYogas);
-			this.tabControl1.Controls.Add(this.tabNavamsaChakra);
-			this.tabControl1.Controls.Add(this.tabAshtakavarga);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Padding = new System.Drawing.Point(15, 3);
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(292, 266);
-			this.tabControl1.TabIndex = 0;
-			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-			// 
-			// tabKeyInfo
-			// 
-			this.tabKeyInfo.Location = new System.Drawing.Point(4, 4);
-			this.tabKeyInfo.Name = "tabKeyInfo";
-			this.tabKeyInfo.Size = new System.Drawing.Size(284, 238);
-			this.tabKeyInfo.TabIndex = 0;
-			this.tabKeyInfo.Text = "Key Info";
-			this.tabKeyInfo.Click += new System.EventHandler(this.tabKeyInfo_Click);
-			// 
-			// tabNavamsaChakra
-			// 
-			this.tabNavamsaChakra.Location = new System.Drawing.Point(4, 4);
-			this.tabNavamsaChakra.Name = "tabNavamsaChakra";
-			this.tabNavamsaChakra.Size = new System.Drawing.Size(284, 238);
-			this.tabNavamsaChakra.TabIndex = 3;
-			this.tabNavamsaChakra.Text = "Chakra";
-			this.tabNavamsaChakra.Click += new System.EventHandler(this.tabTest_Click);
-			// 
-			// tabCalculations
-			// 
-			this.tabCalculations.Location = new System.Drawing.Point(4, 4);
-			this.tabCalculations.Name = "tabCalculations";
-			this.tabCalculations.Size = new System.Drawing.Size(284, 238);
-			this.tabCalculations.TabIndex = 1;
-			this.tabCalculations.Text = "Calculations";
-			// 
-			// tabAshtakavarga
-			// 
-			this.tabAshtakavarga.Location = new System.Drawing.Point(4, 4);
-			this.tabAshtakavarga.Name = "tabAshtakavarga";
-			this.tabAshtakavarga.Size = new System.Drawing.Size(284, 238);
-			this.tabAshtakavarga.TabIndex = 2;
-			this.tabAshtakavarga.Text = "Ashtakavarga";
-			// 
-			// tabYogas
-			// 
-			this.tabYogas.Location = new System.Drawing.Point(4, 4);
-			this.tabYogas.Name = "tabYogas";
-			this.tabYogas.Size = new System.Drawing.Size(284, 238);
-			this.tabYogas.TabIndex = 4;
-			this.tabYogas.Text = "Yogas";
-			// 
-			// JhoraBasicsTab
-			// 
-			this.Controls.Add(this.tabControl1);
-			this.Name = "JhoraBasicsTab";
-			this.Size = new System.Drawing.Size(292, 266);
-			this.tabControl1.ResumeLayout(false);
-			this.ResumeLayout(false);
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            tabControl1 = new TabControl();
+            tabKeyInfo = new TabPage();
+            tabNavamsaChakra = new TabPage();
+            tabCalculations = new TabPage();
+            tabAshtakavarga = new TabPage();
+            tabYogas = new TabPage();
+            tabControl1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // tabControl1
+            // 
+            tabControl1.Alignment = TabAlignment.Bottom;
+            tabControl1.Controls.Add(tabKeyInfo);
+            tabControl1.Controls.Add(tabCalculations);
+            tabControl1.Controls.Add(tabYogas);
+            tabControl1.Controls.Add(tabNavamsaChakra);
+            tabControl1.Controls.Add(tabAshtakavarga);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.Padding = new Point(15, 3);
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(292, 266);
+            tabControl1.TabIndex = 0;
+            tabControl1.SelectedIndexChanged += new EventHandler(tabControl1_SelectedIndexChanged);
+            // 
+            // tabKeyInfo
+            // 
+            tabKeyInfo.Location = new Point(4, 4);
+            tabKeyInfo.Name = "tabKeyInfo";
+            tabKeyInfo.Size = new Size(284, 238);
+            tabKeyInfo.TabIndex = 0;
+            tabKeyInfo.Text = "Key Info";
+            tabKeyInfo.Click += new EventHandler(tabKeyInfo_Click);
+            // 
+            // tabNavamsaChakra
+            // 
+            tabNavamsaChakra.Location = new Point(4, 4);
+            tabNavamsaChakra.Name = "tabNavamsaChakra";
+            tabNavamsaChakra.Size = new Size(284, 238);
+            tabNavamsaChakra.TabIndex = 3;
+            tabNavamsaChakra.Text = "Chakra";
+            tabNavamsaChakra.Click += new EventHandler(tabTest_Click);
+            // 
+            // tabCalculations
+            // 
+            tabCalculations.Location = new Point(4, 4);
+            tabCalculations.Name = "tabCalculations";
+            tabCalculations.Size = new Size(284, 238);
+            tabCalculations.TabIndex = 1;
+            tabCalculations.Text = "Calculations";
+            // 
+            // tabAshtakavarga
+            // 
+            tabAshtakavarga.Location = new Point(4, 4);
+            tabAshtakavarga.Name = "tabAshtakavarga";
+            tabAshtakavarga.Size = new Size(284, 238);
+            tabAshtakavarga.TabIndex = 2;
+            tabAshtakavarga.Text = "Ashtakavarga";
+            // 
+            // tabYogas
+            // 
+            tabYogas.Location = new Point(4, 4);
+            tabYogas.Name = "tabYogas";
+            tabYogas.Size = new Size(284, 238);
+            tabYogas.TabIndex = 4;
+            tabYogas.Text = "Yogas";
+            // 
+            // JhoraBasicsTab
+            // 
+            Controls.Add(tabControl1);
+            Name = "JhoraBasicsTab";
+            Size = new Size(292, 266);
+            tabControl1.ResumeLayout(false);
+            ResumeLayout(false);
 
-		}
-		#endregion
+        }
+        #endregion
 
-		private void tabKeyInfo_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void tabKeyInfo_Click(object sender, EventArgs e)
+        {
 
-		private void tabControl1_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TabPage tp = this.tabControl1.SelectedTab;
-			if (tp == tabCalculations && this.bTabCalculationsLoaded == false)
-			{
-				this.AddControlToTab (tabCalculations, new BasicCalculationsControl(h));
-				this.bTabCalculationsLoaded = true;
-			}
+        }
 
-			if (tp == tabAshtakavarga && this.bTabAshtakavargaLoaded == false)
-			{
-				this.AddControlToTab (tabAshtakavarga, new AshtakavargaControl(h));
-				this.bTabAshtakavargaLoaded = true;
-			}
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage tp = tabControl1.SelectedTab;
+            if (tp == tabCalculations && bTabCalculationsLoaded == false)
+            {
+                AddControlToTab(tabCalculations, new BasicCalculationsControl(h));
+                bTabCalculationsLoaded = true;
+            }
 
-			if (tp == tabNavamsaChakra && this.bTabNavamsaChakraLoaded == false)
-			{
-				this.AddControlToTab (tabNavamsaChakra, new NavamsaControl(h));
-				this.bTabNavamsaChakraLoaded = true;
-			}
-			if (tp == tabYogas && this.bTabYogasLoaded == false)
-			{
-				//this.AddControlToTab(tabYogas, new YogaControl(h));
-				this.bTabYogasLoaded = true;
-			}
+            if (tp == tabAshtakavarga && bTabAshtakavargaLoaded == false)
+            {
+                AddControlToTab(tabAshtakavarga, new AshtakavargaControl(h));
+                bTabAshtakavargaLoaded = true;
+            }
 
-		}
+            if (tp == tabNavamsaChakra && bTabNavamsaChakraLoaded == false)
+            {
+                AddControlToTab(tabNavamsaChakra, new NavamsaControl(h));
+                bTabNavamsaChakraLoaded = true;
+            }
+            if (tp == tabYogas && bTabYogasLoaded == false)
+            {
+                //this.AddControlToTab(tabYogas, new YogaControl(h));
+                bTabYogasLoaded = true;
+            }
 
-		private void tabTest_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-	}
+        }
+
+        private void tabTest_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

@@ -11,7 +11,7 @@ namespace org.transliteral.panchang
         public HoroscopeOptions()
         {
             //sunrisePosition = SunrisePositionType.TrueDiscEdge;
-            sunrisePosition = SunrisePositionType.ApparentDiscCenter;
+            SunrisePosition = SunrisePositionType.ApparentDiscCenter;
             mHoraType = EHoraType.Lmt;
             mKalaType = EHoraType.Sunriset;
             mBhavaType = EBhavaType.Start;
@@ -27,25 +27,27 @@ namespace org.transliteral.panchang
         }
         public object Clone()
         {
-            HoroscopeOptions o = new HoroscopeOptions();
-            o.sunrisePosition = this.sunrisePosition;
-            o.grahaPositionType = this.grahaPositionType;
-            o.nodeType = this.nodeType;
-            o.Ayanamsa = this.Ayanamsa;
-            o.AyanamsaOffset = this.AyanamsaOffset;
-            o.HoraType = this.HoraType;
-            o.KalaType = this.KalaType;
-            o.BhavaType = this.BhavaType;
-            o.mUserLongitude = this.mUserLongitude.Add(0);
-            o.MaandiType = this.MaandiType;
-            o.GulikaType = this.GulikaType;
-            o.UpagrahaType = this.UpagrahaType;
-            o.EphemerisPath = this.EphemerisPath;
+            HoroscopeOptions o = new HoroscopeOptions
+            {
+                SunrisePosition = this.SunrisePosition,
+                grahaPositionType = this.grahaPositionType,
+                nodeType = this.nodeType,
+                Ayanamsa = this.Ayanamsa,
+                AyanamsaOffset = this.AyanamsaOffset,
+                HoraType = this.HoraType,
+                KalaType = this.KalaType,
+                BhavaType = this.BhavaType,
+                mUserLongitude = this.mUserLongitude.Add(0),
+                MaandiType = this.MaandiType,
+                GulikaType = this.GulikaType,
+                UpagrahaType = this.UpagrahaType,
+                EphemerisPath = this.EphemerisPath
+            };
             return o;
         }
         public void Copy(HoroscopeOptions o)
         {
-            this.sunrisePosition = o.sunrisePosition;
+            this.SunrisePosition = o.SunrisePosition;
             this.grahaPositionType = o.grahaPositionType;
             this.nodeType = o.nodeType;
             this.Ayanamsa = o.Ayanamsa;
@@ -132,7 +134,7 @@ namespace org.transliteral.panchang
 
         [Category(CATEGORY_SUNRISE)]
         [PropertyOrder(1), @DisplayName("Sunrise")]
-        public SunrisePositionType sunrisePosition
+        public SunrisePositionType SunrisePosition
         {
             get { return mSunrisePosition; }
             set { mSunrisePosition = value; }

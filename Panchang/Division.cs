@@ -1,23 +1,17 @@
-﻿using org.transliteral.panchang;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseDivision = org.transliteral.panchang.Division;
-namespace mhora
+namespace org.transliteral.panchang.app
 {
     [Serializable]
     [TypeConverter(typeof(DivisionConverter))]
     public class Division : BaseDivision, ICloneable
     {
         public Division(DivisionType _dtype) : base(_dtype) { }
-        public Division(Division.SingleDivision single) : base(single) { }
+        public Division(SingleDivision single) : base(single) { }
         public Division() : base() { }
         public static void CopyToClipboard(Division div)
         {

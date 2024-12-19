@@ -1,26 +1,20 @@
-
-
-using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using org.transliteral.panchang;
+using System.Windows.Forms;
 using BaseFindYogas = org.transliteral.panchang.FindYogas;
 
-namespace mhora
+namespace org.transliteral.panchang.app
 {
-	
-	public class FindYogas : BaseFindYogas
-	{	
-		public FindYogas(Horoscope _h, Division __dtype) : base(_h,__dtype)
-		{
-			
-		}
 
-		public void LogMessage(string mesage)
-		{
-			MessageBox.Show(mesage);
+    public class FindYogas : BaseFindYogas
+    {
+        public FindYogas(Horoscope _h, Division __dtype) : base(_h, __dtype)
+        {
+
+        }
+
+        public void LogMessage(string mesage)
+        {
+            MessageBox.Show(mesage);
         }
     }
 

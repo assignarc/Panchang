@@ -5,1231 +5,1238 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-
 using org.transliteral.panchang;
-namespace mhora
+namespace org.transliteral.panchang.app
 {
 
 
-	public class TransitSearch : mhora.MhoraControl
-	{
-		private System.Windows.Forms.ColumnHeader Moment;
-		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.ColumnHeader Name1;
-		private System.Windows.Forms.ContextMenu mContext;
-		private System.Windows.Forms.MenuItem mOpenTransit;
-		public System.Windows.Forms.PropertyGrid pgOptions;
-		private System.Windows.Forms.ColumnHeader Event;
-		private System.Windows.Forms.ColumnHeader Date;
-		private System.Windows.Forms.ListView mlTransits;
-		private System.Windows.Forms.Button bLocalSolarEclipse;
-		private System.Windows.Forms.Button bSolarNewYear;
-		private System.Windows.Forms.Button bProgressionLon;
-		private System.Windows.Forms.Button bClearResults;
-		private System.Windows.Forms.Button bNow;
-		private System.Windows.Forms.Button bStartSearch;
-		private System.Windows.Forms.Button bRetroCusp;
-		private System.Windows.Forms.Button bProgression;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Button bTransitPrevVarga;
-		private System.Windows.Forms.Button bVargaChange;
-		private System.Windows.Forms.Button bTransitNextVarga;
-		private System.Windows.Forms.Button bGlobSolEcl;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button bGlobalLunarEclipse;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.MenuItem mOpenTransitNext;
-		private System.Windows.Forms.MenuItem mOpenTransitChartPrev;
-
-		TransitSearchOptions opts;
-
-		public void Redisplay (object o)
-		{
-			this.mlTransits.Font = GlobalOptions.Instance.GeneralFont;
-			this.mlTransits.BackColor = GlobalOptions.Instance.TableBackgroundColor;
-			this.mlTransits.ForeColor = GlobalOptions.Instance.TableForegroundColor;
-			this.pgOptions.Font = GlobalOptions.Instance.GeneralFont;
-		}
-		public void Reset ()
-		{
-			this.updateOptions();
-			this.mlTransits.Items.Clear();
-			this.Redisplay(GlobalOptions.Instance);
-		
-			//this.mlTransits.Font = MhoraGlobalOptions.Instance.GeneralFont;
-			//this.mlTransits.BackColor = MhoraGlobalOptions.Instance.DasaBackgroundColor;
-		}
-
-		public TransitSearch(Horoscope _h)
-		{
-			// This call is required by the Windows Form Designer.
-			InitializeComponent();
-
-			h = _h;
-			GlobalOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
-			opts = new TransitSearchOptions();
-			this.updateOptions();
-			this.AddViewsToContextMenu(this.mContext);
-			
-			ToolTip tt = null;
-
-			tt = new ToolTip();
-			tt.SetToolTip(this.bTransitPrevVarga, "Find when the graha goes to the previous rasi only");
-			tt = new ToolTip();
-			tt.SetToolTip(this.bTransitNextVarga, "Find when the graha goes to the next rasi only");
-			tt = new ToolTip();
-			tt.SetToolTip(this.bVargaChange, "Find when the graha changes rasis");
-			
-			// TODO: Add any initialization after the InitializeComponent call
-		}
-
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
-
-		#region Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.Name1 = new System.Windows.Forms.ColumnHeader();
-			this.Moment = new System.Windows.Forms.ColumnHeader();
-			this.mContext = new System.Windows.Forms.ContextMenu();
-			this.mOpenTransit = new System.Windows.Forms.MenuItem();
-			this.pgOptions = new System.Windows.Forms.PropertyGrid();
-			this.mlTransits = new System.Windows.Forms.ListView();
-			this.Event = new System.Windows.Forms.ColumnHeader();
-			this.Date = new System.Windows.Forms.ColumnHeader();
-			this.bLocalSolarEclipse = new System.Windows.Forms.Button();
-			this.bSolarNewYear = new System.Windows.Forms.Button();
-			this.bProgressionLon = new System.Windows.Forms.Button();
-			this.bClearResults = new System.Windows.Forms.Button();
-			this.bNow = new System.Windows.Forms.Button();
-			this.bStartSearch = new System.Windows.Forms.Button();
-			this.bRetroCusp = new System.Windows.Forms.Button();
-			this.bProgression = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.bTransitPrevVarga = new System.Windows.Forms.Button();
-			this.bVargaChange = new System.Windows.Forms.Button();
-			this.bTransitNextVarga = new System.Windows.Forms.Button();
-			this.bGlobSolEcl = new System.Windows.Forms.Button();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.bGlobalLunarEclipse = new System.Windows.Forms.Button();
-			this.mOpenTransitNext = new System.Windows.Forms.MenuItem();
-			this.mOpenTransitChartPrev = new System.Windows.Forms.MenuItem();
-			this.groupBox1.SuspendLayout();
-			this.panel1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// Name1
-			// 
-			this.Name1.Text = "Type";
-			this.Name1.Width = 269;
-			// 
-			// Moment
-			// 
-			this.Moment.Text = "Moment";
-			this.Moment.Width = 188;
-			// 
-			// mContext
-			// 
-			this.mContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.mOpenTransit,
-																					 this.mOpenTransitNext,
-																					 this.mOpenTransitChartPrev});
-			this.mContext.Popup += new System.EventHandler(this.mContext_Popup);
-			// 
-			// mOpenTransit
-			// 
-			this.mOpenTransit.Index = 0;
-			this.mOpenTransit.Text = "Open Transit Chart";
-			this.mOpenTransit.Click += new System.EventHandler(this.mOpenTransit_Click);
-			// 
-			// pgOptions
-			// 
-			this.pgOptions.CommandsVisibleIfAvailable = true;
-			this.pgOptions.HelpVisible = false;
-			this.pgOptions.LargeButtons = false;
-			this.pgOptions.LineColor = System.Drawing.SystemColors.ScrollBar;
-			this.pgOptions.Location = new System.Drawing.Point(16, 8);
-			this.pgOptions.Name = "pgOptions";
-			this.pgOptions.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-			this.pgOptions.Size = new System.Drawing.Size(296, 152);
-			this.pgOptions.TabIndex = 5;
-			this.pgOptions.Text = "Options";
-			this.pgOptions.ToolbarVisible = false;
-			this.pgOptions.ViewBackColor = System.Drawing.SystemColors.Window;
-			this.pgOptions.ViewForeColor = System.Drawing.SystemColors.WindowText;
-			this.pgOptions.Click += new System.EventHandler(this.pGrid_Click);
-			// 
-			// mlTransits
-			// 
-			this.mlTransits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.mlTransits.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-																						 this.Event,
-																						 this.Date});
-			this.mlTransits.FullRowSelect = true;
-			this.mlTransits.Location = new System.Drawing.Point(16, 168);
-			this.mlTransits.Name = "mlTransits";
-			this.mlTransits.Size = new System.Drawing.Size(648, 208);
-			this.mlTransits.TabIndex = 9;
-			this.mlTransits.View = System.Windows.Forms.View.Details;
-			this.mlTransits.SelectedIndexChanged += new System.EventHandler(this.mlTransits_SelectedIndexChanged_1);
-			// 
-			// Event
-			// 
-			this.Event.Text = "Event";
-			this.Event.Width = 387;
-			// 
-			// Date
-			// 
-			this.Date.Text = "Date";
-			this.Date.Width = 173;
-			// 
-			// bLocalSolarEclipse
-			// 
-			this.bLocalSolarEclipse.Location = new System.Drawing.Point(8, 40);
-			this.bLocalSolarEclipse.Name = "bLocalSolarEclipse";
-			this.bLocalSolarEclipse.Size = new System.Drawing.Size(104, 23);
-			this.bLocalSolarEclipse.TabIndex = 13;
-			this.bLocalSolarEclipse.Text = "(L) Sol. Ecl.";
-			this.bLocalSolarEclipse.Click += new System.EventHandler(this.bLocSolEclipse_Click);
-			// 
-			// bSolarNewYear
-			// 
-			this.bSolarNewYear.Location = new System.Drawing.Point(152, 168);
-			this.bSolarNewYear.Name = "bSolarNewYear";
-			this.bSolarNewYear.Size = new System.Drawing.Size(104, 23);
-			this.bSolarNewYear.TabIndex = 9;
-			this.bSolarNewYear.Text = "Solar Year";
-			this.bSolarNewYear.Click += new System.EventHandler(this.bSolarNewYear_Click);
-			// 
-			// bProgressionLon
-			// 
-			this.bProgressionLon.Location = new System.Drawing.Point(152, 136);
-			this.bProgressionLon.Name = "bProgressionLon";
-			this.bProgressionLon.Size = new System.Drawing.Size(104, 23);
-			this.bProgressionLon.TabIndex = 8;
-			this.bProgressionLon.Text = "Progress Lons";
-			this.bProgressionLon.Click += new System.EventHandler(this.bProgressionLon_Click);
-			// 
-			// bClearResults
-			// 
-			this.bClearResults.Location = new System.Drawing.Point(16, 16);
-			this.bClearResults.Name = "bClearResults";
-			this.bClearResults.Size = new System.Drawing.Size(104, 23);
-			this.bClearResults.TabIndex = 3;
-			this.bClearResults.Text = "Clear Results";
-			this.bClearResults.Click += new System.EventHandler(this.bClearResults_Click);
-			// 
-			// bNow
-			// 
-			this.bNow.Location = new System.Drawing.Point(16, 40);
-			this.bNow.Name = "bNow";
-			this.bNow.Size = new System.Drawing.Size(104, 23);
-			this.bNow.TabIndex = 7;
-			this.bNow.Text = "Now";
-			this.bNow.Click += new System.EventHandler(this.bNow_Click);
-			// 
-			// bStartSearch
-			// 
-			this.bStartSearch.Location = new System.Drawing.Point(16, 72);
-			this.bStartSearch.Name = "bStartSearch";
-			this.bStartSearch.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.bStartSearch.Size = new System.Drawing.Size(104, 23);
-			this.bStartSearch.TabIndex = 2;
-			this.bStartSearch.Text = "Find Transit";
-			this.bStartSearch.Click += new System.EventHandler(this.bStartSearch_Click);
-			// 
-			// bRetroCusp
-			// 
-			this.bRetroCusp.Location = new System.Drawing.Point(16, 96);
-			this.bRetroCusp.Name = "bRetroCusp";
-			this.bRetroCusp.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.bRetroCusp.Size = new System.Drawing.Size(104, 23);
-			this.bRetroCusp.TabIndex = 4;
-			this.bRetroCusp.Text = "Find Retro";
-			this.bRetroCusp.Click += new System.EventHandler(this.bRetroCusp_Click);
-			// 
-			// bProgression
-			// 
-			this.bProgression.Location = new System.Drawing.Point(152, 112);
-			this.bProgression.Name = "bProgression";
-			this.bProgression.Size = new System.Drawing.Size(104, 23);
-			this.bProgression.TabIndex = 6;
-			this.bProgression.Text = "Progress Time";
-			this.bProgression.Click += new System.EventHandler(this.bProgression_Click);
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.bTransitPrevVarga);
-			this.groupBox1.Controls.Add(this.bVargaChange);
-			this.groupBox1.Controls.Add(this.bTransitNextVarga);
-			this.groupBox1.Location = new System.Drawing.Point(144, 8);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(120, 96);
-			this.groupBox1.TabIndex = 12;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Change Varga";
-			// 
-			// bTransitPrevVarga
-			// 
-			this.bTransitPrevVarga.Location = new System.Drawing.Point(8, 16);
-			this.bTransitPrevVarga.Name = "bTransitPrevVarga";
-			this.bTransitPrevVarga.Size = new System.Drawing.Size(104, 23);
-			this.bTransitPrevVarga.TabIndex = 12;
-			this.bTransitPrevVarga.Text = "<-- Prev";
-			this.bTransitPrevVarga.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bTransitPrevVarga.Click += new System.EventHandler(this.bTransitPrevVarga_Click);
-			// 
-			// bVargaChange
-			// 
-			this.bVargaChange.Location = new System.Drawing.Point(8, 40);
-			this.bVargaChange.Name = "bVargaChange";
-			this.bVargaChange.Size = new System.Drawing.Size(104, 23);
-			this.bVargaChange.TabIndex = 13;
-			this.bVargaChange.Text = "Change";
-			this.bVargaChange.Click += new System.EventHandler(this.bVargaChange_Click);
-			// 
-			// bTransitNextVarga
-			// 
-			this.bTransitNextVarga.Location = new System.Drawing.Point(8, 64);
-			this.bTransitNextVarga.Name = "bTransitNextVarga";
-			this.bTransitNextVarga.Size = new System.Drawing.Size(104, 23);
-			this.bTransitNextVarga.TabIndex = 10;
-			this.bTransitNextVarga.Text = "Next  -->";
-			this.bTransitNextVarga.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.bTransitNextVarga.Click += new System.EventHandler(this.bTransitNextVarga_Click);
-			// 
-			// bGlobSolEcl
-			// 
-			this.bGlobSolEcl.Location = new System.Drawing.Point(8, 64);
-			this.bGlobSolEcl.Name = "bGlobSolEcl";
-			this.bGlobSolEcl.Size = new System.Drawing.Size(104, 23);
-			this.bGlobSolEcl.TabIndex = 11;
-			this.bGlobSolEcl.Text = "(G) Sol. Ecl.";
-			this.bGlobSolEcl.Click += new System.EventHandler(this.bGlobSolEclipse_Click);
-			// 
-			// panel1
-			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.panel1.AutoScroll = true;
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.groupBox2);
-			this.panel1.Controls.Add(this.bSolarNewYear);
-			this.panel1.Controls.Add(this.bProgressionLon);
-			this.panel1.Controls.Add(this.bClearResults);
-			this.panel1.Controls.Add(this.bNow);
-			this.panel1.Controls.Add(this.bStartSearch);
-			this.panel1.Controls.Add(this.bRetroCusp);
-			this.panel1.Controls.Add(this.bProgression);
-			this.panel1.Controls.Add(this.groupBox1);
-			this.panel1.Location = new System.Drawing.Point(320, 8);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(304, 152);
-			this.panel1.TabIndex = 8;
-			this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.bLocalSolarEclipse);
-			this.groupBox2.Controls.Add(this.bGlobSolEcl);
-			this.groupBox2.Controls.Add(this.bGlobalLunarEclipse);
-			this.groupBox2.Location = new System.Drawing.Point(8, 128);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(120, 96);
-			this.groupBox2.TabIndex = 15;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Eclipses";
-			// 
-			// bGlobalLunarEclipse
-			// 
-			this.bGlobalLunarEclipse.Location = new System.Drawing.Point(8, 16);
-			this.bGlobalLunarEclipse.Name = "bGlobalLunarEclipse";
-			this.bGlobalLunarEclipse.Size = new System.Drawing.Size(104, 23);
-			this.bGlobalLunarEclipse.TabIndex = 14;
-			this.bGlobalLunarEclipse.Text = "Lunar Ecl.";
-			this.bGlobalLunarEclipse.Click += new System.EventHandler(this.bGlobalLunarEclipse_Click);
-			// 
-			// mOpenTransitNext
-			// 
-			this.mOpenTransitNext.Index = 1;
-			this.mOpenTransitNext.Text = "Open Transit Chart (Compress &Next)";
-			this.mOpenTransitNext.Click += new System.EventHandler(this.mOpenTransitNext_Click);
-			// 
-			// mOpenTransitChartPrev
-			// 
-			this.mOpenTransitChartPrev.Index = 2;
-			this.mOpenTransitChartPrev.Text = "Open Transit Chart (Compress &Prev)";
-			this.mOpenTransitChartPrev.Click += new System.EventHandler(this.mOpenTransitChartPrev_Click);
-			// 
-			// TransitSearch
-			// 
-			this.ContextMenu = this.mContext;
-			this.Controls.Add(this.pgOptions);
-			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.mlTransits);
-			this.Name = "TransitSearch";
-			this.Size = new System.Drawing.Size(672, 384);
-			this.Load += new System.EventHandler(this.TransitSearch_Load);
-			this.groupBox1.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.groupBox2.ResumeLayout(false);
-			this.ResumeLayout(false);
-
-		}
-		#endregion
-
-		private void TransitSearch_Load(object sender, System.EventArgs e)
-		{
-			this.Reset();
-
-		}
-
-		public object SetOptions (Object o) 
-		{
-			return this.opts.CopyFrom(o);
-		}
-		private void bOpts_Click(object sender, System.EventArgs e)
-		{
-			MhoraOptions f = new MhoraOptions(this.opts, new ApplyOptions(SetOptions));
-			f.ShowDialog();
-		}
-
-
-		private Horoscope utToHoroscope (double found_ut, ref Moment m2)
-		{
-			// turn into horoscope
-			int year=0, month=0, day=0;
-			double hour =0;
-			found_ut += (h.Info.tz.toDouble() / 24.0);
-			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
-			Moment m = new Moment(year, month, day, hour);
-			HoraInfo inf = new HoraInfo(m, 
-				(HMSInfo)h.Info.lat.Clone(), 
-				(HMSInfo)h.Info.lon.Clone(), 
-				(HMSInfo)h.Info.tz.Clone());
-			Horoscope hTransit = new Horoscope(inf, 
-				(HoroscopeOptions)h.Options.Clone());
-
-			Sweph.swe_revjul(found_ut+5.0, ref year, ref month, ref day, ref hour);
-			m2 = new Moment(year, month, day, hour);
-			return hTransit;
-		}
-
-		private void ApplyLocal (Moment m)
-		{
-			if (opts.Apply)
-			{
-				h.Info.tob = m;
-				h.OnChanged();
-			}
-		}
-		private double DirectSpeed (Body.Name b)
-		{
-			switch (b)
-			{
-				case Body.Name.Sun: return 365.2425;
-				case Body.Name.Moon: return 28.0;
-				case Body.Name.Lagna: return 1.0;
-			}
-			return 0.0;
-		}
-		private void DirectProgression ()
-		{
-			if (opts.SearchBody != Body.Name.Sun &&
-			opts.SearchBody != Body.Name.Moon) // &&
-			//opts.SearchBody != Body.Name.Lagna)
-			return;
-
-			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
-				//;.tob.time / 24.0;
-				
-			if (julday_ut <= h.baseUT)
-			{
-				MessageBox.Show("Error: Unable to progress in the future");
-				return;
-			}
-
-			double totalProgression = this.GetProgressionDegree();
-			double totalProgressionOrig = totalProgression;
-
-			Sweph.ObtainLock(h);
-			Retrogression r = new Retrogression(h, opts.SearchBody);
-
-			Longitude start_lon = r.GetLon(h.baseUT);
-			//Console.WriteLine ("Real start lon is {0}", start_lon);
-			double curr_julday = h.baseUT;
-			Transit t = new Transit(h, opts.SearchBody);
-			while (totalProgression >= 360.0)
-			{
-				curr_julday = t.LinearSearch (
-					curr_julday + DirectSpeed(opts.SearchBody),
-					start_lon, new ReturnLon(t.GenericLongitude));
-				totalProgression -= 360.0;
-			}
-
-			curr_julday = t.LinearSearch (
-				curr_julday + (totalProgression / 360.0 * DirectSpeed(opts.SearchBody)),
-				start_lon.Add(totalProgression), new ReturnLon(t.GenericLongitude));
-
-
-			//bool bDiscard = true;
-			//Longitude got_lon = t.GenericLongitude(curr_julday, ref bDiscard);
-			//Console.WriteLine ("Found Progressed Sun at {0}+{1}={2}={3}", 
-			//	start_lon.value, new Longitude(totalProgressionOrig).value,
-			//	got_lon.value, got_lon.sub(start_lon.add(totalProgressionOrig)).value
-			//	);
-
-			Sweph.ReleaseLock(h);
-
-			Moment m2 = new Moment(0,0,0,0.0);
-			Horoscope hTransit = this.utToHoroscope(curr_julday, ref m2);
-			string fmt = hTransit.Info.DateOfBirth.ToString();
-			ListViewItem li = new TransitItem(hTransit);
-			li.Text = string.Format	("{0}'s Prog: {2}+{3:00.00} deg", 
-				opts.SearchBody, totalProgressionOrig, 
-				(int)Math.Floor(totalProgressionOrig/360.0),
-				new Longitude(totalProgressionOrig).Value);
-			li.SubItems.Add(fmt);
-			this.ApplyLocal(hTransit.Info.tob);
-
-			this.mlTransits.Items.Add (li);
-			this.updateOptions();
-
-
-		}
-		private double GetProgressionDegree ()
-		{
-			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
-			double ut_diff = julday_ut - h.baseUT;
-
-			//Console.WriteLine ("Expected ut_diff is {0}", ut_diff);
-			bool bDummy = true;
-			Sweph.ObtainLock(h);
-			Transit t = new Transit(h);
-		    Longitude lon_start = t.LongitudeOfSun(h.baseUT, ref bDummy);
-			Longitude lon_prog = t.LongitudeOfSun(julday_ut, ref bDummy);
-
-			//Console.WriteLine ("Progression lons are {0} and {1}", lon_start, lon_prog);
-
-			double dExpectedLon = ut_diff * 360.0 / 365.2425;	
-			Longitude lon_expected = lon_start.Add (dExpectedLon);
-			Sweph.ReleaseLock(h);
-
-
-			if (Transit.CircLonLessThan(lon_expected, lon_prog))
-				dExpectedLon += lon_prog.Subtract(lon_expected).Value;
-			else
-				dExpectedLon -= lon_expected.Subtract(lon_prog).Value;
-
-			DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-
-			//Console.WriteLine ("Sun progress {0} degrees in elapsed time", dExpectedLon);
-
-			double ret = (dExpectedLon / 360.0) * (30.0/(double)(Basics.NumPartsInDivision(opts.Division)));
-				//(dp.cusp_higher - dp.cusp_lower);
-			//Console.WriteLine ("Progressing by {0} degrees", ret);
-			return ret;
-		}
-		private void bProgression_Click(object sender, System.EventArgs e)
-		{
-			if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
-				(int)opts.SearchBody > (int)Body.Name.Saturn)
-			{
-				DirectProgression();
-				return;
-			}
-
-			DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			double yearlyProgression = (dp.CuspHigher - dp.CuspLower) / 30.0;
-			double julday_ut = Sweph.swe_julday(
-				this.opts.StartDate.Year,
-				this.opts.StartDate.Month,
-				this.opts.StartDate.Day,
-				this.opts.StartDate.Hour + (((double)this.opts.StartDate.Minute)/60.0)
-				+ (((double)this.opts.StartDate.Second)/3600.0));			
-			
-			if (julday_ut <= h.baseUT)
-			{
-				MessageBox.Show("Error: Unable to progress in the future");
-				return;
-			}
-
-
-			double totalProgression = this.GetProgressionDegree();
-			double totalProgressionOrig = totalProgression;
-
-			//Console.WriteLine ("Total Progression is {0}", totalProgression);
-			bool becomesDirect = false;
-			Sweph.ObtainLock(h);
-			Retrogression r = new Retrogression(h, this.opts.SearchBody);
-			double curr_ut = h.baseUT;
-			double next_ut=0;
-			double found_ut = h.baseUT;
-			while (true)
-			{
-				next_ut = r.FindNextCuspForward(curr_ut, ref becomesDirect);
-				Longitude curr_lon = r.GetLon(curr_ut);
-				Longitude next_lon = r.GetLon(next_ut);
-
-
-				if (false == becomesDirect && next_lon.Subtract(curr_lon).Value >= totalProgression)
-				{
-					//Console.WriteLine ("1 Found {0} in {1}", totalProgression, next_lon.sub(curr_lon).value);
-					found_ut = r.GetTransitForward(curr_ut, curr_lon.Add(totalProgression));
-					break;
-				} 
-				else if (true == becomesDirect && curr_lon.Subtract(next_lon).Value >= totalProgression)
-				{
-					//Console.WriteLine ("2 Found {0} in {1}", totalProgression, curr_lon.sub(next_lon).value);
-					found_ut = r.GetTransitForward(curr_ut, curr_lon.Subtract(totalProgression));
-					break;
-				}
-				if (false == becomesDirect)
-				{
-					//Console.WriteLine ("Progression: {0} degrees gone in direct motion", next_lon.sub(curr_lon).value);
-					totalProgression -= next_lon.Subtract(curr_lon).Value;
-				}
-				else
-				{
-					//Console.WriteLine ("Progression: {0} degrees gone in retro motion", curr_lon.sub(next_lon).value);
-					totalProgression -= curr_lon.Subtract(next_lon).Value;
-				}
-				curr_ut = next_ut + 5.0;
-			}
-			Sweph.ReleaseLock(h);
-
-			Moment m2 = new Moment(0,0,0,0.0);
-			Horoscope hTransit = this.utToHoroscope(found_ut, ref m2);
-			string fmt = hTransit.Info.DateOfBirth.ToString();
-			ListViewItem li = new TransitItem(hTransit);
-			li.Text = string.Format	("{0}'s Prog: {2}+{3:00.00} deg", 
-				opts.SearchBody, totalProgressionOrig, 
-				(int)Math.Floor(totalProgressionOrig/360.0),
-				new Longitude(totalProgressionOrig).Value);
-			li.SubItems.Add(fmt);
-			this.mlTransits.Items.Add (li);
-			this.updateOptions();
-			this.ApplyLocal(hTransit.Info.tob);
-		}
-
-		private void bProgressionLon_Click(object sender, System.EventArgs e)
-		{
-			if (opts.Apply == false)
-			{
-				MessageBox.Show("This will modify the current chart. You must set Apply to 'true'");
-				return;
-			}
-			h.OnChanged();
-			double degToProgress = this.GetProgressionDegree();
-			Longitude lonProgress = new Longitude(degToProgress);
-
-			foreach (BodyPosition bp in h.PositionList)
-			{
-				bp.Longitude = bp.Longitude.Add(lonProgress);
-			}
-			h.OnlySignalChanged();
-		}
-
-		private void bRetroCusp_Click(object sender, System.EventArgs e)
-		{
-			if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
-				(int)opts.SearchBody > (int)Body.Name.Saturn)
-				return;
-
-			bool becomesDirect = false;
-			Sweph.ObtainLock(h);
-			Retrogression r = new Retrogression(h, this.opts.SearchBody);
-			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
-			double found_ut = julday_ut;
-			if (opts.Forward)
-			{
-				found_ut = r.FindNextCuspForward(julday_ut, ref becomesDirect);
-			}
-			else
-				found_ut  = r.FindNextCuspBackward(julday_ut, ref becomesDirect);
-
-
-			bool bForward = false;
-			Longitude found_lon = r.GetLon(found_ut, ref bForward);
-			Sweph.ReleaseLock(h);
-
-			// turn into horoscope
-			int year=0, month=0, day=0;
-			double hour =0;
-			found_ut += (h.Info.tz.toDouble() / 24.0);
-			Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
-			Moment m = new Moment(year, month, day, hour);
-			HoraInfo inf = new HoraInfo(m, 
-				(HMSInfo)h.Info.lat.Clone(), 
-				(HMSInfo)h.Info.lon.Clone(), 
-				(HMSInfo)h.Info.tz.Clone());
-			Horoscope hTransit = new Horoscope(inf, 
-				(HoroscopeOptions)h.Options.Clone());
-
-			if (opts.Forward)
-				Sweph.swe_revjul(found_ut+5.0, ref year, ref month, ref day, ref hour);
-			else
-				Sweph.swe_revjul(found_ut-5.0, ref year, ref month, ref day, ref hour);
-			Moment m2 = new Moment(year, month, day, hour);
-			this.opts.StartDate = m2;
-			// add entry to our list
-			string fmt = hTransit.Info.DateOfBirth.ToString();
-			ListViewItem li = new TransitItem(hTransit);
-			li.Text = Body.ToString(this.opts.SearchBody);
-			if (becomesDirect)
-				li.Text += " goes direct at " + found_lon.ToString();
-			else
-				li.Text += " goes retrograde at " + found_lon.ToString();
-			li.SubItems.Add(fmt);
-			this.mlTransits.Items.Add (li);
-			this.updateOptions();
-			this.ApplyLocal(hTransit.Info.tob);
-
-		}
-
-		private void bStartSearch_Click(object sender, System.EventArgs e)
-		{
-			this.StartSearch(true);
-		}
-
-		private void UpdateDateForNextSearch (double ut)
-		{
-			int year=0, month=0, day=0;
-			double hour=0;
-
-			double offset = 10.0 / (24.0*60.0*60.0);
-			if (opts.Forward == true)
-				ut += offset;
-			else
-				ut -= offset;
-
-
-			Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
-			Moment m2 = new Moment(year, month, day, hour);
-			this.opts.StartDate = m2;
-			this.updateOptions();
-		}
-
-
-
-
-
-		private double StartSearch (bool bUpdateDate)
-		{
-			CuspTransitSearch cs = new CuspTransitSearch(h);
-			Longitude found_lon = opts.TransitPoint.Add(0);
-			bool bForward = true;
-			double found_ut = 
-				cs.TransitSearch(opts.SearchBody, opts.StartDate, opts.Forward, opts.TransitPoint,
-				found_lon, ref bForward);
-			
-
-			Moment m2 = new Moment(0,0,0,0);
-			Horoscope hTransit = this.utToHoroscope(found_ut, ref m2);
-			this.UpdateDateForNextSearch(found_ut);
-
-			// add entry to our list
-			string fmt = hTransit.Info.DateOfBirth.ToString();
-			ListViewItem li = new TransitItem(hTransit);
-			li.Text = Body.ToString(this.opts.SearchBody);
-			if (bForward == false)
-				li.Text += " (R)";
-			li.Text += " transits " + found_lon.ToString();
-
-			li.SubItems.Add(fmt);
-			this.mlTransits.Items.Add (li);
-			this.updateOptions();
-			this.ApplyLocal(hTransit.Info.tob);
-
-			return found_ut;
-		}
-
-
-		private void mlTransits_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void mContext_Popup(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void openTransitHelper (Horoscope hTransit)
-		{
-			hTransit.Info.type = HoraType.Transit;
-			MhoraChild mcTransit = new MhoraChild(hTransit);
-			mcTransit.Name = "Transit Chart";
-			mcTransit.Text = "Transit Chart";
-			mcTransit.MdiParent = (MhoraContainer)GlobalOptions.mainControl;
-			mcTransit.Show();
-		}
-
-		private void mOpenTransit_Click(object sender, System.EventArgs e)
-		{
-			if (this.mlTransits.SelectedItems.Count == 0)
-				return;
-
-			TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
-			Horoscope hTransit = ti.GetHoroscope();
-			this.openTransitHelper(hTransit);
-		}
-
-
-
-		private void mOpenTransitNext_Click(object sender, System.EventArgs e)
-		{
-			if (this.mlTransits.SelectedItems.Count == 0)
-				return;
-
-			TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
-			Horoscope hTransit = ti.GetHoroscope();
-
-			int nextEntry = mlTransits.SelectedItems[0].Index+1;
-			if (this.mlTransits.Items.Count >= nextEntry+1)
-			{
-				TransitItem tiNext = (TransitItem)mlTransits.Items[nextEntry];
-				Horoscope hTransitNext = tiNext.GetHoroscope();
-
-				double ut_diff = hTransitNext.baseUT - hTransit.baseUT;
-				if (ut_diff > 0) 
-				{
-					hTransit.Info.defaultYearCompression = 1;
-					hTransit.Info.defaultYearLength = ut_diff;
-					hTransit.Info.defaultYearType = DateType.FixedYear;
-				}
-				
-			}
-
-			this.openTransitHelper(hTransit);
-		}
-
-		private void mOpenTransitChartPrev_Click(object sender, System.EventArgs e)
-		{
-			if (this.mlTransits.SelectedItems.Count == 0)
-				return;
-
-			TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
-			Horoscope hTransit = ti.GetHoroscope();
-			hTransit.Info.type = HoraType.Transit;
-
-			int prevEntry = mlTransits.SelectedItems[0].Index-1;
-			if (prevEntry >= 0)
-			{
-				TransitItem tiPrev = (TransitItem)mlTransits.Items[prevEntry];
-				Horoscope hTransitPrev = tiPrev.GetHoroscope();
-
-				double ut_diff = hTransit.baseUT - hTransitPrev.baseUT;
-				if (ut_diff > 0) 
-				{
-					hTransit.Info.defaultYearCompression = 1;
-					hTransit.Info.defaultYearLength = ut_diff;
-					hTransit.Info.defaultYearType = DateType.FixedYear;
-				}
-				
-			}
-
-			this.openTransitHelper(hTransit);
-		}
-
-
-		private void cbGrahas_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-		
-		}
-
-
-		private void bClearResults_Click(object sender, System.EventArgs e)
-		{
-			this.mlTransits.Items.Clear();
-		}
-
-		private void pGrid_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-
-		private void bNow_Click(object sender, System.EventArgs e)
-		{
-			System.DateTime now = DateTime.Now;
-			Moment m = new Moment(now.Year, now.Month, now.Day, 
-				now.Hour + ((double)now.Minute/60.0) + ((double)now.Second/3600.0));
-			this.opts.StartDate = m;
-			this.updateOptions();
-		}
-
-		private void bSolarNewYear_Click(object sender, System.EventArgs e)
-		{
-			this.opts.SearchBody = Body.Name.Sun;
-			this.opts.TransitPoint.Value = 0;
-			this.updateOptions();
-			this.bStartSearch_Click(sender, e);
-		}
-
-		private void bTransitPrevVarga_Click(object sender, System.EventArgs e)
-		{
-			Horoscope h2 = (Horoscope)h.Clone();
-			h2.Info.tob = this.opts.StartDate;
-			h2.OnChanged();
-			DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			opts.TransitPoint = new Longitude(dp.CuspLower);
-
-			double found_ut = this.StartSearch(false) + h.Info.tz.toDouble() / 24.0;
-			this.UpdateDateForNextSearch(found_ut);
-			this.updateOptions();
-		}
-
-		private void updateOptions ()
-		{
-			this.pgOptions.SelectedObject = new GlobalizedPropertiesWrapper(this.opts);
-		}
-
-		private void bTransitNextVarga_Click(object sender, System.EventArgs e)
-		{
-			// Update Search Parameters
-			Horoscope h2 = (Horoscope)h.Clone();
-			h2.Info.tob = this.opts.StartDate;
-			h2.OnChanged();
-			DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
-			opts.TransitPoint = new Longitude(dp.CuspHigher);
-			opts.TransitPoint = opts.TransitPoint.Add(1.0/(60.0*60.0*60.0));
-
-			double found_ut = this.StartSearch(false) + h.Info.tz.toDouble() / 24.0;
-			this.UpdateDateForNextSearch(found_ut);
-			this.updateOptions();
-		}
-		private void bVargaChange_Click(object sender, System.EventArgs e)
-		{
-			if (opts.SearchBody == Body.Name.Sun ||
-				opts.SearchBody == Body.Name.Moon ||
-				opts.SearchBody == Body.Name.Lagna)
-			{
-				if (opts.Forward == true)
-					this.bTransitNextVarga_Click(sender, e);
-				else
-					this.bTransitPrevVarga_Click(sender, e);
-				return;
-			}
-
-			Horoscope h2 = (Horoscope)h.Clone();
-			h2.Info.tob = this.opts.StartDate;
-			h2.OnChanged();
-			BodyPosition bp = h2.GetPosition(opts.SearchBody);
-			DivisionPosition dp = bp.ToDivisionPosition(opts.Division);
-
-			bool becomesDirect = false;
-			bool bForward = false;
-			Sweph.ObtainLock(h);
-			Retrogression r = new Retrogression(h, this.opts.SearchBody);
-			double julday_ut = this.opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble()/24.0;
-			double found_ut = julday_ut;
-			bool bTransitForwardCusp = true;
-			while (true)
-			{
-				if (opts.Forward)
-					found_ut = r.FindNextCuspForward(found_ut, ref becomesDirect);
-				else
-					found_ut = r.FindNextCuspBackward(found_ut, ref becomesDirect);
-
-				Longitude found_lon = r.GetLon(found_ut, ref bForward);
-
-
-				if (new Longitude(dp.CuspHigher).IsBetween(bp.Longitude, found_lon))
-				{
-					bTransitForwardCusp = true;
-					break;
-				}
-
-				if (new Longitude(dp.CuspLower).IsBetween(found_lon, bp.Longitude))
-				{
-					bTransitForwardCusp = false;
-					break;
-				}
-				
-				if (opts.Forward)
-					found_ut += 5.0;
-				else
-					found_ut -= 5.0;
-			}
-			Sweph.ReleaseLock(h);
-			if (opts.Forward)
-				found_ut += 5.0;
-			else
-				found_ut -= 5.0;
-			this.UpdateDateForNextSearch(found_ut);
-
-			if (bTransitForwardCusp)
-			{
-				this.opts.TransitPoint.Value = dp.CuspHigher;
-				this.updateOptions();
-				this.bStartSearch_Click(sender, e);
-			} 
-			else
-			{
-				this.opts.TransitPoint.Value = dp.CuspLower;
-				this.updateOptions();
-				this.bStartSearch_Click(sender, e);
-			}
-		}
-
-		private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-		{
-		
-		}
-
-
-		protected override void copyToClipboard()
-		{
-			string s="";
-			foreach (ListViewItem li in this.mlTransits.Items)
-			{
-				foreach (ListViewItem.ListViewSubItem si in li.SubItems)
-				{
-					s += si.Text + ". ";
-				}
-				s += "\r\n";
-				Clipboard.SetDataObject(s, true);
-			}
-		}
-
-		private void SolarEclipseHelper (double ut, string desc)
-		{
-			SolarEclipseHelper (ut, ut-1, ut+1, desc);
-		}
-		private void SolarEclipseHelper (double ut, double start, double end, string desc)
-		{
-			if (ut < start || ut > end)
-				return;
-
-			ListViewItem li = new ListViewItem(desc);
-			Moment m = new Moment(0,0,0,0);
-		    Horoscope hTransit = this.utToHoroscope(ut, ref m);
-			li.SubItems.Add (hTransit.Info.tob.ToString());
-			this.mlTransits.Items.Add(li);
-		}
-		private void bGlobSolEclipse_Click(object sender, System.EventArgs e)
-		{
-			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
-			double[] tret = new Double[10];
-			Sweph.ObtainLock(h);
-			Sweph.swe_sol_eclipse_when_glob (julday_ut, tret, opts.Forward);
-			Sweph.ReleaseLock(h);
-			this.SolarEclipseHelper(tret[2], "Global Solar Eclipse Begins");
-			this.SolarEclipseHelper(tret[3], "   Global Solar Eclipse Ends");
-			this.SolarEclipseHelper(tret[4], tret[2], tret[3], "   Global Solar Eclipse Totality Begins");
-			this.SolarEclipseHelper(tret[5], tret[2], tret[3], "   Global Solar Eclipse Totality Ends");
-			this.SolarEclipseHelper(tret[0], "   Global Solar Eclipse Maximum");
-			this.SolarEclipseHelper(tret[6], tret[2], tret[3], "   Global Solar Eclipse Centerline Begins");
-			this.SolarEclipseHelper(tret[7], tret[2], tret[3], "   Global Solar Eclipse Centerline Begins");
-			if (opts.Forward)
-				opts.StartDate = new Moment(tret[3] + 1.0, h);
-			else 
-				opts.StartDate = new Moment(tret[2] - 1.0, h);
-			this.updateOptions();
-		}
-		private void bLocSolEclipse_Click(object sender, System.EventArgs e)
-		{
-			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
-			double[] tret = new double[10];
-			double[] attr = new double[10];
-			Sweph.ObtainLock(h);
-			Sweph.swe_sol_eclipse_when_loc(h.Info, julday_ut, tret, attr, opts.Forward);
-			Sweph.ReleaseLock(h);		
-			this.SolarEclipseHelper(tret[0], "Local Solar Eclipse Maximum");
-			this.SolarEclipseHelper(tret[1], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 1st Contact");
-			this.SolarEclipseHelper(tret[2], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 2nd Contact");
-			this.SolarEclipseHelper(tret[3], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 3rd Contact");
-			this.SolarEclipseHelper(tret[4], tret[0]-1, tret[0]+1, "   Local Solar Eclipse 4th Contact");
-			if (opts.Forward)
-				opts.StartDate = new Moment(tret[0] + 1.0, h);
-			else
-				opts.StartDate = new Moment(tret[0] - 1.0, h);
-			this.updateOptions();
-		}
-
-		private void bGlobalLunarEclipse_Click(object sender, System.EventArgs e)
-		{
-			double julday_ut = this.opts.StartDate.ToUniversalTime(h);
-			double[] tret = new double[10];
-			Sweph.ObtainLock(h);
-			Sweph.swe_lun_eclipse_when(julday_ut, tret, opts.Forward);
-			Sweph.ReleaseLock(h);
-			this.SolarEclipseHelper(tret[0], "Lunar Eclipse Maximum");
-			this.SolarEclipseHelper(tret[2], tret[0]-1, tret[0]+1, "   Lunar Eclipse Begins");
-			this.SolarEclipseHelper(tret[3], tret[0]-1, tret[0]+1, "   Lunar Eclipse Ends");
-			this.SolarEclipseHelper(tret[4], tret[0]-1, tret[0]+1, "   Lunar Total Eclipse Begins");
-			this.SolarEclipseHelper(tret[5], tret[0]-1, tret[0]+1, "   Lunar Total Eclipse Ends");
-			this.SolarEclipseHelper(tret[6], tret[0]-1, tret[0]+1, "   Lunar Penumbral Eclipse Begins");
-			this.SolarEclipseHelper(tret[7], tret[0]-1, tret[0]+1, "   Lunar Penumbral Eclipse Ends");
-			if (opts.Forward)
-				opts.StartDate = new Moment(tret[0] + 1.0, h);
-			else
-				opts.StartDate = new Moment(tret[0] - 1.0, h);
-			this.updateOptions();
-		}
-
-		private void mlTransits_SelectedIndexChanged_1(object sender, System.EventArgs e)
-		{
-		
-		}
-
-
-	}
-
-	
-
-	public class TransitSearchOptions: ICloneable
-	{
-		private Moment mDateBase;
-		private bool mForward;
-		private Body.Name mSearchGraha;
-		private Longitude mTransitPoint;
-		private Division mDivision;
-		private bool mApplyNow;
-
-		public TransitSearchOptions ()
-		{
-			DateTime dt = DateTime.Now;
-			mDateBase = new Moment (dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
-			mSearchGraha = Body.Name.Sun;
-			mTransitPoint = new Longitude(0.0);
-			mForward = true;
-			this.Division = new Division(DivisionType.Rasi);
-		}
-
-
-
-		[InVisible]
-		public Division Division
-		{
-			get { return this.mDivision; }
-			set { this.mDivision = value; }
-		}
-
-		[Category("Transit Search")]
-		[PropertyOrder(1),@DisplayName("In Varga")]
-		public DivisionType UIDivision
-		{
-			get { return this.mDivision.MultipleDivisions[0].Varga; }
-			set { this.mDivision = new Division(value); }
-		}
-
-		public enum EForward
-		{
-			Before, After
-		}
-
-		[Category("Transit Search")]
-		[PropertyOrder(2),@DisplayName("Search")]
-		public EForward UIForward
-		{
-			get 
-			{ 
-				if (Forward) return EForward.After;
-				else return EForward.Before;
-			}
-			set 
-			{ 
-				if (value == EForward.After) Forward = true;
-				else Forward = false;
-			}
-		}
-
-		[InVisible]
-		public bool Forward
-		{
-			get { return mForward; }
-			set { mForward = value; }
-		}
-
-		[Category("Transit Search")]
-		[PropertyOrder(3), @DisplayName("Date")]
-		public Moment StartDate
-		{
-			get { return mDateBase; }
-			set { mDateBase = value; }
-		}
-		[Category("Transit Search")]
-		[PropertyOrder(4), @DisplayName("When Body")]
-		public Body.Name SearchBody
-		{
-			get { return mSearchGraha; }
-			set { mSearchGraha = value; }
-		}
-		[Category("Transit Search")]
-		[PropertyOrder(5), @DisplayName("Transits")]
-		public Longitude TransitPoint
-		{
-			get { return mTransitPoint; }
-			set { mTransitPoint = value; }
-		}
-		[Category("Transit Search")]
-		[PropertyOrder(6),@DisplayName("Apply Locally")]
-		public bool Apply
-		{
-			get { return mApplyNow; }
-			set { mApplyNow = value; }
-		}
-		#region ICloneable Members
-
-		public object Clone()
-		{
-			// TODO:  Add TransitSearchOptions.Clone implementation
-			TransitSearchOptions ret = new TransitSearchOptions();
-			ret.mDateBase = (Moment)this.mDateBase.Clone();
-			ret.mForward = this.mForward;
-			ret.mSearchGraha = this.mSearchGraha;
-			ret.mTransitPoint = this.mTransitPoint;
-			return ret;
-		}
-		public object CopyFrom (Object o)
-		{
-			TransitSearchOptions nopt = (TransitSearchOptions)o;
-			this.mDateBase = (Moment)nopt.mDateBase.Clone();
-			this.mForward = nopt.mForward;
-			this.mSearchGraha = nopt.mSearchGraha;
-			this.mTransitPoint = nopt.mTransitPoint;
-			return this.Clone();
-		}
-
-		#endregion
-	}
-
-	
-	public class TransitItem : System.Windows.Forms.ListViewItem
-	{
-		private Horoscope h;
-
-		public Horoscope GetHoroscope ()
-		{
-			return h;
-		}
-		public TransitItem (Horoscope _h)
-		{
-			h = _h;
-		}
-	}
+    public class TransitSearch : PanchangControl
+    {
+        private ColumnHeader Moment;
+        private IContainer components = null;
+        private ColumnHeader Name1;
+        private ContextMenu mContext;
+        private MenuItem mOpenTransit;
+        public PropertyGrid pgOptions;
+        private ColumnHeader Event;
+        private ColumnHeader Date;
+        private ListView mlTransits;
+        private Button bLocalSolarEclipse;
+        private Button bSolarNewYear;
+        private Button bProgressionLon;
+        private Button bClearResults;
+        private Button bNow;
+        private Button bStartSearch;
+        private Button bRetroCusp;
+        private Button bProgression;
+        private GroupBox groupBox1;
+        private Button bTransitPrevVarga;
+        private Button bVargaChange;
+        private Button bTransitNextVarga;
+        private Button bGlobSolEcl;
+        private Panel panel1;
+        private Button bGlobalLunarEclipse;
+        private GroupBox groupBox2;
+        private MenuItem mOpenTransitNext;
+        private MenuItem mOpenTransitChartPrev;
+        private TransitSearchOptions opts;
+
+        public void Redisplay(object o)
+        {
+            mlTransits.Font = GlobalOptions.Instance.GeneralFont;
+            mlTransits.BackColor = GlobalOptions.Instance.TableBackgroundColor;
+            mlTransits.ForeColor = GlobalOptions.Instance.TableForegroundColor;
+            pgOptions.Font = GlobalOptions.Instance.GeneralFont;
+        }
+        public void Reset()
+        {
+            updateOptions();
+            mlTransits.Items.Clear();
+            Redisplay(GlobalOptions.Instance);
+        }
+
+        public TransitSearch(Horoscope _h)
+        {
+            // This call is required by the Windows Form Designer.
+            InitializeComponent();
+
+            h = _h;
+            GlobalOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
+            opts = new TransitSearchOptions();
+            updateOptions();
+            AddViewsToContextMenu(mContext);
+
+            ToolTip tt = null;
+
+            tt = new ToolTip();
+            tt.SetToolTip(bTransitPrevVarga, "Find when the graha goes to the previous rasi only");
+            tt = new ToolTip();
+            tt.SetToolTip(bTransitNextVarga, "Find when the graha goes to the next rasi only");
+            tt = new ToolTip();
+            tt.SetToolTip(bVargaChange, "Find when the graha changes rasis");
+
+            // TODO: Add any initialization after the InitializeComponent call
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            Name1 = new ColumnHeader();
+            Moment = new ColumnHeader();
+            mContext = new ContextMenu();
+            mOpenTransit = new MenuItem();
+            pgOptions = new PropertyGrid();
+            mlTransits = new ListView();
+            Event = new ColumnHeader();
+            Date = new ColumnHeader();
+            bLocalSolarEclipse = new Button();
+            bSolarNewYear = new Button();
+            bProgressionLon = new Button();
+            bClearResults = new Button();
+            bNow = new Button();
+            bStartSearch = new Button();
+            bRetroCusp = new Button();
+            bProgression = new Button();
+            groupBox1 = new GroupBox();
+            bTransitPrevVarga = new Button();
+            bVargaChange = new Button();
+            bTransitNextVarga = new Button();
+            bGlobSolEcl = new Button();
+            panel1 = new Panel();
+            groupBox2 = new GroupBox();
+            bGlobalLunarEclipse = new Button();
+            mOpenTransitNext = new MenuItem();
+            mOpenTransitChartPrev = new MenuItem();
+            groupBox1.SuspendLayout();
+            panel1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
+            // 
+            // Name1
+            // 
+            Name1.Text = "Type";
+            Name1.Width = 269;
+            // 
+            // Moment
+            // 
+            Moment.Text = "Moment";
+            Moment.Width = 188;
+            // 
+            // mContext
+            // 
+            mContext.MenuItems.AddRange(new MenuItem[] {
+                                                                                     mOpenTransit,
+                                                                                     mOpenTransitNext,
+                                                                                     mOpenTransitChartPrev});
+            mContext.Popup += new EventHandler(mContext_Popup);
+            // 
+            // mOpenTransit
+            // 
+            mOpenTransit.Index = 0;
+            mOpenTransit.Text = "Open Transit Chart";
+            mOpenTransit.Click += new EventHandler(mOpenTransit_Click);
+            // 
+            // pgOptions
+            // 
+            pgOptions.CommandsVisibleIfAvailable = true;
+            pgOptions.HelpVisible = false;
+            pgOptions.LargeButtons = false;
+            pgOptions.LineColor = SystemColors.ScrollBar;
+            pgOptions.Location = new Point(16, 8);
+            pgOptions.Name = "pgOptions";
+            pgOptions.PropertySort = PropertySort.Categorized;
+            pgOptions.Size = new Size(296, 152);
+            pgOptions.TabIndex = 5;
+            pgOptions.Text = "Options";
+            pgOptions.ToolbarVisible = false;
+            pgOptions.ViewBackColor = SystemColors.Window;
+            pgOptions.ViewForeColor = SystemColors.WindowText;
+            pgOptions.Click += new EventHandler(pGrid_Click);
+            // 
+            // mlTransits
+            // 
+            mlTransits.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+                | AnchorStyles.Left
+                | AnchorStyles.Right;
+            mlTransits.Columns.AddRange(new ColumnHeader[] {
+                                                                                         Event,
+                                                                                         Date});
+            mlTransits.FullRowSelect = true;
+            mlTransits.Location = new Point(16, 168);
+            mlTransits.Name = "mlTransits";
+            mlTransits.Size = new Size(648, 208);
+            mlTransits.TabIndex = 9;
+            mlTransits.View = View.Details;
+            mlTransits.SelectedIndexChanged += new EventHandler(mlTransits_SelectedIndexChanged_1);
+            // 
+            // Event
+            // 
+            Event.Text = "Event";
+            Event.Width = 387;
+            // 
+            // Date
+            // 
+            Date.Text = "Date";
+            Date.Width = 173;
+            // 
+            // bLocalSolarEclipse
+            // 
+            bLocalSolarEclipse.Location = new Point(8, 40);
+            bLocalSolarEclipse.Name = "bLocalSolarEclipse";
+            bLocalSolarEclipse.Size = new Size(104, 23);
+            bLocalSolarEclipse.TabIndex = 13;
+            bLocalSolarEclipse.Text = "(L) Sol. Ecl.";
+            bLocalSolarEclipse.Click += new EventHandler(bLocSolEclipse_Click);
+            // 
+            // bSolarNewYear
+            // 
+            bSolarNewYear.Location = new Point(152, 168);
+            bSolarNewYear.Name = "bSolarNewYear";
+            bSolarNewYear.Size = new Size(104, 23);
+            bSolarNewYear.TabIndex = 9;
+            bSolarNewYear.Text = "Solar Year";
+            bSolarNewYear.Click += new EventHandler(bSolarNewYear_Click);
+            // 
+            // bProgressionLon
+            // 
+            bProgressionLon.Location = new Point(152, 136);
+            bProgressionLon.Name = "bProgressionLon";
+            bProgressionLon.Size = new Size(104, 23);
+            bProgressionLon.TabIndex = 8;
+            bProgressionLon.Text = "Progress Lons";
+            bProgressionLon.Click += new EventHandler(bProgressionLon_Click);
+            // 
+            // bClearResults
+            // 
+            bClearResults.Location = new Point(16, 16);
+            bClearResults.Name = "bClearResults";
+            bClearResults.Size = new Size(104, 23);
+            bClearResults.TabIndex = 3;
+            bClearResults.Text = "Clear Results";
+            bClearResults.Click += new EventHandler(bClearResults_Click);
+            // 
+            // bNow
+            // 
+            bNow.Location = new Point(16, 40);
+            bNow.Name = "bNow";
+            bNow.Size = new Size(104, 23);
+            bNow.TabIndex = 7;
+            bNow.Text = "Now";
+            bNow.Click += new EventHandler(bNow_Click);
+            // 
+            // bStartSearch
+            // 
+            bStartSearch.Location = new Point(16, 72);
+            bStartSearch.Name = "bStartSearch";
+            bStartSearch.RightToLeft = RightToLeft.No;
+            bStartSearch.Size = new Size(104, 23);
+            bStartSearch.TabIndex = 2;
+            bStartSearch.Text = "Find Transit";
+            bStartSearch.Click += new EventHandler(bStartSearch_Click);
+            // 
+            // bRetroCusp
+            // 
+            bRetroCusp.Location = new Point(16, 96);
+            bRetroCusp.Name = "bRetroCusp";
+            bRetroCusp.RightToLeft = RightToLeft.No;
+            bRetroCusp.Size = new Size(104, 23);
+            bRetroCusp.TabIndex = 4;
+            bRetroCusp.Text = "Find Retro";
+            bRetroCusp.Click += new EventHandler(bRetroCusp_Click);
+            // 
+            // bProgression
+            // 
+            bProgression.Location = new Point(152, 112);
+            bProgression.Name = "bProgression";
+            bProgression.Size = new Size(104, 23);
+            bProgression.TabIndex = 6;
+            bProgression.Text = "Progress Time";
+            bProgression.Click += new EventHandler(bProgression_Click);
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(bTransitPrevVarga);
+            groupBox1.Controls.Add(bVargaChange);
+            groupBox1.Controls.Add(bTransitNextVarga);
+            groupBox1.Location = new Point(144, 8);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(120, 96);
+            groupBox1.TabIndex = 12;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Change Varga";
+            // 
+            // bTransitPrevVarga
+            // 
+            bTransitPrevVarga.Location = new Point(8, 16);
+            bTransitPrevVarga.Name = "bTransitPrevVarga";
+            bTransitPrevVarga.Size = new Size(104, 23);
+            bTransitPrevVarga.TabIndex = 12;
+            bTransitPrevVarga.Text = "<-- Prev";
+            bTransitPrevVarga.TextAlign = ContentAlignment.MiddleLeft;
+            bTransitPrevVarga.Click += new EventHandler(bTransitPrevVarga_Click);
+            // 
+            // bVargaChange
+            // 
+            bVargaChange.Location = new Point(8, 40);
+            bVargaChange.Name = "bVargaChange";
+            bVargaChange.Size = new Size(104, 23);
+            bVargaChange.TabIndex = 13;
+            bVargaChange.Text = "Change";
+            bVargaChange.Click += new EventHandler(bVargaChange_Click);
+            // 
+            // bTransitNextVarga
+            // 
+            bTransitNextVarga.Location = new Point(8, 64);
+            bTransitNextVarga.Name = "bTransitNextVarga";
+            bTransitNextVarga.Size = new Size(104, 23);
+            bTransitNextVarga.TabIndex = 10;
+            bTransitNextVarga.Text = "Next  -->";
+            bTransitNextVarga.TextAlign = ContentAlignment.MiddleRight;
+            bTransitNextVarga.Click += new EventHandler(bTransitNextVarga_Click);
+            // 
+            // bGlobSolEcl
+            // 
+            bGlobSolEcl.Location = new Point(8, 64);
+            bGlobSolEcl.Name = "bGlobSolEcl";
+            bGlobSolEcl.Size = new Size(104, 23);
+            bGlobSolEcl.TabIndex = 11;
+            bGlobSolEcl.Text = "(G) Sol. Ecl.";
+            bGlobSolEcl.Click += new EventHandler(bGlobSolEclipse_Click);
+            // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left
+                | AnchorStyles.Right;
+            panel1.AutoScroll = true;
+            panel1.BorderStyle = BorderStyle.Fixed3D;
+            panel1.Controls.Add(groupBox2);
+            panel1.Controls.Add(bSolarNewYear);
+            panel1.Controls.Add(bProgressionLon);
+            panel1.Controls.Add(bClearResults);
+            panel1.Controls.Add(bNow);
+            panel1.Controls.Add(bStartSearch);
+            panel1.Controls.Add(bRetroCusp);
+            panel1.Controls.Add(bProgression);
+            panel1.Controls.Add(groupBox1);
+            panel1.Location = new Point(320, 8);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(304, 152);
+            panel1.TabIndex = 8;
+            panel1.Paint += new PaintEventHandler(panel1_Paint);
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(bLocalSolarEclipse);
+            groupBox2.Controls.Add(bGlobSolEcl);
+            groupBox2.Controls.Add(bGlobalLunarEclipse);
+            groupBox2.Location = new Point(8, 128);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(120, 96);
+            groupBox2.TabIndex = 15;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Eclipses";
+            // 
+            // bGlobalLunarEclipse
+            // 
+            bGlobalLunarEclipse.Location = new Point(8, 16);
+            bGlobalLunarEclipse.Name = "bGlobalLunarEclipse";
+            bGlobalLunarEclipse.Size = new Size(104, 23);
+            bGlobalLunarEclipse.TabIndex = 14;
+            bGlobalLunarEclipse.Text = "Lunar Ecl.";
+            bGlobalLunarEclipse.Click += new EventHandler(bGlobalLunarEclipse_Click);
+            // 
+            // mOpenTransitNext
+            // 
+            mOpenTransitNext.Index = 1;
+            mOpenTransitNext.Text = "Open Transit Chart (Compress &Next)";
+            mOpenTransitNext.Click += new EventHandler(mOpenTransitNext_Click);
+            // 
+            // mOpenTransitChartPrev
+            // 
+            mOpenTransitChartPrev.Index = 2;
+            mOpenTransitChartPrev.Text = "Open Transit Chart (Compress &Prev)";
+            mOpenTransitChartPrev.Click += new EventHandler(mOpenTransitChartPrev_Click);
+            // 
+            // TransitSearch
+            // 
+            ContextMenu = mContext;
+            Controls.Add(pgOptions);
+            Controls.Add(panel1);
+            Controls.Add(mlTransits);
+            Name = "TransitSearch";
+            Size = new Size(672, 384);
+            Load += new EventHandler(TransitSearch_Load);
+            groupBox1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            ResumeLayout(false);
+
+        }
+        #endregion
+
+        private void TransitSearch_Load(object sender, EventArgs e)
+        {
+            Reset();
+
+        }
+
+        public object SetOptions(object o)
+        {
+            return opts.CopyFrom(o);
+        }
+        private void bOpts_Click(object sender, EventArgs e)
+        {
+            Options f = new Options(opts, new ApplyOptions(SetOptions));
+            f.ShowDialog();
+        }
+
+
+        private Horoscope utToHoroscope(double found_ut, ref Moment m2)
+        {
+            // turn into horoscope
+            int year = 0, month = 0, day = 0;
+            double hour = 0;
+            found_ut += h.Info.tz.toDouble() / 24.0;
+            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Moment m = new Moment(year, month, day, hour);
+            HoraInfo inf = new HoraInfo(m,
+                (HMSInfo)h.Info.lat.Clone(),
+                (HMSInfo)h.Info.lon.Clone(),
+                (HMSInfo)h.Info.tz.Clone());
+            Horoscope hTransit = new Horoscope(inf,
+                (HoroscopeOptions)h.Options.Clone());
+
+            Sweph.swe_revjul(found_ut + 5.0, ref year, ref month, ref day, ref hour);
+            m2 = new Moment(year, month, day, hour);
+            return hTransit;
+        }
+
+        private void ApplyLocal(Moment m)
+        {
+            if (opts.Apply)
+            {
+                h.Info.tob = m;
+                h.OnChanged();
+            }
+        }
+        private double DirectSpeed(Body.Name b)
+        {
+            switch (b)
+            {
+                case Body.Name.Sun: return 365.2425;
+                case Body.Name.Moon: return 28.0;
+                case Body.Name.Lagna: return 1.0;
+            }
+            return 0.0;
+        }
+        private void DirectProgression()
+        {
+            if (opts.SearchBody != Body.Name.Sun &&
+            opts.SearchBody != Body.Name.Moon) // &&
+                                               //opts.SearchBody != Body.Name.Lagna)
+                return;
+
+            double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
+            //;.tob.time / 24.0;
+
+            if (julday_ut <= h.baseUT)
+            {
+                MessageBox.Show("Error: Unable to progress in the future");
+                return;
+            }
+
+            double totalProgression = GetProgressionDegree();
+            double totalProgressionOrig = totalProgression;
+
+            Sweph.ObtainLock(h);
+            Retrogression r = new Retrogression(h, opts.SearchBody);
+
+            Longitude start_lon = r.GetLon(h.baseUT);
+            //Console.WriteLine ("Real start lon is {0}", start_lon);
+            double curr_julday = h.baseUT;
+            Transit t = new Transit(h, opts.SearchBody);
+            while (totalProgression >= 360.0)
+            {
+                curr_julday = t.LinearSearch(
+                    curr_julday + DirectSpeed(opts.SearchBody),
+                    start_lon, new ReturnLon(t.GenericLongitude));
+                totalProgression -= 360.0;
+            }
+
+            curr_julday = t.LinearSearch(
+                curr_julday + totalProgression / 360.0 * DirectSpeed(opts.SearchBody),
+                start_lon.Add(totalProgression), new ReturnLon(t.GenericLongitude));
+
+
+            //bool bDiscard = true;
+            //Longitude got_lon = t.GenericLongitude(curr_julday, ref bDiscard);
+            //Console.WriteLine ("Found Progressed Sun at {0}+{1}={2}={3}", 
+            //	start_lon.value, new Longitude(totalProgressionOrig).value,
+            //	got_lon.value, got_lon.sub(start_lon.add(totalProgressionOrig)).value
+            //	);
+
+            Sweph.ReleaseLock(h);
+
+            Moment m2 = new Moment(0, 0, 0, 0.0);
+            Horoscope hTransit = utToHoroscope(curr_julday, ref m2);
+            string fmt = hTransit.Info.DateOfBirth.ToString();
+            ListViewItem li = new TransitItem(hTransit)
+            {
+                Text = string.Format("{0}'s Prog: {2}+{3:00.00} deg",
+                opts.SearchBody, totalProgressionOrig,
+                (int)Math.Floor(totalProgressionOrig / 360.0),
+                new Longitude(totalProgressionOrig).Value)
+            };
+            li.SubItems.Add(fmt);
+            ApplyLocal(hTransit.Info.tob);
+
+            mlTransits.Items.Add(li);
+            updateOptions();
+
+
+        }
+        private double GetProgressionDegree()
+        {
+            double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
+            double ut_diff = julday_ut - h.baseUT;
+
+            //Console.WriteLine ("Expected ut_diff is {0}", ut_diff);
+            bool bDummy = true;
+            Sweph.ObtainLock(h);
+            Transit t = new Transit(h);
+            Longitude lon_start = t.LongitudeOfSun(h.baseUT, ref bDummy);
+            Longitude lon_prog = t.LongitudeOfSun(julday_ut, ref bDummy);
+
+            //Console.WriteLine ("Progression lons are {0} and {1}", lon_start, lon_prog);
+
+            double dExpectedLon = ut_diff * 360.0 / 365.2425;
+            Longitude lon_expected = lon_start.Add(dExpectedLon);
+            Sweph.ReleaseLock(h);
+
+
+            if (Transit.CircLonLessThan(lon_expected, lon_prog))
+                dExpectedLon += lon_prog.Subtract(lon_expected).Value;
+            else
+                dExpectedLon -= lon_expected.Subtract(lon_prog).Value;
+
+            DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+
+            //Console.WriteLine ("Sun progress {0} degrees in elapsed time", dExpectedLon);
+
+            double ret = dExpectedLon / 360.0 * (30.0 / Basics.NumPartsInDivision(opts.Division));
+            //(dp.cusp_higher - dp.cusp_lower);
+            //Console.WriteLine ("Progressing by {0} degrees", ret);
+            return ret;
+        }
+        private void bProgression_Click(object sender, EventArgs e)
+        {
+            if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
+                (int)opts.SearchBody > (int)Body.Name.Saturn)
+            {
+                DirectProgression();
+                return;
+            }
+
+            DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+            double yearlyProgression = (dp.CuspHigher - dp.CuspLower) / 30.0;
+            double julday_ut = Sweph.swe_julday(
+                opts.StartDate.Year,
+                opts.StartDate.Month,
+                opts.StartDate.Day,
+                opts.StartDate.Hour + opts.StartDate.Minute / 60.0
+                + opts.StartDate.Second / 3600.0);
+
+            if (julday_ut <= h.baseUT)
+            {
+                MessageBox.Show("Error: Unable to progress in the future");
+                return;
+            }
+
+
+            double totalProgression = GetProgressionDegree();
+            double totalProgressionOrig = totalProgression;
+
+            //Console.WriteLine ("Total Progression is {0}", totalProgression);
+            bool becomesDirect = false;
+            Sweph.ObtainLock(h);
+            Retrogression r = new Retrogression(h, opts.SearchBody);
+            double curr_ut = h.baseUT;
+            double next_ut = 0;
+            double found_ut = h.baseUT;
+            while (true)
+            {
+                next_ut = r.FindNextCuspForward(curr_ut, ref becomesDirect);
+                Longitude curr_lon = r.GetLon(curr_ut);
+                Longitude next_lon = r.GetLon(next_ut);
+
+
+                if (false == becomesDirect && next_lon.Subtract(curr_lon).Value >= totalProgression)
+                {
+                    //Console.WriteLine ("1 Found {0} in {1}", totalProgression, next_lon.sub(curr_lon).value);
+                    found_ut = r.GetTransitForward(curr_ut, curr_lon.Add(totalProgression));
+                    break;
+                }
+                else if (true == becomesDirect && curr_lon.Subtract(next_lon).Value >= totalProgression)
+                {
+                    //Console.WriteLine ("2 Found {0} in {1}", totalProgression, curr_lon.sub(next_lon).value);
+                    found_ut = r.GetTransitForward(curr_ut, curr_lon.Subtract(totalProgression));
+                    break;
+                }
+                if (false == becomesDirect)
+                {
+                    //Console.WriteLine ("Progression: {0} degrees gone in direct motion", next_lon.sub(curr_lon).value);
+                    totalProgression -= next_lon.Subtract(curr_lon).Value;
+                }
+                else
+                {
+                    //Console.WriteLine ("Progression: {0} degrees gone in retro motion", curr_lon.sub(next_lon).value);
+                    totalProgression -= curr_lon.Subtract(next_lon).Value;
+                }
+                curr_ut = next_ut + 5.0;
+            }
+            Sweph.ReleaseLock(h);
+
+            Moment m2 = new Moment(0, 0, 0, 0.0);
+            Horoscope hTransit = utToHoroscope(found_ut, ref m2);
+            string fmt = hTransit.Info.DateOfBirth.ToString();
+            ListViewItem li = new TransitItem(hTransit)
+            {
+                Text = string.Format("{0}'s Prog: {2}+{3:00.00} deg",
+                opts.SearchBody, totalProgressionOrig,
+                (int)Math.Floor(totalProgressionOrig / 360.0),
+                new Longitude(totalProgressionOrig).Value)
+            };
+            li.SubItems.Add(fmt);
+            mlTransits.Items.Add(li);
+            updateOptions();
+            ApplyLocal(hTransit.Info.tob);
+        }
+
+        private void bProgressionLon_Click(object sender, EventArgs e)
+        {
+            if (opts.Apply == false)
+            {
+                MessageBox.Show("This will modify the current chart. You must set Apply to 'true'");
+                return;
+            }
+            h.OnChanged();
+            double degToProgress = GetProgressionDegree();
+            Longitude lonProgress = new Longitude(degToProgress);
+
+            foreach (BodyPosition bp in h.PositionList)
+            {
+                bp.Longitude = bp.Longitude.Add(lonProgress);
+            }
+            h.OnlySignalChanged();
+        }
+
+        private void bRetroCusp_Click(object sender, EventArgs e)
+        {
+            if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
+                (int)opts.SearchBody > (int)Body.Name.Saturn)
+                return;
+
+            bool becomesDirect = false;
+            Sweph.ObtainLock(h);
+            Retrogression r = new Retrogression(h, opts.SearchBody);
+            double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
+            double found_ut = julday_ut;
+            if (opts.Forward)
+            {
+                found_ut = r.FindNextCuspForward(julday_ut, ref becomesDirect);
+            }
+            else
+                found_ut = r.FindNextCuspBackward(julday_ut, ref becomesDirect);
+
+
+            bool bForward = false;
+            Longitude found_lon = r.GetLon(found_ut, ref bForward);
+            Sweph.ReleaseLock(h);
+
+            // turn into horoscope
+            int year = 0, month = 0, day = 0;
+            double hour = 0;
+            found_ut += h.Info.tz.toDouble() / 24.0;
+            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Moment m = new Moment(year, month, day, hour);
+            HoraInfo inf = new HoraInfo(m,
+                (HMSInfo)h.Info.lat.Clone(),
+                (HMSInfo)h.Info.lon.Clone(),
+                (HMSInfo)h.Info.tz.Clone());
+            Horoscope hTransit = new Horoscope(inf,
+                (HoroscopeOptions)h.Options.Clone());
+
+            if (opts.Forward)
+                Sweph.swe_revjul(found_ut + 5.0, ref year, ref month, ref day, ref hour);
+            else
+                Sweph.swe_revjul(found_ut - 5.0, ref year, ref month, ref day, ref hour);
+            Moment m2 = new Moment(year, month, day, hour);
+            opts.StartDate = m2;
+            // add entry to our list
+            string fmt = hTransit.Info.DateOfBirth.ToString();
+            ListViewItem li = new TransitItem(hTransit)
+            {
+                Text = Body.ToString(opts.SearchBody)
+            };
+            if (becomesDirect)
+                li.Text += " goes direct at " + found_lon.ToString();
+            else
+                li.Text += " goes retrograde at " + found_lon.ToString();
+            li.SubItems.Add(fmt);
+            mlTransits.Items.Add(li);
+            updateOptions();
+            ApplyLocal(hTransit.Info.tob);
+
+        }
+
+        private void bStartSearch_Click(object sender, EventArgs e)
+        {
+            StartSearch(true);
+        }
+
+        private void UpdateDateForNextSearch(double ut)
+        {
+            int year = 0, month = 0, day = 0;
+            double hour = 0;
+
+            double offset = 10.0 / (24.0 * 60.0 * 60.0);
+            if (opts.Forward == true)
+                ut += offset;
+            else
+                ut -= offset;
+
+
+            Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
+            Moment m2 = new Moment(year, month, day, hour);
+            opts.StartDate = m2;
+            updateOptions();
+        }
+
+
+
+
+
+        private double StartSearch(bool bUpdateDate)
+        {
+            CuspTransitSearch cs = new CuspTransitSearch(h);
+            Longitude found_lon = opts.TransitPoint.Add(0);
+            bool bForward = true;
+            double found_ut =
+                cs.TransitSearch(opts.SearchBody, opts.StartDate, opts.Forward, opts.TransitPoint,
+                found_lon, ref bForward);
+
+
+            Moment m2 = new Moment(0, 0, 0, 0);
+            Horoscope hTransit = utToHoroscope(found_ut, ref m2);
+            UpdateDateForNextSearch(found_ut);
+
+            // add entry to our list
+            string fmt = hTransit.Info.DateOfBirth.ToString();
+            ListViewItem li = new TransitItem(hTransit)
+            {
+                Text = Body.ToString(opts.SearchBody)
+            };
+            if (bForward == false)
+                li.Text += " (R)";
+            li.Text += " transits " + found_lon.ToString();
+
+            li.SubItems.Add(fmt);
+            mlTransits.Items.Add(li);
+            updateOptions();
+            ApplyLocal(hTransit.Info.tob);
+
+            return found_ut;
+        }
+
+
+        private void mlTransits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mContext_Popup(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openTransitHelper(Horoscope hTransit)
+        {
+            hTransit.Info.type = HoraType.Transit;
+            PanchangChild mcTransit = new PanchangChild(hTransit)
+            {
+                Name = "Transit Chart",
+                Text = "Transit Chart",
+                MdiParent = (PanchangContainer)GlobalOptions.mainControl
+            };
+            mcTransit.Show();
+        }
+
+        private void mOpenTransit_Click(object sender, EventArgs e)
+        {
+            if (mlTransits.SelectedItems.Count == 0)
+                return;
+
+            TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
+            Horoscope hTransit = ti.GetHoroscope();
+            openTransitHelper(hTransit);
+        }
+
+
+
+        private void mOpenTransitNext_Click(object sender, EventArgs e)
+        {
+            if (mlTransits.SelectedItems.Count == 0)
+                return;
+
+            TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
+            Horoscope hTransit = ti.GetHoroscope();
+
+            int nextEntry = mlTransits.SelectedItems[0].Index + 1;
+            if (mlTransits.Items.Count >= nextEntry + 1)
+            {
+                TransitItem tiNext = (TransitItem)mlTransits.Items[nextEntry];
+                Horoscope hTransitNext = tiNext.GetHoroscope();
+
+                double ut_diff = hTransitNext.baseUT - hTransit.baseUT;
+                if (ut_diff > 0)
+                {
+                    hTransit.Info.defaultYearCompression = 1;
+                    hTransit.Info.defaultYearLength = ut_diff;
+                    hTransit.Info.defaultYearType = DateType.FixedYear;
+                }
+
+            }
+
+            openTransitHelper(hTransit);
+        }
+
+        private void mOpenTransitChartPrev_Click(object sender, EventArgs e)
+        {
+            if (mlTransits.SelectedItems.Count == 0)
+                return;
+
+            TransitItem ti = (TransitItem)mlTransits.SelectedItems[0];
+            Horoscope hTransit = ti.GetHoroscope();
+            hTransit.Info.type = HoraType.Transit;
+
+            int prevEntry = mlTransits.SelectedItems[0].Index - 1;
+            if (prevEntry >= 0)
+            {
+                TransitItem tiPrev = (TransitItem)mlTransits.Items[prevEntry];
+                Horoscope hTransitPrev = tiPrev.GetHoroscope();
+
+                double ut_diff = hTransit.baseUT - hTransitPrev.baseUT;
+                if (ut_diff > 0)
+                {
+                    hTransit.Info.defaultYearCompression = 1;
+                    hTransit.Info.defaultYearLength = ut_diff;
+                    hTransit.Info.defaultYearType = DateType.FixedYear;
+                }
+
+            }
+
+            openTransitHelper(hTransit);
+        }
+
+
+        private void cbGrahas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void bClearResults_Click(object sender, EventArgs e)
+        {
+            mlTransits.Items.Clear();
+        }
+
+        private void pGrid_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void bNow_Click(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            Moment m = new Moment(now.Year, now.Month, now.Day,
+                now.Hour + now.Minute / 60.0 + now.Second / 3600.0);
+            opts.StartDate = m;
+            updateOptions();
+        }
+
+        private void bSolarNewYear_Click(object sender, EventArgs e)
+        {
+            opts.SearchBody = Body.Name.Sun;
+            opts.TransitPoint.Value = 0;
+            updateOptions();
+            bStartSearch_Click(sender, e);
+        }
+
+        private void bTransitPrevVarga_Click(object sender, EventArgs e)
+        {
+            Horoscope h2 = (Horoscope)h.Clone();
+            h2.Info.tob = opts.StartDate;
+            h2.OnChanged();
+            DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+            opts.TransitPoint = new Longitude(dp.CuspLower);
+
+            double found_ut = StartSearch(false) + h.Info.tz.toDouble() / 24.0;
+            UpdateDateForNextSearch(found_ut);
+            updateOptions();
+        }
+
+        private void updateOptions()
+        {
+            pgOptions.SelectedObject = new GlobalizedPropertiesWrapper(opts);
+        }
+
+        private void bTransitNextVarga_Click(object sender, EventArgs e)
+        {
+            // Update Search Parameters
+            Horoscope h2 = (Horoscope)h.Clone();
+            h2.Info.tob = opts.StartDate;
+            h2.OnChanged();
+            DivisionPosition dp = h2.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
+            opts.TransitPoint = new Longitude(dp.CuspHigher);
+            opts.TransitPoint = opts.TransitPoint.Add(1.0 / (60.0 * 60.0 * 60.0));
+
+            double found_ut = StartSearch(false) + h.Info.tz.toDouble() / 24.0;
+            UpdateDateForNextSearch(found_ut);
+            updateOptions();
+        }
+        private void bVargaChange_Click(object sender, EventArgs e)
+        {
+            if (opts.SearchBody == Body.Name.Sun ||
+                opts.SearchBody == Body.Name.Moon ||
+                opts.SearchBody == Body.Name.Lagna)
+            {
+                if (opts.Forward == true)
+                    bTransitNextVarga_Click(sender, e);
+                else
+                    bTransitPrevVarga_Click(sender, e);
+                return;
+            }
+
+            Horoscope h2 = (Horoscope)h.Clone();
+            h2.Info.tob = opts.StartDate;
+            h2.OnChanged();
+            BodyPosition bp = h2.GetPosition(opts.SearchBody);
+            DivisionPosition dp = bp.ToDivisionPosition(opts.Division);
+
+            bool becomesDirect = false;
+            bool bForward = false;
+            Sweph.ObtainLock(h);
+            Retrogression r = new Retrogression(h, opts.SearchBody);
+            double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
+            double found_ut = julday_ut;
+            bool bTransitForwardCusp = true;
+            while (true)
+            {
+                if (opts.Forward)
+                    found_ut = r.FindNextCuspForward(found_ut, ref becomesDirect);
+                else
+                    found_ut = r.FindNextCuspBackward(found_ut, ref becomesDirect);
+
+                Longitude found_lon = r.GetLon(found_ut, ref bForward);
+
+
+                if (new Longitude(dp.CuspHigher).IsBetween(bp.Longitude, found_lon))
+                {
+                    bTransitForwardCusp = true;
+                    break;
+                }
+
+                if (new Longitude(dp.CuspLower).IsBetween(found_lon, bp.Longitude))
+                {
+                    bTransitForwardCusp = false;
+                    break;
+                }
+
+                if (opts.Forward)
+                    found_ut += 5.0;
+                else
+                    found_ut -= 5.0;
+            }
+            Sweph.ReleaseLock(h);
+            if (opts.Forward)
+                found_ut += 5.0;
+            else
+                found_ut -= 5.0;
+            UpdateDateForNextSearch(found_ut);
+
+            if (bTransitForwardCusp)
+            {
+                opts.TransitPoint.Value = dp.CuspHigher;
+                updateOptions();
+                bStartSearch_Click(sender, e);
+            }
+            else
+            {
+                opts.TransitPoint.Value = dp.CuspLower;
+                updateOptions();
+                bStartSearch_Click(sender, e);
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+        protected override void copyToClipboard()
+        {
+            string s = "";
+            foreach (ListViewItem li in mlTransits.Items)
+            {
+                foreach (ListViewItem.ListViewSubItem si in li.SubItems)
+                {
+                    s += si.Text + ". ";
+                }
+                s += "\r\n";
+                Clipboard.SetDataObject(s, true);
+            }
+        }
+
+        private void SolarEclipseHelper(double ut, string desc)
+        {
+            SolarEclipseHelper(ut, ut - 1, ut + 1, desc);
+        }
+        private void SolarEclipseHelper(double ut, double start, double end, string desc)
+        {
+            if (ut < start || ut > end)
+                return;
+
+            ListViewItem li = new ListViewItem(desc);
+            Moment m = new Moment(0, 0, 0, 0);
+            Horoscope hTransit = utToHoroscope(ut, ref m);
+            li.SubItems.Add(hTransit.Info.tob.ToString());
+            mlTransits.Items.Add(li);
+        }
+        private void bGlobSolEclipse_Click(object sender, EventArgs e)
+        {
+            double julday_ut = opts.StartDate.ToUniversalTime(h);
+            double[] tret = new double[10];
+            Sweph.ObtainLock(h);
+            Sweph.swe_sol_eclipse_when_glob(julday_ut, tret, opts.Forward);
+            Sweph.ReleaseLock(h);
+            SolarEclipseHelper(tret[2], "Global Solar Eclipse Begins");
+            SolarEclipseHelper(tret[3], "   Global Solar Eclipse Ends");
+            SolarEclipseHelper(tret[4], tret[2], tret[3], "   Global Solar Eclipse Totality Begins");
+            SolarEclipseHelper(tret[5], tret[2], tret[3], "   Global Solar Eclipse Totality Ends");
+            SolarEclipseHelper(tret[0], "   Global Solar Eclipse Maximum");
+            SolarEclipseHelper(tret[6], tret[2], tret[3], "   Global Solar Eclipse Centerline Begins");
+            SolarEclipseHelper(tret[7], tret[2], tret[3], "   Global Solar Eclipse Centerline Begins");
+            if (opts.Forward)
+                opts.StartDate = new Moment(tret[3] + 1.0, h);
+            else
+                opts.StartDate = new Moment(tret[2] - 1.0, h);
+            updateOptions();
+        }
+        private void bLocSolEclipse_Click(object sender, EventArgs e)
+        {
+            double julday_ut = opts.StartDate.ToUniversalTime(h);
+            double[] tret = new double[10];
+            double[] attr = new double[10];
+            Sweph.ObtainLock(h);
+            Sweph.swe_sol_eclipse_when_loc(h.Info, julday_ut, tret, attr, opts.Forward);
+            Sweph.ReleaseLock(h);
+            SolarEclipseHelper(tret[0], "Local Solar Eclipse Maximum");
+            SolarEclipseHelper(tret[1], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 1st Contact");
+            SolarEclipseHelper(tret[2], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 2nd Contact");
+            SolarEclipseHelper(tret[3], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 3rd Contact");
+            SolarEclipseHelper(tret[4], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 4th Contact");
+            if (opts.Forward)
+                opts.StartDate = new Moment(tret[0] + 1.0, h);
+            else
+                opts.StartDate = new Moment(tret[0] - 1.0, h);
+            updateOptions();
+        }
+
+        private void bGlobalLunarEclipse_Click(object sender, EventArgs e)
+        {
+            double julday_ut = opts.StartDate.ToUniversalTime(h);
+            double[] tret = new double[10];
+            Sweph.ObtainLock(h);
+            Sweph.swe_lun_eclipse_when(julday_ut, tret, opts.Forward);
+            Sweph.ReleaseLock(h);
+            SolarEclipseHelper(tret[0], "Lunar Eclipse Maximum");
+            SolarEclipseHelper(tret[2], tret[0] - 1, tret[0] + 1, "   Lunar Eclipse Begins");
+            SolarEclipseHelper(tret[3], tret[0] - 1, tret[0] + 1, "   Lunar Eclipse Ends");
+            SolarEclipseHelper(tret[4], tret[0] - 1, tret[0] + 1, "   Lunar Total Eclipse Begins");
+            SolarEclipseHelper(tret[5], tret[0] - 1, tret[0] + 1, "   Lunar Total Eclipse Ends");
+            SolarEclipseHelper(tret[6], tret[0] - 1, tret[0] + 1, "   Lunar Penumbral Eclipse Begins");
+            SolarEclipseHelper(tret[7], tret[0] - 1, tret[0] + 1, "   Lunar Penumbral Eclipse Ends");
+            if (opts.Forward)
+                opts.StartDate = new Moment(tret[0] + 1.0, h);
+            else
+                opts.StartDate = new Moment(tret[0] - 1.0, h);
+            updateOptions();
+        }
+
+        private void mlTransits_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+
+    }
+
+
+
+    public class TransitSearchOptions : ICloneable
+    {
+        private Moment mDateBase;
+        private bool mForward;
+        private Body.Name mSearchGraha;
+        private Longitude mTransitPoint;
+        private Division mDivision;
+        private bool mApplyNow;
+
+        public TransitSearchOptions()
+        {
+            DateTime dt = DateTime.Now;
+            mDateBase = new Moment(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
+            mSearchGraha = Body.Name.Sun;
+            mTransitPoint = new Longitude(0.0);
+            mForward = true;
+            Division = new Division(DivisionType.Rasi);
+        }
+
+
+
+        [InVisible]
+        public Division Division
+        {
+            get { return mDivision; }
+            set { mDivision = value; }
+        }
+
+        [Category("Transit Search")]
+        [PropertyOrder(1), @DisplayName("In Varga")]
+        public DivisionType UIDivision
+        {
+            get { return mDivision.MultipleDivisions[0].Varga; }
+            set { mDivision = new Division(value); }
+        }
+
+        public enum EForward
+        {
+            Before, After
+        }
+
+        [Category("Transit Search")]
+        [PropertyOrder(2), @DisplayName("Search")]
+        public EForward UIForward
+        {
+            get
+            {
+                if (Forward) return EForward.After;
+                else return EForward.Before;
+            }
+            set
+            {
+                if (value == EForward.After) Forward = true;
+                else Forward = false;
+            }
+        }
+
+        [InVisible]
+        public bool Forward
+        {
+            get { return mForward; }
+            set { mForward = value; }
+        }
+
+        [Category("Transit Search")]
+        [PropertyOrder(3), @DisplayName("Date")]
+        public Moment StartDate
+        {
+            get { return mDateBase; }
+            set { mDateBase = value; }
+        }
+        [Category("Transit Search")]
+        [PropertyOrder(4), @DisplayName("When Body")]
+        public Body.Name SearchBody
+        {
+            get { return mSearchGraha; }
+            set { mSearchGraha = value; }
+        }
+        [Category("Transit Search")]
+        [PropertyOrder(5), @DisplayName("Transits")]
+        public Longitude TransitPoint
+        {
+            get { return mTransitPoint; }
+            set { mTransitPoint = value; }
+        }
+        [Category("Transit Search")]
+        [PropertyOrder(6), @DisplayName("Apply Locally")]
+        public bool Apply
+        {
+            get { return mApplyNow; }
+            set { mApplyNow = value; }
+        }
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            // TODO:  Add TransitSearchOptions.Clone implementation
+            TransitSearchOptions ret = new TransitSearchOptions
+            {
+                mDateBase = (Moment)mDateBase.Clone(),
+                mForward = mForward,
+                mSearchGraha = mSearchGraha,
+                mTransitPoint = mTransitPoint
+            };
+            return ret;
+        }
+        public object CopyFrom(object o)
+        {
+            TransitSearchOptions nopt = (TransitSearchOptions)o;
+            mDateBase = (Moment)nopt.mDateBase.Clone();
+            mForward = nopt.mForward;
+            mSearchGraha = nopt.mSearchGraha;
+            mTransitPoint = nopt.mTransitPoint;
+            return Clone();
+        }
+
+        #endregion
+    }
+
+
+    public class TransitItem : ListViewItem
+    {
+        private Horoscope h;
+
+        public Horoscope GetHoroscope()
+        {
+            return h;
+        }
+        public TransitItem(Horoscope _h)
+        {
+            h = _h;
+        }
+    }
 
 }
 

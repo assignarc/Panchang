@@ -553,7 +553,7 @@ namespace org.transliteral.panchang
             }
             catch
             {
-                Logger.Info(String.Format("MHora: Unable to read user preferences {0}", "GlobalOptions"));
+                Logger.Info(String.Format("Unable to read user preferences {0}", "GlobalOptions"));
             }
 
             GlobalOptions.Instance = gOpts;

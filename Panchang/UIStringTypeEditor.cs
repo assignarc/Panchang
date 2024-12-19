@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 
-namespace mhora
+namespace org.transliteral.panchang.app
 {
 
     public class UIStringTypeEditor : UITypeEditor

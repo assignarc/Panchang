@@ -301,7 +301,7 @@ namespace org.transliteral.panchang
         public void PopulateSunrisetCacheHelper(double ut, ref double sr, ref double ss, ref double sr_ut)
         {
             int srflag = 0;
-            switch (Options.sunrisePosition)
+            switch (Options.SunrisePosition)
             {
                 case SunrisePositionType.Lmt:
                     sr = 6.0 + lmt_offset * 24.0;

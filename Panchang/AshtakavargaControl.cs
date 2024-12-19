@@ -1,41 +1,34 @@
-
-
 using System;
-using System.Collections;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization;
-using org.transliteral.panchang;
 
-namespace mhora
+namespace org.transliteral.panchang.app
 {
-    public class AshtakavargaControl : mhora.MhoraControl
+    public class AshtakavargaControl : PanchangControl
     {
-       
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.ContextMenu contextMenu;
-        private System.Windows.Forms.MenuItem menuSav;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem menuPavSun;
 
-        private System.Windows.Forms.MenuItem menuPavMoon;
-        private System.Windows.Forms.MenuItem menuPavMars;
-        private System.Windows.Forms.MenuItem menuPavMercury;
-        private System.Windows.Forms.MenuItem menuPavJupiter;
-        private System.Windows.Forms.MenuItem menuPavVenus;
-        private System.Windows.Forms.MenuItem menuPavSaturn;
-        private System.Windows.Forms.MenuItem menuPavLagna;
+        private System.ComponentModel.IContainer components = null;
+        private ContextMenu contextMenu;
+        private MenuItem menuSav;
+        private MenuItem menuItem1;
+        private MenuItem menuItem2;
+        private MenuItem menuPavSun;
+
+        private MenuItem menuPavMoon;
+        private MenuItem menuPavMars;
+        private MenuItem menuPavMercury;
+        private MenuItem menuPavJupiter;
+        private MenuItem menuPavVenus;
+        private MenuItem menuPavSaturn;
+        private MenuItem menuPavLagna;
 
         Ashtakavarga av = null;
         Body.Name[] outerBodies = null;
         Body.Name[] innerBodies = null;
-        private System.Windows.Forms.MenuItem menuOptions;
+        private MenuItem menuOptions;
         Bitmap bmpBuffer = null;
-        private System.Windows.Forms.MenuItem menuJhoraSav;
+        private MenuItem menuJhoraSav;
         AshtakavargaOptions userOptions = null;
         EDisplayStyle mDisplayStyle = EDisplayStyle.Chancha;
         Font fBig = null;
@@ -48,8 +41,8 @@ namespace mhora
             InitializeComponent();
             userOptions = new AshtakavargaOptions();
             h = _h;
-            h.Changed += new EvtChanged(this.OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(this.onRedisplay);
+            h.Changed += new EvtChanged(OnRecalculate);
+            GlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
             av = new Ashtakavarga(h, userOptions.VargaType);
             outerBodies = new Body.Name[]
             {
@@ -61,8 +54,8 @@ namespace mhora
             b_black = new SolidBrush(Color.Black);
 
             innerBodies = (Body.Name[])outerBodies.Clone();
-            this.resetContextMenuChecks(this.menuSav);
-            this.onRedisplay(GlobalOptions.Instance);
+            resetContextMenuChecks(menuSav);
+            onRedisplay(GlobalOptions.Instance);
         }
 
         /// <summary>
@@ -72,22 +65,22 @@ namespace mhora
 
         private void onRedisplay(object o)
         {
-            this.userOptions.ChartStyle = (EChartStyle) GlobalOptions.Instance.VargaStyle;
+            userOptions.ChartStyle = GlobalOptions.Instance.VargaStyle;
             fBig = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
                 GlobalOptions.Instance.GeneralFont.SizeInPoints + 3);
             fBigBold = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
                 GlobalOptions.Instance.GeneralFont.SizeInPoints + 3,
-                System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline |
-                System.Drawing.FontStyle.Italic);
+                FontStyle.Bold | FontStyle.Underline |
+                FontStyle.Italic);
             b_red = new SolidBrush(GlobalOptions.Instance.VargaGrahaColor);
-            this.DrawToBuffer();
-            this.Invalidate();
+            DrawToBuffer();
+            Invalidate();
         }
-        private void OnRecalculate(Object _h)
+        private void OnRecalculate(object _h)
         {
             av = new Ashtakavarga(h, userOptions.VargaType);
-            this.DrawToBuffer();
-            this.Invalidate();
+            DrawToBuffer();
+            Invalidate();
         }
 
         protected override void Dispose(bool disposing)
@@ -109,144 +102,144 @@ namespace mhora
         /// </summary>
         private void InitializeComponent()
         {
-            this.contextMenu = new System.Windows.Forms.ContextMenu();
-            this.menuOptions = new System.Windows.Forms.MenuItem();
-            this.menuJhoraSav = new System.Windows.Forms.MenuItem();
-            this.menuSav = new System.Windows.Forms.MenuItem();
-            this.menuPavSun = new System.Windows.Forms.MenuItem();
-            this.menuPavMoon = new System.Windows.Forms.MenuItem();
-            this.menuPavMars = new System.Windows.Forms.MenuItem();
-            this.menuPavMercury = new System.Windows.Forms.MenuItem();
-            this.menuPavJupiter = new System.Windows.Forms.MenuItem();
-            this.menuPavVenus = new System.Windows.Forms.MenuItem();
-            this.menuPavSaturn = new System.Windows.Forms.MenuItem();
-            this.menuPavLagna = new System.Windows.Forms.MenuItem();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            contextMenu = new ContextMenu();
+            menuOptions = new MenuItem();
+            menuJhoraSav = new MenuItem();
+            menuSav = new MenuItem();
+            menuPavSun = new MenuItem();
+            menuPavMoon = new MenuItem();
+            menuPavMars = new MenuItem();
+            menuPavMercury = new MenuItem();
+            menuPavJupiter = new MenuItem();
+            menuPavVenus = new MenuItem();
+            menuPavSaturn = new MenuItem();
+            menuPavLagna = new MenuItem();
+            menuItem1 = new MenuItem();
+            menuItem2 = new MenuItem();
             // 
             // contextMenu
             // 
-            this.contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-                                                                                        this.menuOptions,
-                                                                                        this.menuJhoraSav,
-                                                                                        this.menuSav,
-                                                                                        this.menuPavSun,
-                                                                                        this.menuPavMoon,
-                                                                                        this.menuPavMars,
-                                                                                        this.menuPavMercury,
-                                                                                        this.menuPavJupiter,
-                                                                                        this.menuPavVenus,
-                                                                                        this.menuPavSaturn,
-                                                                                        this.menuPavLagna,
-                                                                                        this.menuItem1,
-                                                                                        this.menuItem2});
+            contextMenu.MenuItems.AddRange(new MenuItem[] {
+                                                                                        menuOptions,
+                                                                                        menuJhoraSav,
+                                                                                        menuSav,
+                                                                                        menuPavSun,
+                                                                                        menuPavMoon,
+                                                                                        menuPavMars,
+                                                                                        menuPavMercury,
+                                                                                        menuPavJupiter,
+                                                                                        menuPavVenus,
+                                                                                        menuPavSaturn,
+                                                                                        menuPavLagna,
+                                                                                        menuItem1,
+                                                                                        menuItem2});
             // 
             // menuOptions
             // 
-            this.menuOptions.Index = 0;
-            this.menuOptions.Text = "Options";
-            this.menuOptions.Click += new System.EventHandler(this.menuOptions_Click);
+            menuOptions.Index = 0;
+            menuOptions.Text = "Options";
+            menuOptions.Click += new EventHandler(menuOptions_Click);
             // 
             // menuJhoraSav
             // 
-            this.menuJhoraSav.Index = 1;
-            this.menuJhoraSav.Text = "SAV, PAV";
-            this.menuJhoraSav.Click += new System.EventHandler(this.menuJhoraSav_Click);
+            menuJhoraSav.Index = 1;
+            menuJhoraSav.Text = "SAV, PAV";
+            menuJhoraSav.Click += new EventHandler(menuJhoraSav_Click);
             // 
             // menuSav
             // 
-            this.menuSav.Index = 2;
-            this.menuSav.Text = "SAV, PAV, BAV";
-            this.menuSav.Click += new System.EventHandler(this.menuSav_Click);
+            menuSav.Index = 2;
+            menuSav.Text = "SAV, PAV, BAV";
+            menuSav.Click += new EventHandler(menuSav_Click);
             // 
             // menuPavSun
             // 
-            this.menuPavSun.Index = 3;
-            this.menuPavSun.Text = "PAV - Sun";
-            this.menuPavSun.Click += new System.EventHandler(this.menuPavSun_Click);
+            menuPavSun.Index = 3;
+            menuPavSun.Text = "PAV - Sun";
+            menuPavSun.Click += new EventHandler(menuPavSun_Click);
             // 
             // menuPavMoon
             // 
-            this.menuPavMoon.Index = 4;
-            this.menuPavMoon.Text = "PAV - Moon";
-            this.menuPavMoon.Click += new System.EventHandler(this.menuPavMoon_Click);
+            menuPavMoon.Index = 4;
+            menuPavMoon.Text = "PAV - Moon";
+            menuPavMoon.Click += new EventHandler(menuPavMoon_Click);
             // 
             // menuPavMars
             // 
-            this.menuPavMars.Index = 5;
-            this.menuPavMars.Text = "PAV - Mars";
-            this.menuPavMars.Click += new System.EventHandler(this.menuPavMars_Click);
+            menuPavMars.Index = 5;
+            menuPavMars.Text = "PAV - Mars";
+            menuPavMars.Click += new EventHandler(menuPavMars_Click);
             // 
             // menuPavMercury
             // 
-            this.menuPavMercury.Index = 6;
-            this.menuPavMercury.Text = "PAV - Mercury";
-            this.menuPavMercury.Click += new System.EventHandler(this.menuPavMercury_Click);
+            menuPavMercury.Index = 6;
+            menuPavMercury.Text = "PAV - Mercury";
+            menuPavMercury.Click += new EventHandler(menuPavMercury_Click);
             // 
             // menuPavJupiter
             // 
-            this.menuPavJupiter.Index = 7;
-            this.menuPavJupiter.Text = "PAV - Jupiter";
-            this.menuPavJupiter.Click += new System.EventHandler(this.menuPavJupiter_Click);
+            menuPavJupiter.Index = 7;
+            menuPavJupiter.Text = "PAV - Jupiter";
+            menuPavJupiter.Click += new EventHandler(menuPavJupiter_Click);
             // 
             // menuPavVenus
             // 
-            this.menuPavVenus.Index = 8;
-            this.menuPavVenus.Text = "PAV - Venus";
-            this.menuPavVenus.Click += new System.EventHandler(this.menuPavVenus_Click);
+            menuPavVenus.Index = 8;
+            menuPavVenus.Text = "PAV - Venus";
+            menuPavVenus.Click += new EventHandler(menuPavVenus_Click);
             // 
             // menuPavSaturn
             // 
-            this.menuPavSaturn.Index = 9;
-            this.menuPavSaturn.Text = "PAV - Saturn";
-            this.menuPavSaturn.Click += new System.EventHandler(this.menuPavSaturn_Click);
+            menuPavSaturn.Index = 9;
+            menuPavSaturn.Text = "PAV - Saturn";
+            menuPavSaturn.Click += new EventHandler(menuPavSaturn_Click);
             // 
             // menuPavLagna
             // 
-            this.menuPavLagna.Index = 10;
-            this.menuPavLagna.Text = "PAV - Lagna";
-            this.menuPavLagna.Click += new System.EventHandler(this.menuPavLagna_Click);
+            menuPavLagna.Index = 10;
+            menuPavLagna.Text = "PAV - Lagna";
+            menuPavLagna.Click += new EventHandler(menuPavLagna_Click);
             // 
             // menuItem1
             // 
-            this.menuItem1.Index = 11;
-            this.menuItem1.Text = "-";
+            menuItem1.Index = 11;
+            menuItem1.Text = "-";
             // 
             // menuItem2
             // 
-            this.menuItem2.Index = 12;
-            this.menuItem2.Text = "-";
+            menuItem2.Index = 12;
+            menuItem2.Text = "-";
             // 
             // AshtakavargaControl
             // 
-            this.AllowDrop = true;
-            this.ContextMenu = this.contextMenu;
-            this.Name = "AshtakavargaControl";
-            this.Size = new System.Drawing.Size(208, 128);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.AshtakavargaControl_DragEnter);
-            this.Resize += new System.EventHandler(this.AshtakavargaControl_Resize);
-            this.Load += new System.EventHandler(this.AshtakavargaControl_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.AshtakavargaControl_Paint);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.AshtakavargaControl_DragDrop);
+            AllowDrop = true;
+            ContextMenu = contextMenu;
+            Name = "AshtakavargaControl";
+            Size = new Size(208, 128);
+            DragEnter += new DragEventHandler(AshtakavargaControl_DragEnter);
+            Resize += new EventHandler(AshtakavargaControl_Resize);
+            Load += new EventHandler(AshtakavargaControl_Load);
+            Paint += new PaintEventHandler(AshtakavargaControl_Paint);
+            DragDrop += new DragEventHandler(AshtakavargaControl_DragDrop);
 
         }
         #endregion
 
-        private void AshtakavargaControl_Load(object sender, System.EventArgs e)
+        private void AshtakavargaControl_Load(object sender, EventArgs e)
         {
-            this.AddViewsToContextMenu(this.contextMenu);
+            AddViewsToContextMenu(contextMenu);
         }
 
 
         private void DrawJhoraChakra(Graphics g)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            if (false == this.PrintMode)
-                g.Clear(this.BackColor);
+            if (false == PrintMode)
+                g.Clear(BackColor);
             int offset = 5;
-            int size = (Math.Min(this.bmpBuffer.Width, this.bmpBuffer.Height) / 3) - 10;
+            int size = Math.Min(bmpBuffer.Width, bmpBuffer.Height) / 3 - 10;
             IDrawChart dc = null;
-            switch (this.userOptions.ChartStyle)
+            switch (userOptions.ChartStyle)
             {
                 default:
                 case EChartStyle.EastIndian:
@@ -295,10 +288,10 @@ namespace mhora
                 for (int j = 0; j < 3; j++)
                 {
                     g.ResetTransform();
-                    g.TranslateTransform(i * size + ((i + 1) * offset), j * size + ((j + 1) * offset));
-                    float scale = (float)size / (float)dc.GetLength();
+                    g.TranslateTransform(i * size + (i + 1) * offset, j * size + (j + 1) * offset);
+                    float scale = size / (float)dc.GetLength();
                     g.ScaleTransform(scale, scale);
-                    if (false == this.PrintMode)
+                    if (false == PrintMode)
                         g.FillRectangle(b_background, 0, 0, dc.GetLength(), dc.GetLength());
                     dc.DrawOutline(g);
                     int off = j * 3 + i;
@@ -329,13 +322,13 @@ namespace mhora
         {
             if (bmpBuffer != null)
                 bmpBuffer.Dispose();
-            if (this.Width == 0 || this.Height == 0)
+            if (Width == 0 || Height == 0)
                 return bmpBuffer;
-            Graphics displayGraphics = this.CreateGraphics();
-            bmpBuffer = new Bitmap(this.Width, this.Height, displayGraphics);
+            Graphics displayGraphics = CreateGraphics();
+            bmpBuffer = new Bitmap(Width, Height, displayGraphics);
             Graphics imageGraphics = Graphics.FromImage(bmpBuffer);
 
-            switch (this.mDisplayStyle)
+            switch (mDisplayStyle)
             {
                 case EDisplayStyle.Chancha:
                     DrawChanchaChakra(imageGraphics);
@@ -364,25 +357,25 @@ namespace mhora
             return bmpBuffer;
         }
 
-        private void AshtakavargaControl_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void AshtakavargaControl_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(bmpBuffer, 0, 0);
         }
 
         private bool ChanchaReset(Graphics g, int ray)
         {
-            int outerSize = Math.Min(this.bmpBuffer.Width, this.bmpBuffer.Height);
+            int outerSize = Math.Min(bmpBuffer.Width, bmpBuffer.Height);
             float scaleOuter = (float)outerSize / 200;
 
             g.ResetTransform();
-            g.TranslateTransform(this.bmpBuffer.Width / 2, this.bmpBuffer.Height / 2);
+            g.TranslateTransform(bmpBuffer.Width / 2, bmpBuffer.Height / 2);
             g.ScaleTransform(scaleOuter, scaleOuter);
 
             int numEntries = 8 * 12;
-            float rotDegree = (float)360.0 / (float)numEntries;
+            float rotDegree = (float)360.0 / numEntries;
             float rotTotal = 0;
 
-            switch (this.userOptions.ChartStyle)
+            switch (userOptions.ChartStyle)
             {
                 case EChartStyle.SouthIndian:
                     rotTotal = rotDegree * ray - 120;
@@ -397,16 +390,16 @@ namespace mhora
             while (rotTotal < 0) rotTotal += 360;
             while (rotTotal > 360) rotTotal -= 360;
 
-            switch (this.userOptions.ChartStyle)
+            switch (userOptions.ChartStyle)
             {
                 case EChartStyle.SouthIndian:
-                    if ((0 <= rotTotal && rotTotal < 90) ||
-                        (270 <= rotTotal && rotTotal < 360))
+                    if (0 <= rotTotal && rotTotal < 90 ||
+                        270 <= rotTotal && rotTotal < 360)
                         return true;
                     return false;
                 case EChartStyle.EastIndian:
-                    if ((0 <= rotTotal && rotTotal < 105) ||
-                        (285 <= rotTotal && rotTotal < 360))
+                    if (0 <= rotTotal && rotTotal < 105 ||
+                        285 <= rotTotal && rotTotal < 360)
                         return true;
                     return false;
             }
@@ -418,7 +411,7 @@ namespace mhora
         {
 
             IDrawChart dc = null;
-            switch (this.userOptions.ChartStyle)
+            switch (userOptions.ChartStyle)
             {
                 default:
                 case EChartStyle.EastIndian:
@@ -428,11 +421,11 @@ namespace mhora
                     dc = new SouthIndianChart();
                     break;
             }
-            int innerSize = (int)((float)Math.Min(this.bmpBuffer.Width, this.bmpBuffer.Height) / 3.15);
-            float scaleInner = (float)innerSize / (float)dc.GetLength();
+            int innerSize = (int)(Math.Min(bmpBuffer.Width, bmpBuffer.Height) / 3.15);
+            float scaleInner = innerSize / (float)dc.GetLength();
 
             g.ResetTransform();
-            g.TranslateTransform(this.bmpBuffer.Width / 2, this.bmpBuffer.Height / 2);
+            g.TranslateTransform(bmpBuffer.Width / 2, bmpBuffer.Height / 2);
             g.TranslateTransform(-1 * innerSize / 2, -1 * innerSize / 2);
             g.ScaleTransform(scaleInner, scaleInner);
 
@@ -440,15 +433,15 @@ namespace mhora
 
             int[] inner_bindus;
 
-            if (this.outerBodies.Length > 1)
+            if (outerBodies.Length > 1)
             {
-                if (this.userOptions.SavType == ESavType.Rao)
+                if (userOptions.SavType == ESavType.Rao)
                     inner_bindus = av.GetSavRao();
                 else
                     inner_bindus = av.GetSav();
             }
             else
-                inner_bindus = av.GetPav(this.outerBodies[0]);
+                inner_bindus = av.GetPav(outerBodies[0]);
 
             for (int i = 0; i < 12; i++)
             {
@@ -460,26 +453,26 @@ namespace mhora
             string av_desc = "SAV";
             if (outerBodies.Length == 1) av_desc = "PAV";
             SizeF sz = g.MeasureString(av_desc, fBig);
-            g.DrawString(av_desc, fBig, b_black, 100 - (sz.Width / 2), 80 - (sz.Height / 2));
+            g.DrawString(av_desc, fBig, b_black, 100 - sz.Width / 2, 80 - sz.Height / 2);
 
             if (outerBodies.Length == 1)
             {
                 string desc = Body.ToString(outerBodies[0]);
                 sz = g.MeasureString(desc, fBig);
-                g.DrawString(desc, fBig, b_black, 100 - (sz.Width / 2), 120 - (sz.Height / 2));
+                g.DrawString(desc, fBig, b_black, 100 - sz.Width / 2, 120 - sz.Height / 2);
             }
 
-            if (this.userOptions.SavType == ESavType.Rao)
+            if (userOptions.SavType == ESavType.Rao)
             {
                 string desc = "Rao";
                 sz = g.MeasureString(desc, fBig);
-                g.DrawString(desc, fBig, b_black, 100 - (sz.Width / 2), 120 - (sz.Height / 2));
+                g.DrawString(desc, fBig, b_black, 100 - sz.Width / 2, 120 - sz.Height / 2);
             }
 
             {
-                string desc = Basics.NumPartsInDivisionString(this.userOptions.VargaType); ;
+                string desc = Basics.NumPartsInDivisionString(userOptions.VargaType); ;
                 sz = g.MeasureString(desc, fBig);
-                g.DrawString(desc, fBig, b_black, 100 - (sz.Width / 2), 100 - (sz.Height / 2));
+                g.DrawString(desc, fBig, b_black, 100 - sz.Width / 2, 100 - sz.Height / 2);
             }
 
         }
@@ -499,14 +492,14 @@ namespace mhora
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            if (this.PrintMode == false)
+            if (PrintMode == false)
                 g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
 
-            this.DrawChanchaInner(g);
+            DrawChanchaInner(g);
 
 
             // inner and outer bounding circles
-            this.ChanchaReset(g, 0);
+            ChanchaReset(g, 0);
             for (int i = 1; i <= 8; i++)
             {
                 int w = 45 + i * 4;
@@ -519,19 +512,19 @@ namespace mhora
 
             // draw per-spoke stuff: spoke, bindus
             int numEntries = 8 * 12;
-            float rotDegree = (float)360.0 / (float)numEntries;
+            float rotDegree = (float)360.0 / numEntries;
             for (int i = 0; i < numEntries; i++)
             {
-                bool bDir = this.ChanchaReset(g, i);
+                bool bDir = ChanchaReset(g, i);
                 Pen p = pn_grey;
-                if (i % 8 == 7 && this.userOptions.ChartStyle == EChartStyle.EastIndian) p = pn_black;
-                if (i % 8 == 0 && this.userOptions.ChartStyle == EChartStyle.SouthIndian) p = pn_black;
+                if (i % 8 == 7 && userOptions.ChartStyle == EChartStyle.EastIndian) p = pn_black;
+                if (i % 8 == 0 && userOptions.ChartStyle == EChartStyle.SouthIndian) p = pn_black;
                 g.DrawLine(p, 45, 0, 98, 0);
 
                 Brush b = b_black;
                 //if (this.outerBodies.Length == 1 &&	av.BodyToInt(this.outerBodies[0]) == i%8)
                 //	b = b_red;
-                if (this.outerBodies.Length > 1)
+                if (outerBodies.Length > 1)
                 {
                     if (bDir == true)
                         g.DrawString(sBindus[i % 8], f, b, 49 + 9 * 4, 0);
@@ -551,7 +544,7 @@ namespace mhora
                 for (int i = 0; i < 12; i++)
                 {
                     int iRing = i * 8 + av.BodyToInt(bOuter);
-                    bool bDir = this.ChanchaReset(g, iRing);
+                    bool bDir = ChanchaReset(g, iRing);
                     SizeF sz = g.MeasureString(pav[i].ToString(), f);
                     if (true == bDir)
                         g.DrawString(pav[i].ToString(), f, b_black, 49 + 7 * 4, 0);
@@ -577,12 +570,12 @@ namespace mhora
 
                     foreach (ZodiacHouseName zh in zhBins)
                     {
-                        int iRing = (((int)zh) - 1) * 8 + iInner;
-                        bool bDir = this.ChanchaReset(g, iRing);
+                        int iRing = ((int)zh - 1) * 8 + iInner;
+                        bool bDir = ChanchaReset(g, iRing);
                         g.FillEllipse(br, 50 + (iOuter - 1) * 4, 1, 2, 2);
                         g.DrawEllipse(pn_dgrey, 50 + (iOuter - 1) * 4, 1, 2, 2);
 
-                        if (this.outerBodies.Length == 1)
+                        if (outerBodies.Length == 1)
                         {
                             if (true == bDir)
                                 g.DrawString(sBindus[iRing % 8], f, b_black, 49 + 9 * 4, 0);
@@ -599,7 +592,7 @@ namespace mhora
 
         }
 
-        private void menuSav_Click(object sender, System.EventArgs e)
+        private void menuSav_Click(object sender, EventArgs e)
         {
             outerBodies = new Body.Name[]
             {
@@ -607,150 +600,150 @@ namespace mhora
                 Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
                 Body.Name.Saturn, Body.Name.Lagna
             };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuSav);
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuSav);
         }
 
-        private void menuPavSun_Click(object sender, System.EventArgs e)
+        private void menuPavSun_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Sun };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavSun);
+            outerBodies = new Body.Name[] { Body.Name.Sun };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavSun);
         }
 
-        private void menuPavMoon_Click(object sender, System.EventArgs e)
+        private void menuPavMoon_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Moon };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavMoon);
+            outerBodies = new Body.Name[] { Body.Name.Moon };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavMoon);
         }
 
-        private void menuPavJupiter_Click(object sender, System.EventArgs e)
+        private void menuPavJupiter_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Jupiter };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavJupiter);
+            outerBodies = new Body.Name[] { Body.Name.Jupiter };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavJupiter);
         }
 
-        private void menuPavMars_Click(object sender, System.EventArgs e)
+        private void menuPavMars_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Mars };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavMars);
+            outerBodies = new Body.Name[] { Body.Name.Mars };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavMars);
         }
 
-        private void menuPavMercury_Click(object sender, System.EventArgs e)
+        private void menuPavMercury_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Mercury };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavMercury);
+            outerBodies = new Body.Name[] { Body.Name.Mercury };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavMercury);
         }
 
-        private void menuPavVenus_Click(object sender, System.EventArgs e)
+        private void menuPavVenus_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Venus };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavVenus);
+            outerBodies = new Body.Name[] { Body.Name.Venus };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavVenus);
         }
 
-        private void menuPavSaturn_Click(object sender, System.EventArgs e)
+        private void menuPavSaturn_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Saturn };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavSaturn);
+            outerBodies = new Body.Name[] { Body.Name.Saturn };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavSaturn);
         }
 
-        private void menuPavLagna_Click(object sender, System.EventArgs e)
+        private void menuPavLagna_Click(object sender, EventArgs e)
         {
-            this.outerBodies = new Body.Name[] { Body.Name.Lagna };
-            this.mDisplayStyle = EDisplayStyle.Chancha;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuPavLagna);
+            outerBodies = new Body.Name[] { Body.Name.Lagna };
+            mDisplayStyle = EDisplayStyle.Chancha;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuPavLagna);
         }
 
-        private void AshtakavargaControl_Resize(object sender, System.EventArgs e)
+        private void AshtakavargaControl_Resize(object sender, EventArgs e)
         {
-            this.DrawToBuffer();
-            this.Invalidate();
+            DrawToBuffer();
+            Invalidate();
         }
         protected override void copyToClipboard()
         {
-            Clipboard.SetDataObject(this.bmpBuffer);
+            Clipboard.SetDataObject(bmpBuffer);
         }
 
-        private object SetOptions(Object o)
+        private object SetOptions(object o)
         {
             AshtakavargaOptions ao = (AshtakavargaOptions)o;
-            if (ao.VargaType != this.userOptions.VargaType)
+            if (ao.VargaType != userOptions.VargaType)
                 av = new Ashtakavarga(h, ao.VargaType);
-            this.userOptions.SetOptions(ao);
-            this.DrawToBuffer();
-            this.Invalidate();
-            return this.userOptions.Clone();
+            userOptions.SetOptions(ao);
+            DrawToBuffer();
+            Invalidate();
+            return userOptions.Clone();
         }
-        private void menuOptions_Click(object sender, System.EventArgs e)
+        private void menuOptions_Click(object sender, EventArgs e)
         {
-            MhoraOptions f = new MhoraOptions(this.userOptions.Clone(), new ApplyOptions(SetOptions));
+            Options f = new Options(userOptions.Clone(), new ApplyOptions(SetOptions));
             f.ShowDialog();
         }
 
-        private void menuJhoraSav_Click(object sender, System.EventArgs e)
+        private void menuJhoraSav_Click(object sender, EventArgs e)
         {
-            this.mDisplayStyle = EDisplayStyle.NavaSav;
-            this.DrawToBuffer();
-            this.Invalidate();
-            this.resetContextMenuChecks(this.menuJhoraSav);
+            mDisplayStyle = EDisplayStyle.NavaSav;
+            DrawToBuffer();
+            Invalidate();
+            resetContextMenuChecks(menuJhoraSav);
         }
 
         private void resetContextMenuChecks(MenuItem mi)
         {
-            this.menuJhoraSav.Checked = false;
-            this.menuSav.Checked = false;
-            this.menuPavLagna.Checked = false;
-            this.menuPavSun.Checked = false;
-            this.menuPavMoon.Checked = false;
-            this.menuPavMars.Checked = false;
-            this.menuPavMercury.Checked = false;
-            this.menuPavJupiter.Checked = false;
-            this.menuPavVenus.Checked = false;
-            this.menuPavSaturn.Checked = false;
+            menuJhoraSav.Checked = false;
+            menuSav.Checked = false;
+            menuPavLagna.Checked = false;
+            menuPavSun.Checked = false;
+            menuPavMoon.Checked = false;
+            menuPavMars.Checked = false;
+            menuPavMercury.Checked = false;
+            menuPavJupiter.Checked = false;
+            menuPavVenus.Checked = false;
+            menuPavSaturn.Checked = false;
             mi.Checked = true;
         }
 
-        private void AshtakavargaControl_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        private void AshtakavargaControl_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(mhora.DivisionalChart)))
+            if (e.Data.GetDataPresent(typeof(DivisionalChart)))
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
         }
 
-        private void AshtakavargaControl_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        private void AshtakavargaControl_DragDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(mhora.DivisionalChart)))
+            if (e.Data.GetDataPresent(typeof(DivisionalChart)))
             {
                 Division div = Division.CopyFromClipboard();
                 if (null == div) return;
-                this.userOptions.VargaType = div;
-                this.SetOptions(this.userOptions);
-                this.OnRecalculate(h);
+                userOptions.VargaType = div;
+                SetOptions(userOptions);
+                OnRecalculate(h);
             }
         }
     }

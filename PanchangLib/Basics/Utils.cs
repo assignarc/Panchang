@@ -15,7 +15,7 @@
             FATAL = 16
         }
         private static readonly Destination _destination = Destination.CONSOLE;
-        private static readonly Level _destinationLevel = Level.DEBUG;
+        private static readonly Level _destinationLevel = Level.INFO;
 
         public static void Log( string message, Level _level = Level.INFO)
         {
