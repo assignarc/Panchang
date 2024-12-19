@@ -36,17 +36,17 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList (36);
-			Body.Name[] order = new Body.Name[] 
+			BodyName[] order = new BodyName[] 
 				{
-					Body.Name.Moon, Body.Name.Mercury, Body.Name.Mars,
-					Body.Name.Venus, Body.Name.Jupiter,	Body.Name.Sun,
-					Body.Name.Ketu,	Body.Name.Rahu,	Body.Name.Saturn };
+					BodyName.Moon, BodyName.Mercury, BodyName.Mars,
+					BodyName.Venus, BodyName.Jupiter,	BodyName.Sun,
+					BodyName.Ketu,	BodyName.Rahu,	BodyName.Saturn };
 
 			double cycle_start = ParamAyus() * (double)cycle;
 			double curr = 0.0;
 			for (int i=0; i<3; i++) 
 			{
-				foreach (Body.Name bn in order) 
+				foreach (BodyName bn in order) 
 				{
 					al.Add (new DasaEntry (bn, cycle_start + curr, 4.0, 1, bn.ToString()));
 					curr += 4.0;

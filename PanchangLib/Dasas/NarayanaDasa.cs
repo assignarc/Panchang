@@ -18,7 +18,7 @@ namespace org.transliteral.panchang
 		}
         public void RecalculateOptions() => options.Recalculate();
         public double ParamAyus() => 144;
-        Body.Name GetLord (ZodiacHouse zh)
+        BodyName GetLord (ZodiacHouse zh)
 		{
 			switch (zh.Value)
 			{
@@ -78,7 +78,7 @@ namespace org.transliteral.panchang
 				else
 					zh_dasa = zh_seed.Add (order[i]);
 
-				Body.Name dasa_lord = this.GetLord(zh_dasa);
+				BodyName dasa_lord = this.GetLord(zh_dasa);
 				//gs.strongerForNarayanaDasa(zh_dasa);
 				DivisionPosition dlord_dpos = h.CalculateDivisionPosition(h.GetPosition(dasa_lord), options.Division);
 				double dasa_length = (double)this.DasaLength(zh_dasa, dlord_dpos);
@@ -115,7 +115,7 @@ namespace org.transliteral.panchang
 			ZodiacHouse zh_stronger = zh_first.Add(1);
 			zh_stronger.Value = options.findStrongerRasi(options.SeventhStrengths, zh_stronger.Value, zh_stronger.Add(7).Value);
 
-			Body.Name b = this.GetLord(zh_stronger);
+			BodyName b = this.GetLord(zh_stronger);
 			DivisionPosition dp = h.CalculateDivisionPosition(h.GetPosition(b), options.Division);
 			ZodiacHouse first = dp.ZodiacHouse;
 			bool backward = false;
@@ -149,7 +149,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

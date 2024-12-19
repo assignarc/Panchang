@@ -48,7 +48,7 @@ namespace org.transliteral.panchang
 				ZodiacHouse zh = zh_start.Add(1);
 				if (bIsZodiacal) zh = zh.Add(order[i]);
 				else zh = zh.AddReverse(order[i]);
-				Body.Name lord = h.LordOfZodiacHouse(zh, m_dtype);
+				BodyName lord = h.LordOfZodiacHouse(zh, m_dtype);
 				DivisionPosition dp_lord = h.GetPosition(lord).ToDivisionPosition(m_dtype);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh, dp_lord);
 				DasaEntry de = new DasaEntry(zh.Value, dasa_length_sum, dasa_length, 1, zh.Value.ToString());
@@ -83,7 +83,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

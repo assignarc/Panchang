@@ -234,7 +234,7 @@ namespace org.transliteral.panchang.app
         }
         public bool IsPropertyVisible(PropertyDescriptor prop)
         {
-            if (null != prop.Attributes[typeof(InVisible)])
+            if (null != prop.Attributes[typeof(InVisibleAttribute)])
                 return false;
 
             return true;
@@ -315,7 +315,7 @@ namespace org.transliteral.panchang.app
         {
             get
             {
-                DisplayName dn = (DisplayName)basePropertyDescriptor.Attributes[typeof(DisplayName)];
+                VisibleAttribute dn = (VisibleAttribute)basePropertyDescriptor.Attributes[typeof(VisibleAttribute)];
                 if (dn != null)
                     return dn.Text;
                 return basePropertyDescriptor.DisplayName;

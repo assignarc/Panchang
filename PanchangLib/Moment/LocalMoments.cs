@@ -2,11 +2,11 @@
 
 namespace org.transliteral.panchang
 {
-    public class PanchangaLocalMoments 
+    public class LocalMoments 
 	{
 		public double Sunrise;
 		public double Sunset;
-		public Basics.Weekday WeekDay;
+		public Weekday WeekDay;
 		public double SunriseUT;
 		public double[] KalasUT;
 		public double[] HorasUT;

@@ -22,7 +22,7 @@ namespace org.transliteral.panchang
 		{
 			options.Recalculate();
 		}
-		Body.Name GetLord (ZodiacHouse zh)
+		BodyName GetLord (ZodiacHouse zh)
 		{
 			switch (zh.Value)
 			{
@@ -109,7 +109,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

@@ -7,9 +7,9 @@ namespace org.transliteral.panchang
     /// <summary>
     /// EnumConverter supporting System.ComponentModel.DescriptionAttribute
     /// </summary>
-    public class EnumDescConverter : System.ComponentModel.EnumConverter
+    public class EnumDescConverter : EnumConverter
     {
-        protected System.Type myVal;
+        protected Type myVal;
 
         /// <summary>
         /// Gets Enum Value's Description Attribute
@@ -31,7 +31,7 @@ namespace org.transliteral.panchang
         /// <param name="value">The type of the Enumeration</param>
         /// <param name="name">The name of the Enumeration value</param>
         /// <returns>The description, if any, else the passed name</returns>
-        public static string GetEnumDescription(System.Type value, string name)
+        public static string GetEnumDescription(Type value, string name)
         {
             FieldInfo fi = value.GetField(name);
             DescriptionAttribute[] attributes =
@@ -46,7 +46,7 @@ namespace org.transliteral.panchang
         /// <param name="value">The Enum type</param>
         /// <param name="description">The description or name of the element</param>
         /// <returns>The value, or the passed in description, if it was not found</returns>
-        public static object GetEnumValue(System.Type value, string description)
+        public static object GetEnumValue(Type value, string description)
         {
             FieldInfo[] fis = value.GetFields();
             foreach (FieldInfo fi in fis)
@@ -69,7 +69,7 @@ namespace org.transliteral.panchang
             return description;
         }
 
-        public EnumDescConverter(System.Type type) : base(type)
+        public EnumDescConverter(Type type) : base(type)
         {
             myVal = type;
         }

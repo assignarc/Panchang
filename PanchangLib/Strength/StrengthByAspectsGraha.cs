@@ -12,10 +12,10 @@ namespace org.transliteral.panchang
 		protected int Value (ZodiacHouseName _zh)
 		{
 			int val = 0;
-			Body.Name bl = this.GetStrengthLord(_zh);
+			BodyName bl = this.GetStrengthLord(_zh);
 			DivisionPosition dl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType);
-			DivisionPosition dj = horoscope.GetPosition(Body.Name.Jupiter).ToDivisionPosition(divisionType);
-			DivisionPosition dm = horoscope.GetPosition(Body.Name.Mercury).ToDivisionPosition(divisionType);
+			DivisionPosition dj = horoscope.GetPosition(BodyName.Jupiter).ToDivisionPosition(divisionType);
+			DivisionPosition dm = horoscope.GetPosition(BodyName.Mercury).ToDivisionPosition(divisionType);
 
 			ZodiacHouse zh = new ZodiacHouse(_zh);
 			if (dl.GrahaDristi(zh) || dl.ZodiacHouse.Value == _zh) val++;
@@ -24,7 +24,7 @@ namespace org.transliteral.panchang
 
 			return val;
 		}
-        protected int Value(Body.Name bm)
+        protected int Value(BodyName bm)
 		{
 			return Value (horoscope.GetPosition(bm).ToDivisionPosition(divisionType).ZodiacHouse.Value);
 		}
@@ -36,7 +36,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			int a = this.Value(m);
 			int b = this.Value(n);

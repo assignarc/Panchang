@@ -14,20 +14,20 @@ namespace org.transliteral.panchang
         {
 			ArrayList ala = FindGrahasInHouse (za);
 			ArrayList alb = FindGrahasInHouse (zb);
-			Body.Name ak = FindAtmaKaraka();
-			foreach (Body.Name ba in ala) 
+			BodyName ak = FindAtmaKaraka();
+			foreach (BodyName ba in ala) 
 			{
 				if (ba == ak) return true;
 			}
-			foreach (Body.Name bb in alb)
+			foreach (BodyName bb in alb)
 			{
 				if (bb == ak) return false;
 			}
 			throw new EqualStrength();
 		}
-        public bool Stronger(Body.Name m, Body.Name n)
+        public bool Stronger(BodyName m, BodyName n)
 		{
-			Body.Name ak = FindAtmaKaraka();
+			BodyName ak = FindAtmaKaraka();
 			if (m == ak) return true;
 			if (n == ak) return false;
 			throw new EqualStrength();

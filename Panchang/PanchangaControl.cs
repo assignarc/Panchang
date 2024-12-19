@@ -385,7 +385,7 @@ namespace org.transliteral.panchang.app
             double[] geopos = new double[]
             { h.Info.lon.toDouble(), h.Info.lat.toDouble(), h.Info.alt };
 
-            globals = new PanchangaGlobalMoments();
+            globals = new GlobalMoments();
             locals = new ArrayList();
 
             for (int i = 0; i < opts.NumDays; i++)
@@ -449,7 +449,7 @@ namespace org.transliteral.panchang.app
 
 
         ArrayList locals = new ArrayList();
-        PanchangaGlobalMoments globals = new PanchangaGlobalMoments();
+        GlobalMoments globals = new GlobalMoments();
 
         private void ComputeEntry(double ut, double[] geopos)
         {
@@ -468,19 +468,19 @@ namespace org.transliteral.panchang.app
 
             ListViewItem li = null;
 
-            PanchangaLocalMoments local = new PanchangaLocalMoments();
+            LocalMoments local = new LocalMoments();
             local.Sunrise = hCurr.Sunrise;
             local.Sunset = sunset;
             local.SunriseUT = ut_sr;
             Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
-            local.WeekDay = (Basics.Weekday)Sweph.swe_day_of_week(ut);
+            local.WeekDay = (Weekday)Sweph.swe_day_of_week(ut);
 
 
 
             local.KalasUT = hCurr.GetKalaCuspsUt();
             if (opts.CalcSpecialKalas)
             {
-                Body.Name bStart = Basics.WeekdayRuler(hCurr.Weekday);
+                BodyName bStart = Basics.WeekdayRuler(hCurr.Weekday);
                 if (hCurr.Options.KalaType == EHoraType.Lmt)
                     bStart = Basics.WeekdayRuler(hCurr.WeekdayLMT);
 
@@ -493,7 +493,7 @@ namespace org.transliteral.panchang.app
             {
                 li = new ListViewItem();
                 Sweph.ObtainLock(h);
-                BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(Body.Name.Lagna), Body.Name.Lagna, BodyType.Name.Lagna, h);
+                BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(BodyName.Lagna), BodyName.Lagna, BodyType.Name.Lagna, h);
                 DivisionPosition dp_lagna_sr = bp_lagna_sr.ToDivisionPosition(new Division(DivisionType.Rasi));
                 local.LagnaZodiacHouse = dp_lagna_sr.ZodiacHouse.Value;
 
@@ -501,10 +501,10 @@ namespace org.transliteral.panchang.app
                 double ut_transit = ut_sr;
                 for (int i = 1; i <= 12; i++)
                 {
-                    Retrogression r = new Retrogression(h, Body.Name.Lagna);
+                    Retrogression r = new Retrogression(h, BodyName.Lagna);
                     ut_transit = r.GetLagnaTransitForward(ut_transit, bp_lagna_base.Add(i * 30.0));
 
-                    PanchangaMomentInfo pmi = new PanchangaMomentInfo(
+                    MomentInfo pmi = new MomentInfo(
                         ut_transit, (int)bp_lagna_sr.Longitude.ToZodiacHouse().Add(i + 1).Value);
                     local.LagnasUT.Add(pmi);
                 }
@@ -531,7 +531,7 @@ namespace org.transliteral.panchang.app
                     double ut_found = t.LinearSearchBinary(ut_sr, ut_sr + 1.0, new Longitude(dLonToFind),
                         new ReturnLon(t.LongitudeOfTithiDir));
 
-                    globals.TithisUT.Add(new PanchangaMomentInfo(ut_found, (int)tithi_curr.Value));
+                    globals.TithisUT.Add(new MomentInfo(ut_found, (int)tithi_curr.Value));
                     local.TithiIndexEnd++;
                 }
                 Sweph.ReleaseLock(h);
@@ -557,7 +557,7 @@ namespace org.transliteral.panchang.app
                     double ut_found = t.LinearSearchBinary(ut_sr, ut_sr + 1.0, new Longitude(dLonToFind),
                         new ReturnLon(t.LongitudeOfTithiDir));
 
-                    globals.KaranasUT.Add(new PanchangaMomentInfo(ut_found, (int)karana_curr.value));
+                    globals.KaranasUT.Add(new MomentInfo(ut_found, (int)karana_curr.value));
                     local.KaranaIndexEnd++;
                 }
                 Sweph.ReleaseLock(h);
@@ -582,7 +582,7 @@ namespace org.transliteral.panchang.app
                     double ut_found = t.LinearSearchBinary(ut_sr, ut_sr + 1.0, new Longitude(dLonToFind),
                         new ReturnLon(t.LongitudeOfSunMoonYogaDir));
 
-                    globals.SunMoonYogasUT.Add(new PanchangaMomentInfo(ut_found, (int)sm_curr.Value));
+                    globals.SunMoonYogasUT.Add(new MomentInfo(ut_found, (int)sm_curr.Value));
                     local.SunMoonYogaIndexEnd++;
                 }
 
@@ -593,7 +593,7 @@ namespace org.transliteral.panchang.app
             if (opts.CalcNakCusps)
             {
                 bool bDiscard = true;
-                Transit t = new Transit(h, Body.Name.Moon);
+                Transit t = new Transit(h, BodyName.Moon);
                 Sweph.ObtainLock(h);
                 Nakshatra nak_start = t.GenericLongitude(ut_sr, ref bDiscard).ToNakshatra();
                 Nakshatra nak_end = t.GenericLongitude(ut_sr + 1.0, ref bDiscard).ToNakshatra();
@@ -611,7 +611,7 @@ namespace org.transliteral.panchang.app
                     double ut_found = t.LinearSearchBinary(ut_sr, ut_sr + 1.0, new Longitude(dLonToFind),
                         new ReturnLon(t.GenericLongitude));
 
-                    globals.NakshatrasUT.Add(new PanchangaMomentInfo(ut_found, (int)nak_curr.Value));
+                    globals.NakshatrasUT.Add(new MomentInfo(ut_found, (int)nak_curr.Value));
                     Console.WriteLine("Found nakshatra {0}", nak_curr.Value);
                     local.NakshatraIndexEnd++;
                 }
@@ -634,7 +634,7 @@ namespace org.transliteral.panchang.app
             DisplayEntry(local);
         }
 
-        private void DisplayEntry(PanchangaLocalMoments local)
+        private void DisplayEntry(LocalMoments local)
         {
             string s;
             int day = 0, month = 0, year = 0;
@@ -682,7 +682,7 @@ namespace org.transliteral.panchang.app
                 if (local.TithiIndexStart == local.TithiIndexEnd &&
                     local.TithiIndexStart >= 0)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[local.TithiIndexStart];
+                    MomentInfo pmi = (MomentInfo)globals.TithisUT[local.TithiIndexStart];
                     Tithi t = new Tithi((TithiName)pmi.Info);
                     mList.Items.Add(string.Format("{0} - full.", t.Value));
                 }
@@ -692,7 +692,7 @@ namespace org.transliteral.panchang.app
                     {
                         if (i < 0)
                             continue;
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[i];
+                        MomentInfo pmi = (MomentInfo)globals.TithisUT[i];
                         Tithi t = new Tithi((TithiName)pmi.Info).AddReverse(2);
                         s_tithi += string.Format("{0} until {1}",
                             t.Value,
@@ -719,7 +719,7 @@ namespace org.transliteral.panchang.app
                 if (local.KaranaIndexStart == local.KaranaIndexEnd &&
                     local.KaranaIndexStart >= 0)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[local.KaranaIndexStart];
+                    MomentInfo pmi = (MomentInfo)globals.KaranasUT[local.KaranaIndexStart];
                     Karana k = new Karana((KaranaName)pmi.Info);
                     mList.Items.Add(string.Format("{0} karana - full.", k.value));
                 }
@@ -729,7 +729,7 @@ namespace org.transliteral.panchang.app
                     {
                         if (i < 0)
                             continue;
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[i];
+                        MomentInfo pmi = (MomentInfo)globals.KaranasUT[i];
                         Karana k = new Karana((KaranaName)pmi.Info).addReverse(2);
                         s_karana += string.Format("{0} karana until {1}",
                             k.value,
@@ -757,7 +757,7 @@ namespace org.transliteral.panchang.app
                 if (local.SunMoonYogaIndexStart == local.SunMoonYogaIndexEnd &&
                     local.SunMoonYogaIndexStart >= 0)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart];
+                    MomentInfo pmi = (MomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart];
                     SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info);
                     mList.Items.Add(string.Format("{0} yoga - full.", sm.Value));
                 }
@@ -767,7 +767,7 @@ namespace org.transliteral.panchang.app
                     {
                         if (i < 0)
                             continue;
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[i];
+                        MomentInfo pmi = (MomentInfo)globals.SunMoonYogasUT[i];
                         SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info).AddReverse(2);
                         s_smyoga += string.Format("{0} yoga until {1}",
                             sm.Value,
@@ -795,7 +795,7 @@ namespace org.transliteral.panchang.app
                 if (local.KaranaIndexStart == local.KaranaIndexEnd &&
                     local.NakshatraIndexStart >= 0)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart];
+                    MomentInfo pmi = (MomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart];
                     Nakshatra n = new Nakshatra((NakshatraName)pmi.Info);
                     mList.Items.Add(string.Format("{0} - full.", n.Value));
                 }
@@ -805,7 +805,7 @@ namespace org.transliteral.panchang.app
                     {
                         if (i < 0)
                             continue;
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[i];
+                        MomentInfo pmi = (MomentInfo)globals.NakshatrasUT[i];
                         Nakshatra n = new Nakshatra((NakshatraName)pmi.Info).AddReverse(2);
                         s_nak += string.Format("{0} until {1}",
                             n.Value,
@@ -829,7 +829,7 @@ namespace org.transliteral.panchang.app
                 ZodiacHouse zBase = new ZodiacHouse(local.LagnaZodiacHouse);
                 for (int i = 0; i < 12; i++)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.LagnasUT[i];
+                    MomentInfo pmi = (MomentInfo)local.LagnasUT[i];
                     ZodiacHouse zCurr = new ZodiacHouse((ZodiacHouseName)pmi.Info);
                     zCurr = zCurr.Add(12);
                     sLagna = string.Format("{0}{1} Lagna until {2}. ", sLagna, zCurr.Value,
@@ -848,7 +848,7 @@ namespace org.transliteral.panchang.app
                 for (int i = 0; i < 24; i++)
                 {
                     int ib = (int)Basics.Normalize_exc_lower(0, 7, local.HoraBase + i);
-                    Body.Name bHora = h.HoraOrder[ib];
+                    BodyName bHora = h.HoraOrder[ib];
                     sHora = string.Format("{0}{1} hora until {2}. ", sHora, bHora,
                         utTimeToString(local.HorasUT[i + 1], local.SunriseUT, local.Sunrise));
                     if (opts.OneEntryPerLine || i % 4 == 3)
@@ -865,7 +865,7 @@ namespace org.transliteral.panchang.app
                 for (int i = 0; i < 16; i++)
                 {
                     int ib = (int)Basics.Normalize_exc_lower(0, 8, local.KalaBase + i);
-                    Body.Name bKala = h.KalaOrder[ib];
+                    BodyName bKala = h.KalaOrder[ib];
                     sKala = string.Format("{0}{1} kala until {2}. ", sKala, bKala,
                         utTimeToString(local.KalasUT[i + 1], local.SunriseUT, local.Sunrise));
                     if (opts.OneEntryPerLine || i % 4 == 3)

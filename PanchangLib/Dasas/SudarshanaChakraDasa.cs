@@ -32,7 +32,7 @@ namespace org.transliteral.panchang
 		{
 			ArrayList al = new ArrayList(12);
 			double start = cycle * ParamAyus();
-			ZodiacHouse lzh = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
+			ZodiacHouse lzh = h.GetPosition(BodyName.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
 			for (int i=1; i<=12; i++)
 			{
 				ZodiacHouse czh = lzh.Add(i);

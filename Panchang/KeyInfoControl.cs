@@ -203,19 +203,19 @@ namespace org.transliteral.panchang.app
 
             }
             {
-                Longitude ltithi = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+                Longitude ltithi = h.GetPosition(BodyName.Moon).Longitude.Subtract(h.GetPosition(BodyName.Sun).Longitude);
                 double offset = 360.0 / 30.0 - ltithi.ToTithiOffset();
                 Tithi ti = ltithi.ToTithi();
-                Body.Name tiLord = ti.GetLord();
+                BodyName tiLord = ti.GetLord();
                 li = new ListViewItem("Tithi");
                 string fmt = string.Format("{0} ({1}) {2:N}% left", ti.ToString(), tiLord, offset / 12.0 * 100);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
             }
             {
-                Longitude lmoon = h.GetPosition(Body.Name.Moon).Longitude;
+                Longitude lmoon = h.GetPosition(BodyName.Moon).Longitude;
                 Nakshatra nmoon = lmoon.ToNakshatra();
-                Body.Name nmoonLord = VimsottariDasa.LordOfNakshatraS(nmoon);
+                BodyName nmoonLord = VimsottariDasa.LordOfNakshatraS(nmoon);
                 double offset = 360.0 / 27.0 - lmoon.ToNakshatraOffset();
                 int pada = lmoon.ToNakshatraPada();
                 string fmt = string.Format("{0} {1} ({2}) {3:N}% left",
@@ -226,34 +226,34 @@ namespace org.transliteral.panchang.app
             }
             {
                 li = new ListViewItem("Karana");
-                Longitude lkarana = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+                Longitude lkarana = h.GetPosition(BodyName.Moon).Longitude.Subtract(h.GetPosition(BodyName.Sun).Longitude);
                 double koffset = 360.0 / 60.0 - lkarana.ToKaranaOffset();
                 Karana k = lkarana.ToKarana();
-                Body.Name kLord = k.GetLord();
+                BodyName kLord = k.GetLord();
                 string fmt = string.Format("{0} ({1}) {2:N}% left", k.value, kLord, koffset / 6.0 * 100);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
             }
             {
                 li = new ListViewItem("Yoga");
-                Longitude smLon = h.GetPosition(Body.Name.Sun).Longitude.Add(h.GetPosition(Body.Name.Moon).Longitude);
+                Longitude smLon = h.GetPosition(BodyName.Sun).Longitude.Add(h.GetPosition(BodyName.Moon).Longitude);
                 double offset = 360.0 / 27.0 - smLon.ToSunMoonYogaOffset();
                 SunMoonYoga smYoga = smLon.ToSunMoonYoga();
-                Body.Name smLord = smYoga.GetLord();
+                BodyName smLord = smYoga.GetLord();
                 string fmt = string.Format("{0} ({1}) {2:N}% left", smYoga, smLord, offset / (360.0 / 27.0) * 100);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
             }
             {
                 li = new ListViewItem("Hora");
-                Body.Name b = h.CalculateHora();
+                BodyName b = h.CalculateHora();
                 string fmt = string.Format("{0}", b);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
             }
             {
                 li = new ListViewItem("Kala");
-                Body.Name b = h.CalculateKala();
+                BodyName b = h.CalculateKala();
                 string fmt = string.Format("{0}", b);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
@@ -279,7 +279,7 @@ namespace org.transliteral.panchang.app
                 int vgOff = (int)Math.Ceiling(h.HoursAfterSunRiseSet() * 150.0);
                 vgOff = vgOff % 9;
                 if (vgOff == 0) vgOff = 9;
-                Body.Name b = (Body.Name)((int)Body.Name.Sun + vgOff - 1);
+                BodyName b = (BodyName)((int)BodyName.Sun + vgOff - 1);
                 li = new ListViewItem("Vighatika Graha");
                 string fmt = string.Format("{0}", b);
                 li.SubItems.Add(fmt);

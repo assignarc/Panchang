@@ -15,34 +15,34 @@ namespace org.transliteral.panchang
 		{
 			horoscope = _horoscope;
 		}
-		private void VerifyGraha (Body.Name bodyName)
+		private void VerifyGraha (BodyName BodyName)
 		{
-			int _b = (int)bodyName;
-			Debug.Assert(_b >= (int)Body.Name.Sun && _b <= (int)Body.Name.Saturn);
+			int _b = (int)BodyName;
+			Debug.Assert(_b >= (int)BodyName.Sun && _b <= (int)BodyName.Saturn);
 		}
-		public double UcchaBala (Body.Name bodyName)
+		public double UcchaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			Longitude debLon = Body.DebilitationDegree (bodyName);
-			Longitude posLon = horoscope.GetPosition(bodyName).Longitude;
+			this.VerifyGraha(BodyName);
+			Longitude debLon = Body.DebilitationDegree (BodyName);
+			Longitude posLon = horoscope.GetPosition(BodyName).Longitude;
 			double diff = posLon.Subtract(debLon).Value;
 			if (diff > 180) diff = 360 - diff;
 			return ((diff / 180.0) * 60.0);
 		}
-		public bool GetsOjaBala (Body.Name bodyName)
+		public bool GetsOjaBala (BodyName BodyName)
 		{
-			switch (bodyName)
+			switch (BodyName)
 			{
-				case Body.Name.Moon:
-				case Body.Name.Venus:
+				case BodyName.Moon:
+				case BodyName.Venus:
 					return false;
 				default:
 					return true;
 			}
 		}
-		public double OjaYugmaHelper (Body.Name bodyName, ZodiacHouse zodiacHouse)
+		public double OjaYugmaHelper (BodyName BodyName, ZodiacHouse zodiacHouse)
 		{
-			if (this.GetsOjaBala(bodyName))
+			if (this.GetsOjaBala(BodyName))
 			{
 				if (zodiacHouse.IsOdd())	return 15.0;
 				else return 0.0;
@@ -53,22 +53,22 @@ namespace org.transliteral.panchang
 				else return 15.0;
 			}
 		}
-		public double OjaYugmaRasyAmsaBala (Body.Name bodyName)
+		public double OjaYugmaRasyAmsaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			BodyPosition bp = horoscope.GetPosition(bodyName);
+			this.VerifyGraha(BodyName);
+			BodyPosition bp = horoscope.GetPosition(BodyName);
 			ZodiacHouse zh_rasi = bp.ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
 			ZodiacHouse zh_amsa = bp.ToDivisionPosition(new Division(DivisionType.Navamsa)).ZodiacHouse;
 			double s = 0;
-			s += this.OjaYugmaHelper(bodyName, zh_rasi);
-			s += this.OjaYugmaHelper(bodyName, zh_amsa);
+			s += this.OjaYugmaHelper(BodyName, zh_rasi);
+			s += this.OjaYugmaHelper(BodyName, zh_amsa);
 			return s;
 		}
-		public double KendraBala (Body.Name bodyName)
+		public double KendraBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			ZodiacHouse zh_b = horoscope.GetPosition(bodyName).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
-			ZodiacHouse zh_l = horoscope.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
+			this.VerifyGraha(BodyName);
+			ZodiacHouse zh_b = horoscope.GetPosition(BodyName).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
+			ZodiacHouse zh_l = horoscope.GetPosition(BodyName.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
 			int diff = zh_l.NumHousesBetween(zh_b);
 			switch (diff % 3)
 			{
@@ -78,44 +78,44 @@ namespace org.transliteral.panchang
 						return 15.0;
 			}
 		}
-		public double DrekkanaBala (Body.Name bodyName)
+		public double DrekkanaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			int part = horoscope.GetPosition(bodyName).PartOfZodiacHouse(3);
+			this.VerifyGraha(BodyName);
+			int part = horoscope.GetPosition(BodyName).PartOfZodiacHouse(3);
 			if (part == 1 &&
-				(bodyName == Body.Name.Sun || bodyName == Body.Name.Jupiter || bodyName == Body.Name.Mars))
+				(BodyName == BodyName.Sun || BodyName == BodyName.Jupiter || BodyName == BodyName.Mars))
 				return 15.0;
 
 			if (part == 2 && 
-				(bodyName == Body.Name.Saturn || bodyName == Body.Name.Mercury))
+				(BodyName == BodyName.Saturn || BodyName == BodyName.Mercury))
 				return 15.0;
 
 			if (part == 3 &&
-				(bodyName == Body.Name.Moon || bodyName == Body.Name.Venus))
+				(BodyName == BodyName.Moon || BodyName == BodyName.Venus))
 				return 15.0;
 
 			return 0;
 		}
-		public double DigBala (Body.Name bodyName)
+		public double DigBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
+			this.VerifyGraha(BodyName);
 			int[] powerlessHouse = new int[] { 4, 10, 4, 7, 7, 10, 1 };
-			Longitude lagLon = horoscope.GetPosition(Body.Name.Lagna).Longitude;
+			Longitude lagLon = horoscope.GetPosition(BodyName.Lagna).Longitude;
 			Longitude debLon = new Longitude(lagLon.ToZodiacHouseBase());
-			debLon = debLon.Add(powerlessHouse[(int)bodyName]*30.0+15.0);
-			Longitude posLon = horoscope.GetPosition(bodyName).Longitude;
+			debLon = debLon.Add(powerlessHouse[(int)BodyName]*30.0+15.0);
+			Longitude posLon = horoscope.GetPosition(BodyName).Longitude;
 
-			Logger.Debug(String.Format("digBala {0} {1} {2}", bodyName, posLon.Value, debLon.Value));
+			Logger.Debug(String.Format("digBala {0} {1} {2}", BodyName, posLon.Value, debLon.Value));
 
 			double diff = posLon.Subtract(debLon).Value;
 			if (diff > 180) diff = 360 - diff;
 			return ((diff / 180.0) * 60.0);
 		}
-		public double NathonnathaBala (Body.Name bodyName)
+		public double NathonnathaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
+			this.VerifyGraha(BodyName);
 
-			if (bodyName == Body.Name.Mercury) return 60;
+			if (BodyName == BodyName.Mercury) return 60;
 
 			double lmt_midnight = horoscope.lmt_offset * 24.0;
 			double lmt_noon = 12.0 + horoscope.lmt_offset * 24.0;
@@ -128,43 +128,43 @@ namespace org.transliteral.panchang
 			while (diff < 0) diff += 12.0;
 			diff = diff / 12.0 * 60.0;
 
-			if (bodyName == Body.Name.Moon || bodyName == Body.Name.Mars ||
-				bodyName == Body.Name.Saturn)
+			if (BodyName == BodyName.Moon || BodyName == BodyName.Mars ||
+				BodyName == BodyName.Saturn)
 				diff = 60-diff;
 
 			return diff;
 		}
-		public double PakshaBala (Body.Name bodyName)
+		public double PakshaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
+			this.VerifyGraha(BodyName);
 
-			Longitude mlon = horoscope.GetPosition(Body.Name.Moon).Longitude;
-			Longitude slon = horoscope.GetPosition(Body.Name.Sun).Longitude;
+			Longitude mlon = horoscope.GetPosition(BodyName.Moon).Longitude;
+			Longitude slon = horoscope.GetPosition(BodyName.Sun).Longitude;
 
 			double diff = mlon.Subtract(slon).Value;
 			if (diff > 180) diff = 360.0 - diff;
 			double shubha = diff / 3.0;
 			double paapa = 60.0 - shubha;
 
-			switch (bodyName)
+			switch (BodyName)
 			{
-				case Body.Name.Sun:
-				case Body.Name.Mars:
-				case Body.Name.Saturn:
+				case BodyName.Sun:
+				case BodyName.Mars:
+				case BodyName.Saturn:
 					return paapa;
-				case Body.Name.Moon:
+				case BodyName.Moon:
 					return shubha *2.0;
 				default:
-				case Body.Name.Mercury:
-				case Body.Name.Jupiter:
-				case Body.Name.Venus:
+				case BodyName.Mercury:
+				case BodyName.Jupiter:
+				case BodyName.Venus:
 					return shubha;
 			}
 		}
-		public double TribhaagaBala (Body.Name bodyName)
+		public double TribhaagaBala (BodyName BodyName)
 		{
-			Body.Name ret = Body.Name.Jupiter;
-			this.VerifyGraha(bodyName);
+			BodyName ret = BodyName.Jupiter;
+			this.VerifyGraha(BodyName);
 			if (horoscope.IsDayBirth())
 			{
 				double length = (horoscope.Sunset - horoscope.Sunrise)/3;
@@ -172,9 +172,9 @@ namespace org.transliteral.panchang
 				int part = (int)(Math.Floor(offset/length));
 				switch (part)
 				{
-					case 0: ret = Body.Name.Mercury; break;
-					case 1: ret = Body.Name.Sun; break;
-					case 2: ret = Body.Name.Saturn; break;
+					case 0: ret = BodyName.Mercury; break;
+					case 1: ret = BodyName.Sun; break;
+					case 2: ret = BodyName.Saturn; break;
 				}
 			}
 			else
@@ -185,31 +185,31 @@ namespace org.transliteral.panchang
 				int part = (int)(Math.Floor(offset/length));
 				switch (part)
 				{
-					case 0: ret = Body.Name.Moon; break;
-					case 1: ret = Body.Name.Venus; break;
-					case 2: ret = Body.Name.Mars; break;
+					case 0: ret = BodyName.Moon; break;
+					case 1: ret = BodyName.Venus; break;
+					case 2: ret = BodyName.Mars; break;
 				}
 			}
-			if (bodyName == Body.Name.Jupiter || bodyName == ret)
+			if (BodyName == BodyName.Jupiter || BodyName == ret)
 				return 60;
 			return 0;
 		}
-		public double naisargikaBala (Body.Name bodyName)
+		public double naisargikaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			switch (bodyName)
+			this.VerifyGraha(BodyName);
+			switch (BodyName)
 			{
-				case Body.Name.Sun: return 60;
-				case Body.Name.Moon: return 51.43;
-				case Body.Name.Mars: return 17.14;
-				case Body.Name.Mercury: return 25.70;
-				case Body.Name.Jupiter: return 34.28;
-				case Body.Name.Venus: return 42.85;
-				case Body.Name.Saturn: return 8.57;
+				case BodyName.Sun: return 60;
+				case BodyName.Moon: return 51.43;
+				case BodyName.Mars: return 17.14;
+				case BodyName.Mercury: return 25.70;
+				case BodyName.Jupiter: return 34.28;
+				case BodyName.Venus: return 42.85;
+				case BodyName.Saturn: return 8.57;
 			}
 			return 0;
 		}
-		public void kalaHelper (ref Body.Name yearLord, ref Body.Name monthLord)
+		public void kalaHelper (ref BodyName yearLord, ref BodyName monthLord)
 		{
 			double ut_arghana = Sweph.swe_julday(1827, 5, 2, - horoscope.Info.tz.toDouble() + 12.0/24.0);
 			double ut_noon = horoscope.baseUT - horoscope.Info.tob.Time/24.0 + 12.0/24.0;
@@ -232,35 +232,35 @@ namespace org.transliteral.panchang
 			double diff_month = diff;
 			while (diff > 7) diff -= 7.0;
 
-			yearLord = Basics.WeekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_year));
-			monthLord = Basics.WeekdayRuler((Basics.Weekday)Sweph.swe_day_of_week(ut_noon - diff_month));
+			yearLord = Basics.WeekdayRuler((Weekday)Sweph.swe_day_of_week(ut_noon - diff_year));
+			monthLord = Basics.WeekdayRuler((Weekday)Sweph.swe_day_of_week(ut_noon - diff_month));
 		}
-		public double abdaBala (Body.Name bodyName)
+		public double abdaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			Body.Name yearLord=Body.Name.Sun, monthLord=Body.Name.Sun;
+			this.VerifyGraha(BodyName);
+			BodyName yearLord=BodyName.Sun, monthLord=BodyName.Sun;
 			this.kalaHelper(ref yearLord, ref monthLord);
-			if (yearLord == bodyName) return 15.0;
+			if (yearLord == BodyName) return 15.0;
 			return 0.0;
 		}
-		public double masaBala (Body.Name bodyName)
+		public double masaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			Body.Name yearLord=Body.Name.Sun, monthLord=Body.Name.Sun;
+			this.VerifyGraha(BodyName);
+			BodyName yearLord=BodyName.Sun, monthLord=BodyName.Sun;
 			this.kalaHelper(ref yearLord, ref monthLord);
-			if (monthLord == bodyName) return 30.0;
+			if (monthLord == BodyName) return 30.0;
 			return 0.0;
 		}
-		public double varaBala (Body.Name bodyName)
+		public double varaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			if (Basics.WeekdayRuler(horoscope.Weekday) == bodyName) return 45.0;
+			this.VerifyGraha(BodyName);
+			if (Basics.WeekdayRuler(horoscope.Weekday) == BodyName) return 45.0;
 			return 0.0;
 		}
-		public double horaBala (Body.Name bodyName)
+		public double horaBala (BodyName BodyName)
 		{
-			this.VerifyGraha(bodyName);
-			if (horoscope.CalculateHora() == bodyName) return 60.0;
+			this.VerifyGraha(BodyName);
+			if (horoscope.CalculateHora() == BodyName) return 60.0;
 			return 0.0;
 		}
 	}

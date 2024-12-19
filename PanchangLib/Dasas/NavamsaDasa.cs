@@ -19,7 +19,7 @@ namespace org.transliteral.panchang
         public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList (12);
-			ZodiacHouse zh_seed = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
+			ZodiacHouse zh_seed = h.GetPosition(BodyName.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
 
 			if (! zh_seed.IsOdd())
 				zh_seed = zh_seed.AdarsaSign();
@@ -72,7 +72,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

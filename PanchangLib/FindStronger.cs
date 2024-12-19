@@ -26,7 +26,7 @@ namespace org.transliteral.panchang
             bUseSimpleLords = false;
         }
 
-        static private StrengthOptions GetStrengthOptions(Horoscope h)
+        private static StrengthOptions GetStrengthOptions(Horoscope h)
         {
             if (h.StrengthOptions == null)
                 return GlobalOptions.Instance.SOptions;
@@ -52,13 +52,13 @@ namespace org.transliteral.panchang
                 ERasiStrength.LordsLongitude,
                 ERasiStrength.LordInDifferentOddity
             };
-        static public ArrayList RulesJaiminiSecondRasi(Horoscope h) => new ArrayList
+        public static ArrayList RulesJaiminiSecondRasi(Horoscope h) => new ArrayList
             {
                 ERasiStrength.AspectsRasi
             };
 
         public static ArrayList RulesNaisargikaDasaGraha(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).NaisargikaDasaGraha);
-        static public ArrayList RulesVimsottariGraha(Horoscope h) => new ArrayList
+        public static ArrayList RulesVimsottariGraha(Horoscope h) => new ArrayList
             {
                 EGrahaStrength.KendraConjunction,
                 EGrahaStrength.First
@@ -103,13 +103,13 @@ namespace org.transliteral.panchang
         }
 
 
-        public Body.Name[] GetOrderedGrahas() => GetOrderedGrahas(new Body.Name[]
+        public BodyName[] GetOrderedGrahas() => GetOrderedGrahas(new BodyName[]
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-                Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn,
-                Body.Name.Rahu, Body.Name.Ketu
+                BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+                BodyName.Jupiter, BodyName.Venus, BodyName.Saturn,
+                BodyName.Rahu, BodyName.Ketu
             });
-        public Body.Name[] GetOrderedGrahas(Body.Name[] grahas)
+        public BodyName[] GetOrderedGrahas(BodyName[] grahas)
         {
             if (grahas.Length <= 1)
                 return grahas;
@@ -162,12 +162,12 @@ namespace org.transliteral.panchang
             int winner = 0;
             return StrongerRasi(za, zb, bSimpleLord, ref winner);
         }
-        public Body.Name StrongerGraha(Body.Name m, Body.Name n, bool bSimpleLord)
+        public BodyName StrongerGraha(BodyName m, BodyName n, bool bSimpleLord)
         {
             int winner = 0;
             return StrongerGraha(m, n, bSimpleLord, ref winner);
         }
-        public Body.Name StrongerGraha(Body.Name m, Body.Name n, bool bSimpleLord, ref int winner)
+        public BodyName StrongerGraha(BodyName m, BodyName n, bool bSimpleLord, ref int winner)
         {
             if (CompareGraha(m, n, bSimpleLord, ref winner)) return m;
             return n;
@@ -177,7 +177,7 @@ namespace org.transliteral.panchang
             if (CompareRasi(za, zb, bSimpleLord)) return zb;
             return za;
         }
-        public Body.Name WeakerGraha(Body.Name m, Body.Name n, bool bSimpleLord)
+        public BodyName WeakerGraha(BodyName m, BodyName n, bool bSimpleLord)
         {
             if (CompareGraha(m, n, bSimpleLord)) return n;
             return m;
@@ -354,12 +354,12 @@ namespace org.transliteral.panchang
             return true;
 
         }
-        public bool CompareGraha(Body.Name m, Body.Name n, bool bSimpleLord)
+        public bool CompareGraha(BodyName m, BodyName n, bool bSimpleLord)
         {
             int winner = 0;
             return CompareGraha(m, n, bSimpleLord, ref winner);
         }
-        public bool CompareGraha(Body.Name m, Body.Name n, bool bSimpleLord, ref int winner)
+        public bool CompareGraha(BodyName m, BodyName n, bool bSimpleLord, ref int winner)
         {
             bool bRet = false;
             bool bFound = true;

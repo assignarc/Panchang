@@ -4,7 +4,7 @@ namespace org.transliteral.panchang
 {
     public class GhatakaLagnaOpp
 	{
-        static public bool CheckLagna(ZodiacHouse janma, ZodiacHouse same)
+        public static bool CheckLagna(ZodiacHouse janma, ZodiacHouse same)
 		{
 			ZodiacHouseName ja = janma.Value;
 			ZodiacHouseName gh = ZodiacHouseName.Ari;

@@ -14,7 +14,7 @@ namespace org.transliteral.panchang
 			int ret = 0;
 			ZodiacHouse zh = new ZodiacHouse(zx);
 
-			Body.Name bl = this.GetStrengthLord(zx);
+			BodyName bl = this.GetStrengthLord(zx);
 			ZodiacHouse zl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType).ZodiacHouse;
 
 			if (zj.RasiDristi(zh) || zj.Value == zh.Value) ret++;
@@ -24,8 +24,8 @@ namespace org.transliteral.panchang
 		}
 		public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			ZodiacHouse zj = horoscope.GetPosition(Body.Name.Jupiter).ToDivisionPosition(divisionType).ZodiacHouse;
-			ZodiacHouse zm = horoscope.GetPosition(Body.Name.Mercury).ToDivisionPosition(divisionType).ZodiacHouse;
+			ZodiacHouse zj = horoscope.GetPosition(BodyName.Jupiter).ToDivisionPosition(divisionType).ZodiacHouse;
+			ZodiacHouse zm = horoscope.GetPosition(BodyName.Mercury).ToDivisionPosition(divisionType).ZodiacHouse;
 
 			int a = this.Value(zj, zm, za);
 			int b = this.Value(zj, zm, zb);
@@ -33,7 +33,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger(Body.Name m, Body.Name n)
+		public bool Stronger(BodyName m, BodyName n)
 		{
 			ZodiacHouseName zm = horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 			ZodiacHouseName zn = horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value;

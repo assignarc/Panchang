@@ -904,13 +904,13 @@ namespace org.transliteral.panchang.app
         private void mVimsottari_Click(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaVimsottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
 
         private void mAshtottari_Click(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaAshtottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaAshtottari);
         }
 
 
@@ -974,7 +974,7 @@ namespace org.transliteral.panchang.app
             //this.dasaItemList.Items[0].Selected = true;
         }
 
-        static private ToolTip tooltip_event = new ToolTip();
+        private static ToolTip tooltip_event = new ToolTip();
         private void dasaItemList_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if (this.dasaItemList.SelectedItems.Count <= 0)
@@ -1165,9 +1165,9 @@ namespace org.transliteral.panchang.app
             double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
             double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
             BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
-                ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, h);
+                ut_start, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
             BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
-                ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, h);
+                ut_end, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
             Longitude lDiff = sp_end.Longitude.Subtract(sp_start.Longitude);
             double diff = lDiff.Value;
             if (diff < 120.0) diff += 360.0;
@@ -1525,7 +1525,7 @@ namespace org.transliteral.panchang.app
         {
             entry = _entry;
         }
-        public DasaItem(Body.Name _graha, double _startUT, double _dasaLength, int _level, string _shortDesc)
+        public DasaItem(BodyName _graha, double _startUT, double _dasaLength, int _level, string _shortDesc)
         {
             Construct(new DasaEntry(_graha, _startUT, _dasaLength, _level, _shortDesc));
         }

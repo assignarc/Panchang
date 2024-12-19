@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 			: base (h, dtype, true) {}
 
         public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb) => true;
-        public bool Stronger(Body.Name m, Body.Name n) => true;
+        public bool Stronger(BodyName m, BodyName n) => true;
     }
 
 

@@ -31,7 +31,7 @@ namespace org.transliteral.panchang
 			for (int i=0; i<60; i++)
 			{
 				double start = cycle_start + (double)i;
-				DasaEntry di = new DasaEntry(Body.Name.Other, start, 1.0, 1, "Tajaka Year");
+				DasaEntry di = new DasaEntry(BodyName.Other, start, 1.0, 1, "Tajaka Year");
 				al.Add (di);
 			}
 			return al;
@@ -52,7 +52,7 @@ namespace org.transliteral.panchang
 			length = pdi.dasaLength / 12.0;
 			for (int i=0; i<12; i++)
 			{
-				DasaEntry di = new DasaEntry (Body.Name.Other, start, length, level, desc[level-2]);
+				DasaEntry di = new DasaEntry (BodyName.Other, start, length, level, desc[level-2]);
 				al.Add (di);
 				start += length;
 			}

@@ -4,7 +4,7 @@ namespace org.transliteral.panchang
 {
     public class GhatakaTithi
 	{
-        static public bool CheckTithi(ZodiacHouse janmaRasi, Tithi t)
+        public static bool CheckTithi(ZodiacHouse janmaRasi, Tithi t)
 		{
 			ZodiacHouseName ja = janmaRasi.Value;
 			NandaType gh = NandaType.Nanda;

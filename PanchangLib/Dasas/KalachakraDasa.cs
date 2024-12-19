@@ -123,7 +123,7 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			Division dRasi = new Division(DivisionType.Rasi);
-			Longitude mLon = h.GetPosition(Body.Name.Moon).ExtrapolateLongitude(dRasi);
+			Longitude mLon = h.GetPosition(BodyName.Moon).ExtrapolateLongitude(dRasi);
 
 			int offset = 0;
 			ZodiacHouse[] zhOrder = null;

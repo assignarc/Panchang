@@ -4,9 +4,9 @@ using System;
 
 namespace org.transliteral.panchang
 {
-    abstract public class Dasa
+    public abstract class Dasa
 	{
-		static public int NarayanaDasaLength (ZodiacHouse zh, DivisionPosition dp) 
+		public static int NarayanaDasaLength (ZodiacHouse zh, DivisionPosition dp) 
 		{
 			int length=0;
 
@@ -51,14 +51,14 @@ namespace org.transliteral.panchang
 				_YearLength = 360.0;
 				_Compression = 0.0;
 			}
-			[DisplayName("Year Type")]
+			[Visible("Year Type")]
 			public DateType YearType
 			{
 				get { return DateType; }
 				set { DateType = value; }
 			}
 
-			[DisplayName("Dasa Compression")]
+			[Visible("Dasa Compression")]
 			public double Compression
 			{
 				get { return _Compression; }
@@ -68,7 +68,7 @@ namespace org.transliteral.panchang
 						_Compression = value; 
 				}
 			}
-			[DisplayName("Year Length")]
+			[Visible("Year Length")]
 			public double YearLength
 			{
 				get { return _YearLength; }
@@ -78,19 +78,19 @@ namespace org.transliteral.panchang
 						_YearLength = value; 
 				}
 			}
-			[DisplayName("Offset Dates by Days")]
+			[Visible("Offset Dates by Days")]
 			public double OffsetDays
 			{
 				get { return this._OffsetDays; }
 				set { this._OffsetDays = value; }
 			}
-			[DisplayName("Offset Dates by Hours")]
+			[Visible("Offset Dates by Hours")]
 			public double OffsetHours
 			{
 				get { return _OffsetHours; }
 				set { _OffsetHours = value; }
 			}			
-			[DisplayName("Offset Dates by Minutes")]
+			[Visible("Offset Dates by Minutes")]
 			public double OffsetMinutes
 			{
 				get { return _OffsetMins; }
@@ -107,7 +107,7 @@ namespace org.transliteral.panchang
 				o.OffsetMinutes = OffsetMinutes;
 				return o;
 			}
-			public void Copy (Dasa.Options o)
+			public void Copy (Options o)
 			{
 				this.YearLength = o.YearLength;
 				this.DateType = o.DateType;

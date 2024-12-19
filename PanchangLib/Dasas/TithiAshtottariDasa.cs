@@ -60,8 +60,8 @@ namespace org.transliteral.panchang
 			}
 		}
 
-        override public Object Options => this.options.Clone();
-        override public object SetOptions (Object a)
+        public override Object Options => this.options.Clone();
+        public override object SetOptions (Object a)
 		{
 			this.options = (UserOptions)this.options.SetOptions(a);
 			if (this.RecalculateEvent != null)
@@ -71,8 +71,8 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			
-			Longitude mpos = h.GetPosition(Body.Name.Moon).Longitude;
-			Longitude spos = h.GetPosition(Body.Name.Sun).Longitude;
+			Longitude mpos = h.GetPosition(BodyName.Moon).Longitude;
+			Longitude spos = h.GetPosition(BodyName.Sun).Longitude;
 
 			Longitude tithi = mpos.Subtract(spos);
 			if (options.UseTithiRemainder == false)
@@ -114,17 +114,17 @@ namespace org.transliteral.panchang
 			return ad.NextDasaLord(di);
 		}
 
-		public double LengthOfDasa(Body.Name plt)
+		public double LengthOfDasa(BodyName plt)
 		{
 			return ad.LengthOfDasa(plt);
 
 		}
-		public Body.Name LordOfNakshatra(Nakshatra n)
+		public BodyName LordOfNakshatra(Nakshatra n)
 		{
 			Debug.Assert(false, "TithiAshtottari::lordOfNakshatra");
-			return Body.Name.Sun;
+			return BodyName.Sun;
 		}
-		public Body.Name LordOfTithi (Longitude l)
+		public BodyName LordOfTithi (Longitude l)
 		{
 			return l.ToTithi().GetLord();
 		}

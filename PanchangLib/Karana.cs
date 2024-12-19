@@ -27,26 +27,26 @@
         {
             return this.value.ToString();
         }
-        public Body.Name GetLord()
+        public BodyName GetLord()
         {
             switch (this.value)
             {
-                case KaranaName.Kimstughna: return Body.Name.Moon;
-                case KaranaName.Sakuna: return Body.Name.Mars;
-                case KaranaName.Chatushpada: return Body.Name.Sun;
-                case KaranaName.Naga: return Body.Name.Venus;
+                case KaranaName.Kimstughna: return BodyName.Moon;
+                case KaranaName.Sakuna: return BodyName.Mars;
+                case KaranaName.Chatushpada: return BodyName.Sun;
+                case KaranaName.Naga: return BodyName.Venus;
                 default:
                     {
                         int vn = Basics.Normalize_inc(1, 7, (int)this.value - 1);
                         switch (vn)
                         {
-                            case 1: return Body.Name.Sun;
-                            case 2: return Body.Name.Moon;
-                            case 3: return Body.Name.Mars;
-                            case 4: return Body.Name.Mercury;
-                            case 5: return Body.Name.Jupiter;
-                            case 6: return Body.Name.Venus;
-                            default: return Body.Name.Saturn;
+                            case 1: return BodyName.Sun;
+                            case 2: return BodyName.Moon;
+                            case 3: return BodyName.Mars;
+                            case 4: return BodyName.Mercury;
+                            case 5: return BodyName.Jupiter;
+                            case 6: return BodyName.Venus;
+                            default: return BodyName.Saturn;
                         }
                     }
             }

@@ -48,7 +48,7 @@ namespace org.transliteral.panchang
 		ZodiacHouse zodiacLagna = null;
 		Division divisionType = null;
 
-		static public void Test (Horoscope h, Division division)
+		public static void Test (Horoscope h, Division division)
 		{
 			FindYogas fy = new FindYogas(h, division);
 			//fy.evaluateYoga ("gr<sun> in hse <1st>");
@@ -82,7 +82,7 @@ namespace org.transliteral.panchang
 		{
 			horoscope = h;
 			divisionType = d;
-			zodiacLagna = horoscope.GetPosition(Body.Name.Lagna).ToDivisionPosition(divisionType).ZodiacHouse;
+			zodiacLagna = horoscope.GetPosition(BodyName.Lagna).ToDivisionPosition(divisionType).ZodiacHouse;
 		}
 
 
@@ -204,7 +204,7 @@ namespace org.transliteral.panchang
 			}
 			cats = this.TrimWhitespace(cats);
 
-			Body.Name b1, b2, b3;
+			BodyName b1, b2, b3;
 			ZodiacHouseName zh1, zh2;
 			int hse1, hse2;
 
@@ -274,9 +274,9 @@ namespace org.transliteral.panchang
 					b1 = this.StringToBody(simpleVals[4]);
 					b2 = this.StringToBody(simpleVals[6]);
 					zh1 = horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
-					for (int i = (int)Body.Name.Sun; i<= (int)Body.Name.Lagna; i++)
+					for (int i = (int)BodyName.Sun; i<= (int)BodyName.Lagna; i++)
 					{
-						Body.Name bExc = (Body.Name) i;
+						BodyName bExc = (BodyName) i;
 						if (bExc != b2 &&
 							horoscope.GetPosition(bExc).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
 							return true;
@@ -429,23 +429,23 @@ namespace org.transliteral.panchang
 		}
 
 
-		public Body.Name StringToBody (string s)
+		public BodyName StringToBody (string s)
 		{
 			switch (s)
 			{
-				case "su": case "sun": return Body.Name.Sun;
-				case "mo": case "moo": case "moon": return Body.Name.Moon;
-				case "ma": case "mar": case "mars": return Body.Name.Mars;
-				case "me": case "mer": case "mercury": return Body.Name.Mercury;
-				case "ju": case "jup": case "jupiter": return Body.Name.Jupiter;
-				case "ve": case "ven": case "venus": return Body.Name.Venus;
-				case "sa": case "sat": case "saturn": return Body.Name.Saturn;
-				case "ra": case "rah": case "rahu": return Body.Name.Rahu;
-				case "ke": case "ket": case "ketu": return Body.Name.Ketu;
-				case "la": case "lag": case "lagna": case "asc": return Body.Name.Lagna;
+				case "su": case "sun": return BodyName.Sun;
+				case "mo": case "moo": case "moon": return BodyName.Moon;
+				case "ma": case "mar": case "mars": return BodyName.Mars;
+				case "me": case "mer": case "mercury": return BodyName.Mercury;
+				case "ju": case "jup": case "jupiter": return BodyName.Jupiter;
+				case "ve": case "ven": case "venus": return BodyName.Venus;
+				case "sa": case "sat": case "saturn": return BodyName.Saturn;
+				case "ra": case "rah": case "rahu": return BodyName.Rahu;
+				case "ke": case "ket": case "ketu": return BodyName.Ketu;
+				case "la": case "lag": case "lagna": case "asc": return BodyName.Lagna;
 				default:
                     Logger.Info("Unknown body: " + s + this.GetRuleName());
-					return Body.Name.Other;
+					return BodyName.Other;
 			}
 		}
 		public Division StringToDivision (string s)
@@ -524,7 +524,7 @@ namespace org.transliteral.panchang
 		{
 			int tempVal = 0;
 			ZodiacHouseName zh;
-			Body.Name b;
+			BodyName b;
 			switch (category)
 			{
 				case "rasi:": case "house:": case "hse:":

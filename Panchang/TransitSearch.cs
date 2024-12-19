@@ -438,20 +438,20 @@ namespace org.transliteral.panchang.app
                 h.OnChanged();
             }
         }
-        private double DirectSpeed(Body.Name b)
+        private double DirectSpeed(BodyName b)
         {
             switch (b)
             {
-                case Body.Name.Sun: return 365.2425;
-                case Body.Name.Moon: return 28.0;
-                case Body.Name.Lagna: return 1.0;
+                case BodyName.Sun: return 365.2425;
+                case BodyName.Moon: return 28.0;
+                case BodyName.Lagna: return 1.0;
             }
             return 0.0;
         }
         private void DirectProgression()
         {
-            if (opts.SearchBody != Body.Name.Sun &&
-            opts.SearchBody != Body.Name.Moon) // &&
+            if (opts.SearchBody != BodyName.Sun &&
+            opts.SearchBody != BodyName.Moon) // &&
                                                //opts.SearchBody != Body.Name.Lagna)
                 return;
 
@@ -549,8 +549,8 @@ namespace org.transliteral.panchang.app
         }
         private void bProgression_Click(object sender, EventArgs e)
         {
-            if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
-                (int)opts.SearchBody > (int)Body.Name.Saturn)
+            if ((int)opts.SearchBody <= (int)BodyName.Moon ||
+                (int)opts.SearchBody > (int)BodyName.Saturn)
             {
                 DirectProgression();
                 return;
@@ -651,8 +651,8 @@ namespace org.transliteral.panchang.app
 
         private void bRetroCusp_Click(object sender, EventArgs e)
         {
-            if ((int)opts.SearchBody <= (int)Body.Name.Moon ||
-                (int)opts.SearchBody > (int)Body.Name.Saturn)
+            if ((int)opts.SearchBody <= (int)BodyName.Moon ||
+                (int)opts.SearchBody > (int)BodyName.Saturn)
                 return;
 
             bool becomesDirect = false;
@@ -886,7 +886,7 @@ namespace org.transliteral.panchang.app
 
         private void bSolarNewYear_Click(object sender, EventArgs e)
         {
-            opts.SearchBody = Body.Name.Sun;
+            opts.SearchBody = BodyName.Sun;
             opts.TransitPoint.Value = 0;
             updateOptions();
             bStartSearch_Click(sender, e);
@@ -926,9 +926,9 @@ namespace org.transliteral.panchang.app
         }
         private void bVargaChange_Click(object sender, EventArgs e)
         {
-            if (opts.SearchBody == Body.Name.Sun ||
-                opts.SearchBody == Body.Name.Moon ||
-                opts.SearchBody == Body.Name.Lagna)
+            if (opts.SearchBody == BodyName.Sun ||
+                opts.SearchBody == BodyName.Moon ||
+                opts.SearchBody == BodyName.Lagna)
             {
                 if (opts.Forward == true)
                     bTransitNextVarga_Click(sender, e);
@@ -1108,7 +1108,7 @@ namespace org.transliteral.panchang.app
     {
         private Moment mDateBase;
         private bool mForward;
-        private Body.Name mSearchGraha;
+        private BodyName mSearchGraha;
         private Longitude mTransitPoint;
         private Division mDivision;
         private bool mApplyNow;
@@ -1117,7 +1117,7 @@ namespace org.transliteral.panchang.app
         {
             DateTime dt = DateTime.Now;
             mDateBase = new Moment(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
-            mSearchGraha = Body.Name.Sun;
+            mSearchGraha = BodyName.Sun;
             mTransitPoint = new Longitude(0.0);
             mForward = true;
             Division = new Division(DivisionType.Rasi);
@@ -1133,7 +1133,7 @@ namespace org.transliteral.panchang.app
         }
 
         [Category("Transit Search")]
-        [PropertyOrder(1), @DisplayName("In Varga")]
+        [PropertyOrder(1), Visible("In Varga")]
         public DivisionType UIDivision
         {
             get { return mDivision.MultipleDivisions[0].Varga; }
@@ -1146,7 +1146,7 @@ namespace org.transliteral.panchang.app
         }
 
         [Category("Transit Search")]
-        [PropertyOrder(2), @DisplayName("Search")]
+        [PropertyOrder(2), Visible("Search")]
         public EForward UIForward
         {
             get
@@ -1169,28 +1169,28 @@ namespace org.transliteral.panchang.app
         }
 
         [Category("Transit Search")]
-        [PropertyOrder(3), @DisplayName("Date")]
+        [PropertyOrder(3), Visible("Date")]
         public Moment StartDate
         {
             get { return mDateBase; }
             set { mDateBase = value; }
         }
         [Category("Transit Search")]
-        [PropertyOrder(4), @DisplayName("When Body")]
-        public Body.Name SearchBody
+        [PropertyOrder(4), Visible("When Body")]
+        public BodyName SearchBody
         {
             get { return mSearchGraha; }
             set { mSearchGraha = value; }
         }
         [Category("Transit Search")]
-        [PropertyOrder(5), @DisplayName("Transits")]
+        [PropertyOrder(5), Visible("Transits")]
         public Longitude TransitPoint
         {
             get { return mTransitPoint; }
             set { mTransitPoint = value; }
         }
         [Category("Transit Search")]
-        [PropertyOrder(6), @DisplayName("Apply Locally")]
+        [PropertyOrder(6), Visible("Apply Locally")]
         public bool Apply
         {
             get { return mApplyNow; }

@@ -7,7 +7,7 @@ namespace org.transliteral.panchang
     [TypeConverter(typeof(DasaEntryConverter))]
 	public class DasaEntry
 	{
-		public Body.Name graha;
+		public BodyName graha;
 		public ZodiacHouseName zodiacHouse;
 		public double startUT;
 		public double dasaLength; // 1 year = 360 days = 360 degrees is used internally!!!!
@@ -21,7 +21,7 @@ namespace org.transliteral.panchang
 			level = _level;
 			shortDesc = _shortDesc;
 		}
-		public DasaEntry (Body.Name _graha, double _startUT, double _dasaLength, int _level, string _shortDesc)
+		public DasaEntry (BodyName _graha, double _startUT, double _dasaLength, int _level, string _shortDesc)
 		{
 			graha = _graha;
 			Construct (_startUT, _dasaLength, _level, _shortDesc);
@@ -36,7 +36,7 @@ namespace org.transliteral.panchang
 			startUT = dasaLength = 0.0;
 			level = 1;
 			shortDesc = "Jup";
-			graha = Body.Name.Jupiter;
+			graha = BodyName.Jupiter;
 			zodiacHouse = ZodiacHouseName.Ari;
 		}
 		public string DasaName 
@@ -59,7 +59,7 @@ namespace org.transliteral.panchang
 			get { return dasaLength; }
 			set { dasaLength = value; }
 		}
-		public Body.Name Graha
+		public BodyName Graha
 		{
 			get { return graha; }
 			set { graha = value; }

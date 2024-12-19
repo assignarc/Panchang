@@ -2,7 +2,7 @@
 
 namespace org.transliteral.panchang
 {
-    public class InVisible : Attribute
+    public class InVisibleAttribute : Attribute
     {
     }
 }

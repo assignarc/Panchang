@@ -6,7 +6,7 @@ namespace org.transliteral.panchang
 {
     [Serializable]
     [TypeConverter(typeof(HMSInfoConverter))]
-    public class HMSInfo : HoraSerializableOptions, ICloneable, ISerializable
+    public class HMSInfo : SerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)
@@ -76,7 +76,7 @@ namespace org.transliteral.panchang
             m_second = (int)sec;
             direction = Direction.NorthSouth;
         }
-        override public string ToString()
+        public override string ToString()
         {
             string dirs;
             if (direction == Direction.EastWest && m_hour < 0) dirs = "W";

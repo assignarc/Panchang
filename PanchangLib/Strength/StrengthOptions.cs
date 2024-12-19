@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class StrengthOptions : HoraSerializableOptions, ISerializable, ICloneable
+    public class StrengthOptions : SerializableOptions, ISerializable, ICloneable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)
@@ -53,7 +53,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Co-Lord Strengths")]
-        [@DisplayName("Graha Strength")]
+        [Visible("Graha Strength")]
         public EGrahaStrength[] Colord
         {
             get { return mColord; }
@@ -61,7 +61,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Naisargika Dasa Strengths")]
-        [@DisplayName("Graha Strengths")]
+        [Visible("Graha Strengths")]
         public EGrahaStrength[] NaisargikaDasaGraha
         {
             get { return mNaisargikaDasaGraha; }
@@ -69,7 +69,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Naisargika Dasa Strengths")]
-        [@DisplayName("Rasi Strengths")]
+        [Visible("Rasi Strengths")]
         public ERasiStrength[] NaisargikaDasaRasi
         {
             get { return mNaisargikaDasaRasi; }
@@ -77,7 +77,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Navamsa Dasa Strengths")]
-        [@DisplayName("Rasi Strengths")]
+        [Visible("Rasi Strengths")]
         public ERasiStrength[] NavamsaDasaRasi
         {
             get { return mNavamsaDasaRasi; }
@@ -85,7 +85,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Moola Dasa Strengths")]
-        [@DisplayName("Rasi Strengths")]
+        [Visible("Rasi Strengths")]
         public ERasiStrength[] MoolaDasaRasi
         {
             get { return mMoolaDasaRasi; }
@@ -93,7 +93,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Narayana Dasa Strengths")]
-        [@DisplayName("Rasi Strengths")]
+        [Visible("Rasi Strengths")]
         public ERasiStrength[] NarayanaDasaRasi
         {
             get { return mNarayanaDasaRasi; }
@@ -101,7 +101,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Karaka Kendradi Graha Dasa")]
-        [@DisplayName("Rasi Strengths")]
+        [Visible("Rasi Strengths")]
         public ERasiStrength[] KarakaKendradiGrahaDasaRasi
         {
             get { return mKarakaKendradiGrahaDasaRasi; }
@@ -109,7 +109,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Karaka Kendradi Graha Dasa")]
-        [@DisplayName("Graha Strengths")]
+        [Visible("Graha Strengths")]
         public EGrahaStrength[] KarakaKendradiGrahaDasaGraha
         {
             get { return mKarakaKendradiGrahaDasaGraha; }
@@ -118,7 +118,7 @@ namespace org.transliteral.panchang
 
         [InVisible]
         [Category("Karaka Kendradi Graha Dasa")]
-        [@DisplayName("CoLord Strengths")]
+        [Visible("CoLord Strengths")]
         [TypeConverter(typeof(HoraArrayConverter))]
         public EGrahaStrength[] KarakaKendradiGrahaDasaColord
         {

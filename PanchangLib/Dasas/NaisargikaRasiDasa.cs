@@ -9,14 +9,14 @@ namespace org.transliteral.panchang
 	{
 		public class UserOptions :ICloneable
 		{
-			[DisplayName("Life Expectancy")]
+			[Visible("Life Expectancy")]
 			
 			private ParamAyusType paramAyus;
 			public UserOptions () 
 			{
 				ParamAyus = ParamAyusType.Middle;
 			}
-			[DisplayName("Total Param Ayus")]
+			[Visible("Total Param Ayus")]
 			public ParamAyusType ParamAyus
 			{
 				get { return paramAyus; }
@@ -58,7 +58,7 @@ namespace org.transliteral.panchang
 			double cycle_start = ParamAyus() * (double)cycle;
 			double curr = 0.0;
 			double dasa_length;
-			ZodiacHouse zlagna = h.GetPosition(Body.Name.Lagna).Longitude.ToZodiacHouse();
+			ZodiacHouse zlagna = h.GetPosition(BodyName.Lagna).Longitude.ToZodiacHouse();
 			for (int i=0; i<12; i++)
 			{
 				ZodiacHouse zh = zlagna.Add (order[i]);

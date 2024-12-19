@@ -234,10 +234,10 @@ namespace org.transliteral.panchang.app
         {
             Division dtype = new Division(DivisionType.Rasi);
 
-            BodyPosition l1 = h.GetPosition(Body.Name.Lagna);
-            BodyPosition l2 = h2.GetPosition(Body.Name.Lagna);
-            BodyPosition m1 = h.GetPosition(Body.Name.Moon);
-            BodyPosition m2 = h2.GetPosition(Body.Name.Moon);
+            BodyPosition l1 = h.GetPosition(BodyName.Lagna);
+            BodyPosition l2 = h2.GetPosition(BodyName.Lagna);
+            BodyPosition m1 = h.GetPosition(BodyName.Moon);
+            BodyPosition m2 = h2.GetPosition(BodyName.Moon);
             ZodiacHouse z1 = m1.ToDivisionPosition(dtype).ZodiacHouse;
             ZodiacHouse z2 = m2.ToDivisionPosition(dtype).ZodiacHouse;
             Nakshatra n1 = m1.Longitude.ToNakshatra();
@@ -326,8 +326,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Moon)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                ZodiacHouse ch = h2.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ch = h2.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaMoon.CheckGhataka(ja, ch);
                 li.SubItems.Add(ja.ToString());
                 li.SubItems.Add(ch.ToString());
@@ -336,8 +336,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Tithi)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                Longitude ltithi = h2.GetPosition(Body.Name.Moon).Longitude.Subtract(h2.GetPosition(Body.Name.Sun).Longitude);
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                Longitude ltithi = h2.GetPosition(BodyName.Moon).Longitude.Subtract(h2.GetPosition(BodyName.Sun).Longitude);
                 Tithi t = ltithi.ToTithi();
                 bool isGhataka = GhatakaTithi.CheckTithi(ja, t);
                 li.SubItems.Add(ja.ToString());
@@ -347,8 +347,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Day)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                Basics.Weekday wd = h2.Weekday;
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                Weekday wd = h2.Weekday;
                 bool isGhataka = GhatakaDay.CheckDay(ja, wd);
                 li.SubItems.Add(ja.ToString());
                 li.SubItems.Add(wd.ToString());
@@ -357,8 +357,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Star)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                Nakshatra na = h2.GetPosition(Body.Name.Moon).Longitude.ToNakshatra();
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                Nakshatra na = h2.GetPosition(BodyName.Moon).Longitude.ToNakshatra();
                 bool isGhataka = GhatakaStar.CheckStar(ja, na);
                 li.SubItems.Add(ja.ToString());
                 li.SubItems.Add(na.ToString());
@@ -367,8 +367,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka Lagna(S)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                ZodiacHouse sa = h2.GetPosition(Body.Name.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse sa = h2.GetPosition(BodyName.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaLagnaSame.CheckLagna(ja, sa);
                 li.SubItems.Add(ja.ToString());
                 li.SubItems.Add(sa.ToString());
@@ -377,8 +377,8 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka Lagna(O)");
-                ZodiacHouse ja = h.GetPosition(Body.Name.Moon).ToDivisionPosition(dtype).ZodiacHouse;
-                ZodiacHouse op = h2.GetPosition(Body.Name.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse op = h2.GetPosition(BodyName.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaLagnaOpp.CheckLagna(ja, op);
                 li.SubItems.Add(ja.ToString());
                 li.SubItems.Add(op.ToString());

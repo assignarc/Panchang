@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
 			Horoscope h;
 			ArrayList std_div_pos;
 			public Division dtype = new Division(DivisionType.Rasi);
-			protected Body.Name mSeedBody;
+			protected BodyName mSeedBody;
 			OrderedGrahas mGrahasStrengths;
 			OrderedZodiacHouses[] mZodiacStrengths;
 
@@ -60,9 +60,9 @@ namespace org.transliteral.panchang
 			public void CalculateSeedBody ()
 			{
 				ArrayList al_k = new ArrayList();
-				for (int i=(int)Body.Name.Sun; i<=(int)Body.Name.Rahu; i++)
+				for (int i=(int)BodyName.Sun; i<=(int)BodyName.Rahu; i++)
 				{
-					Body.Name b = (Body.Name)i;
+					BodyName b = (BodyName)i;
 					BodyPosition bp = h.GetPosition(b);
 					BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
 					al_k.Add (bkc);
@@ -86,8 +86,8 @@ namespace org.transliteral.panchang
 				zRet[1] = fs.GetOrderedHouses(zh_p);
 				zRet[2] = fs.GetOrderedHouses(zh_a);
 
-				ZodiacHouseName zh_sat = h.GetPosition(Body.Name.Saturn).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value;
-				ZodiacHouseName zh_ket = h.GetPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value;
+				ZodiacHouseName zh_sat = h.GetPosition(BodyName.Saturn).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value;
+				ZodiacHouseName zh_ket = h.GetPosition(BodyName.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value;
 
 				bool bIsForward = zh.IsOdd();
 				if (zh_sat != zh_ket && zh_sat == zh.Value)
@@ -99,7 +99,7 @@ namespace org.transliteral.panchang
 					ArrayList rule = new ArrayList();
 					rule.Add (EGrahaStrength.Longitude);
 					FindStronger fs2 = new FindStronger(h, new Division(DivisionType.Rasi), rule);
-					bIsForward = fs2.CompareGraha(Body.Name.Saturn, Body.Name.Ketu, false);
+					bIsForward = fs2.CompareGraha(BodyName.Saturn, BodyName.Ketu, false);
 				}
 
 
@@ -126,19 +126,19 @@ namespace org.transliteral.panchang
 					foreach (ZodiacHouseName zn in oz.houses)
 					{
 						ArrayList temp = fs_temp.FindGrahasInHouse (zn);
-						Body.Name[] temp_arr = new Body.Name[temp.Count];
+						BodyName[] temp_arr = new BodyName[temp.Count];
 						for (int i=0; i< temp.Count; i++)
-							temp_arr[i] = (Body.Name)temp[i];
-						Body.Name[] sorted = fs.GetOrderedGrahas(temp_arr);
-						foreach (Body.Name bn in sorted)
+							temp_arr[i] = (BodyName)temp[i];
+						BodyName[] sorted = fs.GetOrderedGrahas(temp_arr);
+						foreach (BodyName bn in sorted)
 							this.mGrahasStrengths.grahas.Add (bn);
 					}
 				}
 			}
 
 			[Category("Strengths1 Seed")]
-			[@DisplayName("Seed Body")]
-			public Body.Name SeedBody
+			[Visible("Seed Body")]
+			public BodyName SeedBody
 			{
 				get { return this.mSeedBody; }
 				set { this.mSeedBody = value; }
@@ -146,7 +146,7 @@ namespace org.transliteral.panchang
 
 
 			[Category("Strengths3 Grahas")]
-			[@DisplayName("Graha strength order")]
+			[Visible("Graha strength order")]
 			public OrderedGrahas GrahaStrengths
 			{
 				get { return this.mGrahasStrengths; }
@@ -154,7 +154,7 @@ namespace org.transliteral.panchang
 			}
 
 			[Category("Strengths2 Rasis")]
-			[@DisplayName("Rasi strength order")]
+			[Visible("Rasi strength order")]
 			public OrderedZodiacHouses[] RasiStrengths
 			{
 				get { return this.mZodiacStrengths; }
@@ -192,12 +192,12 @@ namespace org.transliteral.panchang
 			options.Recalculate();
 		}
 		VimsottariDasa vd = null;
-		public double lengthOfDasa (Body.Name plt)
+		public double lengthOfDasa (BodyName plt)
 		{
 			DivisionPosition dp_plt = h.GetPosition(plt).ToDivisionPosition(new Division(DivisionType.Rasi));
 			return KarakaKendradiGrahaDasa.LengthOfDasa(h, options.dtype, plt, dp_plt);
 		}
-		public static double LengthOfDasa (Horoscope h, Division dtype, Body.Name plt, DivisionPosition dp_plt)
+		public static double LengthOfDasa (Horoscope h, Division dtype, BodyName plt, DivisionPosition dp_plt)
 		{
 			double length = 0;
 
@@ -207,8 +207,8 @@ namespace org.transliteral.panchang
 			ZodiacHouse zh_plt = dp_plt.ZodiacHouse;
 			ZodiacHouse zh_mt = Basics.GetMoolaTrikonaRasi(plt);
 			
-			if (plt == Body.Name.Rahu) zh_mt.Value = ZodiacHouseName.Aqu;
-			if (plt == Body.Name.Ketu) zh_mt.Value = ZodiacHouseName.Sco;
+			if (plt == BodyName.Rahu) zh_mt.Value = ZodiacHouseName.Aqu;
+			if (plt == BodyName.Ketu) zh_mt.Value = ZodiacHouseName.Sco;
 
 			int diff = zh_plt.NumHousesBetween(zh_mt);
 			length = (double)(diff-1);
@@ -237,7 +237,7 @@ namespace org.transliteral.panchang
 			double cycle_start = ParamAyus() * (double)cycle;
 			double curr = 0.0;
 			ArrayList al = new ArrayList (24);
-			foreach (Body.Name b in options.GrahaStrengths.grahas)
+			foreach (BodyName b in options.GrahaStrengths.grahas)
 			{
 				double dasaLength = this.lengthOfDasa(b);
 				al.Add (new DasaEntry (b, cycle_start + curr, dasaLength, 1, Body.ToShortString(b)));
@@ -264,13 +264,13 @@ namespace org.transliteral.panchang
 
 			ArrayList bOrder = new ArrayList();
 			bool bFound = false;
-			foreach (Body.Name b in options.GrahaStrengths.grahas)
+			foreach (BodyName b in options.GrahaStrengths.grahas)
 			{
 				if (b != pdi.graha && bFound == false) continue;
 				bFound = true;
 				bOrder.Add (b);
 			}
-			foreach (Body.Name b in options.GrahaStrengths.grahas)
+			foreach (BodyName b in options.GrahaStrengths.grahas)
 			{
 				if (b == pdi.graha) break;
 				bOrder.Add (b);
@@ -278,7 +278,7 @@ namespace org.transliteral.panchang
 
 
 			double dasaLength = pdi.dasaLength / 9.0;
-			foreach (Body.Name b in bOrder)
+			foreach (BodyName b in bOrder)
 			{
 				al.Add (new DasaEntry(b, curr, dasaLength, pdi.level+1, pdi.shortDesc + " " + Body.ToShortString(b)));
 				curr += dasaLength;

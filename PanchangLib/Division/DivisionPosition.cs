@@ -6,7 +6,7 @@
     /// </summary>
     public class DivisionPosition
     {
-        public Body.Name Name;
+        public BodyName Name;
         public BodyType.Name Type;
         public ZodiacHouse ZodiacHouse;
         public double CuspLower;
@@ -16,7 +16,7 @@
         public string otherString;
 
        
-        public DivisionPosition(Body.Name _name, BodyType.Name _type, ZodiacHouse _zodiac_house,
+        public DivisionPosition(BodyName _name, BodyType.Name _type, ZodiacHouse _zodiac_house,
             double _cusp_lower, double _cusp_higher, int _part)
         {
             Name = _name;
@@ -31,15 +31,15 @@
         {
             switch (this.Name)
             {
-                case Body.Name.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Leo) return true; break;
-                case Body.Name.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Tau) return true; break;
-                case Body.Name.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
-                case Body.Name.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
-                case Body.Name.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
-                case Body.Name.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
-                case Body.Name.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Aqu) return true; break;
-                case Body.Name.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
-                case Body.Name.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
+                case BodyName.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Leo) return true; break;
+                case BodyName.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Tau) return true; break;
+                case BodyName.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
+                case BodyName.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
+                case BodyName.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
+                case BodyName.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
+                case BodyName.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Aqu) return true; break;
+                case BodyName.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
+                case BodyName.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
             }
             return false;
         }
@@ -48,15 +48,15 @@
             ZodiacHouseName zh = ZodiacHouse.Value;
             switch (this.Name)
             {
-                case Body.Name.Sun: if (zh == ZodiacHouseName.Leo) return true; break;
-                case Body.Name.Moon: if (zh == ZodiacHouseName.Tau) return true; break;
-                case Body.Name.Mars: if (zh == ZodiacHouseName.Ari || zh == ZodiacHouseName.Sco) return true; break;
-                case Body.Name.Mercury: if (zh == ZodiacHouseName.Gem || zh == ZodiacHouseName.Vir) return true; break;
-                case Body.Name.Jupiter: if (zh == ZodiacHouseName.Sag || zh == ZodiacHouseName.Pis) return true; break;
-                case Body.Name.Venus: if (zh == ZodiacHouseName.Tau || zh == ZodiacHouseName.Lib) return true; break;
-                case Body.Name.Saturn: if (zh == ZodiacHouseName.Cap || zh == ZodiacHouseName.Aqu) return true; break;
-                case Body.Name.Rahu: if (zh == ZodiacHouseName.Aqu) return true; break;
-                case Body.Name.Ketu: if (zh == ZodiacHouseName.Sco) return true; break;
+                case BodyName.Sun: if (zh == ZodiacHouseName.Leo) return true; break;
+                case BodyName.Moon: if (zh == ZodiacHouseName.Tau) return true; break;
+                case BodyName.Mars: if (zh == ZodiacHouseName.Ari || zh == ZodiacHouseName.Sco) return true; break;
+                case BodyName.Mercury: if (zh == ZodiacHouseName.Gem || zh == ZodiacHouseName.Vir) return true; break;
+                case BodyName.Jupiter: if (zh == ZodiacHouseName.Sag || zh == ZodiacHouseName.Pis) return true; break;
+                case BodyName.Venus: if (zh == ZodiacHouseName.Tau || zh == ZodiacHouseName.Lib) return true; break;
+                case BodyName.Saturn: if (zh == ZodiacHouseName.Cap || zh == ZodiacHouseName.Aqu) return true; break;
+                case BodyName.Rahu: if (zh == ZodiacHouseName.Aqu) return true; break;
+                case BodyName.Ketu: if (zh == ZodiacHouseName.Sco) return true; break;
             }
             return false;
         }
@@ -64,15 +64,15 @@
         {
             switch (this.Name)
             {
-                case Body.Name.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
-                case Body.Name.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Tau) return true; break;
-                case Body.Name.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Cap) return true; break;
-                case Body.Name.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
-                case Body.Name.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Can) return true; break;
-                case Body.Name.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
-                case Body.Name.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
-                case Body.Name.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Gem) return true; break;
-                case Body.Name.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
+                case BodyName.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
+                case BodyName.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Tau) return true; break;
+                case BodyName.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Cap) return true; break;
+                case BodyName.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
+                case BodyName.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Can) return true; break;
+                case BodyName.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
+                case BodyName.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
+                case BodyName.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Gem) return true; break;
+                case BodyName.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
             }
             return false;
         }
@@ -80,15 +80,15 @@
         {
             switch (this.Name)
             {
-                case Body.Name.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
-                case Body.Name.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Sco) return true; break;
-                case Body.Name.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Can) return true; break;
-                case Body.Name.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
-                case Body.Name.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Cap) return true; break;
-                case Body.Name.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
-                case Body.Name.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
-                case Body.Name.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
-                case Body.Name.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Gem) return true; break;
+                case BodyName.Sun: if (ZodiacHouse.Value == ZodiacHouseName.Lib) return true; break;
+                case BodyName.Moon: if (ZodiacHouse.Value == ZodiacHouseName.Sco) return true; break;
+                case BodyName.Mars: if (ZodiacHouse.Value == ZodiacHouseName.Can) return true; break;
+                case BodyName.Mercury: if (ZodiacHouse.Value == ZodiacHouseName.Pis) return true; break;
+                case BodyName.Jupiter: if (ZodiacHouse.Value == ZodiacHouseName.Cap) return true; break;
+                case BodyName.Venus: if (ZodiacHouse.Value == ZodiacHouseName.Vir) return true; break;
+                case BodyName.Saturn: if (ZodiacHouse.Value == ZodiacHouseName.Ari) return true; break;
+                case BodyName.Rahu: if (ZodiacHouse.Value == ZodiacHouseName.Sag) return true; break;
+                case BodyName.Ketu: if (ZodiacHouse.Value == ZodiacHouseName.Gem) return true; break;
             }
             return false;
         }
@@ -97,10 +97,10 @@
             int num = ZodiacHouse.NumHousesBetween(h);
             if (num == 7) return true;
 
-            if (Name == Body.Name.Jupiter && (num == 5 || num == 9)) return true;
-            if (Name == Body.Name.Rahu && (num == 5 || num == 9 || num == 2)) return true;
-            if (Name == Body.Name.Mars && (num == 4 || num == 8)) return true;
-            if (Name == Body.Name.Saturn && (num == 3 || num == 10)) return true;
+            if (Name == BodyName.Jupiter && (num == 5 || num == 9)) return true;
+            if (Name == BodyName.Rahu && (num == 5 || num == 9 || num == 2)) return true;
+            if (Name == BodyName.Mars && (num == 4 || num == 8)) return true;
+            if (Name == BodyName.Saturn && (num == 3 || num == 10)) return true;
 
             return false;
         }

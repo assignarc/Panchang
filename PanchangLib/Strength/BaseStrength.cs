@@ -2,7 +2,7 @@
 
 namespace org.transliteral.panchang
 {
-    abstract public class BaseStrength
+    public abstract class BaseStrength
     {
         protected ArrayList standardGrahas;
         protected Division divisionType;
@@ -10,14 +10,14 @@ namespace org.transliteral.panchang
         protected Horoscope horoscope;
         protected bool bUseSimpleLords;
 
-        protected Body.Name GetStrengthLord(ZodiacHouseName zh)
+        protected BodyName GetStrengthLord(ZodiacHouseName zh)
         {
             if (bUseSimpleLords)
                 return Basics.SimpleLordOfZodiacHouse(zh);
             else
                 return horoscope.LordOfZodiacHouse(new ZodiacHouse(zh), divisionType);
         }
-        protected Body.Name GetStrengthLord(ZodiacHouse zh)
+        protected BodyName GetStrengthLord(ZodiacHouse zh)
         {
             return GetStrengthLord(zh.Value);
         }
@@ -40,23 +40,23 @@ namespace org.transliteral.panchang
             }
             return num;
         }
-        protected double KarakaLongitude(Body.Name b)
+        protected double KarakaLongitude(BodyName b)
         {
             double lon = horoscope.GetPosition(b).Longitude.ToZodiacHouseOffset();
-            if (b == Body.Name.Rahu || b == Body.Name.Ketu)
+            if (b == BodyName.Rahu || b == BodyName.Ketu)
                 lon = 30.0 - lon;
             return lon;
         }
-        protected Body.Name FindAtmaKaraka()
+        protected BodyName FindAtmaKaraka()
         {
-            Body.Name[] karakaBodies =
+            BodyName[] karakaBodies =
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-                Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn, Body.Name.Rahu
+                BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+                BodyName.Jupiter, BodyName.Venus, BodyName.Saturn, BodyName.Rahu
             };
             double lon = 0.0;
-            Body.Name ret = Body.Name.Sun;
-            foreach (Body.Name bn in karakaBodies)
+            BodyName ret = BodyName.Sun;
+            foreach (BodyName bn in karakaBodies)
             {
                 double offset = KarakaLongitude(bn);
                 if (offset > lon) lon = offset;

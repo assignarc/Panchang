@@ -22,14 +22,14 @@ namespace org.transliteral.panchang
             set { this.mDtype = value; }
         }
 
-        [DisplayName("Varga Type")]
+        [Visible("Varga Type")]
         public DivisionType UIVargaType
         {
             get { return this.mDtype.MultipleDivisions[0].Varga; }
             set { this.mDtype = new Division(value); }
         }
 
-        [DisplayName("SAV Type")]
+        [Visible("SAV Type")]
         public ESavType SavType
         {
             get { return this.mSavType; }

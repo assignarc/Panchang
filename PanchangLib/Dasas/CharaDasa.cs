@@ -18,7 +18,7 @@ namespace org.transliteral.panchang
         public void RecalculateOptions() => options.Recalculate();
         public DivisionPosition GetLordsPosition(ZodiacHouse zh)
 		{
-			Body.Name b;
+			BodyName b;
 			if (zh.Value == ZodiacHouseName.Sco) b = options.ColordSco;
 			else if (zh.Value == ZodiacHouseName.Aqu) b = options.ColordAqu;
 			else b = Basics.SimpleLordOfZodiacHouse(zh.Value);
@@ -82,7 +82,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

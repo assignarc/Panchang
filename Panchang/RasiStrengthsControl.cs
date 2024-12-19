@@ -32,7 +32,7 @@ namespace org.transliteral.panchang.app
                 set { m_dtype = value; }
             }
 
-            [@DisplayName("Varga")]
+            [Visible("Varga")]
             public DivisionType UIDivision
             {
                 get { return m_dtype.MultipleDivisions[0].Varga; }

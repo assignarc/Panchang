@@ -2,10 +2,10 @@
 
 namespace org.transliteral.panchang
 {
-    public class DisplayName : Attribute
+    public class VisibleAttribute : Attribute
     {
         public string Text;
-        public DisplayName(string _display)
+        public VisibleAttribute(string _display)
         {
             this.Text = _display;
         }

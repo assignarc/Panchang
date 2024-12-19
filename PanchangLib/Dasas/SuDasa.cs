@@ -7,9 +7,9 @@ namespace org.transliteral.panchang
 {
     public class SuDasa: Dasa, IDasa
 	{
-		private Horoscope h;
+        private Horoscope h;
 		private RasiDasaUserOptions options;
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();
@@ -28,7 +28,7 @@ namespace org.transliteral.panchang
 		{
 			options.Recalculate();
 		}
-		Body.Name GetLord (ZodiacHouse zh)
+		BodyName GetLord (ZodiacHouse zh)
 		{
 			switch (zh.Value)
 			{
@@ -44,7 +44,7 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			ArrayList al = new ArrayList();
-			BodyPosition bp_sl = h.GetPosition(Body.Name.SreeLagna);
+			BodyPosition bp_sl = h.GetPosition(BodyName.SreeLagna);
 			ZodiacHouse zh_seed = bp_sl.ToDivisionPosition(options.Division).ZodiacHouse;
 			zh_seed.Value = options.findStrongerRasi(options.SeventhStrengths, zh_seed.Value, zh_seed.Add(7).Value);
 
@@ -59,7 +59,7 @@ namespace org.transliteral.panchang
 				else
 					zh_dasa = zh_seed.AddReverse(order[i]);
 
-				Body.Name bl = this.GetLord(zh_dasa);
+				BodyName bl = this.GetLord(zh_dasa);
 				DivisionPosition dp = h.GetPosition(bl).ToDivisionPosition(options.Division);
 				double dasa_length = NarayanaDasa.NarayanaDasaLength(zh_dasa, dp);
 				DasaEntry di = new DasaEntry (zh_dasa.Value, dasa_length_sum, dasa_length, 1, zh_dasa.Value.ToString());

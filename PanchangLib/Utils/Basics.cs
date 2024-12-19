@@ -16,7 +16,7 @@ namespace org.transliteral.panchang
 	/// <summary>
 	/// Simple functions that don't belong anywhere else
 	/// </summary>
-	public class Basics
+	public partial class Basics
 	{
 		/// <summary>
 		/// Normalize a number between bounds
@@ -59,59 +59,53 @@ namespace org.transliteral.panchang
 			return x;
 		}
 
-		public static ZodiacHouse GetMoolaTrikonaRasi (Body.Name b)
+		public static ZodiacHouse GetMoolaTrikonaRasi (BodyName b)
 		{
 			ZodiacHouseName z = ZodiacHouseName.Ari;
 			switch (b)
 			{
-				case Body.Name.Sun: z = ZodiacHouseName.Leo; break;
-				case Body.Name.Moon: z = ZodiacHouseName.Tau; break;
-				case Body.Name.Mars: z = ZodiacHouseName.Ari; break;
-				case Body.Name.Mercury: z = ZodiacHouseName.Vir; break;
-				case Body.Name.Jupiter: z = ZodiacHouseName.Sag; break;
-				case Body.Name.Venus: z = ZodiacHouseName.Lib; break;
-				case Body.Name.Saturn: z = ZodiacHouseName.Aqu; break;
-				case Body.Name.Rahu: z = ZodiacHouseName.Vir; break;
-				case Body.Name.Ketu: z = ZodiacHouseName.Pis; break;
+				case BodyName.Sun: z = ZodiacHouseName.Leo; break;
+				case BodyName.Moon: z = ZodiacHouseName.Tau; break;
+				case BodyName.Mars: z = ZodiacHouseName.Ari; break;
+				case BodyName.Mercury: z = ZodiacHouseName.Vir; break;
+				case BodyName.Jupiter: z = ZodiacHouseName.Sag; break;
+				case BodyName.Venus: z = ZodiacHouseName.Lib; break;
+				case BodyName.Saturn: z = ZodiacHouseName.Aqu; break;
+				case BodyName.Rahu: z = ZodiacHouseName.Vir; break;
+				case BodyName.Ketu: z = ZodiacHouseName.Pis; break;
 			}
 			return new ZodiacHouse (z);
 		}
-		public static Weekday BodyToWeekday (Body.Name b)
+		public static Weekday BodyToWeekday (BodyName b)
 		{
 			switch (b)
 			{
-				case Body.Name.Sun: return Weekday.Sunday;
-				case Body.Name.Moon: return Weekday.Monday;
-				case Body.Name.Mars: return Weekday.Tuesday;
-				case Body.Name.Mercury: return Weekday.Wednesday;
-				case Body.Name.Jupiter: return Weekday.Thursday;
-				case Body.Name.Venus: return Weekday.Friday;
-				case Body.Name.Saturn: return Weekday.Saturday;
+				case BodyName.Sun: return Weekday.Sunday;
+				case BodyName.Moon: return Weekday.Monday;
+				case BodyName.Mars: return Weekday.Tuesday;
+				case BodyName.Mercury: return Weekday.Wednesday;
+				case BodyName.Jupiter: return Weekday.Thursday;
+				case BodyName.Venus: return Weekday.Friday;
+				case BodyName.Saturn: return Weekday.Saturday;
 			}
 			Debug.Assert(false, string.Format("bodyToWeekday({0})", b));
 			throw new Exception();
 		}
-		public static Body.Name WeekdayRuler (Weekday w)
+		public static BodyName WeekdayRuler (Weekday w)
 		{
 			switch (w)
 			{
-				case Weekday.Sunday: return Body.Name.Sun;
-				case Weekday.Monday: return Body.Name.Moon;
-				case Weekday.Tuesday: return Body.Name.Mars;
-				case Weekday.Wednesday: return Body.Name.Mercury;
-				case Weekday.Thursday: return Body.Name.Jupiter;
-				case Weekday.Friday: return Body.Name.Venus;
-				case Weekday.Saturday: return Body.Name.Saturn;
+				case Weekday.Sunday: return BodyName.Sun;
+				case Weekday.Monday: return BodyName.Moon;
+				case Weekday.Tuesday: return BodyName.Mars;
+				case Weekday.Wednesday: return BodyName.Mercury;
+				case Weekday.Thursday: return BodyName.Jupiter;
+				case Weekday.Friday: return BodyName.Venus;
+				case Weekday.Saturday: return BodyName.Saturn;
 				default:
 					Debug.Assert(false, "Basics::weekdayRuler");
-					return Body.Name.Sun;
+					return BodyName.Sun;
 			}
-		}
-
-		// This matches the sweph definitions for easy conversion
-		public enum Weekday : int
-		{
-			Monday=0, Tuesday=1, Wednesday=2, Thursday=3, Friday=4, Saturday=5, Sunday=6
 		}
 
 		public static string WeekdayToShortString (Weekday w)
@@ -131,7 +125,7 @@ namespace org.transliteral.panchang
 	
 		
 
-		static public Nakshatra28Name NakLordOfMuhurta (Muhurta m)
+		public static Nakshatra28Name NakLordOfMuhurta (Muhurta m)
 		{
 			switch (m)
 			{
@@ -460,27 +454,27 @@ namespace org.transliteral.panchang
 		/// </summary>
 		/// <param name="zh">The House whose lord should be returned</param>
 		/// <returns>The lord of zh</returns>
-		public static Body.Name SimpleLordOfZodiacHouse (ZodiacHouseName zh) 
+		public static BodyName SimpleLordOfZodiacHouse (ZodiacHouseName zh) 
 		{
 			switch (zh) 
 			{
-				case ZodiacHouseName.Ari: return Body.Name.Mars;
-				case ZodiacHouseName.Tau: return Body.Name.Venus;
-				case ZodiacHouseName.Gem: return Body.Name.Mercury;
-				case ZodiacHouseName.Can: return Body.Name.Moon;
-				case ZodiacHouseName.Leo: return Body.Name.Sun; 
-				case ZodiacHouseName.Vir: return Body.Name.Mercury;
-				case ZodiacHouseName.Lib: return Body.Name.Venus;
-				case ZodiacHouseName.Sco: return Body.Name.Mars;
-				case ZodiacHouseName.Sag: return Body.Name.Jupiter;
-				case ZodiacHouseName.Cap: return Body.Name.Saturn;
-				case ZodiacHouseName.Aqu: return Body.Name.Saturn;
-				case ZodiacHouseName.Pis: return Body.Name.Jupiter;
+				case ZodiacHouseName.Ari: return BodyName.Mars;
+				case ZodiacHouseName.Tau: return BodyName.Venus;
+				case ZodiacHouseName.Gem: return BodyName.Mercury;
+				case ZodiacHouseName.Can: return BodyName.Moon;
+				case ZodiacHouseName.Leo: return BodyName.Sun; 
+				case ZodiacHouseName.Vir: return BodyName.Mercury;
+				case ZodiacHouseName.Lib: return BodyName.Venus;
+				case ZodiacHouseName.Sco: return BodyName.Mars;
+				case ZodiacHouseName.Sag: return BodyName.Jupiter;
+				case ZodiacHouseName.Cap: return BodyName.Saturn;
+				case ZodiacHouseName.Aqu: return BodyName.Saturn;
+				case ZodiacHouseName.Pis: return BodyName.Jupiter;
 			}
 			
 			Trace.Assert (false, 
 			string.Format ("Basics.SimpleLordOfZodiacHouse for {0} failed", (int)zh));
-			return Body.Name.Other;
+			return BodyName.Other;
 		}
 
 
@@ -495,7 +489,7 @@ namespace org.transliteral.panchang
 			catch (SwephException exc)
 			{
                 Logger.Error( "Sweph: {0} " + exc.Message);
-				throw new System.Exception("");
+				throw new Exception("");
 			}
 		}
 
@@ -508,9 +502,9 @@ namespace org.transliteral.panchang
 		/// <param name="type">The local application body type</param>
 		/// <returns>A BodyPosition class</returns>
 		/// 
-		public static BodyPosition CalculateSingleBodyPosition (double ut, int ipl, Body.Name body, BodyType.Name type, Horoscope h) 
+		public static BodyPosition CalculateSingleBodyPosition (double ut, int ipl, BodyName body, BodyType.Name type, Horoscope h) 
 		{
-			if (body == Body.Name.Lagna)
+			if (body == BodyName.Lagna)
 			{
 				BodyPosition b = new BodyPosition(h, body, type, new Longitude(Sweph.swe_lagna(ut)), 0, 0, 0, 0, 0);
 				return b;
@@ -527,7 +521,7 @@ namespace org.transliteral.panchang
 			catch (SwephException exc) 
 			{
                 Logger.Error( "Sweph: {0} " + exc.Message);
-				throw new System.Exception("");
+				throw new Exception("");
 			}
 		}
 
@@ -564,22 +558,22 @@ namespace org.transliteral.panchang
 			if (o.grahaPositionType == EGrahaPositionType.True)
 				addFlags = Sweph.SEFLG_TRUEPOS;
 
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MARS, Body.Name.Mars, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MERCURY, Body.Name.Mercury, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_JUPITER, Body.Name.Jupiter, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_VENUS, Body.Name.Venus, BodyType.Name.Graha, h));
-			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_SATURN, Body.Name.Saturn, BodyType.Name.Graha, h));
-			BodyPosition rahu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Rahu, BodyType.Name.Graha, h);
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_SUN, BodyName.Sun, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MOON, BodyName.Moon, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MARS, BodyName.Mars, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_MERCURY, BodyName.Mercury, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_JUPITER, BodyName.Jupiter, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_VENUS, BodyName.Venus, BodyType.Name.Graha, h));
+			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_SATURN, BodyName.Saturn, BodyType.Name.Graha, h));
+			BodyPosition rahu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, BodyName.Rahu, BodyType.Name.Graha, h);
 
-			BodyPosition ketu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, Body.Name.Ketu, BodyType.Name.Graha, h);
+			BodyPosition ketu = CalculateSingleBodyPosition (julday_ut, swephRahuBody, BodyName.Ketu, BodyType.Name.Graha, h);
 			ketu.Longitude = rahu.Longitude.Add (new Longitude (180.0));
 			std_grahas.Add (rahu);
 			std_grahas.Add (ketu);
 
 			double asc = Sweph.swe_lagna(julday_ut);
-			std_grahas.Add (new BodyPosition (h, Body.Name.Lagna, BodyType.Name.Lagna, new Longitude (asc), 0, 0, 0, 0, 0));
+			std_grahas.Add (new BodyPosition (h, BodyName.Lagna, BodyType.Name.Lagna, new Longitude (asc), 0, 0, 0, 0, 0));
 
 			double ista_ghati = Normalize_exc( 0.0, 24.0, hi.tob.Time - sunrise) * 2.5;
 			Longitude gl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0));
@@ -590,10 +584,10 @@ namespace org.transliteral.panchang
 			while (ista_ghati > 12.0) ista_ghati -= 12.0;
 			Longitude vl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(vl * 30.0));
 
-			std_grahas.Add (new BodyPosition (h, Body.Name.BhavaLagna, BodyType.Name.SpecialLagna, bl_lon,0,0,0,0,0));
-			std_grahas.Add (new BodyPosition (h, Body.Name.HoraLagna, BodyType.Name.SpecialLagna, hl_lon,0,0,0,0,0));
-			std_grahas.Add (new BodyPosition (h, Body.Name.GhatiLagna, BodyType.Name.SpecialLagna, gl_lon, 0,0,0,0,0));
-			std_grahas.Add (new BodyPosition (h, Body.Name.VighatiLagna, BodyType.Name.SpecialLagna, vl_lon,0,0,0,0,0));			
+			std_grahas.Add (new BodyPosition (h, BodyName.BhavaLagna, BodyType.Name.SpecialLagna, bl_lon,0,0,0,0,0));
+			std_grahas.Add (new BodyPosition (h, BodyName.HoraLagna, BodyType.Name.SpecialLagna, hl_lon,0,0,0,0,0));
+			std_grahas.Add (new BodyPosition (h, BodyName.GhatiLagna, BodyType.Name.SpecialLagna, gl_lon, 0,0,0,0,0));
+			std_grahas.Add (new BodyPosition (h, BodyName.VighatiLagna, BodyType.Name.SpecialLagna, vl_lon,0,0,0,0,0));			
 
 
 			return std_grahas;

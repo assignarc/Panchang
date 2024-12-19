@@ -44,13 +44,13 @@ namespace org.transliteral.panchang
             }
             public object Clone()
             {
-                return new Division.SingleDivision(this.Varga, this.NumParts);
+                return new SingleDivision(this.Varga, this.NumParts);
             }
         }
 
         private SingleDivision[] mMultipleDivisions = null;
 
-        [@DisplayName("Composite Division")]
+        [Visible("Composite Division")]
         public SingleDivision[] MultipleDivisions
         {
             get { return this.mMultipleDivisions; }
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
         {
             this.mMultipleDivisions = new SingleDivision[] { new SingleDivision(_dtype) };
         }
-        public Division(Division.SingleDivision single)
+        public Division(SingleDivision single)
         {
             this.mMultipleDivisions = new SingleDivision[] { single };
         }
@@ -80,7 +80,7 @@ namespace org.transliteral.panchang
             {
                 al.Add(dSingle.Clone());
             }
-            dRet.MultipleDivisions = (SingleDivision[])al.ToArray(typeof(Division.SingleDivision));
+            dRet.MultipleDivisions = (SingleDivision[])al.ToArray(typeof(SingleDivision));
             return dRet;
         }
         public override bool Equals(object obj)

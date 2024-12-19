@@ -11,14 +11,14 @@ namespace org.transliteral.panchang
 
 		public bool Stronger (ZodiacHouseName za, ZodiacHouseName zb) 
 		{
-			Body.Name[] karakaBodies =
+			BodyName[] karakaBodies =
 			{
-				Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-				Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn, Body.Name.Rahu
+				BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+				BodyName.Jupiter, BodyName.Venus, BodyName.Saturn, BodyName.Rahu
 			};
 
 			double lona = 0.0, lonb = 0.0;
-			foreach (Body.Name bn in karakaBodies) 
+			foreach (BodyName bn in karakaBodies) 
 			{
 				DivisionPosition div = horoscope.GetPosition(bn).ToDivisionPosition(new Division(DivisionType.Rasi));
 				double offset = KarakaLongitude (bn);
@@ -31,7 +31,7 @@ namespace org.transliteral.panchang
 			if (lonb > lona) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			double lonm = KarakaLongitude (m);
 			double lonn = KarakaLongitude (n);

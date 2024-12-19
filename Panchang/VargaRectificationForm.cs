@@ -105,7 +105,7 @@ namespace org.transliteral.panchang.app
         UserOptions opts = null;
         CuspTransitSearch cs = null;
         Division dtypeRasi = new Division(DivisionType.Rasi);
-        Body.Name mBody = Body.Name.Lagna;
+        BodyName mBody = BodyName.Lagna;
         double ut_lower = 0;
         private ContextMenu mContext;
         private MenuItem menuOptions;

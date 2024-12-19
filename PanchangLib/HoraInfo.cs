@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
     /// </summary>
     ///
     [Serializable]
-    public class HoraInfo : HoraSerializableOptions, ICloneable, ISerializable
+    public class HoraInfo : SerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)
@@ -52,7 +52,7 @@ namespace org.transliteral.panchang
         private const string CATEGORY_EVENTS = "2: Events";
 
         [Category(CATEGORY_TIME_OF_BIRTH)]
-        [PropertyOrder(1), @DisplayName("Time of Birth")]
+        [PropertyOrder(1), Visible("Time of Birth")]
         [Description("Date of Birth. Format is 'dd Mmm yyyy hh:mm:ss'\n Example 23 Mar 1979 23:11:00")]
         public Moment DateOfBirth
         {
@@ -77,7 +77,7 @@ namespace org.transliteral.panchang
         }
 
         [Category(CATEGORY_TIME_OF_BIRTH), PropertyOrder(4)]
-        [@DisplayName("Time zone")]
+        [Visible("Time zone")]
         [Description("Time Zone. Format is 'hh D mm:ss mm:ss'\n Example 3 E 00:00")]
         public HMSInfo TimeZone
         {
@@ -113,7 +113,7 @@ namespace org.transliteral.panchang
         }
         public HoraInfo()
         {
-            System.DateTime t = DateTime.Now;
+            DateTime t = DateTime.Now;
             tob = new Moment(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second);
             lon = (HMSInfo) GlobalOptions.Instance.Longitude.Clone();
             lat = (HMSInfo) GlobalOptions.Instance.Latitude.Clone();

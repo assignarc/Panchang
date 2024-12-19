@@ -96,104 +96,104 @@ namespace org.transliteral.panchang.app
         }
         public void Repopulate()
         {
-            Body.Name[] grahas = new Body.Name[]
+            BodyName[] grahas = new BodyName[]
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-                Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn
+                BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+                BodyName.Jupiter, BodyName.Venus, BodyName.Saturn
             };
             mList.Clear();
             ShadBalas sb = new ShadBalas(h);
 
             mList.Columns.Add("Bala", 120, HorizontalAlignment.Left);
-            foreach (Body.Name b in grahas)
+            foreach (BodyName b in grahas)
                 mList.Columns.Add(b.ToString(), 70, HorizontalAlignment.Left);
             {
                 ListViewItem li = new ListViewItem("Sthana");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add("-");
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Uccha");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.UcchaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Oja-Yugma");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.OjaYugmaRasyAmsaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Kendra");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.KendraBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Drekkana");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.DrekkanaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("Dik");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.DigBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("Kaala");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add("-");
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Nathonnatha");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.NathonnathaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Paksha");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.PakshaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Tribhaaga");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.TribhaagaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Abda");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.abdaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Masa");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.masaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Vara");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.varaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("-> Hora");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.horaBala(b)));
                 mList.Items.Add(li);
             }
             {
                 ListViewItem li = new ListViewItem("Naisargika");
-                foreach (Body.Name b in grahas)
+                foreach (BodyName b in grahas)
                     li.SubItems.Add(fmtBala(sb.naisargikaBala(b)));
                 mList.Items.Add(li);
             }

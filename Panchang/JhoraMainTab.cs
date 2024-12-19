@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using org.transliteral.panchang;
 
 namespace org.transliteral.panchang.app
 {
@@ -225,10 +226,10 @@ namespace org.transliteral.panchang.app
                 switch (h.Info.type)
                 {
                     case HoraType.TithiPravesh:
-                        mc.ViewControl(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedTithi);
+                        mc.ViewControl(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedTithi);
                         break;
                     default:
-                        mc.ViewControl(PanchangControlContainer.BaseUserOptions.ViewType.DasaVimsottari);
+                        mc.ViewControl(BaseUserOptionsViewType.DasaVimsottari);
                         break;
                 }
                 bTabDasaLoaded = true;

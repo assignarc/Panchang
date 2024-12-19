@@ -105,7 +105,7 @@ namespace org.transliteral.panchang
                 if (mCurrentLockHolder != null)
                     throw new Exception("Sweph: obtainLock failed. Sweph Lock still held");
 
-                //Debug.WriteLine("Sweph Lock obtained");
+                Logger.Info("Sweph Lock obtained");
                 mCurrentLockHolder = h;
                 Sweph.swe_set_sid_mode((int)h.Options.Ayanamsa, 0.0, 0.0);
             }
@@ -116,22 +116,22 @@ namespace org.transliteral.panchang
                 throw new Exception("Sweph: releaseLock failed. Lock not held");
             else if (mCurrentLockHolder != h)
                 throw new Exception("Sweph: releaseLock failed. Not lock owner");
-            //Debug.WriteLine("Sweph Lock released");
+            Logger.Info("Sweph Lock released");
             mCurrentLockHolder = null;
         }
 
-        public static int BodyNameToSweph(Body.Name b)
+        public static int BodyNameToSweph(BodyName b)
         {
             switch (b)
             {
-                case Body.Name.Sun: return Sweph.SE_SUN;
-                case Body.Name.Moon: return Sweph.SE_MOON;
-                case Body.Name.Mars: return Sweph.SE_MARS;
-                case Body.Name.Mercury: return Sweph.SE_MERCURY;
-                case Body.Name.Jupiter: return Sweph.SE_JUPITER;
-                case Body.Name.Venus: return Sweph.SE_VENUS;
-                case Body.Name.Saturn: return Sweph.SE_SATURN;
-                case Body.Name.Lagna: return Sweph.SE_BIT_NO_REFRACTION;
+                case BodyName.Sun: return Sweph.SE_SUN;
+                case BodyName.Moon: return Sweph.SE_MOON;
+                case BodyName.Mars: return Sweph.SE_MARS;
+                case BodyName.Mercury: return Sweph.SE_MERCURY;
+                case BodyName.Jupiter: return Sweph.SE_JUPITER;
+                case BodyName.Venus: return Sweph.SE_VENUS;
+                case BodyName.Saturn: return Sweph.SE_SATURN;
+                case BodyName.Lagna: return Sweph.SE_BIT_NO_REFRACTION;
                 default:
                     throw new Exception();
             }

@@ -4,7 +4,7 @@ namespace org.transliteral.panchang
 {
     public class GhatakaStar
 	{
-        static public bool CheckStar(ZodiacHouse janmaRasi, Nakshatra nak)
+        public static bool CheckStar(ZodiacHouse janmaRasi, Nakshatra nak)
 		{
 			ZodiacHouseName ja = janmaRasi.Value;
 			NakshatraName gh = NakshatraName.Aswini;

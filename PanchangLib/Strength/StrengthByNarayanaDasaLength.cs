@@ -9,11 +9,11 @@ namespace org.transliteral.panchang
 		public StrengthByNarayanaDasaLength (Horoscope h, Division dtype, bool bSimpleLord) : base (h, dtype, bSimpleLord) {}
 		protected int Value (ZodiacHouseName _zh)
 		{
-			Body.Name bl = this.GetStrengthLord(_zh);
+			BodyName bl = this.GetStrengthLord(_zh);
 			DivisionPosition pl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType);
 			return NarayanaDasa.NarayanaDasaLength  (new ZodiacHouse(_zh), pl);
 		}
-        protected int Value(Body.Name bm)
+        protected int Value(BodyName bm)
 		{
 			ZodiacHouseName zm = horoscope.GetPosition(bm).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 			return Value(zm);
@@ -26,7 +26,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-        public bool Stronger(Body.Name m, Body.Name n)
+        public bool Stronger(BodyName m, BodyName n)
 		{
 			int a = this.Value(m);
 			int b = this.Value(n);

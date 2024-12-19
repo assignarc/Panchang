@@ -32,8 +32,8 @@ namespace org.transliteral.panchang
 			yearLength = _yearLength;
 			compression = _compression;
 			h = _h;
-			spos = h.GetPosition(Body.Name.Sun).Longitude.Value;
-			mpos = h.GetPosition(Body.Name.Moon).Longitude.Value;
+			spos = h.GetPosition(BodyName.Sun).Longitude.Value;
+			mpos = h.GetPosition(BodyName.Moon).Longitude.Value;
 		}
 		public void SetOffset (double _offset)
 		{
@@ -41,8 +41,8 @@ namespace org.transliteral.panchang
 		}
 
 
-		public Moment AddPraveshYears (double years, 
-			org.transliteral.panchang.ReturnLon returnLonFunc, int numMonths, int numDays)
+		public Moment AddPraveshYears (double years,
+            ReturnLon returnLonFunc, int numMonths, int numDays)
 		{
 			double jd=0.0;
 			int year=0, month=0, day=0;
@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
 
 			Debug.Assert(years >= 0, "pravesh years only work in the future");
 			t = new Transit (h);
-			soff = h.GetPosition(Body.Name.Sun).Longitude.ToZodiacHouseOffset();
+			soff = h.GetPosition(BodyName.Sun).Longitude.ToZodiacHouseOffset();
 			_years = years;
 			tYears=0;
 			tMonths=0;

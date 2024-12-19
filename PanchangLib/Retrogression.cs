@@ -6,8 +6,8 @@ namespace org.transliteral.panchang
     public class Retrogression
     {
         private Horoscope h;
-        private Body.Name b;
-        public Retrogression(Horoscope _h, Body.Name _b)
+        private BodyName b;
+        public Retrogression(Horoscope _h, BodyName _b)
         {
             //Debug.Assert((int)_b >= (int)Body.Name.Moon &&
             //	(int)_b <= (int)Body.Name.Saturn, 
@@ -19,15 +19,15 @@ namespace org.transliteral.panchang
         {
             switch (b)
             {
-                case Body.Name.Mars:
+                case BodyName.Mars:
                     start.Value = 211;
                     end.Value = 232;
                     break;
-                case Body.Name.Jupiter:
+                case BodyName.Jupiter:
                     start.Value = 240;
                     end.Value = 248;
                     break;
-                case Body.Name.Saturn:
+                case BodyName.Saturn:
                     start.Value = 248;
                     end.Value = 253;
                     break;
@@ -73,7 +73,7 @@ namespace org.transliteral.panchang
         }
         public double GetTransitBackward(double ut, Longitude lonToFind)
         {
-            if (this.b == Body.Name.Lagna)
+            if (this.b == BodyName.Lagna)
                 return GetLagnaTransitBackward(ut, lonToFind);
 
             bool becomesDirect = true;
@@ -177,7 +177,7 @@ namespace org.transliteral.panchang
 
         public double GetTransitForward(double ut, Longitude lonToFind)
         {
-            if (this.b == Body.Name.Lagna)
+            if (this.b == BodyName.Lagna)
                 return GetLagnaTransitForward(ut, lonToFind);
 
 
@@ -228,7 +228,7 @@ namespace org.transliteral.panchang
         }
         public Longitude GetLon(double ut, ref bool bForward)
         {
-            if (this.b == Body.Name.Lagna)
+            if (this.b == BodyName.Lagna)
                 return new Longitude(Sweph.swe_lagna(ut));
 
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);

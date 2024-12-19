@@ -9,8 +9,8 @@ namespace org.transliteral.panchang
 {
     public class VimsottariDasa : NakshatraDasa, INakshatraDasa
     {
-        override public Object Options => this.options.Clone();
-        override public object SetOptions(Object a)
+        public override Object Options => this.options.Clone();
+        public override object SetOptions(Object a)
         {
             UserOptions uo = (UserOptions)a;
             bool bRecalculate = false;
@@ -42,7 +42,7 @@ namespace org.transliteral.panchang
         public class UserOptions : ICloneable
         {
             public Division div = new Division(DivisionType.Rasi);
-            public Body.Name start_graha;
+            public BodyName start_graha;
             public int nakshatra_offset;
             public StartBodyType user_start_graha;
             public Object Clone()
@@ -56,14 +56,14 @@ namespace org.transliteral.panchang
                 };
             }
 
-            [org.transliteral.panchang.DisplayName("Varga")]
+            [Visible("Varga")]
             public DivisionType Varga
             {
                 get { return this.div.MultipleDivisions[0].Varga; }
                 set { this.div = new Division(value); }
             }
 
-            [org.transliteral.panchang.DisplayName("Seed Nakshatra")]
+            [Visible("Seed Nakshatra")]
             public StartBodyType SeedBody
             {
                 get { return user_start_graha; }
@@ -73,35 +73,35 @@ namespace org.transliteral.panchang
                     switch (value)
                     {
                         case StartBodyType.Lagna:
-                            start_graha = Body.Name.Lagna;
+                            start_graha = BodyName.Lagna;
                             nakshatra_offset = 1;
                             break;
                         case StartBodyType.Jupiter:
-                            start_graha = Body.Name.Jupiter;
+                            start_graha = BodyName.Jupiter;
                             nakshatra_offset = 1;
                             break;
                         case StartBodyType.Moon:
-                            start_graha = Body.Name.Moon;
+                            start_graha = BodyName.Moon;
                             nakshatra_offset = 1;
                             break;
                         case StartBodyType.Utpanna:
-                            start_graha = Body.Name.Moon;
+                            start_graha = BodyName.Moon;
                             nakshatra_offset = 5;
                             break;
                         case StartBodyType.Kshema:
-                            start_graha = Body.Name.Moon;
+                            start_graha = BodyName.Moon;
                             nakshatra_offset = 4;
                             break;
                         case StartBodyType.Aadhaana:
-                            start_graha = Body.Name.Moon;
+                            start_graha = BodyName.Moon;
                             nakshatra_offset = 8;
                             break;
                         case StartBodyType.Maandi:
-                            start_graha = Body.Name.Maandi;
+                            start_graha = BodyName.Maandi;
                             nakshatra_offset = 1;
                             break;
                         case StartBodyType.Gulika:
-                            start_graha = Body.Name.Gulika;
+                            start_graha = BodyName.Gulika;
                             nakshatra_offset = 1;
                             break;
                     }
@@ -121,9 +121,9 @@ namespace org.transliteral.panchang
             horoscope = h;
 
             FindStronger fs_graha = new FindStronger(h, new Division(DivisionType.BhavaPada), FindStronger.RulesVimsottariGraha(h));
-            Body.Name stronger = fs_graha.StrongerGraha(Body.Name.Moon, Body.Name.Lagna, false);
+            BodyName stronger = fs_graha.StrongerGraha(BodyName.Moon, BodyName.Lagna, false);
 
-            if (stronger == Body.Name.Lagna)
+            if (stronger == BodyName.Lagna)
                 options.SeedBody = StartBodyType.Lagna;
             else
                 options.SeedBody = StartBodyType.Moon;
@@ -146,62 +146,62 @@ namespace org.transliteral.panchang
         {
             return new DasaEntry(NextDasaLordHelper(di.graha), 0, 0, di.level, "");
         }
-        private Body.Name NextDasaLordHelper(Body.Name b)
+        private BodyName NextDasaLordHelper(BodyName b)
         {
             switch (b)
             {
-                case Body.Name.Sun: return Body.Name.Moon;
-                case Body.Name.Moon: return Body.Name.Mars;
-                case Body.Name.Mars: return Body.Name.Rahu;
-                case Body.Name.Rahu: return Body.Name.Jupiter;
-                case Body.Name.Jupiter: return Body.Name.Saturn;
-                case Body.Name.Saturn: return Body.Name.Mercury;
-                case Body.Name.Mercury: return Body.Name.Ketu;
-                case Body.Name.Ketu: return Body.Name.Venus;
-                case Body.Name.Venus: return Body.Name.Sun;
+                case BodyName.Sun: return BodyName.Moon;
+                case BodyName.Moon: return BodyName.Mars;
+                case BodyName.Mars: return BodyName.Rahu;
+                case BodyName.Rahu: return BodyName.Jupiter;
+                case BodyName.Jupiter: return BodyName.Saturn;
+                case BodyName.Saturn: return BodyName.Mercury;
+                case BodyName.Mercury: return BodyName.Ketu;
+                case BodyName.Ketu: return BodyName.Venus;
+                case BodyName.Venus: return BodyName.Sun;
             }
             Trace.Assert(false, "VimsottariDasa::nextDasaLord");
-            return Body.Name.Lagna;
+            return BodyName.Lagna;
         }
-        public double LengthOfDasa(Body.Name plt)
+        public double LengthOfDasa(BodyName plt)
         {
             return VimsottariDasa.LengthOfDasaS(plt);
         }
-        public static double LengthOfDasaS(Body.Name plt)
+        public static double LengthOfDasaS(BodyName plt)
         {
             switch (plt)
             {
-                case Body.Name.Sun: return 6;
-                case Body.Name.Moon: return 10;
-                case Body.Name.Mars: return 7;
-                case Body.Name.Rahu: return 18;
-                case Body.Name.Jupiter: return 16;
-                case Body.Name.Saturn: return 19;
-                case Body.Name.Mercury: return 17;
-                case Body.Name.Ketu: return 7;
-                case Body.Name.Venus: return 20;
+                case BodyName.Sun: return 6;
+                case BodyName.Moon: return 10;
+                case BodyName.Mars: return 7;
+                case BodyName.Rahu: return 18;
+                case BodyName.Jupiter: return 16;
+                case BodyName.Saturn: return 19;
+                case BodyName.Mercury: return 17;
+                case BodyName.Ketu: return 7;
+                case BodyName.Venus: return 20;
             }
             Trace.Assert(false, "Vimsottari::lengthOfDasa");
             return 0;
         }
 
-        public Body.Name LordOfNakshatra(Nakshatra n)
+        public BodyName LordOfNakshatra(Nakshatra n)
         {
             return VimsottariDasa.LordOfNakshatraS(n);
         }
-        public static Body.Name LordOfNakshatraS(Nakshatra n)
+        public static BodyName LordOfNakshatraS(Nakshatra n)
         {
-            Body.Name[] lords = new Body.Name[9]
+            BodyName[] lords = new BodyName[9]
                 {
-                    Body.Name.Mercury,
-                    Body.Name.Ketu, Body.Name.Venus, Body.Name.Sun,
-                    Body.Name.Moon, Body.Name.Mars, Body.Name.Rahu,
-                    Body.Name.Jupiter, Body.Name.Saturn
+                    BodyName.Mercury,
+                    BodyName.Ketu, BodyName.Venus, BodyName.Sun,
+                    BodyName.Moon, BodyName.Mars, BodyName.Rahu,
+                    BodyName.Jupiter, BodyName.Saturn
                 };
             int nak_val = ((int)n.Value) % 9;
             return lords[nak_val];
         }
-        new public void DivisionChanged(Division div)
+        public new void DivisionChanged(Division div)
         {
             UserOptions uoNew = (UserOptions)this.options.Clone();
             uoNew.div = (Division)div.Clone();

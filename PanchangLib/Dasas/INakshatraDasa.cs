@@ -9,7 +9,7 @@ namespace org.transliteral.panchang
 	{
         int NumberOfDasaItems();                 // Number of dasas for 1 cycle
         DasaEntry NextDasaLord(DasaEntry di);      // Order of Dasas
-        double LengthOfDasa (Body.Name plt);      // Length of a maha dasa
-		Body.Name LordOfNakshatra(Nakshatra n);   // Dasa lord of given nakshatra
+        double LengthOfDasa (BodyName plt);      // Length of a maha dasa
+		BodyName LordOfNakshatra(Nakshatra n);   // Dasa lord of given nakshatra
 	}
 }

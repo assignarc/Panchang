@@ -825,10 +825,10 @@ namespace org.transliteral.panchang.app
                 if (dp.Type == BodyType.Name.Graha)
                 {
                     BodyPosition bp = h.GetPosition(dp.Name);
-                    if (bp.SpeedLongitude < 0.0 && bp.name != Body.Name.Rahu && bp.name != Body.Name.Ketu)
+                    if (bp.SpeedLongitude < 0.0 && bp.name != BodyName.Rahu && bp.name != BodyName.Ketu)
                         f = new Font(fBase.Name, fBase.Size, FontStyle.Underline);
                 }
-                else if (dp.Name == Body.Name.Lagna)
+                else if (dp.Name == BodyName.Lagna)
                 {
                     f = new Font(fBase.Name, fBase.Size, FontStyle.Bold);
                 }
@@ -926,14 +926,14 @@ namespace org.transliteral.panchang.app
             // number of karakas to display
             int max = 0;
             if (options.ViewStyle == EViewStyle.CharaKarakas7)
-                max = (int)Body.Name.Saturn;
+                max = (int)BodyName.Saturn;
             else
-                max = (int)Body.Name.Rahu;
+                max = (int)BodyName.Rahu;
 
             // determine karakas
-            for (int i = (int)Body.Name.Sun; i <= max; i++)
+            for (int i = (int)BodyName.Sun; i <= max; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 BodyPosition bp = h.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
@@ -951,7 +951,7 @@ namespace org.transliteral.panchang.app
             // display bodies
             for (int i = 0; i <= max; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 DivisionPosition dp = (DivisionPosition)div_pos[i];
                 ZodiacHouse zh = dp.ZodiacHouse;
                 int j = (int)zh.Value;
@@ -963,7 +963,7 @@ namespace org.transliteral.panchang.app
 
             }
 
-            DivisionPosition dp2 = (DivisionPosition)div_pos[(int)Body.Name.Lagna];
+            DivisionPosition dp2 = (DivisionPosition)div_pos[(int)BodyName.Lagna];
             ZodiacHouse zh2 = dp2.ZodiacHouse;
             int j2 = (int)zh2.Value;
             nItems[j2]++;
@@ -975,7 +975,7 @@ namespace org.transliteral.panchang.app
 
             DivisionPosition dpo;
             int i;
-            dpo = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(options.Varga);
+            dpo = h.GetPosition(BodyName.Lagna).ToDivisionPosition(options.Varga);
             i = (int)dpo.ZodiacHouse.Value;
             nItems[i]++;
             AddItem(g, dpo.ZodiacHouse, nItems[i], dpo, true);
@@ -1011,12 +1011,12 @@ namespace org.transliteral.panchang.app
         private void PaintNormalView(Graphics g)
         {
             int[] nItems = new int[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            Body.Name[] bItems = new Body.Name[10]
+            BodyName[] bItems = new BodyName[10]
              {
-                 Body.Name.Lagna, Body.Name.Sun, Body.Name.Moon,
-                 Body.Name.Mars, Body.Name.Mercury, Body.Name.Jupiter,
-                 Body.Name.Venus, Body.Name.Saturn, Body.Name.Rahu,
-                 Body.Name.Ketu
+                 BodyName.Lagna, BodyName.Sun, BodyName.Moon,
+                 BodyName.Mars, BodyName.Mercury, BodyName.Jupiter,
+                 BodyName.Venus, BodyName.Saturn, BodyName.Rahu,
+                 BodyName.Ketu
              };
 
 #if DDD

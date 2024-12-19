@@ -34,7 +34,7 @@ namespace org.transliteral.panchang
 				uo.mTrikonaStrengths = (OrderedZodiacHouses)this.mTrikonaStrengths.Clone();
 				return uo;
 			}
-			override public object CopyFrom (object _uo)
+			public override object CopyFrom (object _uo)
 			{
 				UserOptions uo = (UserOptions)_uo;
 				if (this.Division != uo.Division ||
@@ -50,7 +50,7 @@ namespace org.transliteral.panchang
 				base.CopyFromNoClone(_uo);
 				return this.Clone();
 			}
-			new public void recalculate ()
+			public new void recalculate ()
 			{
 				this.calculateTrikonaStrengths();
 				this.calculateSeed();
@@ -77,7 +77,7 @@ namespace org.transliteral.panchang
 
 		public DivisionPosition getLordsPosition (ZodiacHouse zh)
 		{
-			Body.Name b;
+			BodyName b;
 			if (zh.Value == ZodiacHouseName.Sco) b = options.ColordSco;
 			else if (zh.Value == ZodiacHouseName.Aqu) b = options.ColordAqu;
 			else b = Basics.SimpleLordOfZodiacHouse(zh.Value);
@@ -147,7 +147,7 @@ namespace org.transliteral.panchang
 			RecalculateEvent();
 			return options.Clone();
 		}
-		new public void DivisionChanged (Division div)
+		public new void DivisionChanged (Division div)
 		{
 			UserOptions newOpts = (UserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();

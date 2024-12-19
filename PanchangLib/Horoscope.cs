@@ -26,8 +26,8 @@ namespace org.transliteral.panchang
         public double Ayanamsa;
         public double lmt_offset;
         public double baseUT;
-        public Basics.Weekday Weekday;
-        public Basics.Weekday WeekdayLMT;
+        public Weekday Weekday;
+        public Weekday WeekdayLMT;
         public ArrayList PositionList;
         public Longitude[] SwephHouseCusps;
         public int SwephHouseSystem;
@@ -37,15 +37,15 @@ namespace org.transliteral.panchang
                 "VL", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11", "V12"
           };
         public HoroscopeOptions Options;
-        public Body.Name[] KalaOrder = new Body.Name[]
+        public BodyName[] KalaOrder = new BodyName[]
            {
-                Body.Name.Sun, Body.Name.Mars, Body.Name.Jupiter, Body.Name.Mercury,
-                Body.Name.Venus, Body.Name.Saturn, Body.Name.Moon, Body.Name.Rahu
+                BodyName.Sun, BodyName.Mars, BodyName.Jupiter, BodyName.Mercury,
+                BodyName.Venus, BodyName.Saturn, BodyName.Moon, BodyName.Rahu
            };
-        public Body.Name[] HoraOrder = new Body.Name[]
+        public BodyName[] HoraOrder = new BodyName[]
            {
-                Body.Name.Sun, Body.Name.Venus, Body.Name.Mercury, Body.Name.Moon,
-                Body.Name.Saturn, Body.Name.Jupiter, Body.Name.Mars
+                BodyName.Sun, BodyName.Venus, BodyName.Mercury, BodyName.Moon,
+                BodyName.Saturn, BodyName.Jupiter, BodyName.Mars
            };
         public Horoscope(HoraInfo _info, HoroscopeOptions _options)
         {
@@ -56,20 +56,20 @@ namespace org.transliteral.panchang
             GlobalOptions.CalculationPrefsChanged += new EvtChanged(this.OnGlobalCalcPrefsChanged);
         }
 
-        public Body.Name LordOfZodiacHouse(ZodiacHouse zh, Division dtype)
+        public BodyName LordOfZodiacHouse(ZodiacHouse zh, Division dtype)
         {
             return LordOfZodiacHouse(zh.Value, dtype);
         }
-        public Body.Name LordOfZodiacHouse(ZodiacHouseName zh, Division dtype)
+        public BodyName LordOfZodiacHouse(ZodiacHouseName zh, Division dtype)
         {
             FindStronger fs_colord = new FindStronger(this, dtype, FindStronger.RulesStrongerCoLord(this));
 
             switch (zh)
             {
                 case ZodiacHouseName.Aqu:
-                    return fs_colord.StrongerGraha(Body.Name.Rahu, Body.Name.Saturn, true);
+                    return fs_colord.StrongerGraha(BodyName.Rahu, BodyName.Saturn, true);
                 case ZodiacHouseName.Sco:
-                    return fs_colord.StrongerGraha(Body.Name.Ketu, Body.Name.Mars, true);
+                    return fs_colord.StrongerGraha(BodyName.Ketu, BodyName.Mars, true);
                 default:
                     return Basics.SimpleLordOfZodiacHouse(zh);
             }
@@ -113,17 +113,17 @@ namespace org.transliteral.panchang
             }
             return al;
         }
-        private DivisionPosition CalculateGrahaArudhaDivisionPosition(Body.Name bn, ZodiacHouse zh, Division dtype)
+        private DivisionPosition CalculateGrahaArudhaDivisionPosition(BodyName bn, ZodiacHouse zh, Division dtype)
         {
             DivisionPosition dp = GetPosition(bn).ToDivisionPosition(dtype);
-            DivisionPosition dpl = GetPosition(Body.Name.Lagna).ToDivisionPosition(dtype);
+            DivisionPosition dpl = GetPosition(BodyName.Lagna).ToDivisionPosition(dtype);
             int rel = dp.ZodiacHouse.NumHousesBetween(zh);
             int hse = dpl.ZodiacHouse.NumHousesBetween(zh);
             ZodiacHouse zhsum = zh.Add(rel);
             int rel2 = dp.ZodiacHouse.NumHousesBetween(zhsum);
             if (rel2 == 1 || rel2 == 7)
                 zhsum = zhsum.Add(10);
-            DivisionPosition dp2 = new DivisionPosition(Body.Name.Other, BodyType.Name.GrahaArudha, zhsum, 0, 0, 0);
+            DivisionPosition dp2 = new DivisionPosition(BodyName.Other, BodyType.Name.GrahaArudha, zhsum, 0, 0, 0);
             dp2.otherString = String.Format("{0}{1}", Body.ToShortString(bn), hse);
             return dp2;
         }
@@ -131,26 +131,26 @@ namespace org.transliteral.panchang
         {
             object[][] parameters = new object[][]
             {
-                new object[] { ZodiacHouseName.Ari, Body.Name.Mars },
-                new object[] { ZodiacHouseName.Tau, Body.Name.Venus },
-                new object[] { ZodiacHouseName.Gem, Body.Name.Mercury },
-                new object[] { ZodiacHouseName.Can, Body.Name.Moon },
-                new object[] { ZodiacHouseName.Leo, Body.Name.Sun },
-                new object[] { ZodiacHouseName.Vir, Body.Name.Mercury },
-                new object[] { ZodiacHouseName.Lib, Body.Name.Venus },
-                new object[] { ZodiacHouseName.Sco, Body.Name.Mars },
-                new object[] { ZodiacHouseName.Sag, Body.Name.Jupiter },
-                new object[] { ZodiacHouseName.Cap, Body.Name.Saturn },
-                new object[] { ZodiacHouseName.Aqu, Body.Name.Saturn },
-                new object[] { ZodiacHouseName.Pis, Body.Name.Jupiter },
-                new object[] { ZodiacHouseName.Sco, Body.Name.Ketu },
-                new object[] { ZodiacHouseName.Aqu, Body.Name.Rahu }
+                new object[] { ZodiacHouseName.Ari, BodyName.Mars },
+                new object[] { ZodiacHouseName.Tau, BodyName.Venus },
+                new object[] { ZodiacHouseName.Gem, BodyName.Mercury },
+                new object[] { ZodiacHouseName.Can, BodyName.Moon },
+                new object[] { ZodiacHouseName.Leo, BodyName.Sun },
+                new object[] { ZodiacHouseName.Vir, BodyName.Mercury },
+                new object[] { ZodiacHouseName.Lib, BodyName.Venus },
+                new object[] { ZodiacHouseName.Sco, BodyName.Mars },
+                new object[] { ZodiacHouseName.Sag, BodyName.Jupiter },
+                new object[] { ZodiacHouseName.Cap, BodyName.Saturn },
+                new object[] { ZodiacHouseName.Aqu, BodyName.Saturn },
+                new object[] { ZodiacHouseName.Pis, BodyName.Jupiter },
+                new object[] { ZodiacHouseName.Sco, BodyName.Ketu },
+                new object[] { ZodiacHouseName.Aqu, BodyName.Rahu }
             };
             ArrayList al = new ArrayList(14);
 
             for (int i = 0; i < parameters.Length; i++)
                 al.Add(this.CalculateGrahaArudhaDivisionPosition(
-                    (Body.Name)parameters[i][1],
+                    (BodyName)parameters[i][1],
                     new ZodiacHouse((ZodiacHouseName)parameters[i][0]),
                     dtype));
             return al;
@@ -159,8 +159,8 @@ namespace org.transliteral.panchang
         public ArrayList CalculateVarnadaDivisionPositions(Division dtype)
         {
             ArrayList al = new ArrayList(12);
-            ZodiacHouse _zh_l = this.GetPosition(Body.Name.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
-            ZodiacHouse _zh_hl = this.GetPosition(Body.Name.HoraLagna).ToDivisionPosition(dtype).ZodiacHouse;
+            ZodiacHouse _zh_l = this.GetPosition(BodyName.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
+            ZodiacHouse _zh_hl = this.GetPosition(BodyName.HoraLagna).ToDivisionPosition(dtype).ZodiacHouse;
 
             ZodiacHouse zh_ari = new ZodiacHouse(ZodiacHouseName.Ari);
             ZodiacHouse zh_pis = new ZodiacHouse(ZodiacHouseName.Pis);
@@ -184,14 +184,14 @@ namespace org.transliteral.panchang
                 if (zh_l.IsOdd()) zh_v = zh_ari.Add(sum);
                 else zh_v = zh_pis.AddReverse(sum);
 
-                DivisionPosition div_pos = new DivisionPosition(Body.Name.Other, BodyType.Name.Varnada, zh_v, 0, 0, 0);
+                DivisionPosition div_pos = new DivisionPosition(BodyName.Other, BodyType.Name.Varnada, zh_v, 0, 0, 0);
                 div_pos.otherString = VarnadaStars[i - 1];
                 al.Add(div_pos);
             }
             return al;
         }
-        private DivisionPosition CalculateArudhaDivisionPosition(ZodiacHouse zh, Body.Name bn,
-            Body.Name aname, Division d, BodyType.Name btype)
+        private DivisionPosition CalculateArudhaDivisionPosition(ZodiacHouse zh, BodyName bn,
+            BodyName aname, Division d, BodyType.Name btype)
         {
             BodyPosition bp = GetPosition(bn);
             ZodiacHouse zhb = CalculateDivisionPosition(bp, d).ZodiacHouse;
@@ -204,12 +204,12 @@ namespace org.transliteral.panchang
         }
         public ArrayList CalculateArudhaDivisionPositions(Division d)
         {
-            Body.Name[] bnlist = new Body.Name[]
+            BodyName[] bnlist = new BodyName[]
                 {
-                    Body.Name.Other,
-                    Body.Name.AL, Body.Name.A2, Body.Name.A3, Body.Name.A4,
-                    Body.Name.A5, Body.Name.A6, Body.Name.A7, Body.Name.A8,
-                    Body.Name.A9, Body.Name.A10, Body.Name.A11, Body.Name.UL
+                    BodyName.Other,
+                    BodyName.AL, BodyName.A2, BodyName.A3, BodyName.A4,
+                    BodyName.A5, BodyName.A6, BodyName.A7, BodyName.A8,
+                    BodyName.A9, BodyName.A10, BodyName.A11, BodyName.UL
                 };
 
             FindStronger fs_colord = new FindStronger(this, d, FindStronger.RulesStrongerCoLord(this));
@@ -217,19 +217,19 @@ namespace org.transliteral.panchang
             DivisionPosition first, second;
             for (int j = 1; j <= 12; j++)
             {
-                ZodiacHouse zlagna = this.CalculateDivisionPosition(this.GetPosition(Body.Name.Lagna), d).ZodiacHouse;
+                ZodiacHouse zlagna = this.CalculateDivisionPosition(this.GetPosition(BodyName.Lagna), d).ZodiacHouse;
                 ZodiacHouse zh = zlagna.Add(j);
-                Body.Name bn_stronger, bn_weaker = Body.Name.Other;
+                BodyName bn_stronger, bn_weaker = BodyName.Other;
                 bn_stronger = Basics.SimpleLordOfZodiacHouse(zh.Value);
                 if (zh.Value == ZodiacHouseName.Aqu)
                 {
-                    bn_stronger = fs_colord.StrongerGraha(Body.Name.Rahu, Body.Name.Saturn, true);
-                    bn_weaker = fs_colord.WeakerGraha(Body.Name.Rahu, Body.Name.Saturn, true);
+                    bn_stronger = fs_colord.StrongerGraha(BodyName.Rahu, BodyName.Saturn, true);
+                    bn_weaker = fs_colord.WeakerGraha(BodyName.Rahu, BodyName.Saturn, true);
                 }
                 else if (zh.Value == ZodiacHouseName.Sco)
                 {
-                    bn_stronger = fs_colord.StrongerGraha(Body.Name.Ketu, Body.Name.Mars, true);
-                    bn_weaker = fs_colord.WeakerGraha(Body.Name.Ketu, Body.Name.Mars, true);
+                    bn_stronger = fs_colord.StrongerGraha(BodyName.Ketu, BodyName.Mars, true);
+                    bn_weaker = fs_colord.WeakerGraha(BodyName.Ketu, BodyName.Mars, true);
                 }
                 first = CalculateArudhaDivisionPosition(zh, bn_stronger, bnlist[j], d, BodyType.Name.BhavaArudha);
                 arudha_div_list.Add(first);
@@ -430,15 +430,15 @@ namespace org.transliteral.panchang
             return ret;
 
         }
-        public Body.Name CalculateKala()
+        public BodyName CalculateKala()
         {
             int iBase = 0;
             return CalculateKala(ref iBase);
         }
-        public Body.Name CalculateKala(ref int iBase)
+        public BodyName CalculateKala(ref int iBase)
         {
             int[] offsets_day = new int[] { 0, 6, 1, 3, 2, 4, 5 };
-            Body.Name b = Basics.WeekdayRuler(this.Weekday);
+            BodyName b = Basics.WeekdayRuler(this.Weekday);
             bool bday_birth = this.IsDayBirth();
 
             double[] cusps = this.GetKalaCuspsUt();
@@ -480,15 +480,15 @@ namespace org.transliteral.panchang
         }
 
        
-        public Body.Name CalculateHora()
+        public BodyName CalculateHora()
         {
             int iBody = 0;
             return this.CalculateHora(this.baseUT, ref iBody);
         }
-        public Body.Name CalculateHora(double _baseUT, ref int baseBody)
+        public BodyName CalculateHora(double _baseUT, ref int baseBody)
         {
             int[] offsets = new int[] { 0, 3, 6, 2, 5, 1, 4 };
-            Body.Name b = Basics.WeekdayRuler(this.Weekday);
+            BodyName b = Basics.WeekdayRuler(this.Weekday);
             double[] cusps = this.GetHoraCuspsUt();
             if (this.Options.HoraType == EHoraType.Lmt)
                 b = Basics.WeekdayRuler(this.WeekdayLMT);
@@ -512,7 +512,7 @@ namespace org.transliteral.panchang
             while (i >= 7) i -= 7;
             return HoraOrder[i];
         }
-        private Body.Name CalculateUpagrahasStart()
+        private BodyName CalculateUpagrahasStart()
         {
             if (this.IsDayBirth())
                 return Basics.WeekdayRuler(this.Weekday);
@@ -520,17 +520,17 @@ namespace org.transliteral.panchang
             switch (this.Weekday)
             {
                 default:
-                case Basics.Weekday.Sunday: return Body.Name.Jupiter;
-                case Basics.Weekday.Monday: return Body.Name.Venus;
-                case Basics.Weekday.Tuesday: return Body.Name.Saturn;
-                case Basics.Weekday.Wednesday: return Body.Name.Sun;
-                case Basics.Weekday.Thursday: return Body.Name.Moon;
-                case Basics.Weekday.Friday: return Body.Name.Mars;
-                case Basics.Weekday.Saturday: return Body.Name.Mercury;
+                case Weekday.Sunday: return BodyName.Jupiter;
+                case Weekday.Monday: return BodyName.Venus;
+                case Weekday.Tuesday: return BodyName.Saturn;
+                case Weekday.Wednesday: return BodyName.Sun;
+                case Weekday.Thursday: return BodyName.Moon;
+                case Weekday.Friday: return BodyName.Mars;
+                case Weekday.Saturday: return BodyName.Mercury;
             }
         }
 
-        private void CalculateUpagrahasSingle(Body.Name b, double tjd)
+        private void CalculateUpagrahasSingle(BodyName b, double tjd)
         {
             Longitude lon = new Longitude(0);
             lon.Value = Sweph.swe_lagna(tjd);
@@ -539,26 +539,26 @@ namespace org.transliteral.panchang
             PositionList.Add(bp);
         }
 
-        private void CalculateMaandiHelper(Body.Name b, EMaandiType mty, double[] jds, double dOffset, int[] bodyOffsets)
+        private void CalculateMaandiHelper(BodyName b, EMaandiType mty, double[] jds, double dOffset, int[] bodyOffsets)
         {
             switch (mty)
             {
                 case EMaandiType.SaturnBegin:
-                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)Body.Name.Saturn]]);
+                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]]);
                     break;
                 case EMaandiType.SaturnMid:
-                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)Body.Name.Saturn]] + dOffset);
+                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + dOffset);
                     break;
                 case EMaandiType.SaturnEnd:
                 case EMaandiType.LordlessBegin:
-                    int _off1 = bodyOffsets[(int)Body.Name.Saturn] + 1;
-                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)Body.Name.Saturn]] + (dOffset * 2.0));
+                    int _off1 = bodyOffsets[(int)BodyName.Saturn] + 1;
+                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 2.0));
                     break;
                 case EMaandiType.LordlessMid:
-                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)Body.Name.Saturn]] + (dOffset * 3.0));
+                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 3.0));
                     break;
                 case EMaandiType.LordlessEnd:
-                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)Body.Name.Saturn]] + (dOffset * 4.0));
+                    this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 4.0));
                     break;
             }
         }
@@ -569,7 +569,7 @@ namespace org.transliteral.panchang
 
             Moment m = this.Info.tob;
             dStart = dEnd = Sweph.swe_julday(m.Year, m.Month, m.Day, -this.Info.tz.toDouble());
-            Body.Name bStart = this.CalculateUpagrahasStart();
+            BodyName bStart = this.CalculateUpagrahasStart();
 
             if (this.IsDayBirth())
             {
@@ -608,33 +608,33 @@ namespace org.transliteral.panchang
             }
 
             Sweph.ObtainLock(this);
-            this.CalculateUpagrahasSingle(Body.Name.Kala, jds[bodyOffsets[(int)Body.Name.Sun]]);
-            this.CalculateUpagrahasSingle(Body.Name.Mrityu, jds[bodyOffsets[(int)Body.Name.Mars]]);
-            this.CalculateUpagrahasSingle(Body.Name.ArthaPraharaka, jds[bodyOffsets[(int)Body.Name.Mercury]]);
-            this.CalculateUpagrahasSingle(Body.Name.YamaGhantaka, jds[bodyOffsets[(int)Body.Name.Jupiter]]);
+            this.CalculateUpagrahasSingle(BodyName.Kala, jds[bodyOffsets[(int)BodyName.Sun]]);
+            this.CalculateUpagrahasSingle(BodyName.Mrityu, jds[bodyOffsets[(int)BodyName.Mars]]);
+            this.CalculateUpagrahasSingle(BodyName.ArthaPraharaka, jds[bodyOffsets[(int)BodyName.Mercury]]);
+            this.CalculateUpagrahasSingle(BodyName.YamaGhantaka, jds[bodyOffsets[(int)BodyName.Jupiter]]);
 
 
-            this.CalculateMaandiHelper(Body.Name.Maandi, Options.MaandiType, jds, dOffset, bodyOffsets);
-            this.CalculateMaandiHelper(Body.Name.Gulika, Options.GulikaType, jds, dOffset, bodyOffsets);
+            this.CalculateMaandiHelper(BodyName.Maandi, Options.MaandiType, jds, dOffset, bodyOffsets);
+            this.CalculateMaandiHelper(BodyName.Gulika, Options.GulikaType, jds, dOffset, bodyOffsets);
             Sweph.ReleaseLock(this);
         }
         private void CalculateSunsUpagrahas()
         {
-            Longitude slon = this.GetPosition(Body.Name.Sun).Longitude;
+            Longitude slon = this.GetPosition(BodyName.Sun).Longitude;
 
-            BodyPosition bpDhuma = new BodyPosition(this, Body.Name.Dhuma, BodyType.Name.Upagraha,
+            BodyPosition bpDhuma = new BodyPosition(this, BodyName.Dhuma, BodyType.Name.Upagraha,
                 slon.Add(133.0 + 20.0 / 60.0), 0, 0, 0, 0, 0);
 
-            BodyPosition bpVyatipata = new BodyPosition(this, Body.Name.Vyatipata, BodyType.Name.Upagraha,
+            BodyPosition bpVyatipata = new BodyPosition(this, BodyName.Vyatipata, BodyType.Name.Upagraha,
                 new Longitude(360.0).Subtract(bpDhuma.Longitude), 0, 0, 0, 0, 0);
 
-            BodyPosition bpParivesha = new BodyPosition(this, Body.Name.Parivesha, BodyType.Name.Upagraha,
+            BodyPosition bpParivesha = new BodyPosition(this, BodyName.Parivesha, BodyType.Name.Upagraha,
                 bpVyatipata.Longitude.Add(180), 0, 0, 0, 0, 0);
 
-            BodyPosition bpIndrachapa = new BodyPosition(this, Body.Name.Indrachapa, BodyType.Name.Upagraha,
+            BodyPosition bpIndrachapa = new BodyPosition(this, BodyName.Indrachapa, BodyType.Name.Upagraha,
                 new Longitude(360.0).Subtract(bpParivesha.Longitude), 0, 0, 0, 0, 0);
 
-            BodyPosition bpUpaketu = new BodyPosition(this, Body.Name.Upaketu, BodyType.Name.Upagraha,
+            BodyPosition bpUpaketu = new BodyPosition(this, BodyName.Upaketu, BodyType.Name.Upagraha,
                 slon.Subtract(30), 0, 0, 0, 0, 0);
 
             PositionList.Add(bpDhuma);
@@ -648,22 +648,22 @@ namespace org.transliteral.panchang
             Moment m = this.Info.tob;
             double jd = Sweph.swe_julday(m.Year, m.Month, m.Day, 12.0);
             if (Info.tob.Time < Sunrise) jd -= 1;
-            this.Weekday = (Basics.Weekday)Sweph.swe_day_of_week(jd);
+            this.Weekday = (Weekday)Sweph.swe_day_of_week(jd);
 
             jd = Sweph.swe_julday(m.Year, m.Month, m.Day, 12.0);
             if (Info.tob.Time < SunriseLMT) jd -= 1;
-            this.WeekdayLMT = (Basics.Weekday)Sweph.swe_day_of_week(jd);
+            this.WeekdayLMT = (Weekday)Sweph.swe_day_of_week(jd);
         }
         private void AddChandraLagna(string desc, Longitude lon)
         {
             BodyPosition bp = new BodyPosition(
-                this, Body.Name.Other, BodyType.Name.ChandraLagna, lon, 0, 0, 0, 0, 0);
+                this, BodyName.Other, BodyType.Name.ChandraLagna, lon, 0, 0, 0, 0, 0);
             bp.otherString = desc;
             this.PositionList.Add(bp);
         }
         private void CalculateChandraLagnas()
         {
-            BodyPosition bp_moon = this.GetPosition(Body.Name.Moon);
+            BodyPosition bp_moon = this.GetPosition(BodyName.Moon);
             Longitude lon_base =
                 new Longitude(bp_moon.ExtrapolateLongitude(
                 new Division(DivisionType.Navamsa)).ToZodiacHouseBase());
@@ -688,17 +688,17 @@ namespace org.transliteral.panchang
 
         private void CalculateSL()
         {
-            Longitude mpos = this.GetPosition(Body.Name.Moon).Longitude;
-            Longitude lpos = this.GetPosition(Body.Name.Lagna).Longitude;
+            Longitude mpos = this.GetPosition(BodyName.Moon).Longitude;
+            Longitude lpos = this.GetPosition(BodyName.Lagna).Longitude;
             double sldeg = mpos.ToNakshatraOffset() / ((360.0) / 27.0) * 360.0;
             Longitude slLon = lpos.Add(sldeg);
-            BodyPosition bp = new BodyPosition(this, Body.Name.SreeLagna, BodyType.Name.SpecialLagna,
+            BodyPosition bp = new BodyPosition(this, BodyName.SreeLagna, BodyType.Name.SpecialLagna,
                 slLon, 0, 0, 0, 0, 0);
             this.PositionList.Add(bp);
         }
         private void CalculatePranapada()
         {
-            Longitude spos = this.GetPosition(Body.Name.Sun).Longitude;
+            Longitude spos = this.GetPosition(BodyName.Sun).Longitude;
             double offset = this.Info.tob.Time - this.Sunrise;
             if (offset < 0) offset += 24.0;
             offset *= (60.0 * 60.0 / 6.0);
@@ -710,22 +710,22 @@ namespace org.transliteral.panchang
                 default:
                 case 0: ppos = spos.Add(offset + 4.0 * 30.0); break;
             }
-            BodyPosition bp = new BodyPosition(this, Body.Name.Pranapada, BodyType.Name.SpecialLagna,
+            BodyPosition bp = new BodyPosition(this, BodyName.Pranapada, BodyType.Name.SpecialLagna,
                 ppos, 0, 0, 0, 0, 0);
             this.PositionList.Add(bp);
         }
         private void AddOtherPoints()
         {
-            Longitude lag_pos = this.GetPosition(Body.Name.Lagna).Longitude;
-            Longitude sun_pos = this.GetPosition(Body.Name.Sun).Longitude;
-            Longitude moon_pos = this.GetPosition(Body.Name.Moon).Longitude;
-            Longitude mars_pos = this.GetPosition(Body.Name.Mars).Longitude;
-            Longitude jup_pos = this.GetPosition(Body.Name.Jupiter).Longitude;
-            Longitude ven_pos = this.GetPosition(Body.Name.Venus).Longitude;
-            Longitude sat_pos = this.GetPosition(Body.Name.Saturn).Longitude;
-            Longitude rah_pos = this.GetPosition(Body.Name.Rahu).Longitude;
-            Longitude mandi_pos = this.GetPosition(Body.Name.Maandi).Longitude;
-            Longitude gulika_pos = this.GetPosition(Body.Name.Gulika).Longitude;
+            Longitude lag_pos = this.GetPosition(BodyName.Lagna).Longitude;
+            Longitude sun_pos = this.GetPosition(BodyName.Sun).Longitude;
+            Longitude moon_pos = this.GetPosition(BodyName.Moon).Longitude;
+            Longitude mars_pos = this.GetPosition(BodyName.Mars).Longitude;
+            Longitude jup_pos = this.GetPosition(BodyName.Jupiter).Longitude;
+            Longitude ven_pos = this.GetPosition(BodyName.Venus).Longitude;
+            Longitude sat_pos = this.GetPosition(BodyName.Saturn).Longitude;
+            Longitude rah_pos = this.GetPosition(BodyName.Rahu).Longitude;
+            Longitude mandi_pos = this.GetPosition(BodyName.Maandi).Longitude;
+            Longitude gulika_pos = this.GetPosition(BodyName.Gulika).Longitude;
             Longitude muhurta_pos = new Longitude(
                 this.HoursAfterSunrise() / (this.NextSunrise + 24.0 - this.Sunrise) * 360.0);
 
@@ -754,18 +754,18 @@ namespace org.transliteral.panchang
                 sat_pos.Value * 9.0 + mandi_pos.Value * 18.0 + moon_pos.Value * 18.0);
 
             if (this.IsDayBirth())
-                this.AddOtherPosition("Niryana: Su-Sa sum", sun_pos.Add(sat_pos), Body.Name.MrityuPoint);
+                this.AddOtherPosition("Niryana: Su-Sa sum", sun_pos.Add(sat_pos), BodyName.MrityuPoint);
             else
-                this.AddOtherPosition("Niryana: Mo-Ra sum", moon_pos.Add(rah_pos), Body.Name.MrityuPoint);
+                this.AddOtherPosition("Niryana: Mo-Ra sum", moon_pos.Add(rah_pos), BodyName.MrityuPoint);
 
-            this.AddOtherPosition("Mrityu Sun: La-Mn sum", lag_pos.Add(mandi_pos), Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Moon: Mo-Mn sum", moon_pos.Add(mandi_pos), Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Lagna: La-Mo-Mn sum", lag_pos.Add(moon_pos).Add(mandi_pos), Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Sat: Mn8-Sa8", mrit_sat_pos, Body.Name.MrityuPoint);
-            this.AddOtherPosition("6-8-12 sum", l6pos.Add(l8pos).Add(l12pos), Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Jup: Sa9-Mn18-Ju18", mrit_jup2_pos, Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Sun: Sa9-Mn18-Su18", mrit_sun2_pos, Body.Name.MrityuPoint);
-            this.AddOtherPosition("Mrityu Moon: Sa9-Mn18-Mo18", mrit_moon2_pos, Body.Name.MrityuPoint);
+            this.AddOtherPosition("Mrityu Sun: La-Mn sum", lag_pos.Add(mandi_pos), BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Moon: Mo-Mn sum", moon_pos.Add(mandi_pos), BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Lagna: La-Mo-Mn sum", lag_pos.Add(moon_pos).Add(mandi_pos), BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Sat: Mn8-Sa8", mrit_sat_pos, BodyName.MrityuPoint);
+            this.AddOtherPosition("6-8-12 sum", l6pos.Add(l8pos).Add(l12pos), BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Jup: Sa9-Mn18-Ju18", mrit_jup2_pos, BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Sun: Sa9-Mn18-Su18", mrit_sun2_pos, BodyName.MrityuPoint);
+            this.AddOtherPosition("Mrityu Moon: Sa9-Mn18-Mo18", mrit_moon2_pos, BodyName.MrityuPoint);
 
             this.AddOtherPosition("Su-Mo sum", sun_pos.Add(moon_pos));
             this.AddOtherPosition("Ju-Mo-Ma sum", jup_pos.Add(moon_pos).Add(mars_pos));
@@ -865,7 +865,7 @@ namespace org.transliteral.panchang
             return false;
         }
 
-        public void AddOtherPosition(string desc, Longitude lon, Body.Name name)
+        public void AddOtherPosition(string desc, Longitude lon, BodyName name)
         {
             BodyPosition bp = new BodyPosition(this, name, BodyType.Name.Other, lon, 0, 0, 0, 0, 0);
             bp.otherString = desc;
@@ -873,7 +873,7 @@ namespace org.transliteral.panchang
         }
         public void AddOtherPosition(string desc, Longitude lon)
         {
-            AddOtherPosition(desc, lon, Body.Name.Other);
+            AddOtherPosition(desc, lon, BodyName.Other);
         }
 
         public void AddSpecialLagnaPositions()
@@ -894,11 +894,11 @@ namespace org.transliteral.panchang
 
         public void GetPrashnaMargaPositions()
         {
-            Longitude sunLon = this.GetPosition(Body.Name.Sun).Longitude;
-            Longitude moonLon = this.GetPosition(Body.Name.Moon).Longitude;
-            Longitude lagnaLon = this.GetPosition(Body.Name.Lagna).Longitude;
-            Longitude gulikaLon = this.GetPosition(Body.Name.Gulika).Longitude;
-            Longitude rahuLon = this.GetPosition(Body.Name.Rahu).Longitude;
+            Longitude sunLon = this.GetPosition(BodyName.Sun).Longitude;
+            Longitude moonLon = this.GetPosition(BodyName.Moon).Longitude;
+            Longitude lagnaLon = this.GetPosition(BodyName.Lagna).Longitude;
+            Longitude gulikaLon = this.GetPosition(BodyName.Gulika).Longitude;
+            Longitude rahuLon = this.GetPosition(BodyName.Rahu).Longitude;
 
             Longitude trisLon = lagnaLon.Add(moonLon).Add(gulikaLon);
             Longitude chatusLon = trisLon.Add(sunLon);
@@ -916,10 +916,10 @@ namespace org.transliteral.panchang
 
         }
 
-        public BodyPosition GetPosition(Body.Name b)
+        public BodyPosition GetPosition(BodyName b)
         {
             int index = Body.ToInt(b);
-            System.Type t = PositionList[index].GetType();
+            Type t = PositionList[index].GetType();
             String s = t.ToString();
             Trace.Assert(index >= 0 && index < PositionList.Count, "Horoscope::getPosition 1");
             Trace.Assert(PositionList[index].GetType() == typeof(BodyPosition), "Horoscope::getPosition 2");
@@ -927,7 +927,7 @@ namespace org.transliteral.panchang
             if (bp.name == b)
                 return bp;
 
-            for (int i = (int)Body.Name.Lagna + 1; i < PositionList.Count; i++)
+            for (int i = (int)BodyName.Lagna + 1; i < PositionList.Count; i++)
                 if (b == ((BodyPosition)PositionList[i]).name)
                     return (BodyPosition)PositionList[i];
 
@@ -935,7 +935,7 @@ namespace org.transliteral.panchang
             return (BodyPosition)PositionList[0];
 
         }
-        private BodyPosition SahamaHelper(string sahama, Body.Name b, Body.Name a, Body.Name c)
+        private BodyPosition SahamaHelper(string sahama, BodyName b, BodyName a, BodyName c)
         {
             Longitude lonA, lonB, lonC;
             lonA = this.GetPosition(a).Longitude;
@@ -943,14 +943,14 @@ namespace org.transliteral.panchang
             lonC = this.GetPosition(c).Longitude;
             return this.SahamaHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaHelper(string sahama, Body.Name b, Body.Name a, Longitude lonC)
+        private BodyPosition SahamaHelper(string sahama, BodyName b, BodyName a, Longitude lonC)
         {
             Longitude lonA, lonB;
             lonA = this.GetPosition(a).Longitude;
             lonB = this.GetPosition(b).Longitude;
             return this.SahamaHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaHelper(string sahama, Longitude lonB, Body.Name a, Body.Name c)
+        private BodyPosition SahamaHelper(string sahama, Longitude lonB, BodyName a, BodyName c)
         {
             Longitude lonA, lonC;
             lonA = this.GetPosition(a).Longitude;
@@ -967,7 +967,7 @@ namespace org.transliteral.panchang
             if (lonB.Subtract(lonA).Value <= lonC.Subtract(lonA).Value)
                 lonR = lonR.Add(new Longitude(30.0));
 
-            BodyPosition bp = new BodyPosition(this, Body.Name.Other, BodyType.Name.Sahama, lonR,
+            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR,
                 0.0, 0.0, 0.0, 0.0, 0.0);
             bp.otherString = sahama;
             return bp;
@@ -986,32 +986,32 @@ namespace org.transliteral.panchang
             if (lonB.Subtract(lonA).Value <= lonC.Subtract(lonA).Value)
                 lonR = lonR.Add(new Longitude(30.0));
 
-            BodyPosition bp = new BodyPosition(this, Body.Name.Other, BodyType.Name.Sahama, lonR,
+            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR,
                 0.0, 0.0, 0.0, 0.0, 0.0);
             bp.otherString = sahama;
             return bp;
         }
-        private BodyPosition SahamaDNHelper(string sahama, Body.Name b, Longitude lonA, Body.Name c)
+        private BodyPosition SahamaDNHelper(string sahama, BodyName b, Longitude lonA, BodyName c)
         {
             Longitude lonB, lonC;
             lonB = this.GetPosition(b).Longitude;
             lonC = this.GetPosition(c).Longitude;
             return SahamaDNHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaDNHelper(string sahama, Longitude lonB, Body.Name a, Body.Name c)
+        private BodyPosition SahamaDNHelper(string sahama, Longitude lonB, BodyName a, BodyName c)
         {
             Longitude lonA, lonC;
             lonA = this.GetPosition(a).Longitude;
             lonC = this.GetPosition(c).Longitude;
             return SahamaDNHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaDNHelper(string sahama, Longitude lonB, Longitude lonA, Body.Name c)
+        private BodyPosition SahamaDNHelper(string sahama, Longitude lonB, Longitude lonA, BodyName c)
         {
             Longitude lonC;
             lonC = this.GetPosition(c).Longitude;
             return SahamaDNHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaDNHelper(string sahama, Body.Name b, Body.Name a, Body.Name c)
+        private BodyPosition SahamaDNHelper(string sahama, BodyName b, BodyName a, BodyName c)
         {
             Longitude lonA, lonB, lonC;
             lonA = this.GetPosition(a).Longitude;
@@ -1019,7 +1019,7 @@ namespace org.transliteral.panchang
             lonC = this.GetPosition(c).Longitude;
             return SahamaDNHelper(sahama, lonB, lonA, lonC);
         }
-        private BodyPosition SahamaHelperNormalize(BodyPosition b, Body.Name lower, Body.Name higher)
+        private BodyPosition SahamaHelperNormalize(BodyPosition b, BodyName lower, BodyName higher)
         {
             Longitude lonA = this.GetPosition(lower).Longitude;
             Longitude lonB = this.GetPosition(higher).Longitude;
@@ -1031,70 +1031,70 @@ namespace org.transliteral.panchang
         {
             bool bDay = this.IsDayBirth();
             ArrayList al = new ArrayList();
-            Longitude lon_lagna = this.GetPosition(Body.Name.Lagna).Longitude;
+            Longitude lon_lagna = this.GetPosition(BodyName.Lagna).Longitude;
             Longitude lon_base = new Longitude(lon_lagna.ToZodiacHouseBase());
             ZodiacHouse zh_lagna = lon_lagna.ToZodiacHouse();
-            ZodiacHouse zh_moon = this.GetPosition(Body.Name.Moon).Longitude.ToZodiacHouse();
-            ZodiacHouse zh_sun = this.GetPosition(Body.Name.Sun).Longitude.ToZodiacHouse();
+            ZodiacHouse zh_moon = this.GetPosition(BodyName.Moon).Longitude.ToZodiacHouse();
+            ZodiacHouse zh_sun = this.GetPosition(BodyName.Sun).Longitude.ToZodiacHouse();
 
 
             // Fixed positions. Relied on by other sahams
-            al.Add(SahamaDNHelper("Punya", Body.Name.Moon, Body.Name.Sun, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Vidya", Body.Name.Sun, Body.Name.Moon, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Sastra", Body.Name.Jupiter, Body.Name.Saturn, Body.Name.Mercury));
+            al.Add(SahamaDNHelper("Punya", BodyName.Moon, BodyName.Sun, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Vidya", BodyName.Sun, BodyName.Moon, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Sastra", BodyName.Jupiter, BodyName.Saturn, BodyName.Mercury));
 
             // Variable positions.
-            al.Add(SahamaDNHelper("Yasas", Body.Name.Jupiter, ((BodyPosition)al[0]).Longitude, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Mitra", Body.Name.Jupiter, ((BodyPosition)al[0]).Longitude, Body.Name.Venus));
-            al.Add(SahamaDNHelper("Mahatmya", ((BodyPosition)al[0]).Longitude, Body.Name.Mars, Body.Name.Lagna));
+            al.Add(SahamaDNHelper("Yasas", BodyName.Jupiter, ((BodyPosition)al[0]).Longitude, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Mitra", BodyName.Jupiter, ((BodyPosition)al[0]).Longitude, BodyName.Venus));
+            al.Add(SahamaDNHelper("Mahatmya", ((BodyPosition)al[0]).Longitude, BodyName.Mars, BodyName.Lagna));
 
-            Body.Name bLagnaLord = this.LordOfZodiacHouse(zh_lagna, new Division(DivisionType.Rasi));
-            if (bLagnaLord != Body.Name.Mars)
-                al.Add(SahamaDNHelper("Samartha", Body.Name.Mars, bLagnaLord, Body.Name.Lagna));
+            BodyName bLagnaLord = this.LordOfZodiacHouse(zh_lagna, new Division(DivisionType.Rasi));
+            if (bLagnaLord != BodyName.Mars)
+                al.Add(SahamaDNHelper("Samartha", BodyName.Mars, bLagnaLord, BodyName.Lagna));
             else
-                al.Add(SahamaDNHelper("Samartha", Body.Name.Jupiter, Body.Name.Mars, Body.Name.Lagna));
+                al.Add(SahamaDNHelper("Samartha", BodyName.Jupiter, BodyName.Mars, BodyName.Lagna));
 
-            al.Add(SahamaHelper("Bhratri", Body.Name.Jupiter, Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Gaurava", Body.Name.Jupiter, Body.Name.Moon, Body.Name.Sun));
-            al.Add(SahamaDNHelper("Pitri", Body.Name.Saturn, Body.Name.Sun, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Rajya", Body.Name.Saturn, Body.Name.Sun, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Matri", Body.Name.Moon, Body.Name.Venus, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Putra", Body.Name.Jupiter, Body.Name.Moon, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Jeeva", Body.Name.Saturn, Body.Name.Jupiter, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Karma", Body.Name.Mars, Body.Name.Mercury, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Roga", Body.Name.Lagna, Body.Name.Moon, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Kali", Body.Name.Jupiter, Body.Name.Mars, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Bandhu", Body.Name.Mercury, Body.Name.Moon, Body.Name.Lagna));
-            al.Add(SahamaHelper("Mrityu", lon_base.Add(8.0 * 30.0), Body.Name.Moon, Body.Name.Lagna));
+            al.Add(SahamaHelper("Bhratri", BodyName.Jupiter, BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Gaurava", BodyName.Jupiter, BodyName.Moon, BodyName.Sun));
+            al.Add(SahamaDNHelper("Pitri", BodyName.Saturn, BodyName.Sun, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Rajya", BodyName.Saturn, BodyName.Sun, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Matri", BodyName.Moon, BodyName.Venus, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Putra", BodyName.Jupiter, BodyName.Moon, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Jeeva", BodyName.Saturn, BodyName.Jupiter, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Karma", BodyName.Mars, BodyName.Mercury, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Roga", BodyName.Lagna, BodyName.Moon, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Kali", BodyName.Jupiter, BodyName.Mars, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Bandhu", BodyName.Mercury, BodyName.Moon, BodyName.Lagna));
+            al.Add(SahamaHelper("Mrityu", lon_base.Add(8.0 * 30.0), BodyName.Moon, BodyName.Lagna));
             al.Add(SahamaHelper("Paradesa", lon_base.Add(9.0 * 30.0),
                 this.LordOfZodiacHouse(zh_lagna.Add(9), new Division(DivisionType.Rasi)),
-                Body.Name.Lagna));
+                BodyName.Lagna));
             al.Add(SahamaHelper("Artha", lon_base.Add(2.0 * 30.0),
                 this.LordOfZodiacHouse(zh_lagna.Add(2), new Division(DivisionType.Rasi)),
-                Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Paradara", Body.Name.Venus, Body.Name.Sun, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Vanik", Body.Name.Moon, Body.Name.Mercury, Body.Name.Lagna));
+                BodyName.Lagna));
+            al.Add(SahamaDNHelper("Paradara", BodyName.Venus, BodyName.Sun, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Vanik", BodyName.Moon, BodyName.Mercury, BodyName.Lagna));
 
             if (bDay)
-                al.Add(SahamaHelper("Karyasiddhi", Body.Name.Saturn, Body.Name.Sun,
+                al.Add(SahamaHelper("Karyasiddhi", BodyName.Saturn, BodyName.Sun,
                     this.LordOfZodiacHouse(zh_sun, new Division(DivisionType.Rasi))));
             else
-                al.Add(SahamaHelper("Karyasiddhi", Body.Name.Saturn, Body.Name.Moon,
+                al.Add(SahamaHelper("Karyasiddhi", BodyName.Saturn, BodyName.Moon,
                     this.LordOfZodiacHouse(zh_moon, new Division(DivisionType.Rasi))));
 
-            al.Add(SahamaDNHelper("Vivaha", Body.Name.Venus, Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaHelper("Santapa", Body.Name.Saturn, Body.Name.Moon, lon_base.Add(6.0 * 30.0)));
-            al.Add(SahamaDNHelper("Sraddha", Body.Name.Venus, Body.Name.Mars, Body.Name.Lagna));
+            al.Add(SahamaDNHelper("Vivaha", BodyName.Venus, BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaHelper("Santapa", BodyName.Saturn, BodyName.Moon, lon_base.Add(6.0 * 30.0)));
+            al.Add(SahamaDNHelper("Sraddha", BodyName.Venus, BodyName.Mars, BodyName.Lagna));
             al.Add(SahamaDNHelper("Preeti",
-                ((BodyPosition)al[2]).Longitude, ((BodyPosition)al[0]).Longitude, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Jadya", Body.Name.Mars, Body.Name.Saturn, Body.Name.Mercury));
-            al.Add(SahamaHelper("Vyapara", Body.Name.Mars, Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Satru", Body.Name.Mars, Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Jalapatana", new Longitude(105), Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Bandhana", ((BodyPosition)al[0]).Longitude, Body.Name.Saturn, Body.Name.Lagna));
-            al.Add(SahamaDNHelper("Apamrityu", lon_base.Add(8.0 * 30.0), Body.Name.Mars, Body.Name.Lagna));
+                ((BodyPosition)al[2]).Longitude, ((BodyPosition)al[0]).Longitude, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Jadya", BodyName.Mars, BodyName.Saturn, BodyName.Mercury));
+            al.Add(SahamaHelper("Vyapara", BodyName.Mars, BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Satru", BodyName.Mars, BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Jalapatana", new Longitude(105), BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Bandhana", ((BodyPosition)al[0]).Longitude, BodyName.Saturn, BodyName.Lagna));
+            al.Add(SahamaDNHelper("Apamrityu", lon_base.Add(8.0 * 30.0), BodyName.Mars, BodyName.Lagna));
             al.Add(SahamaHelper("Labha", lon_base.Add(11.0 * 30.0),
-                this.LordOfZodiacHouse(zh_lagna.Add(11), new Division(DivisionType.Rasi)), Body.Name.Lagna));
+                this.LordOfZodiacHouse(zh_lagna.Add(11), new Division(DivisionType.Rasi)), BodyName.Lagna));
 
             this.PositionList.AddRange(al);
             return al;

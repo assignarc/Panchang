@@ -28,7 +28,7 @@ namespace org.transliteral.panchang
 			if (numb > numa) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			return Stronger (
 				horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value,

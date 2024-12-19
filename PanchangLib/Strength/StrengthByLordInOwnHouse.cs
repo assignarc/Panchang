@@ -13,10 +13,10 @@ namespace org.transliteral.panchang
 			int ret=0;
 
 			ZodiacHouse zh = new ZodiacHouse(_zh);
-			Body.Name bl = this.GetStrengthLord(zh);
+			BodyName bl = this.GetStrengthLord(zh);
 			DivisionPosition pl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType);
-			DivisionPosition pj = horoscope.GetPosition(Body.Name.Jupiter).ToDivisionPosition(divisionType);
-			DivisionPosition pm = horoscope.GetPosition(Body.Name.Mercury).ToDivisionPosition(divisionType);
+			DivisionPosition pj = horoscope.GetPosition(BodyName.Jupiter).ToDivisionPosition(divisionType);
+			DivisionPosition pm = horoscope.GetPosition(BodyName.Mercury).ToDivisionPosition(divisionType);
 
 			if (pl.GrahaDristi(zh)) ret++;
 			if (pj.GrahaDristi(zh)) ret++;
@@ -31,7 +31,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-        public bool Stronger(Body.Name m, Body.Name n)
+        public bool Stronger(BodyName m, BodyName n)
 		{
 			ZodiacHouseName zm = horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 			ZodiacHouseName zn = horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value;

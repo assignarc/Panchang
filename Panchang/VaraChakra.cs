@@ -97,11 +97,11 @@ namespace org.transliteral.panchang.app
         }
         private void DrawChakra(Graphics g)
         {
-            Body.Name[] bodies = new Body.Name[]
+            BodyName[] bodies = new BodyName[]
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-                Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn,
-                Body.Name.Rahu, Body.Name.Ketu
+                BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+                BodyName.Jupiter, BodyName.Venus, BodyName.Saturn,
+                BodyName.Rahu, BodyName.Ketu
             };
 
             g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);

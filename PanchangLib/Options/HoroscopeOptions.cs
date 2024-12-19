@@ -6,7 +6,7 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class HoroscopeOptions : HoraSerializableOptions, ICloneable, ISerializable
+    public class HoroscopeOptions : SerializableOptions, ICloneable, ISerializable
     {
         public HoroscopeOptions()
         {
@@ -82,7 +82,7 @@ namespace org.transliteral.panchang
 
 
         [Category(CATEGORY_GENERAL)]
-        [PropertyOrder(1), @DisplayName("Full Ephemeris Path")]
+        [PropertyOrder(1), Visible("Full Ephemeris Path")]
         public string EphemerisPath
         {
             get { return mEphemPath; }
@@ -95,14 +95,14 @@ namespace org.transliteral.panchang
             set { mAyanamsa = value; }
         }
         [PropertyOrder(4), Category(CATEGORY_GENERAL)]
-        [@DisplayName("Custom Longitude")]
+        [Visible("Custom Longitude")]
         public Longitude CustomBodyLongitude
         {
             get { return mUserLongitude; }
             set { this.mUserLongitude = value; }
         }
         [Category(CATEGORY_GENERAL)]
-        [PropertyOrder(3), @DisplayName("Ayanamsa Offset")]
+        [PropertyOrder(3), Visible("Ayanamsa Offset")]
         public HMSInfo AyanamsaOffset
         {
             get { return mAyanamsaOffset; }
@@ -110,7 +110,7 @@ namespace org.transliteral.panchang
         }
 
         [Category(CATEGORY_UPAGRAHA)]
-        [PropertyOrder(1), @DisplayName("Upagraha")]
+        [PropertyOrder(1), Visible("Upagraha")]
         public EUpagrahaType UpagrahaType
         {
             get { return mUpagrahaType; }
@@ -118,14 +118,14 @@ namespace org.transliteral.panchang
             set { mUpagrahaType = this.mUpagrahaType; }
         }
         [Category(CATEGORY_UPAGRAHA)]
-        [PropertyOrder(2), @DisplayName("Maandi")]
+        [PropertyOrder(2), Visible("Maandi")]
         public EMaandiType MaandiType
         {
             get { return mMaandiType; }
             set { mMaandiType = value; }
         }
         [Category(CATEGORY_UPAGRAHA)]
-        [PropertyOrder(3), @DisplayName("Gulika")]
+        [PropertyOrder(3), Visible("Gulika")]
         public EMaandiType GulikaType
         {
             get { return mGulikaType; }
@@ -133,21 +133,21 @@ namespace org.transliteral.panchang
         }
 
         [Category(CATEGORY_SUNRISE)]
-        [PropertyOrder(1), @DisplayName("Sunrise")]
+        [PropertyOrder(1), Visible("Sunrise")]
         public SunrisePositionType SunrisePosition
         {
             get { return mSunrisePosition; }
             set { mSunrisePosition = value; }
         }
         [Category(CATEGORY_SUNRISE)]
-        [PropertyOrder(2), @DisplayName("Hora")]
+        [PropertyOrder(2), Visible("Hora")]
         public EHoraType HoraType
         {
             get { return mHoraType; }
             set { mHoraType = value; }
         }
         [Category(CATEGORY_SUNRISE)]
-        [PropertyOrder(3), @DisplayName("Kala")]
+        [PropertyOrder(3), Visible("Kala")]
         public EHoraType KalaType
         {
             get { return mKalaType; }
@@ -159,7 +159,7 @@ namespace org.transliteral.panchang
         //	set { grahaPositionType = value; }
         //}
         [Category(CATEGORY_GRAHA)]
-        [PropertyOrder(1), @DisplayName("Rahu / Ketu")]
+        [PropertyOrder(1), Visible("Rahu / Ketu")]
         public ENodeType NodeType
         {
             get { return nodeType; }
@@ -167,7 +167,7 @@ namespace org.transliteral.panchang
         }
 
         [Category(CATEGORY_GRAHA)]
-        [PropertyOrder(2), @DisplayName("Bhava")]
+        [PropertyOrder(2), Visible("Bhava")]
         public EBhavaType BhavaType
         {
             get { return mBhavaType; }

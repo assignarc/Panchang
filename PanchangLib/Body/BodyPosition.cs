@@ -15,7 +15,7 @@ namespace org.transliteral.panchang
         Longitude m_lon;
         private double m_splon, m_lat, m_splat, m_dist, m_spdist;
         public string otherString;
-        public Body.Name name;
+        public BodyName name;
         public BodyType.Name type;
         public Horoscope h;
         public Longitude Longitude { get { return m_lon; } set { m_lon = value; } }
@@ -24,7 +24,7 @@ namespace org.transliteral.panchang
         public double SpeedLongitude { get { return m_splon; } set { m_splon = value; } }
         public double SpeedLatitude { get { return m_splat; } set { m_splat = value; } }
         public double SpeedDistance { get { return m_spdist; } set { m_spdist = value; } }
-        public BodyPosition(Horoscope _h, Body.Name aname, BodyType.Name atype, Longitude lon, double lat, double dist, double splon, double splat, double spdist)
+        public BodyPosition(Horoscope _h, BodyName aname, BodyType.Name atype, Longitude lon, double lat, double dist, double splon, double splat, double spdist)
         {
             this.Longitude = lon;
             m_lat = lat;
@@ -112,7 +112,7 @@ namespace org.transliteral.panchang
         {
             Debug.Assert(cusps.Length == 13);
 
-            ZodiacHouse zlagna = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
+            ZodiacHouse zlagna = h.GetPosition(BodyName.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse;
             for (int i = 0; i < 12; i++)
             {
                 if (m_lon.Subtract(cusps[i]).Value < cusps[i + 1].Subtract(cusps[i]).Value)
@@ -129,7 +129,7 @@ namespace org.transliteral.panchang
         }
         private DivisionPosition ToDivisionPositionBhavaEqual()
         {
-            double offset = h.GetPosition(Body.Name.Lagna).Longitude.ToZodiacHouseOffset();
+            double offset = h.GetPosition(BodyName.Lagna).Longitude.ToZodiacHouseOffset();
             Longitude[] cusps = new Longitude[13];
             for (int i = 0; i < 12; i++)
                 cusps[i] = new Longitude(i * 30.0 + offset - 15.0);
@@ -138,7 +138,7 @@ namespace org.transliteral.panchang
         private DivisionPosition ToDivisionPositionBhavaPada()
         {
             Longitude[] cusps = new Longitude[13];
-            double offset = h.GetPosition(Body.Name.Lagna).Longitude.ToZodiacHouseOffset();
+            double offset = h.GetPosition(BodyName.Lagna).Longitude.ToZodiacHouseOffset();
             int padasOffset = (int)Math.Floor(offset / (360.0 / 108.0));
             double startOffset = (double)padasOffset * (360.0 / 108.0);
 

@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 		{
 			this.bSama = true;
 		}
-		new public String Description ()
+		public new String Description ()
 		{
 			return "Narayana Sama Dasa for "
 				+ options.Division.ToString() 

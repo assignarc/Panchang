@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
 
         protected int OddityValueForZodiacHouse(ZodiacHouseName zh)
 		{
-			Body.Name lname = this.GetStrengthLord(zh);
+			BodyName lname = this.GetStrengthLord(zh);
 			BodyPosition lbpos = horoscope.GetPosition(lname);
 			DivisionPosition ldpos = horoscope.CalculateDivisionPosition(lbpos, divisionType);
 			ZodiacHouse zh_lor = ldpos.ZodiacHouse;
@@ -32,7 +32,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name ba, Body.Name bb)
+		public bool Stronger (BodyName ba, BodyName bb)
 		{
 			ZodiacHouseName za = horoscope.GetPosition(ba).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 			ZodiacHouseName zb = horoscope.GetPosition(bb).ToDivisionPosition(divisionType).ZodiacHouse.Value;

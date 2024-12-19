@@ -33,16 +33,16 @@ namespace org.transliteral.panchang
                 string szh = szh_mixed.ToLower();
                 switch (szh)
                 {
-                    case "as": al.Add(Body.Name.Lagna); break;
-                    case "su": al.Add(Body.Name.Sun); break;
-                    case "mo": al.Add(Body.Name.Moon); break;
-                    case "ma": al.Add(Body.Name.Mars); break;
-                    case "me": al.Add(Body.Name.Mercury); break;
-                    case "ju": al.Add(Body.Name.Jupiter); break;
-                    case "ve": al.Add(Body.Name.Venus); break;
-                    case "sa": al.Add(Body.Name.Saturn); break;
-                    case "ra": al.Add(Body.Name.Rahu); break;
-                    case "ke": al.Add(Body.Name.Ketu); break;
+                    case "as": al.Add(BodyName.Lagna); break;
+                    case "su": al.Add(BodyName.Sun); break;
+                    case "mo": al.Add(BodyName.Moon); break;
+                    case "ma": al.Add(BodyName.Mars); break;
+                    case "me": al.Add(BodyName.Mercury); break;
+                    case "ju": al.Add(BodyName.Jupiter); break;
+                    case "ve": al.Add(BodyName.Venus); break;
+                    case "sa": al.Add(BodyName.Saturn); break;
+                    case "ra": al.Add(BodyName.Rahu); break;
+                    case "ke": al.Add(BodyName.Ketu); break;
                 }
             }
             oz.grahas = (ArrayList)al.Clone();

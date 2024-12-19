@@ -43,11 +43,24 @@ namespace org.transliteral.panchang.app
         private MenuItem menuCopyLon;
         private MenuItem menuNonLonBodies;
 
-        enum ENakshatraLord
+        private readonly int[] latta_aspects = new int[] { 12, 22, 3, 7, 6, 5, 8, 9 };
+        private readonly int[][] tara_aspects = new int[][]
         {
-            Vimsottari, Ashtottari, Yogini, Shodashottari, Dwadashottari, Panchottari,
-            Shatabdika, ChaturashitiSama, DwisaptatiSama, ShatTrimshaSama
+            new int[] { 14, 15 },
+            new int[] { 14, 15 },
+            new int[] { 1, 3, 7, 8, 15 },
+            new int[] { 1, 15 },
+            new int[] { 10, 15, 19 },
+            new int[] { 1, 15 },
+            new int[] { 3, 5, 15, 19 },
+            new int[] { }
         };
+        private readonly string[] karakas = new string[] { "Atma", "Amatya", "Bhratri", "Matri", "Pitri", "Putra", "Jnaati", "Dara" };
+        private readonly string[] karakas7 = new string[] { "Atma", "Amatya", "Bhratri", "Matri", "Pitri", "Jnaati", "Dara" };
+        private readonly string[] karakas_s = new string[] { "AK", "AmK", "BK", "MK", "PiK", "PuK", "JK", "DK" };
+        private readonly string[] karakas_s7 = new string[] { "AK", "AmK", "BK", "MK", "PiK", "JK", "DK" };
+
+      
         class UserOptions : ICloneable
         {
             private Division dtype;
@@ -60,7 +73,7 @@ namespace org.transliteral.panchang.app
                 set { dtype = value; }
             }
 
-            [panchang.DisplayName("Division Type")]
+            [Visible("Division Type")]
             public DivisionType UIDivisionType
             {
                 get { return dtype.MultipleDivisions[0].Varga; }
@@ -91,15 +104,6 @@ namespace org.transliteral.panchang.app
             }
         }
 
-        private enum ViewType
-        {
-            ViewBasicGrahas, ViewOtherLongitudes, ViewMrityuLongitudes,
-            ViewSahamaLongitudes, ViewAvasthas,
-            ViewSpecialTithis, ViewSpecialTaras, ViewBhavaCusps,
-            ViewAstronomicalInfo, ViewNakshatraAspects,
-            ViewCharaKarakas, ViewCharaKarakas7, View64Navamsa,
-            ViewNonLonBodies
-        };
         ViewType vt;
         public BasicCalculationsControl(Horoscope _h)
         {
@@ -413,8 +417,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Nakshatra (27)", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Nakshatra (28)", -1, HorizontalAlignment.Left);
 
-            Nakshatra nmoon = h.GetPosition(panchang.Body.Name.Moon).Longitude.ToNakshatra();
-            Nakshatra28 nmoon28 = h.GetPosition(panchang.Body.Name.Moon).Longitude.ToNakshatra28();
+            Nakshatra nmoon = h.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra();
+            Nakshatra28 nmoon28 = h.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra28();
             for (int i = 0; i < specialIndices.Length; i++)
             {
                 Nakshatra sn = nmoon.Add(specialIndices[i]);
@@ -433,25 +437,7 @@ namespace org.transliteral.panchang.app
 
         }
 
-        readonly  int[] latta_aspects = new int[] { 12, 22, 3, 7, 6, 5, 8, 9 };
-        readonly int[][] tara_aspects = new int[][]
-        {
-            new int[] { 14, 15 },
-            new int[] { 14, 15 },
-            new int[] { 1, 3, 7, 8, 15 },
-            new int[] { 1, 15 },
-            new int[] { 10, 15, 19 },
-            new int[] { 1, 15 },
-            new int[] { 3, 5, 15, 19 },
-            new int[] { }
-        };
-
-        readonly string[] karakas = new string[]{ "Atma", "Amatya", "Bhratri", "Matri", "Pitri", "Putra", "Jnaati", "Dara" };
-        readonly string[] karakas7 = new string[]{ "Atma", "Amatya", "Bhratri", "Matri", "Pitri", "Jnaati", "Dara" };
-
-        readonly string[] karakas_s = new string[]{ "AK", "AmK", "BK", "MK", "PiK", "PuK", "JK", "DK" };
-        readonly string[] karakas_s7 = new string[] { "AK", "AmK", "BK", "MK", "PiK", "JK", "DK"    };
-
+       
         private void RepopulateCharaKarakas()
         {
             mList.Clear();
@@ -462,14 +448,14 @@ namespace org.transliteral.panchang.app
             ArrayList al = new ArrayList();
             int max = 0;
             if (vt == ViewType.ViewCharaKarakas)
-                max = (int)panchang.Body.Name.Rahu;
+                max = (int)panchang.BodyName.Rahu;
             else
-                max = (int)panchang.Body.Name.Saturn;
+                max = (int)panchang.BodyName.Saturn;
 
 
-            for (int i = (int)panchang.Body.Name.Sun; i <= max; i++)
+            for (int i = (int)panchang.BodyName.Sun; i <= max; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 BodyPosition bp = h.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
@@ -504,7 +490,7 @@ namespace org.transliteral.panchang.app
         };
 
 
-        private void Repopulate64NavamsaHelper(Body.Name b, string name, BodyPosition bp, Division div)
+        private void Repopulate64NavamsaHelper(BodyName b, string name, BodyPosition bp, Division div)
         {
             DivisionPosition dp = bp.ToDivisionPosition(div);
             ListViewItem li = new ListViewItem
@@ -528,7 +514,7 @@ namespace org.transliteral.panchang.app
             foreach (DivisionPosition dp in al)
             {
                 string desc = "";
-                if (dp.Name == panchang.Body.Name.Other)
+                if (dp.Name == panchang.BodyName.Other)
                     desc = dp.otherString;
                 else
                     desc = dp.Name.ToString();
@@ -551,10 +537,10 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Rasi", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Lord", -2, HorizontalAlignment.Left);
 
-            Body.Name[] bodyReferences = new Body.Name[]
-            {panchang.Body.Name.Lagna,panchang.Body.Name.Moon,panchang.Body.Name.Sun };
+            BodyName[] bodyReferences = new BodyName[]
+            {panchang.BodyName.Lagna,panchang.BodyName.Moon,panchang.BodyName.Sun };
 
-            foreach (Body.Name b in bodyReferences)
+            foreach (BodyName b in bodyReferences)
             {
                 BodyPosition bp = (BodyPosition)h.GetPosition(b).Clone();
                 Longitude bpLon = bp.Longitude.Add(0);
@@ -581,9 +567,9 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Alertness", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Mood", -2, HorizontalAlignment.Left);
 
-            for (int i = (int)panchang.Body.Name.Sun; i <= (int)panchang.Body.Name.Ketu; i++)
+            for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Ketu; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 ListViewItem li = new ListViewItem
                 {
                     Text = panchang.Body.ToString(b)
@@ -610,9 +596,9 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Latta", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Aspected", -2, HorizontalAlignment.Left);
 
-            for (int i = (int)panchang.Body.Name.Sun; i <= (int)panchang.Body.Name.Rahu; i++)
+            for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Rahu; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 bool dirForward = true;
                 if (i % 2 == 1) dirForward = false;
 
@@ -657,9 +643,9 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Distance (AU)", -1, HorizontalAlignment.Left);
             mList.Columns.Add("/ day", -1, HorizontalAlignment.Left);
 
-            for (int i = (int)panchang.Body.Name.Sun; i <= (int)panchang.Body.Name.Saturn; i++)
+            for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Saturn; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 BodyPosition bp = h.GetPosition(b);
                 ListViewItem li = new ListViewItem(panchang.Body.ToString(b));
                 li.SubItems.Add(bp.Longitude.Value.ToString());
@@ -687,8 +673,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Tithi", -1, HorizontalAlignment.Left);
             mList.Columns.Add("% Left", -1, HorizontalAlignment.Left);
 
-            Longitude spos = h.GetPosition(panchang.Body.Name.Sun).Longitude;
-            Longitude mpos = h.GetPosition(panchang.Body.Name.Moon).Longitude;
+            Longitude spos = h.GetPosition(panchang.BodyName.Sun).Longitude;
+            Longitude mpos = h.GetPosition(panchang.BodyName.Moon).Longitude;
             double baseTithi = mpos.Subtract(spos).Value;
             for (int i = 1; i <= 12; i++)
             {
@@ -746,7 +732,7 @@ namespace org.transliteral.panchang.app
                     id = new ShatTrimshaSamaDasa(h);
                     break;
             }
-            Body.Name b = id.LordOfNakshatra(l.ToNakshatra());
+            BodyName b = id.LordOfNakshatra(l.ToNakshatra());
             return b.ToString();
         }
         private void RepopulateHouseCusps()
@@ -794,8 +780,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Cusp End", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Rasi", -2, HorizontalAlignment.Left);
 
-            Longitude lpos = h.GetPosition(panchang.Body.Name.Lagna).Longitude.Add(0);
-            BodyPosition bp = new BodyPosition(h, panchang.Body.Name.Lagna, BodyType.Name.Lagna, lpos, 0, 0, 0, 0, 0);
+            Longitude lpos = h.GetPosition(panchang.BodyName.Lagna).Longitude.Add(0);
+            BodyPosition bp = new BodyPosition(h, panchang.BodyName.Lagna, BodyType.Name.Lagna, lpos, 0, 0, 0, 0, 0);
             for (int i = 0; i < 12; i++)
             {
                 DivisionPosition dp = bp.ToDivisionPosition(options.DivisionType);
@@ -966,8 +952,8 @@ namespace org.transliteral.panchang.app
         {
             string dir = bp.SpeedLongitude >= 0.0 ? "" : " (R)";
 
-            if (bp.name == panchang.Body.Name.Other ||
-                bp.name == panchang.Body.Name.MrityuPoint)
+            if (bp.name == panchang.BodyName.Other ||
+                bp.name == panchang.BodyName.MrityuPoint)
                 return bp.otherString + dir;
 
             return bp.name.ToString();
@@ -977,18 +963,18 @@ namespace org.transliteral.panchang.app
             switch (vt)
             {
                 case ViewType.ViewMrityuLongitudes:
-                    if (bp.name == panchang.Body.Name.MrityuPoint) return true;
+                    if (bp.name == panchang.BodyName.MrityuPoint) return true;
                     return false;
                 case ViewType.ViewOtherLongitudes:
-                    if (bp.name == panchang.Body.Name.Other &&
+                    if (bp.name == panchang.BodyName.Other &&
                         bp.type != BodyType.Name.Sahama) return true;
                     return false;
                 case ViewType.ViewSahamaLongitudes:
                     if (bp.type == BodyType.Name.Sahama) return true;
                     return false;
                 case ViewType.ViewBasicGrahas:
-                    if (bp.name == panchang.Body.Name.MrityuPoint ||
-                        bp.name == panchang.Body.Name.Other)
+                    if (bp.name == panchang.BodyName.MrityuPoint ||
+                        bp.name == panchang.BodyName.Other)
                         return false;
                     return true;
             }
@@ -1000,9 +986,9 @@ namespace org.transliteral.panchang.app
             mList.Items.Clear();
 
             ArrayList al = new ArrayList();
-            for (int i = (int)panchang.Body.Name.Sun; i <= (int)panchang.Body.Name.Rahu; i++)
+            for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Rahu; i++)
             {
-                Body.Name b = (Body.Name)i;
+                BodyName b = (BodyName)i;
                 BodyPosition bp = h.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
@@ -1038,7 +1024,7 @@ namespace org.transliteral.panchang.app
                     Text = GetBodyString(bp)
                 };
 
-                if ((int)bp.name >= (int)panchang.Body.Name.Sun && (int)bp.name <= (int)panchang.Body.Name.Rahu)
+                if ((int)bp.name >= (int)panchang.BodyName.Sun && (int)bp.name <= (int)panchang.BodyName.Rahu)
                     li.Text = string.Format("{0}   {1}",
                         li.Text, karakas_s[karaka_indices[(int)bp.name]]);
 

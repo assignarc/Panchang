@@ -22,7 +22,7 @@ namespace org.transliteral.panchang
 			}
 			return length;
 		}
-        protected double Value(Body.Name b)
+        protected double Value(BodyName b)
 		{
 			DivisionPosition dp = horoscope.GetPosition(b).ToDivisionPosition(divisionType);
 			return KarakaKendradiGrahaDasa.LengthOfDasa(horoscope, divisionType, b, dp);
@@ -35,7 +35,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-        public bool Stronger(Body.Name m, Body.Name n)
+        public bool Stronger(BodyName m, BodyName n)
 		{
 			double a = Value (m);
 			double b = Value (n);

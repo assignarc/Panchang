@@ -10,17 +10,17 @@
             h = _h;
         }
 
-        private double DirectSpeed(Body.Name b)
+        private double DirectSpeed(BodyName b)
         {
             switch (b)
             {
-                case Body.Name.Sun: return 365.2425;
-                case Body.Name.Moon: return 28.0;
-                case Body.Name.Lagna: return 1.0;
+                case BodyName.Sun: return 365.2425;
+                case BodyName.Moon: return 28.0;
+                case BodyName.Lagna: return 1.0;
             }
             return 0.0;
         }
-        public double TransitSearchDirect(Body.Name SearchBody, Moment StartDate,
+        public double TransitSearchDirect(BodyName SearchBody, Moment StartDate,
             bool Forward, Longitude TransitPoint, Longitude FoundLon, ref bool bForward)
         {
             bool bDiscard = true;
@@ -43,7 +43,7 @@
             Sweph.ObtainLock(h);
             double found_ut = 0;
 
-            if (SearchBody == Body.Name.Lagna)
+            if (SearchBody == BodyName.Lagna)
                 found_ut = t.LinearSearchBinary(ut_base + ut_diff_approx - 3.0 / 24.0, ut_base + ut_diff_approx + 3.0 / 24.0, TransitPoint, new ReturnLon(t.GenericLongitude));
             else
                 found_ut = t.LinearSearch(ut_base + ut_diff_approx, TransitPoint, new ReturnLon(t.GenericLongitude));
@@ -52,19 +52,19 @@
             Sweph.ReleaseLock(h);
             return found_ut;
         }
-        public double TransitSearch(Body.Name SearchBody, Moment StartDate,
+        public double TransitSearch(BodyName SearchBody, Moment StartDate,
             bool Forward, Longitude TransitPoint,
             Longitude FoundLon, ref bool bForward)
         {
-            if (SearchBody == Body.Name.Sun ||
-                SearchBody == Body.Name.Moon)
+            if (SearchBody == BodyName.Sun ||
+                SearchBody == BodyName.Moon)
             {
                 return TransitSearchDirect(SearchBody, StartDate, Forward, TransitPoint,
                     FoundLon, ref bForward);
             }
-            if (((int)SearchBody <= (int)Body.Name.Moon ||
-                (int)SearchBody > (int)Body.Name.Saturn) &&
-                SearchBody != Body.Name.Lagna)
+            if (((int)SearchBody <= (int)BodyName.Moon ||
+                (int)SearchBody > (int)BodyName.Saturn) &&
+                SearchBody != BodyName.Lagna)
                 return StartDate.ToUniversalTime();
             Sweph.ObtainLock(h);
 

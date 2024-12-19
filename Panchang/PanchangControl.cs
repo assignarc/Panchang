@@ -64,7 +64,7 @@ namespace org.transliteral.panchang.app
         #endregion
 
 
-        public void ViewControl(PanchangControlContainer.BaseUserOptions.ViewType vt)
+        public void ViewControl(BaseUserOptionsViewType vt)
         {
             ((PanchangControlContainer)Parent).h = h;
             ((PanchangControlContainer)Parent).SetView(vt);
@@ -72,198 +72,198 @@ namespace org.transliteral.panchang.app
         protected void ViewVimsottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaVimsottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
         protected void ViewYogaVimsottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaYogaVimsottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaVimsottari);
         }
         protected void ViewKaranaChaturashitiSamaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaKaranaChaturashitiSama);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKaranaChaturashitiSama);
         }
         protected void ViewAshtottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaAshtottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaAshtottari);
         }
         protected void ViewTithiPraveshAshtottariDasaTithi(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedTithi);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedTithi);
         }
         protected void ViewTithiPraveshAshtottariDasaSolar(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedSolar);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedSolar);
         }
         protected void ViewTithiPraveshAshtottariDasaFixed(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedFixed);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedFixed);
         }
         protected void ViewTithiAshtottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiAshtottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiAshtottari);
         }
         protected void ViewYogaPraveshVimsottariDasaYoga(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaYogaPraveshVimsottariCompressedYoga);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaPraveshVimsottariCompressedYoga);
         }
         protected void ViewShodashottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaShodashottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShodashottari);
         }
 
         protected void ViewDwadashottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaDwadashottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDwadashottari);
         }
 
         protected void ViewPanchottariDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaPanchottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaPanchottari);
         }
 
         protected void ViewShatabdikaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaShatabdika);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShatabdika);
         }
 
         protected void ViewChaturashitiSamaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaChaturashitiSama);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaChaturashitiSama);
         }
 
         protected void ViewDwisaptatiSamaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaDwisaptatiSama);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDwisaptatiSama);
         }
 
         protected void ViewShatTrimshaSamaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaShatTrimshaSama);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShatTrimshaSama);
         }
         protected void ViewYoginiDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaYogini);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogini);
         }
         protected void ViewKalachakraDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaKalachakra);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKalachakra);
         }
         protected void ViewNaisargikaGrahaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.NaisargikaGrahaDasa);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NaisargikaGrahaDasa);
         }
         protected void ViewKarakaKendradiGrahaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaKarakaKendradiGraha);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKarakaKendradiGraha);
         }
         protected void ViewMoolaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaMoola);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMoola);
         }
         protected void ViewNaisargikaRasiDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.NaisargikaRasiDasa);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NaisargikaRasiDasa);
         }
         protected void ViewNarayanaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaNarayana);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNarayana);
         }
         protected void ViewNarayanaSamaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaNarayanaSama);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNarayanaSama);
         }
         protected void ViewShoolaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaShoola);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShoola);
         }
         protected void ViewNiryaanaShoolaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaNiryaanaShoola);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNiryaanaShoola);
         }
         protected void ViewSuDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaSu);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSu);
         }
         protected void ViewNavamsaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaNavamsa);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNavamsa);
         }
         protected void ViewMandookaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaMandooka);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMandooka);
         }
         protected void ViewCharaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaChara);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaChara);
         }
         protected void ViewTrikonaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTrikona);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTrikona);
         }
         protected void ViewDrigDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaDrig);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDrig);
         }
         protected void ViewSudarshanaChakraDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaSudarshanaChakra);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSudarshanaChakra);
         }
         protected void ViewLagnaKendradiRasiDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaLagnaKendradiRasi);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaLagnaKendradiRasi);
         }
         protected void ViewSudarshanaChakraDasaCompressed(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaSudarshanaChakraCompressed);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSudarshanaChakraCompressed);
         }
         protected void ViewMuddaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaMudda);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMudda);
         }
         protected void ViewTajakaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTajaka);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTajaka);
         }
         protected void ViewTattwaDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTattwa);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTattwa);
         }
         protected void ControlCopyToClipboard(object sender, EventArgs e)
         {
@@ -275,77 +275,77 @@ namespace org.transliteral.panchang.app
         protected void ViewTithiPraveshDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaTithiPravesh);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPravesh);
         }
         protected void ViewYogaPraveshDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaYogaPravesh);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaPravesh);
         }
         protected void ViewNakshatraPraveshDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaNakshatraPravesh);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNakshatraPravesh);
         }
         protected void ViewKaranaPraveshDasa(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaKaranaPravesh);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKaranaPravesh);
         }
         protected void ViewKeyInfo(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.KeyInfo);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.KeyInfo);
         }
         protected void ViewBasicCalculations(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.BasicCalculations);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.BasicCalculations);
         }
         protected void ViewDivisionalChart(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DivisionalChart);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DivisionalChart);
         }
         protected void ViewBalas(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.Balas);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Balas);
         }
         protected void ViewAshtakavarga(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.Ashtakavarga);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Ashtakavarga);
         }
         protected void ViewKutaMatching(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.KutaMatching);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.KutaMatching);
         }
         protected void ViewNavamsaCircle(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.NavamsaCircle);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NavamsaCircle);
         }
         protected void ViewVaraChakra(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.VaraChakra);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.VaraChakra);
         }
         protected void ViewSarvatobhadraChakra(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.ChakraSarvatobhadra81);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.ChakraSarvatobhadra81);
         }
         protected void ViewTransitsSearch(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.TransitSearch);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.TransitSearch);
         }
         protected void ViewPanchanga(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.Panchanga);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Panchanga);
         }
         protected void SplitViewHorizontal(object sender, EventArgs e)
         {
@@ -506,12 +506,12 @@ namespace org.transliteral.panchang.app
         private void mDasa_Click(object sender, EventArgs e)
         {
             ((PanchangControlContainer)Parent).h = h;
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DasaVimsottari);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
 
         private void mDivisionalChart_Click(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).SetView(PanchangControlContainer.BaseUserOptions.ViewType.DivisionalChart);
+            ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DivisionalChart);
         }
     }
 }

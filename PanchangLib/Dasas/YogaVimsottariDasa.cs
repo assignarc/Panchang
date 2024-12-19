@@ -46,8 +46,8 @@ namespace org.transliteral.panchang
 			}
 		}
 
-        override public Object Options => this.options.Clone();
-        override public object SetOptions (Object a)
+        public override Object Options => this.options.Clone();
+        public override object SetOptions (Object a)
 		{
 			this.options = (UserOptions)this.options.SetOptions(a);
 			if (this.RecalculateEvent != null)
@@ -69,7 +69,7 @@ namespace org.transliteral.panchang
 			return String.Format("Yoga Vimsottari Dasa");
 			
 		}
-		public Body.Name LordOfYoga (Longitude l)
+		public BodyName LordOfYoga (Longitude l)
 		{
 			return l.ToSunMoonYoga().GetLord();
 		}
@@ -95,15 +95,15 @@ namespace org.transliteral.panchang
 			return vd.NextDasaLord(di);
 		}
 
-		public double LengthOfDasa(Body.Name plt)
+		public double LengthOfDasa(BodyName plt)
 		{
 			return vd.LengthOfDasa(plt);
 
 		}
-		public Body.Name LordOfNakshatra(Nakshatra n)
+		public BodyName LordOfNakshatra(Nakshatra n)
 		{
 			throw new Exception();
-			return Body.Name.Lagna;
+			return BodyName.Lagna;
 		}
 	}
 }

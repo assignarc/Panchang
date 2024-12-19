@@ -9,14 +9,14 @@ namespace org.transliteral.panchang
     public class DwisaptatiSamaDasa : NakshatraDasa, INakshatraDasa
 	{
 		private Horoscope h;
-        override public Object Options => new Object();
-        override public object SetOptions (Object a)
+        public override Object Options => new Object();
+        public override object SetOptions (Object a)
 		{
 			return new object();
 		}
 		public ArrayList Dasa(int cycle)
 		{
-			return Dasa (h.GetPosition(Body.Name.Moon).Longitude, 1, cycle );
+			return Dasa (h.GetPosition(BodyName.Moon).Longitude, 1, cycle );
 		}
 		public ArrayList AntarDasa (DasaEntry di)
 		{
@@ -44,45 +44,45 @@ namespace org.transliteral.panchang
 		{
 			return new DasaEntry (NextDasaLordHelper(di.graha), 0, 0, di.level, "");
 		}
-        private Body.Name NextDasaLordHelper(Body.Name b)
+        private BodyName NextDasaLordHelper(BodyName b)
 		{
 			switch (b)
 			{
-				case Body.Name.Sun: return Body.Name.Moon;
-				case Body.Name.Moon: return Body.Name.Mars;
-				case Body.Name.Mars : return Body.Name.Mercury;
-				case Body.Name.Mercury : return Body.Name.Jupiter;
-				case Body.Name.Jupiter : return Body.Name.Venus;
-				case Body.Name.Venus: return Body.Name.Saturn;
-				case Body.Name.Saturn : return Body.Name.Rahu;
-				case Body.Name.Rahu: return Body.Name.Sun;
+				case BodyName.Sun: return BodyName.Moon;
+				case BodyName.Moon: return BodyName.Mars;
+				case BodyName.Mars : return BodyName.Mercury;
+				case BodyName.Mercury : return BodyName.Jupiter;
+				case BodyName.Jupiter : return BodyName.Venus;
+				case BodyName.Venus: return BodyName.Saturn;
+				case BodyName.Saturn : return BodyName.Rahu;
+				case BodyName.Rahu: return BodyName.Sun;
 			}
 			Trace.Assert (false, "DwisaptatiSamaDasa::nextDasaLord");
-			return Body.Name.Lagna;
+			return BodyName.Lagna;
 		}
-		public double LengthOfDasa (Body.Name plt)
+		public double LengthOfDasa (BodyName plt)
 		{
 			switch (plt)
 			{
-				case Body.Name.Sun: return 9;
-				case Body.Name.Moon: return 9;
-				case Body.Name.Mars: return 9;
-				case Body.Name.Mercury: return 9;
-				case Body.Name.Jupiter: return 9;
-				case Body.Name.Venus: return 9;
-				case Body.Name.Saturn: return 9;
-				case Body.Name.Rahu: return 9;
+				case BodyName.Sun: return 9;
+				case BodyName.Moon: return 9;
+				case BodyName.Mars: return 9;
+				case BodyName.Mercury: return 9;
+				case BodyName.Jupiter: return 9;
+				case BodyName.Venus: return 9;
+				case BodyName.Saturn: return 9;
+				case BodyName.Rahu: return 9;
 			}
 			Trace.Assert (false, "DwisaptatiSamaDasa::lengthOfDasa");
 			return 0;
 		}
-		public Body.Name LordOfNakshatra(Nakshatra n) 
+		public BodyName LordOfNakshatra(Nakshatra n) 
 		{
-			Body.Name[] lords = new Body.Name[8] 
+			BodyName[] lords = new BodyName[8] 
 			{
-				Body.Name.Sun, Body.Name.Moon, Body.Name.Mars,
-				Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
-				Body.Name.Saturn, Body.Name.Rahu
+				BodyName.Sun, BodyName.Moon, BodyName.Mars,
+				BodyName.Mercury, BodyName.Jupiter, BodyName.Venus,
+				BodyName.Saturn, BodyName.Rahu
 			};				
 			int nak_val = ((int)n.Value);
 			int moo_val = (int)NakshatraName.Moola;

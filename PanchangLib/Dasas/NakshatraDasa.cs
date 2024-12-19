@@ -8,11 +8,11 @@ namespace org.transliteral.panchang
     /// <summary>
     /// Base class to be implemented by Vimsottari/Ashtottari like dasas
     /// </summary>
-    abstract public class NakshatraDasa: Dasa
+    public abstract class NakshatraDasa: Dasa
 	{
-        abstract public Object Options { get; }
+        public abstract Object Options { get; }
 
-        abstract public Object SetOptions (Object a);
+        public abstract Object SetOptions (Object a);
 		protected INakshatraDasa common;
 		protected INakshatraTithiDasa tithiCommon;
 		protected INakshatraYogaDasa yogaCommon;
@@ -51,7 +51,7 @@ namespace org.transliteral.panchang
         {
             ArrayList ditems = new ArrayList(common.NumberOfDasaItems());
 			Nakshatra n = (lon.ToNakshatra()).Add (offset);
-			Body.Name g = common.LordOfNakshatra(n);
+			BodyName g = common.LordOfNakshatra(n);
 			double perc_traversed = lon.PercentageOfNakshatra();
 			double start = (cycle * common.ParamAyus()) - (perc_traversed / 100.0 * common.LengthOfDasa(g));
             Logger.Info(String.Format("{0} {1} {2}", common.LengthOfDasa(g), perc_traversed, start));
@@ -65,7 +65,7 @@ namespace org.transliteral.panchang
 		{
 			//ArrayList ditems = new ArrayList(tithiCommon.numberOfDasaItems());
 			lon = lon.Add(new Longitude((cycle*(offset-1))*12.0));
-			Body.Name g = tithiCommon.LordOfTithi(lon);
+			BodyName g = tithiCommon.LordOfTithi(lon);
 
 			double tithiOffset = lon.Value;
 			while (tithiOffset >= 12.0) tithiOffset -= 12.0;
@@ -78,7 +78,7 @@ namespace org.transliteral.panchang
         protected ArrayList YogaDasa(Longitude lon, int offset, int cycle)
 		{
 			lon = lon.Add(new Longitude((cycle*(offset-1))*(360.0/27.0)));
-			Body.Name g = yogaCommon.LordOfYoga(lon);
+			BodyName g = yogaCommon.LordOfYoga(lon);
 
 			double yogaOffset = lon.ToSunMoonYogaOffset();
 			double perc_traversed = yogaOffset / (360.0/27.0);
@@ -90,7 +90,7 @@ namespace org.transliteral.panchang
         protected ArrayList KaranaDasa(Longitude lon, int offset, int cycle)
 		{
 			lon = lon.Add(new Longitude((cycle*(offset-1))*(360.0/60.0)));
-			Body.Name g = karanaCommon.LordOfKarana(lon);
+			BodyName g = karanaCommon.LordOfKarana(lon);
 
 			double karanaOffset = lon.ToKaranaOffset();
 			double perc_traversed = karanaOffset / (360.0/60.0);

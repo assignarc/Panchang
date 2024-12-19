@@ -6,25 +6,25 @@ namespace org.transliteral.panchang
     public class NonLinearTransit
     {
         private Horoscope h;
-        Body.Name b;
+        BodyName b;
 
-        public NonLinearTransit(Horoscope _h, Body.Name _b)
+        public NonLinearTransit(Horoscope _h, BodyName _b)
         {
             h = _h;
             b = _b;
         }
 
-        public int BodyNameToSweph(Body.Name b)
+        public int BodyNameToSweph(BodyName b)
         {
             switch (b)
             {
-                case Body.Name.Sun: return Sweph.SE_SUN;
-                case Body.Name.Moon: return Sweph.SE_MOON;
-                case Body.Name.Mars: return Sweph.SE_MARS;
-                case Body.Name.Mercury: return Sweph.SE_MERCURY;
-                case Body.Name.Jupiter: return Sweph.SE_JUPITER;
-                case Body.Name.Venus: return Sweph.SE_VENUS;
-                case Body.Name.Saturn: return Sweph.SE_SATURN;
+                case BodyName.Sun: return Sweph.SE_SUN;
+                case BodyName.Moon: return Sweph.SE_MOON;
+                case BodyName.Mars: return Sweph.SE_MARS;
+                case BodyName.Mercury: return Sweph.SE_MERCURY;
+                case BodyName.Jupiter: return Sweph.SE_JUPITER;
+                case BodyName.Venus: return Sweph.SE_VENUS;
+                case BodyName.Saturn: return Sweph.SE_SATURN;
                 default:
                     throw new Exception();
             }

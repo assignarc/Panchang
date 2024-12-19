@@ -3,7 +3,7 @@
 
     public interface IStrengthGraha
     {
-        bool Stronger(Body.Name m, Body.Name n);
+        bool Stronger(BodyName m, BodyName n);
     }
 
 }

@@ -25,7 +25,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			double a = VimsottariDasa.LengthOfDasaS(m);
 			double b = VimsottariDasa.LengthOfDasaS(n);

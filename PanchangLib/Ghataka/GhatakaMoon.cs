@@ -3,7 +3,7 @@ namespace org.transliteral.panchang
 
     public class GhatakaMoon
 	{
-        static public bool CheckGhataka(ZodiacHouse janmaRasi, ZodiacHouse chandraRasi)
+        public static bool CheckGhataka(ZodiacHouse janmaRasi, ZodiacHouse chandraRasi)
 		{
 			ZodiacHouseName ja = janmaRasi.Value;
 			ZodiacHouseName ch = chandraRasi.Value;

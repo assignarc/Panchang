@@ -15,22 +15,22 @@ namespace org.transliteral.panchang
 		
 		Horoscope h;
 		Division dtype;
-		Body.Name[] avBodies = null;
+		BodyName[] avBodies = null;
 
 		public Ashtakavarga(Horoscope _h, Division _dtype)
 		{
 			h = _h;
 			dtype = _dtype;
-			avBodies = new Body.Name[]
+			avBodies = new BodyName[]
 			{
-				Body.Name.Sun, 
-				Body.Name.Moon, 
-				Body.Name.Mars,
-				Body.Name.Mercury,
-				Body.Name.Jupiter, 
-				Body.Name.Venus,
-				Body.Name.Saturn, 
-				Body.Name.Lagna
+				BodyName.Sun, 
+				BodyName.Moon, 
+				BodyName.Mars,
+				BodyName.Mercury,
+				BodyName.Jupiter, 
+				BodyName.Venus,
+				BodyName.Saturn, 
+				BodyName.Lagna
 			};
 		}
 
@@ -39,29 +39,29 @@ namespace org.transliteral.panchang
 			switch (k)
 			{
 			case EKakshya.EKStandard:
-				avBodies = new Body.Name[]
+				avBodies = new BodyName[]
 				{
-					Body.Name.Sun, 
-					Body.Name.Moon, 
-					Body.Name.Mars,
-					Body.Name.Mercury, 
-					Body.Name.Jupiter, 
-					Body.Name.Venus,
-					Body.Name.Saturn, 
-					Body.Name.Lagna
+					BodyName.Sun, 
+					BodyName.Moon, 
+					BodyName.Mars,
+					BodyName.Mercury, 
+					BodyName.Jupiter, 
+					BodyName.Venus,
+					BodyName.Saturn, 
+					BodyName.Lagna
 				};
 				break;
 			case EKakshya.EKRegular:
-				avBodies = new Body.Name[]
+				avBodies = new BodyName[]
 				{
-					Body.Name.Saturn, 
-					Body.Name.Jupiter, 
-					Body.Name.Mars, 
-					Body.Name.Sun,
-					Body.Name.Venus, 
-					Body.Name.Mercury, 
-					Body.Name.Moon, 
-					Body.Name.Lagna
+					BodyName.Saturn, 
+					BodyName.Jupiter, 
+					BodyName.Mars, 
+					BodyName.Sun,
+					BodyName.Venus, 
+					BodyName.Mercury, 
+					BodyName.Moon, 
+					BodyName.Lagna
 				};
 				break;
 
@@ -196,30 +196,30 @@ namespace org.transliteral.panchang
 			return bindus;
 		}
 
-		public int BodyToInt (Body.Name bodyName)
+		public int BodyToInt (BodyName bodyName)
 		{
 			switch (bodyName)
 			{
-				case Body.Name.Sun: return 0;
-				case Body.Name.Moon: return 1;
-				case Body.Name.Mars: return 2;
-				case Body.Name.Mercury: return 3;
-				case Body.Name.Jupiter: return 4;
-				case Body.Name.Venus: return 5;
-				case Body.Name.Saturn: return 6;
-				case Body.Name.Lagna: return 7;
+				case BodyName.Sun: return 0;
+				case BodyName.Moon: return 1;
+				case BodyName.Mars: return 2;
+				case BodyName.Mercury: return 3;
+				case BodyName.Jupiter: return 4;
+				case BodyName.Venus: return 5;
+				case BodyName.Saturn: return 6;
+				case BodyName.Lagna: return 7;
 				default: Trace.Assert(false, "Ashtakavarga:BodyToInt");
 					return 0;
 			}
 		}
-		public Body.Name[] GetBodies ()
+		public BodyName[] GetBodies ()
 		{
 			return this.avBodies;
 		}
-		public int[] GetPav (Body.Name bodyName)
+		public int[] GetPav (BodyName bodyName)
 		{
 			int[] ret = new int[12] {0,0,0,0,0,0,0,0,0,0,0,0};
-			foreach (Body.Name inner in GetBodies())
+			foreach (BodyName inner in GetBodies())
 			{
 				foreach (ZodiacHouseName zh in this.GetBindus(bodyName, inner))
 				{
@@ -233,9 +233,9 @@ namespace org.transliteral.panchang
 		{
 			int[] sav = new int[12]{0,0,0,0,0,0,0,0,0,0,0,0};
 
-			ZodiacHouse zl = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(this.dtype).ZodiacHouse;
+			ZodiacHouse zl = h.GetPosition(BodyName.Lagna).ToDivisionPosition(this.dtype).ZodiacHouse;
 
-			foreach (Body.Name b in GetBodies())
+			foreach (BodyName b in GetBodies())
 			{
 
 				int[] pav = this.GetPav(b);
@@ -257,10 +257,10 @@ namespace org.transliteral.panchang
 		public int[] GetSav ()
 		{
 			int[] sav = new int[12]{0,0,0,0,0,0,0,0,0,0,0,0};
-			foreach (Body.Name b in GetBodies())
+			foreach (BodyName b in GetBodies())
 			{
 				// Lagna's bindus are not included in SAV
-				if (b == Body.Name.Lagna)
+				if (b == BodyName.Lagna)
 					continue;
 
 				int[] pav = this.GetPav(b);
@@ -273,7 +273,7 @@ namespace org.transliteral.panchang
 			return sav;
 		}
 
-		public ZodiacHouseName[] GetBindus (Body.Name bodyName1, Body.Name bodyName2)
+		public ZodiacHouseName[] GetBindus (BodyName bodyName1, BodyName bodyName2)
 		{
 			int[][][] allBindus = new int[8][][];
 			allBindus [0] = BindusSun();

@@ -22,7 +22,7 @@ namespace org.transliteral.panchang
 			}
 			return ret;
 		}
-		public int Value (Body.Name b)
+		public int Value (BodyName b)
 		{
 			if (horoscope.GetPosition(b).ToDivisionPosition(divisionType).IsExaltedPhalita()) return 1;
 			else if (horoscope.GetPosition(b).ToDivisionPosition(divisionType).IsDebilitatedPhalita()) return -1;
@@ -37,7 +37,7 @@ namespace org.transliteral.panchang
 			if (valb > vala) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			int valm = Value (m);
 			int valn = Value (n);

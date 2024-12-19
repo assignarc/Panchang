@@ -16,7 +16,7 @@ namespace org.transliteral.panchang
         public ZodiacHouseName Value { get { return m_zhouse; } set { m_zhouse = value; } }
         public ZodiacHouse(ZodiacHouseName zhouse) { m_zhouse = zhouse; }
         
-        static public ZodiacHouseName[] AllNames = new ZodiacHouseName[]
+        public static ZodiacHouseName[] AllNames = new ZodiacHouseName[]
         {
             ZodiacHouseName.Ari, ZodiacHouseName.Tau, ZodiacHouseName.Gem, ZodiacHouseName.Can, ZodiacHouseName.Leo, ZodiacHouseName.Vir,
             ZodiacHouseName.Lib, ZodiacHouseName.Sco, ZodiacHouseName.Sag, ZodiacHouseName.Cap, ZodiacHouseName.Aqu, ZodiacHouseName.Pis

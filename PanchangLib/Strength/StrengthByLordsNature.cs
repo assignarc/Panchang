@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
 			: base (h, dtype, true) {}
         public int NaturalValueForRasi(ZodiacHouseName zha)
 		{
-			Body.Name bl = horoscope.LordOfZodiacHouse(zha, divisionType);
+			BodyName bl = horoscope.LordOfZodiacHouse(zha, divisionType);
 			ZodiacHouseName zhl = horoscope.GetPosition(bl).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 
 			int[] vals = new int[] {3,1,2}; // dual, move, fix
@@ -25,7 +25,7 @@ namespace org.transliteral.panchang
 			if (a < b) return false;
 			throw new EqualStrength();
 		}
-		public bool Stronger (Body.Name m, Body.Name n)
+		public bool Stronger (BodyName m, BodyName n)
 		{
 			ZodiacHouseName za = horoscope.GetPosition(m).ToDivisionPosition(divisionType).ZodiacHouse.Value;
 			ZodiacHouseName zb = horoscope.GetPosition(n).ToDivisionPosition(divisionType).ZodiacHouse.Value;

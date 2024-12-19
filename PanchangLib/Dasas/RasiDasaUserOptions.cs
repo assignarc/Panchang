@@ -10,8 +10,8 @@ namespace org.transliteral.panchang
 	{
 		protected Horoscope h;
 		protected Division mDtype;
-		protected Body.Name mCoLordAqu;
-		protected Body.Name mCoLordSco;
+		protected BodyName mCoLordAqu;
+		protected BodyName mCoLordSco;
 		protected OrderedZodiacHouses[] mSeventhStrengths;
 		protected OrderedZodiacHouses mSaturnExceptions;
 		protected OrderedZodiacHouses mKetuExceptions;
@@ -48,21 +48,21 @@ namespace org.transliteral.panchang
 			set { this.mDtype = value; }
 		}
 
-		[@DisplayName("Division")]
+		[Visible("Division")]
 		public DivisionType UIVarga
 		{
 			get { return this.mDtype.MultipleDivisions[0].Varga; }
 			set { this.mDtype = new Division(value); }
 		}
 
-		[PropertyOrder(99), @DisplayName("Seed Rasi")]
+		[PropertyOrder(99), Visible("Seed Rasi")]
 		[Description("The rasi from which the dasa should be seeded.")]
 		public ZodiacHouseName SeedRasi
 		{
 			get { return this.mSeed; }
 			set { this.mSeed = value; }
 		}
-		[PropertyOrder(100), @DisplayName("Seed House")]
+		[PropertyOrder(100), Visible("Seed House")]
 		[Description("House from which dasa should be seeded (reckoned from seed rasi)")]
 		public int SeedHouse
 		{
@@ -70,38 +70,38 @@ namespace org.transliteral.panchang
 			set { this.mSeedHouse = value; }
 		}
 
-		[PropertyOrder(101), @DisplayName("Lord of Aquarius")]
-		public Body.Name ColordAqu
+		[PropertyOrder(101), Visible("Lord of Aquarius")]
+		public BodyName ColordAqu
 		{
 			get { return this.mCoLordAqu; }
 			set { this.mCoLordAqu = value; }
 		}
-		[PropertyOrder(102), @DisplayName("Lord of Scorpio")]
-		public Body.Name ColordSco
+		[PropertyOrder(102), Visible("Lord of Scorpio")]
+		public BodyName ColordSco
 		{
 			get { return this.mCoLordSco; }
 			set { this.mCoLordSco = value; }
 		}
 
-		[PropertyOrder(103), @DisplayName("Rasi Strength Order")]
+		[PropertyOrder(103), Visible("Rasi Strength Order")]
 		public OrderedZodiacHouses[] SeventhStrengths
 		{
 			get { return this.mSeventhStrengths; }
 			set { this.mSeventhStrengths = value; }
 		}
-		[PropertyOrder(104), @DisplayName("Rasis with Saturn Exception")]
+		[PropertyOrder(104), Visible("Rasis with Saturn Exception")]
 		public OrderedZodiacHouses SaturnExceptions
 		{
 			get { return this.mSaturnExceptions; }
 			set { this.mSaturnExceptions = value; }
 		}
-		[PropertyOrder(105), @DisplayName("Rasis with Ketu Exception")]
+		[PropertyOrder(105), Visible("Rasis with Ketu Exception")]
 		public OrderedZodiacHouses KetuExceptions
 		{
 			get { return this.mKetuExceptions; }
 			set { this.mKetuExceptions = value; }
 		}
-		virtual public object Clone ()
+		public virtual object Clone ()
 		{
 			RasiDasaUserOptions uo = new RasiDasaUserOptions(h, mRules);
 			uo.Division = (Division)this.Division.Clone();
@@ -114,12 +114,12 @@ namespace org.transliteral.panchang
 			uo.SeedHouse = this.SeedHouse;
 			return uo;
 		}
-		virtual public object CopyFrom (object _uo)
+		public virtual object CopyFrom (object _uo)
 		{
 			this.CopyFromNoClone(_uo);
 			return this.Clone();
 		}
-		virtual public void CopyFromNoClone (object _uo)
+		public virtual void CopyFromNoClone (object _uo)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)_uo;
 			
@@ -156,23 +156,23 @@ namespace org.transliteral.panchang
         public ZodiacHouse getSeed() => new ZodiacHouse(this.mSeed).Add(this.SeedHouse);
         public void calculateSeed ()
 		{
-			this.mSeed = h.GetPosition(Body.Name.Lagna).ToDivisionPosition(this.Division).ZodiacHouse.Value;
+			this.mSeed = h.GetPosition(BodyName.Lagna).ToDivisionPosition(this.Division).ZodiacHouse.Value;
 			this.mSeedHouse = 1;
 
 		}
 		public void calculateCoLords ()
 		{
 			FindStronger fs = new FindStronger(h, mDtype, FindStronger.RulesStrongerCoLord(h));
-			this.mCoLordAqu = fs.StrongerGraha(Body.Name.Saturn, Body.Name.Rahu, true);
-			this.mCoLordSco = fs.StrongerGraha(Body.Name.Mars, Body.Name.Ketu, true);
+			this.mCoLordAqu = fs.StrongerGraha(BodyName.Saturn, BodyName.Rahu, true);
+			this.mCoLordSco = fs.StrongerGraha(BodyName.Mars, BodyName.Ketu, true);
 		}
 		public void calculateExceptions ()
 		{
 			this.KetuExceptions.houses.Clear();
 			this.SaturnExceptions.houses.Clear();
 
-			ZodiacHouseName zhKetu = h.GetPosition(Body.Name.Ketu).ToDivisionPosition(this.Division).ZodiacHouse.Value;
-			ZodiacHouseName zhSat = h.GetPosition(Body.Name.Saturn).ToDivisionPosition(this.Division).ZodiacHouse.Value;
+			ZodiacHouseName zhKetu = h.GetPosition(BodyName.Ketu).ToDivisionPosition(this.Division).ZodiacHouse.Value;
+			ZodiacHouseName zhSat = h.GetPosition(BodyName.Saturn).ToDivisionPosition(this.Division).ZodiacHouse.Value;
 
 			if (zhKetu != zhSat)
 			{
@@ -184,8 +184,8 @@ namespace org.transliteral.panchang
 				ArrayList rule = new ArrayList();
 				rule.Add (EGrahaStrength.Longitude);
 				FindStronger fs = new FindStronger(h, this.Division, rule);
-				Body.Name b = fs.StrongerGraha(Body.Name.Saturn, Body.Name.Ketu, false);
-				if (b == Body.Name.Ketu)
+				BodyName b = fs.StrongerGraha(BodyName.Saturn, BodyName.Ketu, false);
+				if (b == BodyName.Ketu)
 					this.mKetuExceptions.houses.Add (zhKetu);
 				else
 					this.mSaturnExceptions.houses.Add (zhSat);

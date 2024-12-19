@@ -25,13 +25,13 @@ namespace org.transliteral.panchang
 			Trace.Assert (value is string, "DasaEntryConverter::ConvertFrom 1");
 			string s = (string) value;
 
-			DasaEntry de = new DasaEntry(Body.Name.Lagna, 0.0, 0.0, 1, "None");
+			DasaEntry de = new DasaEntry(BodyName.Lagna, 0.0, 0.0, 1, "None");
 			string[] arr = s.Split (new Char[1] {','});
 			if (arr.Length >= 1) de.shortDesc = arr[0];
 			if (arr.Length >= 2) de.level = int.Parse(arr[1]);
 			if (arr.Length >= 3) de.startUT = double.Parse(arr[2]);
 			if (arr.Length >= 4) de.dasaLength = double.Parse(arr[3]);
-			if (arr.Length >= 5) de.graha = (Body.Name)int.Parse(arr[4]);
+			if (arr.Length >= 5) de.graha = (BodyName)int.Parse(arr[4]);
 			if (arr.Length >= 6) de.zodiacHouse = (ZodiacHouseName)int.Parse(arr[5]);
 			return de;
 		}

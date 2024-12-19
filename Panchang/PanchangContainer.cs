@@ -715,8 +715,8 @@ namespace org.transliteral.panchang.app
         {
             HoraInfo info = new JagannathaHoraDescriptor(fileName).toHoraInfo();
             Horoscope h = new Horoscope(info, new HoroscopeOptions());
-            if (h.GetPosition(Body.Name.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value ==
-                h.GetPosition(Body.Name.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value)
+            if (h.GetPosition(BodyName.Ketu).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value ==
+                h.GetPosition(BodyName.Lagna).ToDivisionPosition(new Division(DivisionType.Rasi)).ZodiacHouse.Value)
                 return true;
 
             return false;

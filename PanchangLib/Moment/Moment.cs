@@ -11,7 +11,7 @@ namespace org.transliteral.panchang
     /// </summary>
     [Serializable]
     [TypeConverter(typeof(MomentConverter))]
-    public class Moment : HoraSerializableOptions, ICloneable, ISerializable
+    public class Moment : SerializableOptions, ICloneable, ISerializable
     {
         void ISerializable.GetObjectData(
             SerializationInfo info, StreamingContext context)
@@ -135,7 +135,7 @@ namespace org.transliteral.panchang
             Trace.Assert(false, "Moment::ToStringMonth");
             return "";
         }
-        override public string ToString()
+        public override string ToString()
         {
             return (m_day < 10 ? "0" : "") + m_day.ToString() +
                 " " + ToStringMonth(m_month) + " " + m_year.ToString()

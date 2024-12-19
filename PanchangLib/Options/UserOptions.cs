@@ -28,7 +28,7 @@ namespace org.transliteral.panchang
         }
 
         [Category("Options")]
-        [@DisplayName("Varga")]
+        [Visible("Varga")]
         public Division Varga
         {
             get { return varga; }
@@ -36,21 +36,21 @@ namespace org.transliteral.panchang
         }
 
 
-        [@DisplayName("Dual Chart View")]
+        [Visible("Dual Chart View")]
         public bool ShowInner
         {
             get { return mbShowInner; }
             set { this.mbShowInner = value; }
         }
 
-        [@DisplayName("View Type")]
+        [Visible("View Type")]
         public EViewStyle ViewStyle
         {
             get { return this.mViewStyle; }
             set { this.mViewStyle = value; }
         }
         [Category("Options")]
-        [@DisplayName("Chart style")]
+        [Visible("Chart style")]
         public EChartStyle ChartStyle
         {
             get { return this.mChartStyle; }

@@ -9,7 +9,7 @@ namespace org.transliteral.panchang.data
 {
     public struct PanchangDay
     {
-        public Basics.Weekday LocalWeekday { get; set; }
+        public Weekday LocalWeekday { get; set; }
         public Moment Moment { get; set; }
         public List<CelestialBody> Celestials { get; set; }
         public string Rahu { get; set; }
@@ -23,10 +23,20 @@ namespace org.transliteral.panchang.data
         public Nakshatra Nakshatra { get; set; }
         public Dictionary<string, string> Hora { get; set; }
         public Dictionary< string, string> Kala { get; set; }
+
+        public static PanchangDay New()
+        {
+            return new PanchangDay()
+            {
+                Celestials = new List<CelestialBody>(),
+                Hora = new Dictionary<string, string>(),
+                Kala = new Dictionary<string, string>()
+            };
+        }
     }
     public struct CelestialBody
     {
-        public Body.Name Name { get; set; }
+        public BodyName Name { get; set; }
         public string Rise { get; set; }
         public string Set { get; set; }
     }

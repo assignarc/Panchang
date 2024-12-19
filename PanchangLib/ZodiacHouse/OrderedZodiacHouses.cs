@@ -17,7 +17,7 @@ namespace org.transliteral.panchang
         {
             this.houses = new ArrayList();
         }
-        override public string ToString()
+        public override string ToString()
         {
             string s = "";
             ZodiacHouseName[] names = (ZodiacHouseName[])houses.ToArray(typeof(ZodiacHouseName));

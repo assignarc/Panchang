@@ -7,15 +7,15 @@ namespace org.transliteral.panchang
     public enum EKakshya { EKRegular, EKStandard }
     public enum Direction : int
     {
-        NorthSouth = 1, 
+        NorthSouth = 1,
         EastWest = 2
     }
 
     public enum NakshatraGroupType
     {
-        Savya, 
-        SavyaMirrored, 
-        Apasavya, 
+        Savya,
+        SavyaMirrored,
+        Apasavya,
         ApasavyaMirrored
     }
 
@@ -28,13 +28,13 @@ namespace org.transliteral.panchang
 
     public enum DateType : int
     {
-        FixedYear, 
-        SolarYear, 
-        TithiYear, 
+        FixedYear,
+        SolarYear,
+        TithiYear,
         YogaYear,
-        TithiPraveshYear, 
-        KaranaPraveshYear, 
-        YogaPraveshYear, 
+        TithiPraveshYear,
+        KaranaPraveshYear,
+        YogaPraveshYear,
         NakshatraPraveshYear
     }
 
@@ -101,26 +101,58 @@ namespace org.transliteral.panchang
 
     public enum EFileType
     {
-        JagannathaHora, 
+        JagannathaHora,
         PanchangHora
     }
 
     public enum HoraType : int
     {
-        Birth, 
-        Progression, 
-        TithiPravesh, 
-        Transit, 
+        Birth,
+        Progression,
+        TithiPravesh,
+        Transit,
         Dasa
     }
 
     public enum AyanamsaType : int
     {
-        Fagan = 0, 
-        Lahiri = 1, 
-        Raman = 3, 
-        Ushashashi = 4, 
+        Fagan = 0,
+        Lahiri = 1,
+        Raman = 3,
+        Ushashashi = 4,
         Krishnamurti = 5
+    }
+    //Body
+
+    [TypeConverter(typeof(EnumDescConverter))]
+    public enum BodyName : int
+    {
+        // DO NOT CHANGE ORDER WITHOUT CHANING NARAYANA DASA ETC
+        // RELY ON EXPLICIT EQUAL CONVERSION FOR STRONGER CO_LORD ETC
+        Sun = 0,
+        Moon = 1,
+        Mars = 2,
+        Mercury = 3,
+        Jupiter = 4,
+        Venus = 5,
+        Saturn = 6,
+        Rahu = 7,
+        Ketu = 8,
+        Lagna = 9,
+
+        // And now, we're no longer uptight about the ordering :-)
+        [Description("Bhava Lagna")] BhavaLagna,
+        [Description("Hora Lagna")] HoraLagna,
+        [Description("Ghati Lagna")] GhatiLagna,
+        [Description("Sree Lagna")] SreeLagna,
+        Pranapada,
+        [Description("Vighati Lagna")] VighatiLagna,
+        Dhuma, Vyatipata, Parivesha, Indrachapa, Upaketu,
+        Kala, Mrityu, ArthaPraharaka, YamaGhantaka, Gulika, Maandi,
+        [Description("Chandra Ayur Lagna")] ChandraAyurLagna,
+        MrityuPoint, Other,
+        AL, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, UL,
+
     }
 
     //HoroscopeOptions.cs
@@ -168,7 +200,7 @@ namespace org.transliteral.panchang
 
     public enum EGrahaPositionType : int
     {
-        Apparent, 
+        Apparent,
         True
     }
 
@@ -281,6 +313,69 @@ namespace org.transliteral.panchang
     {
         SourceRef, SourceText, SourceItxText, HoraRule, Result, Other
     }
+
+    //BaseUserOptions
+
+    public enum BaseUserOptionsViewType : int
+    {
+        DivisionalChart, Ashtakavarga,
+        KeyInfo, BasicCalculations, Balas,
+        TransitSearch, NavamsaCircle,
+        VaraChakra, KutaMatching,
+        ChakraSarvatobhadra81,
+        Panchanga,
+        DasaAshtottari, DasaVimsottari, DasaMudda,
+        DasaShodashottari, DasaDwadashottari,
+        DasaPanchottari, DasaShatabdika,
+        DasaTithiAshtottari,
+        DasaYogaVimsottari,
+        DasaKaranaChaturashitiSama,
+        DasaTithiPraveshAshtottariCompressedFixed,
+        DasaTithiPraveshAshtottariCompressedSolar,
+        DasaTithiPraveshAshtottariCompressedTithi,
+        DasaYogaPraveshVimsottariCompressedYoga,
+        DasaChaturashitiSama, DasaDwisaptatiSama,
+        DasaShatTrimshaSama,
+        DasaDrig, DasaNarayana, DasaNarayanaSama,
+        DasaShoola, DasaNiryaanaShoola,
+        DasaSu, DasaKalachakra,
+        DasaTajaka,
+        DasaTithiPravesh, DasaYogaPravesh, DasaNakshatraPravesh,
+        DasaKaranaPravesh,
+        DasaTattwa,
+        NaisargikaRasiDasa,
+        NaisargikaGrahaDasa,
+        DasaSudarshanaChakra,
+        DasaSudarshanaChakraCompressed,
+        DasaYogini,
+        DasaNavamsa,
+        DasaMandooka,
+        DasaChara, DasaTrikona,
+        DasaLagnaKendradiRasi, DasaMoola,
+        DasaKarakaKendradiGraha
+    }
+    //Basics
+    // This matches the sweph definitions for easy conversion
+    public enum Weekday : int
+    {
+        Monday = 0, Tuesday = 1, Wednesday = 2, Thursday = 3, Friday = 4, Saturday = 5, Sunday = 6
+    }
+
+    //BasicCalculationsControl
+    public enum ENakshatraLord
+    {
+        Vimsottari, Ashtottari, Yogini, Shodashottari, Dwadashottari, Panchottari,
+        Shatabdika, ChaturashitiSama, DwisaptatiSama, ShatTrimshaSama
+    };
+    public enum ViewType
+    {
+        ViewBasicGrahas, ViewOtherLongitudes, ViewMrityuLongitudes,
+        ViewSahamaLongitudes, ViewAvasthas,
+        ViewSpecialTithis, ViewSpecialTaras, ViewBhavaCusps,
+        ViewAstronomicalInfo, ViewNakshatraAspects,
+        ViewCharaKarakas, ViewCharaKarakas7, View64Navamsa,
+        ViewNonLonBodies
+    };
 
     //ZodiacHouse.cs
     public enum ZodiacHouseName : int

@@ -13,7 +13,7 @@ namespace org.transliteral.panchang.app
     /// </summary>
     public class PanchangaPrintDocument : PrintDocument
     {
-        private PanchangaGlobalMoments globals = null;
+        private GlobalMoments globals = null;
         private ArrayList locals = null;
         private Horoscope h = null;
         private PanchangaControl.UserOptions opts = null;
@@ -23,7 +23,7 @@ namespace org.transliteral.panchang.app
 
         public PanchangaPrintDocument(
             PanchangaControl.UserOptions _opts,
-            Horoscope _h, PanchangaGlobalMoments _globals, ArrayList _locals)
+            Horoscope _h, GlobalMoments _globals, ArrayList _locals)
         {
             h = _h;
             opts = _opts;
@@ -31,7 +31,7 @@ namespace org.transliteral.panchang.app
             locals = _locals;
 
             if (locals.Count > 0 &&
-                ((PanchangaLocalMoments)locals[0]).LagnasUT.Count > 1)
+                ((LocalMoments)locals[0]).LagnasUT.Count > 1)
                 bPrintLagna = true;
         }
 
@@ -182,13 +182,13 @@ namespace org.transliteral.panchang.app
             int i = local_index;
             while (i < locals.Count)
             {
-                PanchangaLocalMoments local = (PanchangaLocalMoments)locals[i];
+                LocalMoments local = (LocalMoments)locals[i];
                 Moment m_sunrise = new Moment(local.SunriseUT, h);
                 g.DrawString(m_sunrise.ToString(), f, b, day_offset, 0);
 
                 for (int j = 0; j < local.LagnasUT.Count; j++)
                 {
-                    PanchangaMomentInfo pmi = (PanchangaMomentInfo)local.LagnasUT[j];
+                    MomentInfo pmi = (MomentInfo)local.LagnasUT[j];
                     //Moment m_lagna = new Moment(pmi.ut, h);
                     ZodiacHouse zh = new ZodiacHouse((ZodiacHouseName)pmi.Info);
                     zh = zh.Add(12);
@@ -241,7 +241,7 @@ namespace org.transliteral.panchang.app
             while (i < locals.Count)
             {
                 int numLines = 1;
-                PanchangaLocalMoments local = (PanchangaLocalMoments)locals[i];
+                LocalMoments local = (LocalMoments)locals[i];
                 Moment m_sunrise = new Moment(local.SunriseUT, h);
                 Moment m_sunset = new Moment(0, 0, 0, local.Sunset);
 
@@ -264,7 +264,7 @@ namespace org.transliteral.panchang.app
                     numLines = Math.Max(numLines, numTithis);
                     for (int j = 0; j < numTithis; j++)
                     {
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.TithisUT[local.TithiIndexStart + 1 + j];
+                        MomentInfo pmi = (MomentInfo)globals.TithisUT[local.TithiIndexStart + 1 + j];
                         Tithi t = new Tithi((TithiName)pmi.Info);
                         Moment mTithi = new Moment(pmi.UT, h);
                         g.DrawString(t.ToUnqualifiedString(), f, b, tithi_name_offset, j * f.Height);
@@ -278,7 +278,7 @@ namespace org.transliteral.panchang.app
                     numLines = Math.Max(numLines, (int)Math.Ceiling(numKaranas / 2.0));
                     for (int j = 0; j < numKaranas; j++)
                     {
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.KaranasUT[local.KaranaIndexStart + 1 + j];
+                        MomentInfo pmi = (MomentInfo)globals.KaranasUT[local.KaranaIndexStart + 1 + j];
                         Karana k = new Karana((KaranaName)pmi.Info);
                         Moment mKarana = new Moment(pmi.UT, h);
                         int jRow = (int)Math.Floor((decimal)j / 2);
@@ -301,7 +301,7 @@ namespace org.transliteral.panchang.app
                     numLines = Math.Max(numLines, numNaks);
                     for (int j = 0; j < numNaks; j++)
                     {
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart + 1 + j];
+                        MomentInfo pmi = (MomentInfo)globals.NakshatrasUT[local.NakshatraIndexStart + 1 + j];
                         Nakshatra n = new Nakshatra((NakshatraName)pmi.Info);
                         Moment mNak = new Moment(pmi.UT, h);
                         g.DrawString(n.ToString(), f, b, nak_name_offset, j * f.Height);
@@ -315,7 +315,7 @@ namespace org.transliteral.panchang.app
                     numLines = Math.Max(numLines, numSMYogas);
                     for (int j = 0; j < numSMYogas; j++)
                     {
-                        PanchangaMomentInfo pmi = (PanchangaMomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart + 1 + j];
+                        MomentInfo pmi = (MomentInfo)globals.SunMoonYogasUT[local.SunMoonYogaIndexStart + 1 + j];
                         SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info);
                         Moment mSMYoga = new Moment(pmi.UT, h);
                         g.DrawString(sm.Value.ToString(), f, b, sm_name_offset, j * f.Height);
@@ -349,7 +349,7 @@ namespace org.transliteral.panchang.app
             float offsetY = g.Transform.OffsetY;
             float offsetX = margin_offset + sm_time_offset + sm_time_width;
 
-            Moment mCurr = new Moment(((PanchangaLocalMoments)locals[iStart]).SunriseUT, h);
+            Moment mCurr = new Moment(((LocalMoments)locals[iStart]).SunriseUT, h);
             HoraInfo hiCurr = new HoraInfo(mCurr, h.Info.lat, h.Info.lon, h.Info.tz);
             Horoscope hCurr = new Horoscope(hiCurr, h.Options);
             DivisionalChart dc = new DivisionalChart(hCurr);

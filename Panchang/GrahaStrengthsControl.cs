@@ -31,7 +31,7 @@ namespace org.transliteral.panchang.app
                 set { m_dtype = value; }
             }
 
-            [@DisplayName("Varga")]
+            [Visible("Varga")]
             public DivisionType UIDivision
             {
                 get { return m_dtype.MultipleDivisions[0].Varga; }
@@ -232,14 +232,14 @@ namespace org.transliteral.panchang.app
         }
         private void InitializeComboBoxes()
         {
-            for (int i = (int)Body.Name.Sun; i <= (int)Body.Name.Lagna; i++)
+            for (int i = (int)BodyName.Sun; i <= (int)BodyName.Lagna; i++)
             {
-                string s = Body.ToString((Body.Name)i);
+                string s = Body.ToString((BodyName)i);
                 cbGraha1.Items.Add(s);
                 cbGraha2.Items.Add(s);
             }
-            cbGraha1.SelectedIndex = (int)Body.Name.Mars;
-            cbGraha2.SelectedIndex = (int)Body.Name.Ketu;
+            cbGraha1.SelectedIndex = (int)BodyName.Mars;
+            cbGraha2.SelectedIndex = (int)BodyName.Ketu;
 
             cbStrength.Items.Add("Co-Lord");
             cbStrength.Items.Add("Naisargika Graha Dasa");
@@ -265,8 +265,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Winner", -1, HorizontalAlignment.Left);
 
             int winner = 0;
-            Body.Name b1 = (Body.Name)cbGraha1.SelectedIndex;
-            Body.Name b2 = (Body.Name)cbGraha2.SelectedIndex;
+            BodyName b1 = (BodyName)cbGraha1.SelectedIndex;
+            BodyName b2 = (BodyName)cbGraha2.SelectedIndex;
 
             bool bSimpleLord = false;
             ArrayList al = GetRules(ref bSimpleLord);
@@ -277,7 +277,7 @@ namespace org.transliteral.panchang.app
                     al[i]
                 };
                 FindStronger fs = new FindStronger(h, options.Division, rule);
-                Body.Name bw = fs.StrongerGraha(b1, b2, bSimpleLord, ref winner);
+                BodyName bw = fs.StrongerGraha(b1, b2, bSimpleLord, ref winner);
 
                 ListViewItem li = new ListViewItem
                 {
@@ -310,8 +310,8 @@ namespace org.transliteral.panchang.app
             if (cbStrength.SelectedIndex == RVimsottariDasa)
             {
                 options.Division = new Division(DivisionType.BhavaPada);
-                cbGraha1.SelectedIndex = (int)Body.Name.Lagna;
-                cbGraha1.SelectedIndex = (int)Body.Name.Moon;
+                cbGraha1.SelectedIndex = (int)BodyName.Lagna;
+                cbGraha1.SelectedIndex = (int)BodyName.Moon;
             }
             lVarga.Text = options.Division.ToString();
             Compute();
@@ -323,17 +323,17 @@ namespace org.transliteral.panchang.app
             {
                 switch (cbGraha1.SelectedIndex)
                 {
-                    case (int)Body.Name.Mars:
-                        cbGraha2.SelectedIndex = (int)Body.Name.Ketu;
+                    case (int)BodyName.Mars:
+                        cbGraha2.SelectedIndex = (int)BodyName.Ketu;
                         break;
-                    case (int)Body.Name.Ketu:
-                        cbGraha2.SelectedIndex = (int)Body.Name.Mars;
+                    case (int)BodyName.Ketu:
+                        cbGraha2.SelectedIndex = (int)BodyName.Mars;
                         break;
-                    case (int)Body.Name.Saturn:
-                        cbGraha2.SelectedIndex = (int)Body.Name.Rahu;
+                    case (int)BodyName.Saturn:
+                        cbGraha2.SelectedIndex = (int)BodyName.Rahu;
                         break;
-                    case (int)Body.Name.Rahu:
-                        cbGraha2.SelectedIndex = (int)Body.Name.Saturn;
+                    case (int)BodyName.Rahu:
+                        cbGraha2.SelectedIndex = (int)BodyName.Saturn;
                         break;
                 }
             }
@@ -359,8 +359,8 @@ namespace org.transliteral.panchang.app
 
         private void populateColordLabel()
         {
-            Body.Name lAqu = h.LordOfZodiacHouse(new ZodiacHouse(ZodiacHouseName.Aqu), options.Division);
-            Body.Name lSco = h.LordOfZodiacHouse(new ZodiacHouse(ZodiacHouseName.Sco), options.Division);
+            BodyName lAqu = h.LordOfZodiacHouse(new ZodiacHouse(ZodiacHouseName.Aqu), options.Division);
+            BodyName lSco = h.LordOfZodiacHouse(new ZodiacHouse(ZodiacHouseName.Sco), options.Division);
             lColords.Text = string.Format("{0} and {1} are the stronger co-lords", lSco, lAqu);
         }
         private void lColords_Click(object sender, EventArgs e)

@@ -69,31 +69,31 @@ namespace org.transliteral.panchang
             int tnum = Basics.Normalize_inc(1, 30, (int)this.Value - i + 1);
             return new Tithi((TithiName)tnum);
         }
-        public Body.Name GetLord()
+        public BodyName GetLord()
         {
             // 1 based index starting with prathama
             int t = (int)this.Value;
 
             Logger.Info(String.Format("Looking for lord of tithi {0}", t));
             // check for new moon and full moon 
-            if (t == 30) return Body.Name.Rahu;
-            if (t == 15) return Body.Name.Saturn;
+            if (t == 30) return BodyName.Rahu;
+            if (t == 15) return BodyName.Saturn;
 
             // coalesce pakshas
             if (t >= 16) t -= 15;
             switch (t)
             {
-                case 1: case 9: return Body.Name.Sun;
-                case 2: case 10: return Body.Name.Moon;
-                case 3: case 11: return Body.Name.Mars;
-                case 4: case 12: return Body.Name.Mercury;
-                case 5: case 13: return Body.Name.Jupiter;
-                case 6: case 14: return Body.Name.Venus;
-                case 7: return Body.Name.Saturn;
-                case 8: return Body.Name.Rahu;
+                case 1: case 9: return BodyName.Sun;
+                case 2: case 10: return BodyName.Moon;
+                case 3: case 11: return BodyName.Mars;
+                case 4: case 12: return BodyName.Mercury;
+                case 5: case 13: return BodyName.Jupiter;
+                case 6: case 14: return BodyName.Venus;
+                case 7: return BodyName.Saturn;
+                case 8: return BodyName.Rahu;
             }
             Debug.Assert(false, "Tithi::getLord");
-            return Body.Name.Sun;
+            return BodyName.Sun;
         }
 
         public NandaType ToNandaType()

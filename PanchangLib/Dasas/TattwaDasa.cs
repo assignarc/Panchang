@@ -13,7 +13,7 @@ namespace org.transliteral.panchang
 
 			public Tattwa _startTattwa;
 
-			[DisplayName("Seed Tattwa")]
+			[Visible("Seed Tattwa")]
 			public Tattwa StartTattwa 
 			{
 				get { return _startTattwa; }

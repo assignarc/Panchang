@@ -24,8 +24,8 @@ namespace org.transliteral.panchang.app
         private MenuItem menuPavLagna;
 
         Ashtakavarga av = null;
-        Body.Name[] outerBodies = null;
-        Body.Name[] innerBodies = null;
+        BodyName[] outerBodies = null;
+        BodyName[] innerBodies = null;
         private MenuItem menuOptions;
         Bitmap bmpBuffer = null;
         private MenuItem menuJhoraSav;
@@ -44,16 +44,16 @@ namespace org.transliteral.panchang.app
             h.Changed += new EvtChanged(OnRecalculate);
             GlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
             av = new Ashtakavarga(h, userOptions.VargaType);
-            outerBodies = new Body.Name[]
+            outerBodies = new BodyName[]
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars,
-                Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
-                Body.Name.Saturn, Body.Name.Lagna
+                BodyName.Sun, BodyName.Moon, BodyName.Mars,
+                BodyName.Mercury, BodyName.Jupiter, BodyName.Venus,
+                BodyName.Saturn, BodyName.Lagna
             };
 
             b_black = new SolidBrush(Color.Black);
 
-            innerBodies = (Body.Name[])outerBodies.Clone();
+            innerBodies = (BodyName[])outerBodies.Clone();
             resetContextMenuChecks(menuSav);
             onRedisplay(GlobalOptions.Instance);
         }
@@ -250,11 +250,11 @@ namespace org.transliteral.panchang.app
                     break;
             }
 
-            Body.Name[] bin_body = new Body.Name[] {
-                                                Body.Name.Lagna,
-                                                Body.Name.Lagna, Body.Name.Sun, Body.Name.Moon,
-                                                Body.Name.Mars, Body.Name.Mercury, Body.Name.Jupiter,
-                                                Body.Name.Venus, Body.Name.Saturn };
+            BodyName[] bin_body = new BodyName[] {
+                                                BodyName.Lagna,
+                                                BodyName.Lagna, BodyName.Sun, BodyName.Moon,
+                                                BodyName.Mars, BodyName.Mercury, BodyName.Jupiter,
+                                                BodyName.Venus, BodyName.Saturn };
             int[][] bins = new int[9][];
 
             if (userOptions.SavType == ESavType.Normal)
@@ -262,25 +262,25 @@ namespace org.transliteral.panchang.app
             else
                 bins[0] = av.GetSavRao();
 
-            bins[1] = av.GetPav(Body.Name.Lagna);
-            bins[2] = av.GetPav(Body.Name.Sun);
-            bins[3] = av.GetPav(Body.Name.Moon);
-            bins[4] = av.GetPav(Body.Name.Mars);
-            bins[5] = av.GetPav(Body.Name.Mercury);
-            bins[6] = av.GetPav(Body.Name.Jupiter);
-            bins[7] = av.GetPav(Body.Name.Venus);
-            bins[8] = av.GetPav(Body.Name.Saturn);
+            bins[1] = av.GetPav(BodyName.Lagna);
+            bins[2] = av.GetPav(BodyName.Sun);
+            bins[3] = av.GetPav(BodyName.Moon);
+            bins[4] = av.GetPav(BodyName.Mars);
+            bins[5] = av.GetPav(BodyName.Mercury);
+            bins[6] = av.GetPav(BodyName.Jupiter);
+            bins[7] = av.GetPav(BodyName.Venus);
+            bins[8] = av.GetPav(BodyName.Saturn);
 
             string[] strs = new string[9];
             strs[0] = "SAV";
-            strs[1] = Body.ToString(Body.Name.Lagna);
-            strs[2] = Body.ToString(Body.Name.Sun);
-            strs[3] = Body.ToString(Body.Name.Moon);
-            strs[4] = Body.ToString(Body.Name.Mars);
-            strs[5] = Body.ToString(Body.Name.Mercury);
-            strs[6] = Body.ToString(Body.Name.Jupiter);
-            strs[7] = Body.ToString(Body.Name.Venus);
-            strs[8] = Body.ToString(Body.Name.Saturn);
+            strs[1] = Body.ToString(BodyName.Lagna);
+            strs[2] = Body.ToString(BodyName.Sun);
+            strs[3] = Body.ToString(BodyName.Moon);
+            strs[4] = Body.ToString(BodyName.Mars);
+            strs[5] = Body.ToString(BodyName.Mercury);
+            strs[6] = Body.ToString(BodyName.Jupiter);
+            strs[7] = Body.ToString(BodyName.Venus);
+            strs[8] = Body.ToString(BodyName.Saturn);
 
             Brush b_background = new SolidBrush(GlobalOptions.Instance.ChakraBackgroundColor);
             for (int i = 0; i < 3; i++)
@@ -538,7 +538,7 @@ namespace org.transliteral.panchang.app
             }
 
             // write the pav values at the top of the circle
-            foreach (Body.Name bOuter in outerBodies)
+            foreach (BodyName bOuter in outerBodies)
             {
                 int[] pav = av.GetPav(bOuter);
                 for (int i = 0; i < 12; i++)
@@ -559,9 +559,9 @@ namespace org.transliteral.panchang.app
             }
 
             // draw the bindus
-            foreach (Body.Name bOuter in outerBodies)
+            foreach (BodyName bOuter in outerBodies)
             {
-                foreach (Body.Name bInner in innerBodies)
+                foreach (BodyName bInner in innerBodies)
                 {
                     int iOuter = av.BodyToInt(bOuter);
                     int iInner = av.BodyToInt(bInner);
@@ -594,11 +594,11 @@ namespace org.transliteral.panchang.app
 
         private void menuSav_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[]
+            outerBodies = new BodyName[]
             {
-                Body.Name.Sun, Body.Name.Moon, Body.Name.Mars,
-                Body.Name.Mercury, Body.Name.Jupiter, Body.Name.Venus,
-                Body.Name.Saturn, Body.Name.Lagna
+                BodyName.Sun, BodyName.Moon, BodyName.Mars,
+                BodyName.Mercury, BodyName.Jupiter, BodyName.Venus,
+                BodyName.Saturn, BodyName.Lagna
             };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
@@ -608,7 +608,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavSun_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Sun };
+            outerBodies = new BodyName[] { BodyName.Sun };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -617,7 +617,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavMoon_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Moon };
+            outerBodies = new BodyName[] { BodyName.Moon };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -626,7 +626,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavJupiter_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Jupiter };
+            outerBodies = new BodyName[] { BodyName.Jupiter };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -635,7 +635,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavMars_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Mars };
+            outerBodies = new BodyName[] { BodyName.Mars };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -644,7 +644,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavMercury_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Mercury };
+            outerBodies = new BodyName[] { BodyName.Mercury };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -653,7 +653,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavVenus_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Venus };
+            outerBodies = new BodyName[] { BodyName.Venus };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -662,7 +662,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavSaturn_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Saturn };
+            outerBodies = new BodyName[] { BodyName.Saturn };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();
@@ -671,7 +671,7 @@ namespace org.transliteral.panchang.app
 
         private void menuPavLagna_Click(object sender, EventArgs e)
         {
-            outerBodies = new Body.Name[] { Body.Name.Lagna };
+            outerBodies = new BodyName[] { BodyName.Lagna };
             mDisplayStyle = EDisplayStyle.Chancha;
             DrawToBuffer();
             Invalidate();

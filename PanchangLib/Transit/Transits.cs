@@ -14,12 +14,12 @@ namespace org.transliteral.panchang
 	public class Transit
 	{
 		private Horoscope h;
-		private Body.Name b;
+		private BodyName b;
 
 
 		public Longitude LongitudeOfSun (double ut, ref bool bDirRetro)
 		{
-			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
+			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, BodyName.Sun, BodyType.Name.Graha, this.h);
 			if (bp.SpeedLongitude >= 0) bDirRetro = false;
 			else bDirRetro = true;
 			return bp.Longitude;
@@ -27,7 +27,7 @@ namespace org.transliteral.panchang
 		public Longitude GenericLongitude (double ut, ref bool bDirRetro)
 		{
 
-			if (b == Body.Name.Lagna)
+			if (b == BodyName.Lagna)
 				return new Longitude(Sweph.swe_lagna(ut));
 
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, 
@@ -43,8 +43,8 @@ namespace org.transliteral.panchang
 		}
 		public Longitude LongitudeOfTithi (double ut)
 		{
-			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
-			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
+			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, BodyName.Sun, BodyType.Name.Graha, this.h);
+			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, BodyName.Moon, BodyType.Name.Graha, this.h);
 			Longitude rel = bp_moon.Longitude.Subtract ( bp_sun.Longitude);
 			return rel;
 		}
@@ -55,7 +55,7 @@ namespace org.transliteral.panchang
 		}
 		public Longitude LongitudeOfMoon (double ut)
 		{
-			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
+			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, BodyName.Moon, BodyType.Name.Graha, this.h);
 			return bp_moon.Longitude.Add(0);
 		}
 		public Longitude LongitudeOfSunMoonYogaDir (double ut, ref bool bDirRetro)
@@ -65,8 +65,8 @@ namespace org.transliteral.panchang
 		}
 		public Longitude LongitudeOfSunMoonYoga (double ut)
 		{
-			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, Body.Name.Sun, BodyType.Name.Graha, this.h);
-			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, Body.Name.Moon, BodyType.Name.Graha, this.h);
+			BodyPosition bp_sun = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_SUN, BodyName.Sun, BodyType.Name.Graha, this.h);
+			BodyPosition bp_moon = Basics.CalculateSingleBodyPosition (ut, Sweph.SE_MOON, BodyName.Moon, BodyType.Name.Graha, this.h);
 			Longitude rel = bp_moon.Longitude.Add ( bp_sun.Longitude);
 			return rel;
 		}
@@ -110,7 +110,7 @@ namespace org.transliteral.panchang
 				return LinearSearchBinary (ut_start, ut_middle, lon_to_find, func);			
 		}
 
-		public double NonLinearSearch (double ut, Body.Name b, Longitude lon_to_find, ReturnLon func)
+		public double NonLinearSearch (double ut, BodyName b, Longitude lon_to_find, ReturnLon func)
 		{
 			bool rDir_start = false;
 			bool rDir_end = false;
@@ -164,9 +164,9 @@ namespace org.transliteral.panchang
 		public Transit(Horoscope _h)
 		{
 			h = _h;
-			b = Body.Name.Other;
+			b = BodyName.Other;
 		}
-		public Transit(Horoscope _h, Body.Name _b)
+		public Transit(Horoscope _h, BodyName _b)
 		{
 			h = _h;
 			b = _b;

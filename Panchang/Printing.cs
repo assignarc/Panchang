@@ -473,13 +473,13 @@ namespace org.transliteral.panchang.app
                 h.Weekday, h.Info.tob, h.Info.tz, h.Info.lat, h.Info.lon));
 
             // Tithi
-            Longitude ltithi = h.GetPosition(Body.Name.Moon).Longitude.Subtract(h.GetPosition(Body.Name.Sun).Longitude);
+            Longitude ltithi = h.GetPosition(BodyName.Moon).Longitude.Subtract(h.GetPosition(BodyName.Sun).Longitude);
             double offset = 360.0 / 30.0 - ltithi.ToTithiOffset();
             Tithi ti = ltithi.ToTithi();
             PrintString(string.Format("Tithi: {0} {1:N}% left", ti.Value, offset / 12.0 * 100));
 
             // Nakshatra
-            Longitude lmoon = h.GetPosition(Body.Name.Moon).Longitude;
+            Longitude lmoon = h.GetPosition(BodyName.Moon).Longitude;
             Nakshatra nmoon = lmoon.ToNakshatra();
             offset = 360.0 / 27.0 - lmoon.ToNakshatraOffset();
             int pada = lmoon.ToNakshatraPada();
@@ -487,9 +487,9 @@ namespace org.transliteral.panchang.app
                 nmoon.Value, pada, offset / (360.0 / 27.0) * 100));
 
             // Yoga, Hora
-            Longitude smLon = h.GetPosition(Body.Name.Sun).Longitude.Add(h.GetPosition(Body.Name.Moon).Longitude);
+            Longitude smLon = h.GetPosition(BodyName.Sun).Longitude.Add(h.GetPosition(BodyName.Moon).Longitude);
             SunMoonYoga smYoga = smLon.ToSunMoonYoga();
-            Body.Name bHora = h.CalculateHora();
+            BodyName bHora = h.CalculateHora();
             PrintString(string.Format("{0} Yoga, {1} Hora", smYoga.Value, bHora));
 
 

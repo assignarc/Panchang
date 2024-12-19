@@ -9,8 +9,8 @@ namespace org.transliteral.panchang
 
         public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb)
         {
-			Body.Name lora = this.GetStrengthLord(za);
-			Body.Name lorb = this.GetStrengthLord(zb);
+			BodyName lora = this.GetStrengthLord(za);
+			BodyName lorb = this.GetStrengthLord(zb);
 			double offa = this.KarakaLongitude(lora);
 			double offb = this.KarakaLongitude(lorb);
 			if (offa > offb) return true;

@@ -137,10 +137,10 @@ namespace org.transliteral.panchang.app
             g.DrawEllipse(pn_grey, -105, -105, 210, 210);
             g.DrawEllipse(pn_grey, -115, -115, 230, 230);
 
-            Body.Name[] bodies = new Body.Name[10]
+            BodyName[] bodies = new BodyName[10]
             {
-                Body.Name.Lagna, Body.Name.Sun, Body.Name.Moon, Body.Name.Mars, Body.Name.Mercury,
-                Body.Name.Jupiter, Body.Name.Venus, Body.Name.Saturn, Body.Name.Rahu, Body.Name.Ketu
+                BodyName.Lagna, BodyName.Sun, BodyName.Moon, BodyName.Mars, BodyName.Mercury,
+                BodyName.Jupiter, BodyName.Venus, BodyName.Saturn, BodyName.Rahu, BodyName.Ketu
             };
 
             for (int i = 0; i < 12; i++)
@@ -177,8 +177,8 @@ namespace org.transliteral.panchang.app
 
             }
 
-            double dist_sat = h.GetPosition(Body.Name.Saturn).Distance;
-            foreach (Body.Name b in bodies)
+            double dist_sat = h.GetPosition(BodyName.Saturn).Distance;
+            foreach (BodyName b in bodies)
             {
                 Pen pn_b = new Pen(GlobalOptions.Instance.getBinduColor(b));
                 Brush br_b = new SolidBrush(GlobalOptions.Instance.getBinduColor(b));

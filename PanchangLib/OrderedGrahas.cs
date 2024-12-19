@@ -12,10 +12,10 @@ namespace org.transliteral.panchang
         {
             this.grahas = new ArrayList();
         }
-        override public string ToString()
+        public override string ToString()
         {
             string s = "";
-            foreach (Body.Name bn in this.grahas)
+            foreach (BodyName bn in this.grahas)
                 s += Body.ToShortString(bn) + " ";
             return s;
         }

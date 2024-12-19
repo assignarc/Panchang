@@ -8,9 +8,9 @@ namespace org.transliteral.panchang
 {
 
     [Serializable]
-    public class HoraSerializableOptions
+    public class SerializableOptions
     {
-        protected void Constructor(System.Type ty, SerializationInfo info, StreamingContext context)
+        protected void Constructor(Type ty, SerializationInfo info, StreamingContext context)
         {
 
             MemberInfo[] mi = FormatterServices.GetSerializableMembers(ty, context);
@@ -30,7 +30,7 @@ namespace org.transliteral.panchang
         }
 
         protected void GetObjectData(
-            System.Type ty, SerializationInfo info, StreamingContext context)
+            Type ty, SerializationInfo info, StreamingContext context)
         {
             MemberInfo[] mi = FormatterServices.GetSerializableMembers(ty, context);
             for (int i = 0; i < mi.Length; i++)
@@ -39,7 +39,7 @@ namespace org.transliteral.panchang
                 info.AddValue(mi[i].Name, ((FieldInfo)mi[i]).GetValue(this));
             }
         }
-        static public string GetExeDir()
+        public static string GetExeDir()
         {
 
             Process oLocal = Process.GetCurrentProcess();
@@ -51,7 +51,7 @@ namespace org.transliteral.panchang
             return fileName;
         }
 
-        static public string GetOptsFilename()
+        public static string GetOptsFilename()
         {
             string fileName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HoraOptions.xml";
             Logger.Info(string.Format("Options stored at {0}", fileName));

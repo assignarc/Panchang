@@ -18,45 +18,7 @@ namespace org.transliteral.panchang.app
         public Horoscope h;
         public class BaseUserOptions : ICloneable
         {
-            public enum ViewType : int
-            {
-                DivisionalChart, Ashtakavarga,
-                KeyInfo, BasicCalculations, Balas,
-                TransitSearch, NavamsaCircle,
-                VaraChakra, KutaMatching,
-                ChakraSarvatobhadra81,
-                Panchanga,
-                DasaAshtottari, DasaVimsottari, DasaMudda,
-                DasaShodashottari, DasaDwadashottari,
-                DasaPanchottari, DasaShatabdika,
-                DasaTithiAshtottari,
-                DasaYogaVimsottari,
-                DasaKaranaChaturashitiSama,
-                DasaTithiPraveshAshtottariCompressedFixed,
-                DasaTithiPraveshAshtottariCompressedSolar,
-                DasaTithiPraveshAshtottariCompressedTithi,
-                DasaYogaPraveshVimsottariCompressedYoga,
-                DasaChaturashitiSama, DasaDwisaptatiSama,
-                DasaShatTrimshaSama,
-                DasaDrig, DasaNarayana, DasaNarayanaSama,
-                DasaShoola, DasaNiryaanaShoola,
-                DasaSu, DasaKalachakra,
-                DasaTajaka,
-                DasaTithiPravesh, DasaYogaPravesh, DasaNakshatraPravesh,
-                DasaKaranaPravesh,
-                DasaTattwa,
-                NaisargikaRasiDasa,
-                NaisargikaGrahaDasa,
-                DasaSudarshanaChakra,
-                DasaSudarshanaChakraCompressed,
-                DasaYogini,
-                DasaNavamsa,
-                DasaMandooka,
-                DasaChara, DasaTrikona,
-                DasaLagnaKendradiRasi, DasaMoola,
-                DasaKarakaKendradiGraha
-            }
-            private ViewType _view;
+            private BaseUserOptionsViewType _view;
             public object Clone()
             {
                 BaseUserOptions uo = new BaseUserOptions
@@ -65,7 +27,7 @@ namespace org.transliteral.panchang.app
                 };
                 return uo;
             }
-            public ViewType View
+            public BaseUserOptionsViewType View
             {
                 get { return _view; }
                 set
@@ -75,35 +37,35 @@ namespace org.transliteral.panchang.app
             }
             public BaseUserOptions()
             {
-                _view = ViewType.DivisionalChart;
+                _view = BaseUserOptionsViewType.DivisionalChart;
             }
         }
 
-        public void SetView(BaseUserOptions.ViewType view)
+        public void SetView(BaseUserOptionsViewType view)
         {
             PanchangControl mc = null; ;
 
             switch (view)
             {
-                case BaseUserOptions.ViewType.DivisionalChart:
+                case BaseUserOptionsViewType.DivisionalChart:
                     mc = new DivisionalChart(h);
                     break;
-                case BaseUserOptions.ViewType.Ashtakavarga:
+                case BaseUserOptionsViewType.Ashtakavarga:
                     mc = new AshtakavargaControl(h);
                     break;
-                case BaseUserOptions.ViewType.ChakraSarvatobhadra81:
+                case BaseUserOptionsViewType.ChakraSarvatobhadra81:
                     mc = new Sarvatobhadra81Control(h);
                     break;
-                case BaseUserOptions.ViewType.NavamsaCircle:
+                case BaseUserOptionsViewType.NavamsaCircle:
                     mc = new NavamsaControl(h);
                     break;
-                case BaseUserOptions.ViewType.VaraChakra:
+                case BaseUserOptionsViewType.VaraChakra:
                     mc = new VaraChakra(h);
                     break;
-                case BaseUserOptions.ViewType.Panchanga:
+                case BaseUserOptionsViewType.Panchanga:
                     mc = new PanchangaControl(h);
                     break;
-                case BaseUserOptions.ViewType.KutaMatching:
+                case BaseUserOptionsViewType.KutaMatching:
                     {
                         Horoscope h2 = h;
                         foreach (Form f in ((PanchangContainer)GlobalOptions.mainControl).MdiChildren)
@@ -120,58 +82,58 @@ namespace org.transliteral.panchang.app
                         mc = new KutaMatchingControl(h, h);
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaVimsottari:
+                case BaseUserOptionsViewType.DasaVimsottari:
                     mc = new DasaControl(h, new VimsottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaYogini:
+                case BaseUserOptionsViewType.DasaYogini:
                     mc = new DasaControl(h, new YoginiDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaShodashottari:
+                case BaseUserOptionsViewType.DasaShodashottari:
                     mc = new DasaControl(h, new ShodashottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaAshtottari:
+                case BaseUserOptionsViewType.DasaAshtottari:
                     mc = new DasaControl(h, new AshtottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaTithiAshtottari:
+                case BaseUserOptionsViewType.DasaTithiAshtottari:
                     mc = new DasaControl(h, new TithiAshtottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaKaranaChaturashitiSama:
+                case BaseUserOptionsViewType.DasaKaranaChaturashitiSama:
                     mc = new DasaControl(h, new KaranaChaturashitiSamaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaYogaVimsottari:
+                case BaseUserOptionsViewType.DasaYogaVimsottari:
                     mc = new DasaControl(h, new YogaVimsottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaLagnaKendradiRasi:
+                case BaseUserOptionsViewType.DasaLagnaKendradiRasi:
                     mc = new DasaControl(h, new LagnaKendradiRasiDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaKarakaKendradiGraha:
+                case BaseUserOptionsViewType.DasaKarakaKendradiGraha:
                     mc = new DasaControl(h, new KarakaKendradiGrahaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaKalachakra:
+                case BaseUserOptionsViewType.DasaKalachakra:
                     mc = new DasaControl(h, new KalachakraDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaMoola:
+                case BaseUserOptionsViewType.DasaMoola:
                     mc = new DasaControl(h, new MoolaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaNavamsa:
+                case BaseUserOptionsViewType.DasaNavamsa:
                     mc = new DasaControl(h, new NavamsaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaMandooka:
+                case BaseUserOptionsViewType.DasaMandooka:
                     mc = new DasaControl(h, new MandookaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaChara:
+                case BaseUserOptionsViewType.DasaChara:
                     mc = new DasaControl(h, new CharaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaTrikona:
+                case BaseUserOptionsViewType.DasaTrikona:
                     mc = new DasaControl(h, new TrikonaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaSu:
+                case BaseUserOptionsViewType.DasaSu:
                     mc = new DasaControl(h, new SuDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaSudarshanaChakra:
+                case BaseUserOptionsViewType.DasaSudarshanaChakra:
                     mc = new DasaControl(h, new SudarshanaChakraDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaMudda:
+                case BaseUserOptionsViewType.DasaMudda:
                     {
                         DasaControl dc = new DasaControl(h, new VimsottariDasa(h));
                         dc.DasaOptions.YearType = DateType.SolarYear;
@@ -181,7 +143,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaSudarshanaChakraCompressed:
+                case BaseUserOptionsViewType.DasaSudarshanaChakraCompressed:
                     {
                         DasaControl dc = new DasaControl(h, new SudarshanaChakraDasa(h));
                         dc.DasaOptions.YearType = DateType.SolarYear;
@@ -191,14 +153,14 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaYogaPraveshVimsottariCompressedYoga:
+                case BaseUserOptionsViewType.DasaYogaPraveshVimsottariCompressedYoga:
                     {
                         DasaControl dc = new DasaControl(h, new YogaVimsottariDasa(h));
                         dc.compressToYogaPraveshaYearYoga();
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedTithi:
+                case BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedTithi:
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         dc.DasaOptions.YearType = DateType.TithiYear;
@@ -218,7 +180,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedFixed:
+                case BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedFixed:
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
@@ -237,7 +199,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaTithiPraveshAshtottariCompressedSolar:
+                case BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedSolar:
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
@@ -245,9 +207,9 @@ namespace org.transliteral.panchang.app
                         double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
                         double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
                         BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
-                            ut_start, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, h);
+                            ut_start, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
                         BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
-                            ut_end, Sweph.BodyNameToSweph(Body.Name.Sun), Body.Name.Sun, BodyType.Name.Graha, h);
+                            ut_end, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
                         Longitude lDiff = sp_end.Longitude.Subtract(sp_start.Longitude);
                         double diff = lDiff.Value;
                         if (diff < 120.0) diff += 360.0;
@@ -270,61 +232,61 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaDwadashottari:
+                case BaseUserOptionsViewType.DasaDwadashottari:
                     mc = new DasaControl(h, new DwadashottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaPanchottari:
+                case BaseUserOptionsViewType.DasaPanchottari:
                     mc = new DasaControl(h, new PanchottariDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaShatabdika:
+                case BaseUserOptionsViewType.DasaShatabdika:
                     mc = new DasaControl(h, new ShatabdikaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaChaturashitiSama:
+                case BaseUserOptionsViewType.DasaChaturashitiSama:
                     mc = new DasaControl(h, new ChaturashitiSamaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaDwisaptatiSama:
+                case BaseUserOptionsViewType.DasaDwisaptatiSama:
                     mc = new DasaControl(h, new DwisaptatiSamaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaShatTrimshaSama:
+                case BaseUserOptionsViewType.DasaShatTrimshaSama:
                     mc = new DasaControl(h, new ShatTrimshaSamaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.BasicCalculations:
+                case BaseUserOptionsViewType.BasicCalculations:
                     mc = new BasicCalculationsControl(h);
                     break;
-                case BaseUserOptions.ViewType.KeyInfo:
+                case BaseUserOptionsViewType.KeyInfo:
                     mc = new KeyInfoControl(h);
                     break;
-                case BaseUserOptions.ViewType.Balas:
+                case BaseUserOptionsViewType.Balas:
                     mc = new BalasControl(h);
                     break;
-                case BaseUserOptions.ViewType.TransitSearch:
+                case BaseUserOptionsViewType.TransitSearch:
                     mc = new TransitSearch(h);
                     break;
-                case BaseUserOptions.ViewType.NaisargikaRasiDasa:
+                case BaseUserOptionsViewType.NaisargikaRasiDasa:
                     mc = new DasaControl(h, new NaisargikaRasiDasa(h));
                     break;
-                case BaseUserOptions.ViewType.NaisargikaGrahaDasa:
+                case BaseUserOptionsViewType.NaisargikaGrahaDasa:
                     mc = new DasaControl(h, new NaisargikaGrahaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaNarayana:
+                case BaseUserOptionsViewType.DasaNarayana:
                     mc = new DasaControl(h, new NarayanaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaNarayanaSama:
+                case BaseUserOptionsViewType.DasaNarayanaSama:
                     mc = new DasaControl(h, new NarayanaSamaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaShoola:
+                case BaseUserOptionsViewType.DasaShoola:
                     mc = new DasaControl(h, new ShoolaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaNiryaanaShoola:
+                case BaseUserOptionsViewType.DasaNiryaanaShoola:
                     mc = new DasaControl(h, new NirayaanaShoolaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaDrig:
+                case BaseUserOptionsViewType.DasaDrig:
                     mc = new DasaControl(h, new DrigDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaTajaka:
+                case BaseUserOptionsViewType.DasaTajaka:
                     mc = new DasaControl(h, new TajakaDasa(h));
                     break;
-                case BaseUserOptions.ViewType.DasaTithiPravesh:
+                case BaseUserOptionsViewType.DasaTithiPravesh:
                     {
                         DasaControl dc = new DasaControl(h, new TithiPraveshDasa(h));
                         dc.DasaOptions.YearType = DateType.TithiPraveshYear;
@@ -333,7 +295,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaYogaPravesh:
+                case BaseUserOptionsViewType.DasaYogaPravesh:
                     {
                         DasaControl dc = new DasaControl(h, new YogaPraveshDasa(h));
                         dc.DasaOptions.YearType = DateType.YogaPraveshYear;
@@ -342,7 +304,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaNakshatraPravesh:
+                case BaseUserOptionsViewType.DasaNakshatraPravesh:
                     {
                         DasaControl dc = new DasaControl(h, new NakshatraPraveshDasa(h));
                         dc.DasaOptions.YearType = DateType.NakshatraPraveshYear;
@@ -351,7 +313,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaKaranaPravesh:
+                case BaseUserOptionsViewType.DasaKaranaPravesh:
                     {
                         DasaControl dc = new DasaControl(h, new KaranaPraveshDasa(h));
                         dc.DasaOptions.YearType = DateType.KaranaPraveshYear;
@@ -360,7 +322,7 @@ namespace org.transliteral.panchang.app
                         mc = dc;
                     }
                     break;
-                case BaseUserOptions.ViewType.DasaTattwa:
+                case BaseUserOptionsViewType.DasaTattwa:
                     mc = new DasaControl(h, new TattwaDasa(h));
                     break;
                 default:
