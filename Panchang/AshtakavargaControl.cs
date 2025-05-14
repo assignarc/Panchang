@@ -42,7 +42,7 @@ namespace org.transliteral.panchang.app
             userOptions = new AshtakavargaOptions();
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
             av = new Ashtakavarga(h, userOptions.VargaType);
             outerBodies = new BodyName[]
             {
@@ -55,7 +55,7 @@ namespace org.transliteral.panchang.app
 
             innerBodies = (BodyName[])outerBodies.Clone();
             resetContextMenuChecks(menuSav);
-            onRedisplay(GlobalOptions.Instance);
+            onRedisplay(PanchangAppOptions.Instance);
         }
 
         /// <summary>
@@ -65,14 +65,14 @@ namespace org.transliteral.panchang.app
 
         private void onRedisplay(object o)
         {
-            userOptions.ChartStyle = GlobalOptions.Instance.VargaStyle;
-            fBig = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints + 3);
-            fBigBold = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints + 3,
+            userOptions.ChartStyle = PanchangAppOptions.Instance.VargaStyle;
+            fBig = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints + 3);
+            fBigBold = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints + 3,
                 FontStyle.Bold | FontStyle.Underline |
                 FontStyle.Italic);
-            b_red = new SolidBrush(GlobalOptions.Instance.VargaGrahaColor);
+            b_red = new SolidBrush(PanchangAppOptions.Instance.VargaGrahaColor);
             DrawToBuffer();
             Invalidate();
         }
@@ -282,7 +282,7 @@ namespace org.transliteral.panchang.app
             strs[7] = Body.ToString(BodyName.Venus);
             strs[8] = Body.ToString(BodyName.Saturn);
 
-            Brush b_background = new SolidBrush(GlobalOptions.Instance.ChakraBackgroundColor);
+            Brush b_background = new SolidBrush(PanchangAppOptions.Instance.ChakraBackgroundColor);
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -486,14 +486,14 @@ namespace org.transliteral.panchang.app
             Pen pn_dgrey = new Pen(Color.Gray, (float)0.01);
             Brush b_black = new SolidBrush(Color.Black);
             Brush b_red = new SolidBrush(Color.Red);
-            Font f = new Font(GlobalOptions.Instance.FixedWidthFont.FontFamily,
-                GlobalOptions.Instance.FixedWidthFont.SizeInPoints - 6);
+            Font f = new Font(PanchangAppOptions.Instance.FixedWidthFont.FontFamily,
+                PanchangAppOptions.Instance.FixedWidthFont.SizeInPoints - 6);
 
 
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             if (PrintMode == false)
-                g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
+                g.Clear(PanchangAppOptions.Instance.ChakraBackgroundColor);
 
             DrawChanchaInner(g);
 
@@ -566,7 +566,7 @@ namespace org.transliteral.panchang.app
                     int iOuter = av.BodyToInt(bOuter);
                     int iInner = av.BodyToInt(bInner);
                     ZodiacHouseName[] zhBins = av.GetBindus(bOuter, bInner);
-                    Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(bInner));
+                    Brush br = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(bInner));
 
                     foreach (ZodiacHouseName zh in zhBins)
                     {

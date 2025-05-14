@@ -179,6 +179,7 @@
     <Compile Include="FindYogas.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PanchangAppOptions.cs" />
     <Compile Include="GrahaStrengthsControl.cs">
       <SubType>Form</SubType>
     </Compile>

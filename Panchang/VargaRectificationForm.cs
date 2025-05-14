@@ -131,8 +131,8 @@ namespace org.transliteral.panchang.app
             //
             InitializeComponent();
 
-            if (false == GlobalOptions.Instance.VargaRectificationFormSize.IsEmpty)
-                Size = GlobalOptions.Instance.VargaRectificationFormSize;
+            if (false == PanchangAppOptions.Instance.VargaRectificationFormSize.IsEmpty)
+                Size = PanchangAppOptions.Instance.VargaRectificationFormSize;
 
             h = _h;
             dc = _dc;
@@ -424,7 +424,7 @@ namespace org.transliteral.panchang.app
 
         private void Draw(Graphics g)
         {
-            Font f_time = GlobalOptions.Instance.GeneralFont;
+            Font f_time = PanchangAppOptions.Instance.GeneralFont;
             Pen p_black = new Pen(Brushes.Black);
             Pen p_lgray = new Pen(Brushes.LightGray);
             Pen p_orange = new Pen(Brushes.DarkOrange);
@@ -532,7 +532,7 @@ namespace org.transliteral.panchang.app
 
         private void VargaRectificationForm_Resize(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.VargaRectificationFormSize = Size;
+            PanchangAppOptions.Instance.VargaRectificationFormSize = Size;
             bmpBuffer = null;
             Invalidate();
         }

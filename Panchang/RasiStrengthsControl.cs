@@ -62,8 +62,8 @@ namespace org.transliteral.panchang.app
 
             InitializeComponent();
 
-            if (false == GlobalOptions.Instance.RasiStrengthsFormSize.IsEmpty)
-                Size = GlobalOptions.Instance.RasiStrengthsFormSize;
+            if (false == PanchangAppOptions.Instance.RasiStrengthsFormSize.IsEmpty)
+                Size = PanchangAppOptions.Instance.RasiStrengthsFormSize;
 
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
@@ -321,7 +321,7 @@ namespace org.transliteral.panchang.app
 
         private void RasiStrengthsControl_Resize(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.RasiStrengthsFormSize = Size;
+            PanchangAppOptions.Instance.RasiStrengthsFormSize = Size;
         }
     }
 }

@@ -44,8 +44,8 @@ namespace org.transliteral.panchang.app
             // TODO: Add any constructor code after InitializeComponent call
             //
             h = _h;
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
-            OnRedisplay(GlobalOptions.Instance);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            OnRedisplay(PanchangAppOptions.Instance);
             AddControlToTab(tabKeyInfo, new KeyInfoControl(h));
             //this.AddControlToTab (tabTest, new BalasControl(h));
             //this.AddControlToTab (tabTest, new Sarvatobhadra81Control(h));
@@ -64,7 +64,7 @@ namespace org.transliteral.panchang.app
 
         public void OnRedisplay(object o)
         {
-            Font = GlobalOptions.Instance.GeneralFont;
+            Font = PanchangAppOptions.Instance.GeneralFont;
         }
 
         /// <summary>

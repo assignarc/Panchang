@@ -24,12 +24,12 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnResize);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnResize);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
             b_black = new SolidBrush(Color.Black);
             AddViewsToContextMenu(contextMenu);
-            OnResize(GlobalOptions.Instance);
+            OnResize(PanchangAppOptions.Instance);
         }
 
         /// <summary>
@@ -75,8 +75,8 @@ namespace org.transliteral.panchang.app
         public void OnResize(object o)
         {
             f = new Font(
-                GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints - 4
+                PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints - 4
                 );
             DrawToBuffer(true);
             Invalidate();
@@ -104,7 +104,7 @@ namespace org.transliteral.panchang.app
                 BodyName.Rahu, BodyName.Ketu
             };
 
-            g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
+            g.Clear(PanchangAppOptions.Instance.ChakraBackgroundColor);
 
             ResetChakra(g, 0.0);
             g.DrawEllipse(pn_grey, -150, -150, 300, 300);

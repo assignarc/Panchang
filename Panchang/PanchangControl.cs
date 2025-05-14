@@ -467,8 +467,8 @@ namespace org.transliteral.panchang.app
 
         protected virtual void FontRows(ListView mList)
         {
-            mList.ForeColor = GlobalOptions.Instance.TableForegroundColor;
-            Font f = GlobalOptions.Instance.GeneralFont;
+            mList.ForeColor = PanchangAppOptions.Instance.TableForegroundColor;
+            Font f = PanchangAppOptions.Instance.GeneralFont;
             //new Font ("Courier New", 10);
             mList.Font = f;
             foreach (ListViewItem li in mList.Items)
@@ -484,8 +484,8 @@ namespace org.transliteral.panchang.app
         protected virtual void ColorRows(ListView mList)
         {
             Color[] cList = new Color[2];
-            cList[1] = GlobalOptions.Instance.TableOddRowColor;
-            cList[0] = GlobalOptions.Instance.TableEvenRowColor;
+            cList[1] = PanchangAppOptions.Instance.TableOddRowColor;
+            cList[0] = PanchangAppOptions.Instance.TableEvenRowColor;
             //cList[1] = Color.WhiteSmoke;
 
             for (int i = 0; i < mList.Items.Count; i++)
@@ -493,7 +493,7 @@ namespace org.transliteral.panchang.app
                 if (i % 2 == 1) mList.Items[i].BackColor = cList[0];
                 else mList.Items[i].BackColor = cList[1];
             }
-            mList.BackColor = GlobalOptions.Instance.TableBackgroundColor;
+            mList.BackColor = PanchangAppOptions.Instance.TableBackgroundColor;
         }
 
        

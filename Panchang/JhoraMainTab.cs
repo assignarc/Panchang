@@ -59,8 +59,8 @@ namespace org.transliteral.panchang.app
             // TODO: Add any constructor code after InitializeComponent call
             //
             h = _h;
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
-            OnRedisplay(GlobalOptions.Instance);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            OnRedisplay(PanchangAppOptions.Instance);
 
             AddControlToTab(tabBasics, new JhoraBasicsTab(h));
             //this.bTabBasicsLoaded = true;
@@ -68,7 +68,7 @@ namespace org.transliteral.panchang.app
 
         public void OnRedisplay(object o)
         {
-            Font = GlobalOptions.Instance.GeneralFont;
+            Font = PanchangAppOptions.Instance.GeneralFont;
             /*
 			this.tabBasics.Font = this.Font;
 			this.tabDasa.Font = this.Font;

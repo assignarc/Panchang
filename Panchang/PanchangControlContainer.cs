@@ -68,7 +68,7 @@ namespace org.transliteral.panchang.app
                 case BaseUserOptionsViewType.KutaMatching:
                     {
                         Horoscope h2 = h;
-                        foreach (Form f in ((PanchangContainer)GlobalOptions.mainControl).MdiChildren)
+                        foreach (Form f in ((PanchangContainer)PanchangAppOptions.mainControl).MdiChildren)
                         {
                             if (f is PanchangChild mch)
                             {

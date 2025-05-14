@@ -105,24 +105,24 @@ namespace org.transliteral.panchang.app
         }
         public void ResetDisplayOptions(object o)
         {
-            dasaItemList.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
-            dasaItemList.Font = GlobalOptions.Instance.GeneralFont;
+            dasaItemList.BackColor = PanchangAppOptions.Instance.DasaBackgroundColor;
+            dasaItemList.Font = PanchangAppOptions.Instance.GeneralFont;
             foreach (ListViewItem li in dasaItemList.Items)
             {
                 DasaItem di = (DasaItem)li;
-                li.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
-                li.Font = GlobalOptions.Instance.GeneralFont;
+                li.BackColor = PanchangAppOptions.Instance.DasaBackgroundColor;
+                li.Font = PanchangAppOptions.Instance.GeneralFont;
                 foreach (ListViewItem.ListViewSubItem si in li.SubItems)
-                    si.BackColor = GlobalOptions.Instance.DasaBackgroundColor;
+                    si.BackColor = PanchangAppOptions.Instance.DasaBackgroundColor;
                 di.EventDesc = "";
                 if (li.SubItems.Count >= 2)
                 {
-                    li.SubItems[0].ForeColor = GlobalOptions.Instance.DasaPeriodColor;
-                    li.SubItems[1].ForeColor = GlobalOptions.Instance.DasaDateColor;
-                    li.SubItems[1].Font = GlobalOptions.Instance.FixedWidthFont;
+                    li.SubItems[0].ForeColor = PanchangAppOptions.Instance.DasaPeriodColor;
+                    li.SubItems[1].ForeColor = PanchangAppOptions.Instance.DasaDateColor;
+                    li.SubItems[1].Font = PanchangAppOptions.Instance.FixedWidthFont;
                 }
             }
-            dasaItemList.HoverSelection = GlobalOptions.Instance.DasaHoverSelect;
+            dasaItemList.HoverSelection = PanchangAppOptions.Instance.DasaHoverSelect;
             LocateChartEvents();
         }
         public void Reset()
@@ -177,12 +177,12 @@ namespace org.transliteral.panchang.app
 
             SetDasaYearType();
             //td = new ToDate (h.baseUT, mDasaOptions.YearLength, 0.0, h);
-            mShowEvents.Checked = GlobalOptions.Instance.DasaShowEvents;
-            ResetDisplayOptions(GlobalOptions.Instance);
+            mShowEvents.Checked = PanchangAppOptions.Instance.DasaShowEvents;
+            ResetDisplayOptions(PanchangAppOptions.Instance);
 
             Dasa d = (Dasa)id;
             d.RecalculateEvent += new Recalculate(recalculateEntries);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(ResetDisplayOptions);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(ResetDisplayOptions);
             h.Changed += new EvtChanged(OnRecalculate);
             SetDescriptionLabel();
             d.Changed += new EvtChanged(OnDasaChanged);
@@ -954,7 +954,7 @@ namespace org.transliteral.panchang.app
             tooltip_event.SetToolTip(dasaItemList, di.EventDesc);
             tooltip_event.InitialDelay = 0;
 
-            if (GlobalOptions.Instance.DasaMoveSelect)
+            if (PanchangAppOptions.Instance.DasaMoveSelect)
                 di.Selected = true;
 
             //Console.WriteLine ("MouseMove: {0} {1}", e.Y, li != null ? li.Index : -1);
@@ -1401,7 +1401,7 @@ namespace org.transliteral.panchang.app
                     else if (levels == di.entry.level)
                     {
                         foreach (ListViewItem.ListViewSubItem si in di.SubItems)
-                            si.BackColor = GlobalOptions.Instance.DasaHighlightColor;
+                            si.BackColor = PanchangAppOptions.Instance.DasaHighlightColor;
 
                         di.EventDesc += eventDesc;
                     }
@@ -1425,7 +1425,7 @@ namespace org.transliteral.panchang.app
             foreach (UserEvent ue in h.Info.Events.Cast<UserEvent>())
             {
                 if (ue.WorkWithEvent == true)
-                    ExpandEvent(ue.EventTime, GlobalOptions.Instance.DasaEventsLevel, ue.ToString());
+                    ExpandEvent(ue.EventTime, PanchangAppOptions.Instance.DasaEventsLevel, ue.ToString());
             }
         }
 
@@ -1505,8 +1505,8 @@ namespace org.transliteral.panchang.app
             UseItemStyleForSubItems = false;
 
             //this.Text = entry.shortDesc;
-            Font = GlobalOptions.Instance.GeneralFont;
-            ForeColor = GlobalOptions.Instance.DasaPeriodColor;
+            Font = PanchangAppOptions.Instance.GeneralFont;
+            ForeColor = PanchangAppOptions.Instance.DasaPeriodColor;
             Moment m = td.AddYears(entry.startUT);
             Moment m2 = td.AddYears(entry.startUT + entry.dasaLength);
             string sDateRange = m.ToString() + " - " + m2.ToString();
@@ -1514,8 +1514,8 @@ namespace org.transliteral.panchang.app
                 sDateRange = " " + sDateRange;
             SubItems.Add(sDateRange);
             Text = entry.shortDesc + id.EntryDescription(entry, m, m2);
-            SubItems[1].Font = GlobalOptions.Instance.FixedWidthFont;
-            SubItems[1].ForeColor = GlobalOptions.Instance.DasaDateColor;
+            SubItems[1].Font = PanchangAppOptions.Instance.FixedWidthFont;
+            SubItems[1].ForeColor = PanchangAppOptions.Instance.DasaDateColor;
         }
         private void Construct(DasaEntry _entry)
         {

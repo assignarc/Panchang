@@ -8,22 +8,44 @@ namespace org.transliteral.panchang
     [Serializable]
     public class HoroscopeOptions : SerializableOptions, ICloneable, ISerializable
     {
+        private SunrisePositionType mSunrisePosition = SunrisePositionType.ApparentDiscCenter;
+        //private SunrisePositionType mSunrisePosition = SunrisePositionType.TrueDiscEdge;
+        private EHoraType mHoraType = EHoraType.Lmt;
+        private EHoraType mKalaType = EHoraType.Sunriset;
+        public EGrahaPositionType grahaPositionType = EGrahaPositionType.True;
+        public ENodeType nodeType = ENodeType.Mean;
+        private AyanamsaType mAyanamsa = AyanamsaType.Lahiri;
+        private HMSInfo mAyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
+        private EBhavaType mBhavaType = EBhavaType.Start;
+        private Longitude mUserLongitude = new Longitude(0);
+        private EMaandiType mMaandiType = EMaandiType.SaturnBegin;
+        private EMaandiType mGulikaType = EMaandiType.SaturnMid;
+        private EUpagrahaType mUpagrahaType = EUpagrahaType.Mid;
+        private string mEphemPath = GetExeDir() + "\\eph";
+
+        protected const string CATEGORY_GENERAL = "1: General Settings";
+        protected const string CATEGORY_GRAHA = "2: Graha Settings";
+        protected const string CATEGORY_SUNRISE = "3: Sunrise Settings";
+        protected const string CATEGORY_UPAGRAHA = "4: Upagraha Settings";
+
         public HoroscopeOptions()
         {
-            //sunrisePosition = SunrisePositionType.TrueDiscEdge;
-            SunrisePosition = SunrisePositionType.ApparentDiscCenter;
-            mHoraType = EHoraType.Lmt;
-            mKalaType = EHoraType.Sunriset;
-            mBhavaType = EBhavaType.Start;
-            grahaPositionType = EGrahaPositionType.True;
-            nodeType = ENodeType.Mean;
-            Ayanamsa = AyanamsaType.Lahiri;
-            AyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
-            this.mUserLongitude = new Longitude(0);
-            this.MaandiType = EMaandiType.SaturnBegin;
-            this.GulikaType = EMaandiType.SaturnMid;
-            this.UpagrahaType = EUpagrahaType.Mid;
-            mEphemPath = GetExeDir() + "\\eph";
+            //All values are set as default. 
+
+            ////sunrisePosition = SunrisePositionType.TrueDiscEdge;
+            //SunrisePosition = SunrisePositionType.ApparentDiscCenter;
+            //mHoraType = EHoraType.Lmt;
+            //mKalaType = EHoraType.Sunriset;
+            //mBhavaType = EBhavaType.Start;
+            //grahaPositionType = EGrahaPositionType.True;
+            //nodeType = ENodeType.Mean;
+            //Ayanamsa = AyanamsaType.Lahiri;
+            //AyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
+            //this.mUserLongitude = new Longitude(0);
+            //this.MaandiType = EMaandiType.SaturnBegin;
+            //this.GulikaType = EMaandiType.SaturnMid;
+            //this.UpagrahaType = EUpagrahaType.Mid;
+            //mEphemPath = GetExeDir() + "\\eph";
         }
         public object Clone()
         {
@@ -61,25 +83,7 @@ namespace org.transliteral.panchang
             this.UpagrahaType = o.UpagrahaType;
             this.EphemerisPath = o.EphemerisPath;
         }
-        private SunrisePositionType mSunrisePosition;
-        private EHoraType mHoraType;
-        private EHoraType mKalaType;
-        public EGrahaPositionType grahaPositionType;
-        public ENodeType nodeType;
-        private AyanamsaType mAyanamsa;
-        private HMSInfo mAyanamsaOffset;
-        private EBhavaType mBhavaType;
-        private Longitude mUserLongitude;
-        private EMaandiType mMaandiType;
-        private EMaandiType mGulikaType;
-        private EUpagrahaType mUpagrahaType;
-        private string mEphemPath;
-
-        protected const string CATEGORY_GENERAL = "1: General Settings";
-        protected const string CATEGORY_GRAHA = "2: Graha Settings";
-        protected const string CATEGORY_SUNRISE = "3: Sunrise Settings";
-        protected const string CATEGORY_UPAGRAHA = "4: Upagraha Settings";
-
+        
 
         [Category(CATEGORY_GENERAL)]
         [PropertyOrder(1), Visible("Full Ephemeris Path")]

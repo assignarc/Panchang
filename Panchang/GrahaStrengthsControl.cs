@@ -301,8 +301,8 @@ namespace org.transliteral.panchang.app
 
         private void GrahaStrengthsControl_Load(object sender, EventArgs e)
         {
-            if (false == GlobalOptions.Instance.GrahaStrengthsFormSize.IsEmpty)
-                Size = GlobalOptions.Instance.GrahaStrengthsFormSize;
+            if (false == PanchangAppOptions.Instance.GrahaStrengthsFormSize.IsEmpty)
+                Size = PanchangAppOptions.Instance.GrahaStrengthsFormSize;
         }
 
         private void cbStrength_SelectedIndexChanged(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace org.transliteral.panchang.app
 
         private void GrahaStrengthsControl_Resize(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.GrahaStrengthsFormSize = Size;
+            PanchangAppOptions.Instance.GrahaStrengthsFormSize = Size;
         }
     }
 }

@@ -29,12 +29,12 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
             b_black = new SolidBrush(Color.Black);
             AddViewsToContextMenu(mContextMenu);
-            OnRedisplay(GlobalOptions.Instance);
+            OnRedisplay(PanchangAppOptions.Instance);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace org.transliteral.panchang.app
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            GlobalOptions.DisplayPrefsChanged -= new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged -= new EvtChanged(OnRedisplay);
             if (disposing)
             {
                 if (components != null)
@@ -80,8 +80,8 @@ namespace org.transliteral.panchang.app
         }
         public void OnRedisplay(object o)
         {
-            f = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints - 2);
+            f = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints - 2);
             DrawToBuffer(true);
             Invalidate();
         }
@@ -145,8 +145,8 @@ namespace org.transliteral.panchang.app
         }
         private void DrawMoveableText(Graphics g)
         {
-            Font f = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints - 2);
+            Font f = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints - 2);
 
             int[] items = new int[29];
             for (int i = 0; i < 29; i++)
@@ -177,10 +177,10 @@ namespace org.transliteral.panchang.app
         }
         private void DrawFixedText(Graphics g)
         {
-            Font f_sounds = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints - 2);
+            Font f_sounds = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints - 2);
             Font f_sanskrit = new Font("Sanskrit 99",
-                GlobalOptions.Instance.GeneralFont.SizeInPoints + 5);
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints + 5);
             for (int i = 1; i <= 12; i++)
             {
                 ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari).Add(i);
@@ -299,7 +299,7 @@ namespace org.transliteral.panchang.app
             float scale = (float)size / bufferSize;
 
 
-            g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
+            g.Clear(PanchangAppOptions.Instance.ChakraBackgroundColor);
             g.ResetTransform();
             g.TranslateTransform(bufferOffset, bufferOffset);
             g.ScaleTransform(scale, scale);

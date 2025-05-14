@@ -28,7 +28,7 @@ namespace org.transliteral.panchang.app
         {
             tbHorMale.Text = "Current Chart";
             tbHorFemale.Text = "Current Chart";
-            foreach (Form f in ((PanchangContainer)GlobalOptions.mainControl).MdiChildren)
+            foreach (Form f in ((PanchangContainer)PanchangAppOptions.mainControl).MdiChildren)
                 if (f is PanchangChild)
                 {
                     PanchangChild mch = (PanchangChild)f;

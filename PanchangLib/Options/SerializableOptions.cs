@@ -53,7 +53,7 @@ namespace org.transliteral.panchang
 
         public static string GetOptsFilename()
         {
-            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HoraOptions.xml";
+            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Panchang.opts";
             Logger.Info(string.Format("Options stored at {0}", fileName));
             return fileName;
         }

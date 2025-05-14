@@ -30,7 +30,7 @@ namespace org.transliteral.panchang.app
             // TODO: Add any initialization after the InitForm call
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             Repopulate();
             AddViewsToContextMenu(mKeyInfoMenu);
 

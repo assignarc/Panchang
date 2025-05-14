@@ -127,7 +127,7 @@ namespace org.transliteral.panchang.app
             options = new UserOptions();
             calculation_options = h.Options;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             OnRecalculate(h);
             SetChartStyle(options.ChartStyle);
             //dc = new SouthIndianChart();
@@ -810,8 +810,8 @@ namespace org.transliteral.panchang.app
         Brush b = new SolidBrush(Color.Black);
 
         Font fBase = new Font(
-            GlobalOptions.Instance.VargaFont.FontFamily,
-            GlobalOptions.Instance.VargaFont.SizeInPoints);
+            PanchangAppOptions.Instance.VargaFont.FontFamily,
+            PanchangAppOptions.Instance.VargaFont.SizeInPoints);
 
         private void AddItem(Graphics g, ZodiacHouse zh, int item, DivisionPosition dp, bool large, string s)
         {
@@ -853,18 +853,18 @@ namespace org.transliteral.panchang.app
             {
                 case BodyType.Name.Graha:
                 case BodyType.Name.GrahaArudha:
-                    b = new SolidBrush(GlobalOptions.Instance.VargaGrahaColor);
+                    b = new SolidBrush(PanchangAppOptions.Instance.VargaGrahaColor);
                     break;
                 case BodyType.Name.SpecialLagna:
-                    b = new SolidBrush(GlobalOptions.Instance.VargaSpecialLagnaColor);
+                    b = new SolidBrush(PanchangAppOptions.Instance.VargaSpecialLagnaColor);
                     break;
                 case BodyType.Name.BhavaArudha:
                 case BodyType.Name.Varnada:
                 case BodyType.Name.BhavaArudhaSecondary:
-                    b = new SolidBrush(GlobalOptions.Instance.VargaSecondaryColor);
+                    b = new SolidBrush(PanchangAppOptions.Instance.VargaSecondaryColor);
                     break;
                 case BodyType.Name.Lagna:
-                    b = new SolidBrush(GlobalOptions.Instance.VargaLagnaColor);
+                    b = new SolidBrush(PanchangAppOptions.Instance.VargaLagnaColor);
                     break;
             }
 
@@ -884,8 +884,8 @@ namespace org.transliteral.panchang.app
                   dp.Type == BodyType.Name.Lagna))
             {
                 Point pLon = dc.GetDegreeOffset(h.GetPosition(dp.Name).Longitude);
-                Pen pn = new Pen(GlobalOptions.Instance.getBinduColor(dp.Name), (float)0.01);
-                Brush br = new SolidBrush(GlobalOptions.Instance.getBinduColor(dp.Name));
+                Pen pn = new Pen(PanchangAppOptions.Instance.getBinduColor(dp.Name), (float)0.01);
+                Brush br = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(dp.Name));
                 g.FillEllipse(br, pLon.X - 1, pLon.Y - 1, 4, 4);
                 //g.DrawEllipse(pn, pLon.X-1, pLon.Y-1, 2, 2);
                 g.DrawEllipse(new Pen(Color.Gray), pLon.X - 1, pLon.Y - 1, 4, 4);
@@ -994,13 +994,13 @@ namespace org.transliteral.panchang.app
             if (true == PrintMode)
                 return;
 
-            if (false == GlobalOptions.Instance.VargaShowSAVVarga &&
-                false == GlobalOptions.Instance.VargaShowSAVRasi)
+            if (false == PanchangAppOptions.Instance.VargaShowSAVVarga &&
+                false == PanchangAppOptions.Instance.VargaShowSAVRasi)
                 return;
 
             ZodiacHouse zh = new ZodiacHouse(ZodiacHouseName.Ari);
-            Brush b = new SolidBrush(GlobalOptions.Instance.VargaSAVColor);
-            Font f = GlobalOptions.Instance.GeneralFont;
+            Brush b = new SolidBrush(PanchangAppOptions.Instance.VargaSAVColor);
+            Font f = PanchangAppOptions.Instance.GeneralFont;
             for (int i = 1; i <= 12; i++)
             {
                 ZodiacHouse zhi = zh.Add(i);
@@ -1102,7 +1102,7 @@ namespace org.transliteral.panchang.app
         }
         public void DrawChart(Graphics g, int width, int height, bool bDrawInner)
         {
-            Font f = GlobalOptions.Instance.VargaFont;
+            Font f = PanchangAppOptions.Instance.VargaFont;
             //this.BackColor = System.Drawing.Color.White;
             if (width == 0 || height == 0)
                 return;
@@ -1126,7 +1126,7 @@ namespace org.transliteral.panchang.app
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TranslateTransform(off, off);
-            if (GlobalOptions.Instance.VargaChartIsSquare)
+            if (PanchangAppOptions.Instance.VargaChartIsSquare)
             {
                 scale_x = scale;
                 scale_y = scale;
@@ -1136,7 +1136,7 @@ namespace org.transliteral.panchang.app
 
             if (false == PrintMode)
             {
-                Brush bg = new SolidBrush(GlobalOptions.Instance.VargaBackgroundColor);
+                Brush bg = new SolidBrush(PanchangAppOptions.Instance.VargaBackgroundColor);
                 g.FillRectangle(bg, 0, 0, xw, yw);
             }
             dc.DrawOutline(g);
@@ -1165,7 +1165,7 @@ namespace org.transliteral.panchang.app
             g.DrawString(s_dtype, f, Brushes.Black, xw * 2 / 4 - hint.Width / 2, yw * 2 / 4 - f.Height - hint.Height / 2);
 
             if (options.ChartStyle == EChartStyle.SouthIndian &&
-                true == GlobalOptions.Instance.VargaShowDob &&
+                true == PanchangAppOptions.Instance.VargaShowDob &&
                 false == PrintMode && false == bDrawInner)
             {
                 string tob = h.Info.tob.ToString();
@@ -1233,18 +1233,18 @@ namespace org.transliteral.panchang.app
 
         private void CalculateBindus()
         {
-            if (GlobalOptions.Instance.VargaShowSAVVarga)
+            if (PanchangAppOptions.Instance.VargaShowSAVVarga)
                 sav_bindus = new Ashtakavarga(h, options.Varga).GetSav();
-            else if (GlobalOptions.Instance.VargaShowSAVRasi)
+            else if (PanchangAppOptions.Instance.VargaShowSAVRasi)
                 sav_bindus = new Ashtakavarga(h, new Division(DivisionType.Rasi)).GetSav();
         }
         private void OnRedisplay(object o)
         {
-            SetChartStyle(GlobalOptions.Instance.VargaStyle);
-            options.ChartStyle = GlobalOptions.Instance.VargaStyle;
+            SetChartStyle(PanchangAppOptions.Instance.VargaStyle);
+            options.ChartStyle = PanchangAppOptions.Instance.VargaStyle;
             fBase = new Font(
-                GlobalOptions.Instance.VargaFont.FontFamily,
-                GlobalOptions.Instance.VargaFont.SizeInPoints);
+                PanchangAppOptions.Instance.VargaFont.FontFamily,
+                PanchangAppOptions.Instance.VargaFont.SizeInPoints);
             CalculateBindus();
             Invalidate();
         }

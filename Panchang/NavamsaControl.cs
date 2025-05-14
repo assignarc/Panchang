@@ -21,7 +21,7 @@ namespace org.transliteral.panchang.app
             // This call is required by the Windows Form Designer.
             InitializeComponent();
             h = _h;
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
             h.Changed += new EvtChanged(onRecalculate);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
@@ -33,7 +33,7 @@ namespace org.transliteral.panchang.app
                 "Moo", "PAs", "UAs", "Sra", "Dha", "Sha", "PBh", "UBh", "Rev"
             };
             AddViewsToContextMenu(contextMenu);
-            onRedisplay(GlobalOptions.Instance);
+            onRedisplay(PanchangAppOptions.Instance);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace org.transliteral.panchang.app
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            GlobalOptions.DisplayPrefsChanged -= new EvtChanged(onRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged -= new EvtChanged(onRedisplay);
             h.Changed -= new EvtChanged(onRecalculate);
             if (disposing)
             {
@@ -88,8 +88,8 @@ namespace org.transliteral.panchang.app
         public void onRedisplay(object o)
         {
             f = new Font(
-                GlobalOptions.Instance.GeneralFont.FontFamily,
-                GlobalOptions.Instance.GeneralFont.SizeInPoints - 5);
+                PanchangAppOptions.Instance.GeneralFont.FontFamily,
+                PanchangAppOptions.Instance.GeneralFont.SizeInPoints - 5);
             DrawToBuffer(true);
             Invalidate();
         }
@@ -129,7 +129,7 @@ namespace org.transliteral.panchang.app
             //this.DrawInnerChakra(g);
 
             if (false == PrintMode)
-                g.Clear(GlobalOptions.Instance.ChakraBackgroundColor);
+                g.Clear(PanchangAppOptions.Instance.ChakraBackgroundColor);
 
             ResetChakra(g, 0.0);
             g.DrawEllipse(pn_grey, -40, -40, 80, 80);
@@ -180,8 +180,8 @@ namespace org.transliteral.panchang.app
             double dist_sat = h.GetPosition(BodyName.Saturn).Distance;
             foreach (BodyName b in bodies)
             {
-                Pen pn_b = new Pen(GlobalOptions.Instance.getBinduColor(b));
-                Brush br_b = new SolidBrush(GlobalOptions.Instance.getBinduColor(b));
+                Pen pn_b = new Pen(PanchangAppOptions.Instance.getBinduColor(b));
+                Brush br_b = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(b));
                 BodyPosition bp = h.GetPosition(b);
                 ResetChakra(g, bp.Longitude.Value);
                 int chWidth = 2;

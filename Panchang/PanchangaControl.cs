@@ -168,11 +168,11 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
             h = _h;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             opts = new UserOptions();
             AddViewsToContextMenu(contextMenu);
             mutexProgress = new Mutex(false);
-            OnRedisplay(GlobalOptions.Instance.TableBackgroundColor);
+            OnRedisplay(PanchangAppOptions.Instance.TableBackgroundColor);
             bCompute_Click(null, null);
         }
 
@@ -290,9 +290,9 @@ namespace org.transliteral.panchang.app
 
         public void OnRedisplay(object o)
         {
-            mList.ForeColor = GlobalOptions.Instance.TableForegroundColor;
-            mList.BackColor = GlobalOptions.Instance.TableBackgroundColor;
-            mList.Font = GlobalOptions.Instance.GeneralFont;
+            mList.ForeColor = PanchangAppOptions.Instance.TableForegroundColor;
+            mList.BackColor = PanchangAppOptions.Instance.TableBackgroundColor;
+            mList.Font = PanchangAppOptions.Instance.GeneralFont;
         }
         public void OnRecalculate(object _h)
         {

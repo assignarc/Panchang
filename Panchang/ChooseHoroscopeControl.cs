@@ -88,7 +88,7 @@ namespace org.transliteral.panchang.app
         {
             if (lBox.SelectedIndex < 0) return null;
 
-            PanchangContainer mc = (PanchangContainer)GlobalOptions.mainControl;
+            PanchangContainer mc = (PanchangContainer)PanchangAppOptions.mainControl;
             foreach (Form c in mc.MdiChildren)
             {
                 if (c is PanchangChild)
@@ -105,7 +105,7 @@ namespace org.transliteral.panchang.app
         {
             if (lBox.SelectedIndex < 0) return null;
 
-            PanchangContainer mc = (PanchangContainer)GlobalOptions.mainControl;
+            PanchangContainer mc = (PanchangContainer)PanchangAppOptions.mainControl;
             foreach (Form c in mc.MdiChildren)
             {
                 if (c is PanchangChild)
@@ -122,7 +122,7 @@ namespace org.transliteral.panchang.app
 
         private void ChooseHoroscopeControl_Load(object sender, EventArgs e)
         {
-            PanchangContainer mc = (PanchangContainer)GlobalOptions.mainControl;
+            PanchangContainer mc = (PanchangContainer)PanchangAppOptions.mainControl;
             foreach (Form c in mc.MdiChildren)
             {
                 if (c is PanchangChild)

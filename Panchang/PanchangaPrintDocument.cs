@@ -35,9 +35,9 @@ namespace org.transliteral.panchang.app
                 bPrintLagna = true;
         }
 
-        Font f = GlobalOptions.Instance.GeneralFont;
-        Font f_u = new Font(GlobalOptions.Instance.GeneralFont.FontFamily,
-            GlobalOptions.Instance.GeneralFont.SizeInPoints, FontStyle.Underline);
+        Font f = PanchangAppOptions.Instance.GeneralFont;
+        Font f_u = new Font(PanchangAppOptions.Instance.GeneralFont.FontFamily,
+            PanchangAppOptions.Instance.GeneralFont.SizeInPoints, FontStyle.Underline);
         int local_index = 0;
 
         protected override void OnBeginPrint(PrintEventArgs e)

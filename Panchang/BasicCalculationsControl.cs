@@ -115,7 +115,7 @@ namespace org.transliteral.panchang.app
             vt = ViewType.ViewBasicGrahas;
             menuBasicGrahas.Checked = true;
             h.Changed += new EvtChanged(OnRecalculate);
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             options = new UserOptions
             {
                 DivisionType = new Division(DivisionType.Rasi)

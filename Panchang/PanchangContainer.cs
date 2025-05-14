@@ -14,7 +14,7 @@ namespace org.transliteral.panchang.app
 
     public class PanchangContainer : Form
     {
-        public GlobalOptions gOpts;
+        public PanchangAppOptions gOpts;
 
         private int childCount;
         private MainMenu MdiMenu;
@@ -456,9 +456,9 @@ namespace org.transliteral.panchang.app
 
         private void PanchangContainer_Load(object sender, EventArgs e)
         {
-            gOpts = GlobalOptions.readFromFile();
-            GlobalOptions.mainControl = this;
-            if (GlobalOptions.Instance.ShowSplashScreen)
+            gOpts = PanchangAppOptions.readFromFile();
+            PanchangAppOptions.mainControl = this;
+            if (PanchangAppOptions.Instance.ShowSplashScreen)
             {
                 Genghis.Windows.Forms.SplashScreen ss = new Genghis.Windows.Forms.SplashScreen(typeof(Splash), Genghis.Windows.Forms.SplashScreenStyles.TopMost);
                 System.Threading.Thread.Sleep(0);
@@ -497,12 +497,12 @@ namespace org.transliteral.panchang.app
             DateTime tNow = DateTime.Now;
             Moment mNow = new Moment(tNow.Year, tNow.Month, tNow.Day, tNow.Hour, tNow.Minute, tNow.Second);
             HoraInfo info = new HoraInfo(mNow,
-                GlobalOptions.Instance.Latitude,
-                GlobalOptions.Instance.Longitude,
-                GlobalOptions.Instance.TimeZone);
+                PanchangAppOptions.Instance.Latitude,
+                PanchangAppOptions.Instance.Longitude,
+                PanchangAppOptions.Instance.TimeZone);
 
             childCount++;
-            Horoscope h = new Horoscope(info, (HoroscopeOptions)GlobalOptions.Instance.HOptions.Clone());
+            Horoscope h = new Horoscope(info, (HoroscopeOptions)PanchangAppOptions.Instance.HOptions.Clone());
             //new HoroscopeOptions());
             PanchangChild child = new PanchangChild(h)
             {
@@ -541,7 +541,7 @@ namespace org.transliteral.panchang.app
             ArrayList path_split = new ArrayList(_path_split);
 
             childCount++;
-            Horoscope h = new Horoscope(info, (HoroscopeOptions)GlobalOptions.Instance.HOptions.Clone());
+            Horoscope h = new Horoscope(info, (HoroscopeOptions)PanchangAppOptions.Instance.HOptions.Clone());
 
             //Horoscope h = new Horoscope (info, new HoroscopeOptions());
             PanchangChild child = new PanchangChild(h)
@@ -658,8 +658,8 @@ namespace org.transliteral.panchang.app
 
         private void OnClosing()
         {
-            if (GlobalOptions.Instance.SavePrefsOnExit == true)
-                GlobalOptions.Instance.saveToFile();
+            if (PanchangAppOptions.Instance.SavePrefsOnExit == true)
+                PanchangAppOptions.Instance.saveToFile();
         }
 
 
@@ -690,19 +690,19 @@ namespace org.transliteral.panchang.app
 
         private void mSavePreferences_Click(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.saveToFile();
+            PanchangAppOptions.Instance.saveToFile();
         }
 
         private object updateDisplayPreferences(object o)
         {
-            GlobalOptions.NotifyDisplayChange();
-            Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
+            PanchangAppOptions.NotifyDisplayChange();
+            Sweph.swe_set_ephe_path(PanchangAppOptions.Instance.HOptions.EphemerisPath);
             return o;
         }
 
         private void showMenuGlobalDisplayPrefs()
         {
-             Options f = new Options(GlobalOptions.Instance, new ApplyOptions(updateDisplayPreferences), true);
+            Options f = new Options(PanchangAppOptions.Instance, new ApplyOptions(updateDisplayPreferences), true);
             f.ShowDialog();
         }
         private void menuItem4_Click(object sender, EventArgs e)
@@ -771,15 +771,15 @@ namespace org.transliteral.panchang.app
 
         private void mResetPreferences_Click(object sender, EventArgs e)
         {
-            GlobalOptions mh = new GlobalOptions();
-            GlobalOptions.Instance = mh;
-            GlobalOptions.NotifyDisplayChange();
-            GlobalOptions.NotifyCalculationChange();
+            PanchangAppOptions mh = new PanchangAppOptions();
+            PanchangAppOptions.Instance = mh;
+            PanchangAppOptions.NotifyDisplayChange();
+            PanchangAppOptions.NotifyCalculationChange();
         }
         private void mResetStrengthPreferences_Click(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.SOptions = new StrengthOptions();
-            GlobalOptions.NotifyCalculationChange();
+            PanchangAppOptions.Instance.SOptions = new StrengthOptions();
+            PanchangAppOptions.NotifyCalculationChange();
         }
         private void menuItemSplash_Click(object sender, EventArgs e)
         {
@@ -791,30 +791,30 @@ namespace org.transliteral.panchang.app
 
         private void mIncreaseFontSize_Click(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.increaseFontSize();
-            GlobalOptions.NotifyDisplayChange();
+            PanchangAppOptions.Instance.increaseFontSize();
+            PanchangAppOptions.NotifyDisplayChange();
         }
 
         private void mDecreaseFontSize_Click(object sender, EventArgs e)
         {
-            GlobalOptions.Instance.decreaseFontSize();
-            GlobalOptions.NotifyDisplayChange();
+            PanchangAppOptions.Instance.decreaseFontSize();
+            PanchangAppOptions.NotifyDisplayChange();
         }
 
         public object updateCalcPreferences(object o)
         {
-            Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
-            GlobalOptions.NotifyCalculationChange();
+            Sweph.swe_set_ephe_path(PanchangAppOptions.Instance.HOptions.EphemerisPath);
+            PanchangAppOptions.NotifyCalculationChange();
             return o;
         }
         private void mEditCalcPrefs_Click(object sender, EventArgs e)
         {
-            Options f = new Options(GlobalOptions.Instance.HOptions, new ApplyOptions(updateCalcPreferences), true);
+            Options f = new Options(PanchangAppOptions.Instance.HOptions, new ApplyOptions(updateCalcPreferences), true);
             f.ShowDialog();
         }
         private void mEditStrengthPrefs_Click(object sender, EventArgs e)
         {
-            Options f = new Options(GlobalOptions.Instance.SOptions, new ApplyOptions(updateCalcPreferences), true);
+            Options f = new Options(PanchangAppOptions.Instance.SOptions, new ApplyOptions(updateCalcPreferences), true);
             f.ShowDialog();
         }
         private void PanchangContainer_Closing(object sender, CancelEventArgs e)

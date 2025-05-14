@@ -533,7 +533,7 @@ namespace org.transliteral.panchang.app
         private void menuStrengthOpts_Click(object sender, EventArgs e)
         {
             if (h.StrengthOptions == null)
-                h.StrengthOptions = (StrengthOptions)GlobalOptions.Instance.SOptions.Clone();
+                h.StrengthOptions = (StrengthOptions)PanchangAppOptions.Instance.SOptions.Clone();
 
             Options f = new Options(h.StrengthOptions, new ApplyOptions(SetStrengthOptions));
             f.ShowDialog();
@@ -674,7 +674,7 @@ namespace org.transliteral.panchang.app
             string ext = fi.Extension;
 
             string sfBase = new string(mJhdFileName.ToCharArray(), 0, mJhdFileName.Length - ext.Length);
-            string sfExt = GlobalOptions.Instance.ChartNotesFileExtension;
+            string sfExt = PanchangAppOptions.Instance.ChartNotesFileExtension;
             string sfName = sfBase;
 
             if (sfExt.Length > 0 && sfExt[0] == '.')

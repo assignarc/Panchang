@@ -29,7 +29,7 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
             h = _h;
             fy = new FindYogas(h, new Division(DivisionType.Rasi));
-            mList.BackColor = GlobalOptions.Instance.ChakraBackgroundColor;
+            mList.BackColor = PanchangAppOptions.Instance.ChakraBackgroundColor;
             AddViewsToContextMenu(mContext);
             h.Changed += new EvtChanged(OnRecalculate);
 
@@ -170,7 +170,7 @@ namespace org.transliteral.panchang.app
             }
             catch
             {
-                MessageBox.Show("An error occured while reading file " + GlobalOptions.Instance.YogasFileName);
+                MessageBox.Show("An error occured while reading file " + PanchangAppOptions.Instance.YogasFileName);
             }
         }
         private void evaluateYogasHelper()
@@ -180,7 +180,7 @@ namespace org.transliteral.panchang.app
             string sLine = "";
             string sType = "";
 
-            StreamReader objReader = new StreamReader(GlobalOptions.Instance.YogasFileName);
+            StreamReader objReader = new StreamReader(PanchangAppOptions.Instance.YogasFileName);
 
             while ((sLine = objReader.ReadLine()) != null)
             {

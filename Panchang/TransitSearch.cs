@@ -43,16 +43,16 @@ namespace org.transliteral.panchang.app
 
         public void Redisplay(object o)
         {
-            mlTransits.Font = GlobalOptions.Instance.GeneralFont;
-            mlTransits.BackColor = GlobalOptions.Instance.TableBackgroundColor;
-            mlTransits.ForeColor = GlobalOptions.Instance.TableForegroundColor;
-            pgOptions.Font = GlobalOptions.Instance.GeneralFont;
+            mlTransits.Font = PanchangAppOptions.Instance.GeneralFont;
+            mlTransits.BackColor = PanchangAppOptions.Instance.TableBackgroundColor;
+            mlTransits.ForeColor = PanchangAppOptions.Instance.TableForegroundColor;
+            pgOptions.Font = PanchangAppOptions.Instance.GeneralFont;
         }
         public void Reset()
         {
             updateOptions();
             mlTransits.Items.Clear();
-            Redisplay(GlobalOptions.Instance);
+            Redisplay(PanchangAppOptions.Instance);
         }
 
         public TransitSearch(Horoscope _h)
@@ -61,7 +61,7 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
 
             h = _h;
-            GlobalOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
+            PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(Redisplay);
             opts = new TransitSearchOptions();
             updateOptions();
             AddViewsToContextMenu(mContext);
@@ -785,7 +785,7 @@ namespace org.transliteral.panchang.app
             {
                 Name = "Transit Chart",
                 Text = "Transit Chart",
-                MdiParent = (PanchangContainer)GlobalOptions.mainControl
+                MdiParent = (PanchangContainer)PanchangAppOptions.mainControl
             };
             mcTransit.Show();
         }

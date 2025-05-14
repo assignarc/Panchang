@@ -12,8 +12,7 @@ namespace org.transliteral.panchang
     [Serializable]
     public class StrengthOptions : SerializableOptions, ISerializable, ICloneable
     {
-        void ISerializable.GetObjectData(
-            SerializationInfo info, StreamingContext context)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             this.GetObjectData(this.GetType(), info, context);
         }
@@ -125,7 +124,6 @@ namespace org.transliteral.panchang
             get { return mKarakaKendradiGrahaDasaColord; }
             set { mKarakaKendradiGrahaDasaColord = value; }
         }
-
 
         public StrengthOptions()
         {
