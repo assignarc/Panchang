@@ -40,7 +40,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -251,9 +251,6 @@
     <Compile Include="SplashScreen.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="sweph.cs.txt">
-      <SubType>Code</SubType>
-    </Content>
     <Compile Include="TransitSearch.cs">
       <SubType>UserControl</SubType>
     </Compile>

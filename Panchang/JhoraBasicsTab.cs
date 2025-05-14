@@ -23,8 +23,10 @@ namespace org.transliteral.panchang.app
 
         private void AddControlToTab(TabPage tab, PanchangControl mcontrol)
         {
-            PanchangControlContainer container = new PanchangControlContainer(mcontrol);
-            container.Dock = DockStyle.Fill;
+            PanchangControlContainer container = new PanchangControlContainer(mcontrol)
+            {
+                Dock = DockStyle.Fill
+            };
             tab.Controls.Add(container);
         }
 
@@ -74,10 +76,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }

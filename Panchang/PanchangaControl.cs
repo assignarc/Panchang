@@ -109,20 +109,22 @@ namespace org.transliteral.panchang.app
             }
             public object Clone()
             {
-                UserOptions uo = new UserOptions();
-                uo.NumDays = NumDays;
-                uo.CalcLagnaCusps = CalcLagnaCusps;
-                uo.CalcNakCusps = CalcNakCusps;
-                uo.CalcTithiCusps = CalcTithiCusps;
-                uo.CalcKaranaCusps = CalcKaranaCusps;
-                uo.CalcHoraCusps = CalcHoraCusps;
-                uo.CalcKalaCusps = CalcKalaCusps;
-                uo.CalcSpecialKalas = CalcSpecialKalas;
-                uo.LargeHours = LargeHours;
-                uo.ShowUpdates = ShowUpdates;
-                uo.ShowSunriset = ShowSunriset;
-                uo.OneEntryPerLine = OneEntryPerLine;
-                uo.CalcSMYogaCusps = CalcSMYogaCusps;
+                UserOptions uo = new UserOptions
+                {
+                    NumDays = NumDays,
+                    CalcLagnaCusps = CalcLagnaCusps,
+                    CalcNakCusps = CalcNakCusps,
+                    CalcTithiCusps = CalcTithiCusps,
+                    CalcKaranaCusps = CalcKaranaCusps,
+                    CalcHoraCusps = CalcHoraCusps,
+                    CalcKalaCusps = CalcKalaCusps,
+                    CalcSpecialKalas = CalcSpecialKalas,
+                    LargeHours = LargeHours,
+                    ShowUpdates = ShowUpdates,
+                    ShowSunriset = ShowSunriset,
+                    OneEntryPerLine = OneEntryPerLine,
+                    CalcSMYogaCusps = CalcSMYogaCusps
+                };
                 return uo;
             }
             public object CopyFrom(object _uo)
@@ -182,12 +184,7 @@ namespace org.transliteral.panchang.app
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
+                components?.Dispose();
             base.Dispose(disposing);
         }
 
@@ -301,8 +298,10 @@ namespace org.transliteral.panchang.app
 
             Horoscope h = (Horoscope)_h;
 
-            ListViewItem li = new ListViewItem();
-            li.Text = "Results may be out of date. Click the Compute Button to recalculate the panchanga";
+            ListViewItem li = new ListViewItem
+            {
+                Text = "Results may be out of date. Click the Compute Button to recalculate the panchanga"
+            };
             mList.Items.Insert(0, li);
             mList.Items.Insert(1, "");
             bResultsInvalid = true;
@@ -348,7 +347,7 @@ namespace org.transliteral.panchang.app
             //}
             //fProgress = new ProgressDialog(opts.NumDays);
             //fProgress.setProgress(opts.NumDays/2);
-            Console.WriteLine("Starting threaded computation");
+            Logger.Info("Starting threaded computation");
             //fProgress.ShowDialog();
             //this.mutexProgress.Close();
             bCompute.Enabled = false;
@@ -360,7 +359,7 @@ namespace org.transliteral.panchang.app
         }
         private void ComputeFinished()
         {
-            Console.WriteLine("Thread finished execution");
+            Logger.Info("Finished threaded execution");
             bResultsInvalid = false;
             bCompute.Enabled = true;
             bOpts.Enabled = true;
@@ -468,10 +467,12 @@ namespace org.transliteral.panchang.app
 
             ListViewItem li = null;
 
-            LocalMoments local = new LocalMoments();
-            local.Sunrise = hCurr.Sunrise;
-            local.Sunset = sunset;
-            local.SunriseUT = ut_sr;
+            LocalMoments local = new LocalMoments
+            {
+                Sunrise = hCurr.Sunrise,
+                Sunset = sunset,
+                SunriseUT = ut_sr
+            };
             Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
             local.WeekDay = (Weekday)Sweph.swe_day_of_week(ut);
 
@@ -612,7 +613,7 @@ namespace org.transliteral.panchang.app
                         new ReturnLon(t.GenericLongitude));
 
                     globals.NakshatrasUT.Add(new MomentInfo(ut_found, (int)nak_curr.Value));
-                    Console.WriteLine("Found nakshatra {0}", nak_curr.Value);
+                    Logger.Info($"Found nakshatra {nak_curr.Value}");
                     local.NakshatraIndexEnd++;
                 }
                 Sweph.ReleaseLock(h);
@@ -918,8 +919,10 @@ namespace org.transliteral.panchang.app
             {
                 //this.checkPrintReqs();
                 PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, h, globals, locals);
-                PrintDialog dlgPrint = new PrintDialog();
-                dlgPrint.Document = mdoc;
+                PrintDialog dlgPrint = new PrintDialog
+                {
+                    Document = mdoc
+                };
 
                 if (dlgPrint.ShowDialog() == DialogResult.OK)
                     mdoc.Print();
@@ -933,8 +936,10 @@ namespace org.transliteral.panchang.app
             {
                 //this.checkPrintReqs();
                 PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, h, globals, locals);
-                PrintPreviewDialog dlgPreview = new PrintPreviewDialog();
-                dlgPreview.Document = mdoc;
+                PrintPreviewDialog dlgPreview = new PrintPreviewDialog
+                {
+                    Document = mdoc
+                };
                 dlgPreview.ShowDialog();
             }
             catch { }

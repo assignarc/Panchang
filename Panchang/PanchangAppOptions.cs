@@ -416,27 +416,26 @@ namespace org.transliteral.panchang.app
             set { this.mcChakraBackground = value; }
         }
 
-        private Font addToFontSizesHelper(Font f, int i)
+        private Font AddToFontSizesHelper(Font f, int i)
         {
             return new Font(f.FontFamily, f.SizeInPoints + i);
         }
-        private void addToFontSizes(int i)
+        private void AddToFontSizes(int i)
         {
-            this.mfFixedWidth = this.addToFontSizesHelper(this.mfFixedWidth, i);
-            this.mfGeneral = this.addToFontSizesHelper(this.mfGeneral, i);
-            this.mfVarga = this.addToFontSizesHelper(this.mfVarga, i);
+            this.mfFixedWidth = this.AddToFontSizesHelper(this.mfFixedWidth, i);
+            this.mfGeneral = this.AddToFontSizesHelper(this.mfGeneral, i);
+            this.mfVarga = this.AddToFontSizesHelper(this.mfVarga, i);
         }
-        public void increaseFontSize()
+        public void IncreaseFontSize()
         {
-            this.addToFontSizes(1);
+            this.AddToFontSizes(1);
         }
-        public void decreaseFontSize()
+        public void DecreaseFontSize()
         {
-            this.addToFontSizes(-1);
+            this.AddToFontSizes(-1);
         }
 
-       
-        public Color getBinduColor(BodyName b)
+        public Color GetBinduColor(BodyName b)
         {
             switch (b)
             {
@@ -455,15 +454,17 @@ namespace org.transliteral.panchang.app
         }
 
 
-        public static new PanchangAppOptions readFromFile()
+        public static new PanchangAppOptions ReadFromFile()
         {
             PanchangAppOptions gOpts = new PanchangAppOptions();
             try
             {
                 FileStream sOut;
                 sOut = new FileStream(PanchangAppOptions.GetOptsFilename(), FileMode.Open, FileAccess.Read);
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                BinaryFormatter formatter = new BinaryFormatter
+                {
+                    AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+                };
                 gOpts = (PanchangAppOptions)formatter.Deserialize(sOut);
                 sOut.Close();
             }
@@ -476,7 +477,7 @@ namespace org.transliteral.panchang.app
             return gOpts;
         }
 
-        public new void saveToFile()
+        public new void SaveToFile()
         {
             Logger.Info(String.Format("Saving Preferences to {0}", PanchangAppOptions.GetOptsFilename()));
             FileStream sOut = new FileStream(PanchangAppOptions.GetOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);

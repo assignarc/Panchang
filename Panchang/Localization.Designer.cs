@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.transliteral.panchang.app {
+namespace mhora {
     using System;
     
     

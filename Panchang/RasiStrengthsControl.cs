@@ -44,8 +44,10 @@ namespace org.transliteral.panchang.app
             }
             public object Clone()
             {
-                UserOptions uo = new UserOptions();
-                uo.Division = Division;
+                UserOptions uo = new UserOptions
+                {
+                    Division = Division
+                };
                 return uo;
             }
             public object SetOptions(object _uo)
@@ -86,10 +88,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -265,12 +264,16 @@ namespace org.transliteral.panchang.app
             ArrayList al = GetRules();
             for (int i = 0; i < al.Count; i++)
             {
-                ArrayList rule = new ArrayList();
-                rule.Add(al[i]);
+                ArrayList rule = new ArrayList
+                {
+                    al[i]
+                };
                 FindStronger fs = new FindStronger(h, options.Division, rule);
                 ZodiacHouseName zw = fs.StrongerRasi(z1, z2, false, ref winner);
-                ListViewItem li = new ListViewItem();
-                li.Text = string.Format("{0}", EnumDescConverter.GetEnumDescription((Enum)al[i]));
+                ListViewItem li = new ListViewItem
+                {
+                    Text = string.Format("{0}", EnumDescConverter.GetEnumDescription((Enum)al[i]))
+                };
 
                 if (winner == 0)
                     li.SubItems.Add(string.Format("{0}", zw));

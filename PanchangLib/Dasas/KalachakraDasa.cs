@@ -40,15 +40,15 @@ namespace org.transliteral.panchang
 				default:
 					return NakshatraGroupType.ApasavyaMirrored;
 			}
-			switch ((int)n.Value % 6)
-			{
-				case 1:	return NakshatraGroupType.Savya;
-				case 2: return NakshatraGroupType.SavyaMirrored;
-				case 3: return NakshatraGroupType.Savya;
-				case 4: return NakshatraGroupType.Apasavya;
-				case 5: return NakshatraGroupType.ApasavyaMirrored;
-				default: return NakshatraGroupType.ApasavyaMirrored;
-			}
+			//switch ((int)n.Value % 6)
+			//{
+			//	case 1:	return NakshatraGroupType.Savya;
+			//	case 2: return NakshatraGroupType.SavyaMirrored;
+			//	case 3: return NakshatraGroupType.Savya;
+			//	case 4: return NakshatraGroupType.Apasavya;
+			//	case 5: return NakshatraGroupType.ApasavyaMirrored;
+			//	default: return NakshatraGroupType.ApasavyaMirrored;
+			//}
 		}
         private void InitHelper(Longitude lon, ref ZodiacHouse[] mzhOrder, ref int offset)
 		{

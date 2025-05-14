@@ -29,14 +29,15 @@ namespace org.transliteral.panchang
 
         public object Clone()
         {
-            StrengthOptions opts = new StrengthOptions();
-            opts.Colord = (EGrahaStrength[])this.Colord.Clone();
-            opts.NaisargikaDasaGraha = (EGrahaStrength[])this.NaisargikaDasaGraha.Clone();
-            opts.NavamsaDasaRasi = (ERasiStrength[])this.NavamsaDasaRasi.Clone();
-            opts.MoolaDasaRasi = (ERasiStrength[])this.MoolaDasaRasi.Clone();
-            opts.NarayanaDasaRasi = (ERasiStrength[])this.NarayanaDasaRasi.Clone();
-            opts.NaisargikaDasaRasi = (ERasiStrength[])this.NaisargikaDasaRasi.Clone();
-            return opts;
+            return new StrengthOptions
+            {
+                Colord = (EGrahaStrength[])this.Colord.Clone(),
+                NaisargikaDasaGraha = (EGrahaStrength[])this.NaisargikaDasaGraha.Clone(),
+                NavamsaDasaRasi = (ERasiStrength[])this.NavamsaDasaRasi.Clone(),
+                MoolaDasaRasi = (ERasiStrength[])this.MoolaDasaRasi.Clone(),
+                NarayanaDasaRasi = (ERasiStrength[])this.NarayanaDasaRasi.Clone(),
+                NaisargikaDasaRasi = (ERasiStrength[])this.NaisargikaDasaRasi.Clone()
+            };
         }
 
         public object Copy(object o)

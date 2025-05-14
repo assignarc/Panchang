@@ -103,7 +103,7 @@ namespace org.transliteral.panchang
 		public BodyName LordOfNakshatra(Nakshatra n)
 		{
 			throw new Exception();
-			return BodyName.Lagna;
+			//return BodyName.Lagna;
 		}
 	}
 }

@@ -884,8 +884,8 @@ namespace org.transliteral.panchang.app
                   dp.Type == BodyType.Name.Lagna))
             {
                 Point pLon = dc.GetDegreeOffset(h.GetPosition(dp.Name).Longitude);
-                Pen pn = new Pen(PanchangAppOptions.Instance.getBinduColor(dp.Name), (float)0.01);
-                Brush br = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(dp.Name));
+                Pen pn = new Pen(PanchangAppOptions.Instance.GetBinduColor(dp.Name), (float)0.01);
+                Brush br = new SolidBrush(PanchangAppOptions.Instance.GetBinduColor(dp.Name));
                 g.FillEllipse(br, pLon.X - 1, pLon.Y - 1, 4, 4);
                 //g.DrawEllipse(pn, pLon.X-1, pLon.Y-1, 2, 2);
                 g.DrawEllipse(new Pen(Color.Gray), pLon.X - 1, pLon.Y - 1, 4, 4);

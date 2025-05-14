@@ -34,9 +34,9 @@ namespace org.transliteral.panchang
         public bool bOneEntryPerLine = false;
 
 
-        int[] rahu_kalas = new int[] { 7, 1, 6, 4, 5, 3, 2 };
-        int[] gulika_kalas = new int[] { 6, 5, 4, 3, 2, 1, 0 };
-        int[] yama_kalas = new int[] { 4, 3, 2, 1, 0, 6, 5 };
+        readonly int[] rahu_kalas = new int[] { 7, 1, 6, 4, 5, 3, 2 };
+        readonly int[] gulika_kalas = new int[] { 6, 5, 4, 3, 2, 1, 0 };
+        readonly int[] yama_kalas = new int[] { 4, 3, 2, 1, 0, 6, 5 };
 
         public HinduPanchang()
         {
@@ -73,8 +73,10 @@ namespace org.transliteral.panchang
                                         alon: new HMSInfo(-97, 13, 35, Direction.EastWest), 
                                         atz: new HMSInfo(-5, 0, 0, Direction.EastWest)
                                         );
-            horoscope = new Horoscope(horaInfo, horaOptions);
-            horoscope.StrengthOptions = strengthOptions;
+            horoscope = new Horoscope(horaInfo, horaOptions)
+            {
+                StrengthOptions = strengthOptions
+            };
 
         }
 
@@ -91,7 +93,7 @@ namespace org.transliteral.panchang
                 ComputeEntry(ut_start, geopos);
                 ut_start += 1;
             }
-            Dictionary<string, string> results = this.DisplayEntry(locals[0]);
+            this.DisplayEntry(locals[0]);
 
         }
         public void ComputeEntry(double ut, double[] geopos)
@@ -114,11 +116,13 @@ namespace org.transliteral.panchang
             HoraInfo infoCurr = new HoraInfo(moment_ut, horoscope.Info.lat, horoscope.Info.lon, horoscope.Info.tz);
             Horoscope hCurr = new Horoscope(infoCurr, horoscope.Options);
 
-           
-            LocalMoments local = new LocalMoments();
-            local.Sunrise = hCurr.Sunrise;
-            local.Sunset = sunset;
-            local.SunriseUT = ut_sr;
+
+            LocalMoments local = new LocalMoments
+            {
+                Sunrise = hCurr.Sunrise,
+                Sunset = sunset,
+                SunriseUT = ut_sr
+            };
             Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
             local.WeekDay = (Weekday)Sweph.swe_day_of_week(ut);
 
@@ -282,7 +286,6 @@ namespace org.transliteral.panchang
         {
             Dictionary<string, string> results = new Dictionary<string, string>();
             PanchangDay pDay = new PanchangDay() { Celestials = new List<CelestialBody>() };
-            string s;
             int day = 0, month = 0, year = 0;
             double time = 0;
 
@@ -297,11 +300,12 @@ namespace org.transliteral.panchang
             pDay.Moment = m;
             if (this.bShowSunriset)
             {
-                s = string.Format("Sunrise at {0}. Sunset at {1}",this.TimeToString(local.Sunrise),
-                    this.TimeToString(local.Sunset));
+                string s = string.Format("Sunrise at {0}. Sunset at {1}", this.TimeToString(local.Sunrise), this.TimeToString(local.Sunset));
                 pDay.Celestials.Add(new CelestialBody() { Name = BodyName.Sun, Rise = this.TimeToString(local.Sunrise), Set = this.TimeToString(local.Sunset) });
-               /* results.Add("Sunrise", this.timeToString(local.sunrise));
-                results.Add("Sunset", this.timeToString(local.sunset));*/
+               /* 
+                results.Add("Sunrise", this.timeToString(local.sunrise));
+                results.Add("Sunset", this.timeToString(local.sunset));
+               */
                 //this.mList.Items.Add(s);
             }
 

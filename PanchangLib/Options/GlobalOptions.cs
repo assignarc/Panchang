@@ -149,20 +149,22 @@ namespace org.transliteral.panchang
             get { return this.bVargaShowSAVVarga; }
             set { this.bVargaShowSAVVarga = value; }
         }
-       
-        
-   
-       
 
-        public static GlobalOptions readFromFile()
+
+
+
+
+        public static GlobalOptions ReadFromFile()
         {
             GlobalOptions gOpts = new GlobalOptions();
             try
             {
                 FileStream sOut;
                 sOut = new FileStream(GlobalOptions.GetOptsFilename(), FileMode.Open, FileAccess.Read);
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                BinaryFormatter formatter = new BinaryFormatter
+                {
+                    AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+                };
                 gOpts = (GlobalOptions)formatter.Deserialize(sOut);
                 sOut.Close();
             }
@@ -175,7 +177,7 @@ namespace org.transliteral.panchang
             return gOpts;
         }
 
-        public void saveToFile()
+        public void SaveToFile()
         {
             Logger.Info(String.Format("Saving Preferences to {0}", GlobalOptions.GetOptsFilename()));
             FileStream sOut = new FileStream(GlobalOptions.GetOptsFilename(), FileMode.OpenOrCreate, FileAccess.Write);

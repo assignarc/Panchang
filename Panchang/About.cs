@@ -169,7 +169,7 @@ namespace org.transliteral.panchang.app
         {
             try
             {
-                System.Diagnostics.Process.Start("mailto:" + linkMail.Text + "?subject=MudgalaHora");
+                System.Diagnostics.Process.Start("mailto:" + linkMail.Text + "?subject=Panchang");
             }
             catch { }
         }

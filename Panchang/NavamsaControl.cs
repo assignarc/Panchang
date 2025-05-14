@@ -45,10 +45,7 @@ namespace org.transliteral.panchang.app
             h.Changed -= new EvtChanged(onRecalculate);
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -180,8 +177,8 @@ namespace org.transliteral.panchang.app
             double dist_sat = h.GetPosition(BodyName.Saturn).Distance;
             foreach (BodyName b in bodies)
             {
-                Pen pn_b = new Pen(PanchangAppOptions.Instance.getBinduColor(b));
-                Brush br_b = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(b));
+                Pen pn_b = new Pen(PanchangAppOptions.Instance.GetBinduColor(b));
+                Brush br_b = new SolidBrush(PanchangAppOptions.Instance.GetBinduColor(b));
                 BodyPosition bp = h.GetPosition(b);
                 ResetChakra(g, bp.Longitude.Value);
                 int chWidth = 2;

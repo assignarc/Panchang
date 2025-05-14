@@ -59,10 +59,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -279,7 +276,7 @@ namespace org.transliteral.panchang.app
             orderedProperties.Sort();
             foreach (PropertyOrderPair pop in orderedProperties)
             {
-                Console.WriteLine("Adding sorted {0}", pop.Name);
+                Logger.Info($"Adding sorted {pop.Name}");
                 retProps.Add(new GlobalizedPropertyDescriptor(pop.Property));
             }
             return retProps;

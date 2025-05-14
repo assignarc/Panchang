@@ -82,10 +82,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }

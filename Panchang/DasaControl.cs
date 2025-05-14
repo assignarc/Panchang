@@ -1140,8 +1140,7 @@ namespace org.transliteral.panchang.app
             double months = 0;
             while (date_current < date_to_surpass)
             {
-                Console.WriteLine("{0} > {1}", new Moment(date_current, h),
-                    new Moment(date_to_surpass, h));
+                Logger.Info($"{new Moment(date_current, h)} > {new Moment(date_to_surpass, h)}");
 
                 months++;
                 date_current = td_yoga.AddYears(months / 12.0).ToUniversalTime();
@@ -1377,7 +1376,7 @@ namespace org.transliteral.panchang.app
 
                 if (ut_m >= ut_start && ut_m < ut_end)
                 {
-                    Console.WriteLine("Found: Looking for {0} between {1} and {2}", m, m_start, m_end);
+                    Logger.Info($"Found: Looking for {m} between {m_start} and {m_end}");
 
                     if (levels > di.entry.level)
                     {

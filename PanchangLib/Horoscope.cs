@@ -32,7 +32,7 @@ namespace org.transliteral.panchang
         public Longitude[] SwephHouseCusps;
         public int SwephHouseSystem;
         public StrengthOptions StrengthOptions;
-        private string[] VarnadaStars = new string[]
+        private readonly string[] VarnadaStars = new string[]
           {
                 "VL", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11", "V12"
           };
@@ -91,14 +91,12 @@ namespace org.transliteral.panchang
         }
         public void OnlySignalChanged()
         {
-            if (Changed != null)
-                Changed(this);
+            Changed?.Invoke(this);
         }
         public void OnChanged()
         {
             PopulateCache();
-            if (Changed != null)
-                Changed(this);
+            Changed?.Invoke(this);
         }
        
         public DivisionPosition CalculateDivisionPosition(BodyPosition bp, Division d)
@@ -124,8 +122,10 @@ namespace org.transliteral.panchang
             int rel2 = dp.ZodiacHouse.NumHousesBetween(zhsum);
             if (rel2 == 1 || rel2 == 7)
                 zhsum = zhsum.Add(10);
-            DivisionPosition dp2 = new DivisionPosition(BodyName.Other, BodyType.Name.GrahaArudha, zhsum, 0, 0, 0);
-            dp2.otherString = String.Format("{0}{1}", Body.ToShortString(bn), hse);
+            DivisionPosition dp2 = new DivisionPosition(BodyName.Other, BodyType.Name.GrahaArudha, zhsum, 0, 0, 0)
+            {
+                otherString = String.Format("{0}{1}", Body.ToShortString(bn), hse)
+            };
             return dp2;
         }
         public ArrayList CalculateGrahaArudhaDivisionPositions(Division dtype)
@@ -185,8 +185,10 @@ namespace org.transliteral.panchang
                 if (zh_l.IsOdd()) zh_v = zh_ari.Add(sum);
                 else zh_v = zh_pis.AddReverse(sum);
 
-                DivisionPosition div_pos = new DivisionPosition(BodyName.Other, BodyType.Name.Varnada, zh_v, 0, 0, 0);
-                div_pos.otherString = VarnadaStars[i - 1];
+                DivisionPosition div_pos = new DivisionPosition(BodyName.Other, BodyType.Name.Varnada, zh_v, 0, 0, 0)
+                {
+                    otherString = VarnadaStars[i - 1]
+                };
                 al.Add(div_pos);
             }
             return al;
@@ -533,8 +535,10 @@ namespace org.transliteral.panchang
 
         private void CalculateUpagrahasSingle(BodyName b, double tjd)
         {
-            Longitude lon = new Longitude(0);
-            lon.Value = Sweph.swe_lagna(tjd);
+            Longitude lon = new Longitude(0)
+            {
+                Value = Sweph.swe_lagna(tjd)
+            };
             BodyPosition bp = new BodyPosition(this, b, BodyType.Name.Upagraha,
                 lon, 0, 0, 0, 0, 0);
             PositionList.Add(bp);
@@ -601,11 +605,14 @@ namespace org.transliteral.panchang
             switch (Options.UpagrahaType)
             {
                 case EUpagrahaType.Begin:
-                    dUpagrahaOffset = 0; break;
+                    dUpagrahaOffset = 0; 
+                    break;
                 case EUpagrahaType.Mid:
-                    dUpagrahaOffset = dOffset; break;
+                    dUpagrahaOffset = dOffset; 
+                    break;
                 case EUpagrahaType.End:
-                    dUpagrahaOffset = dPeriod; break;
+                    dUpagrahaOffset = dPeriod; 
+                    break;
             }
 
             Sweph.ObtainLock(this);
@@ -658,8 +665,10 @@ namespace org.transliteral.panchang
         private void AddChandraLagna(string desc, Longitude lon)
         {
             BodyPosition bp = new BodyPosition(
-                this, BodyName.Other, BodyType.Name.ChandraLagna, lon, 0, 0, 0, 0, 0);
-            bp.otherString = desc;
+                this, BodyName.Other, BodyType.Name.ChandraLagna, lon, 0, 0, 0, 0, 0)
+            {
+                otherString = desc
+            };
             this.PositionList.Add(bp);
         }
         private void CalculateChandraLagnas()
@@ -868,8 +877,10 @@ namespace org.transliteral.panchang
 
         public void AddOtherPosition(string desc, Longitude lon, BodyName name)
         {
-            BodyPosition bp = new BodyPosition(this, name, BodyType.Name.Other, lon, 0, 0, 0, 0, 0);
-            bp.otherString = desc;
+            BodyPosition bp = new BodyPosition(this, name, BodyType.Name.Other, lon, 0, 0, 0, 0, 0)
+            {
+                otherString = desc
+            };
             this.PositionList.Add(bp);
         }
         public void AddOtherPosition(string desc, Longitude lon)
@@ -968,9 +979,10 @@ namespace org.transliteral.panchang
             if (lonB.Subtract(lonA).Value <= lonC.Subtract(lonA).Value)
                 lonR = lonR.Add(new Longitude(30.0));
 
-            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR,
-                0.0, 0.0, 0.0, 0.0, 0.0);
-            bp.otherString = sahama;
+            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR, 0.0, 0.0, 0.0, 0.0, 0.0)
+            {
+                otherString = sahama
+            };
             return bp;
         }
 
@@ -987,9 +999,10 @@ namespace org.transliteral.panchang
             if (lonB.Subtract(lonA).Value <= lonC.Subtract(lonA).Value)
                 lonR = lonR.Add(new Longitude(30.0));
 
-            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR,
-                0.0, 0.0, 0.0, 0.0, 0.0);
-            bp.otherString = sahama;
+            BodyPosition bp = new BodyPosition(this, BodyName.Other, BodyType.Name.Sahama, lonR, 0.0, 0.0, 0.0, 0.0, 0.0)
+            {
+                otherString = sahama
+            };
             return bp;
         }
         private BodyPosition SahamaDNHelper(string sahama, BodyName b, Longitude lonA, BodyName c)

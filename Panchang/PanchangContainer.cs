@@ -456,7 +456,7 @@ namespace org.transliteral.panchang.app
 
         private void PanchangContainer_Load(object sender, EventArgs e)
         {
-            gOpts = PanchangAppOptions.readFromFile();
+            gOpts = PanchangAppOptions.ReadFromFile();
             PanchangAppOptions.mainControl = this;
             if (PanchangAppOptions.Instance.ShowSplashScreen)
             {
@@ -558,7 +558,7 @@ namespace org.transliteral.panchang.app
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Panchang Files (*.jhd; *.mhd)|*.jhd;*.mhd"
+                Filter = "Panchang Files (*.jhd; *.phd)|*.jhd;*.phd"
             };
 
             if (ofd.ShowDialog() != DialogResult.OK)
@@ -646,8 +646,7 @@ namespace org.transliteral.panchang.app
             else if (e.Button == toolbarButtonDob)
             {
                 PanchangChild mc = ActiveMdiChild as PanchangChild;
-                if (mc != null)
-                    mc.menuShowDobOptions();
+                mc?.menuShowDobOptions();
             }
             else if (e.Button == toolbarButtonDisp)
             {
@@ -659,7 +658,7 @@ namespace org.transliteral.panchang.app
         private void OnClosing()
         {
             if (PanchangAppOptions.Instance.SavePrefsOnExit == true)
-                PanchangAppOptions.Instance.saveToFile();
+                PanchangAppOptions.Instance.SaveToFile();
         }
 
 
@@ -690,7 +689,7 @@ namespace org.transliteral.panchang.app
 
         private void mSavePreferences_Click(object sender, EventArgs e)
         {
-            PanchangAppOptions.Instance.saveToFile();
+            PanchangAppOptions.Instance.SaveToFile();
         }
 
         private object updateDisplayPreferences(object o)
@@ -791,13 +790,13 @@ namespace org.transliteral.panchang.app
 
         private void mIncreaseFontSize_Click(object sender, EventArgs e)
         {
-            PanchangAppOptions.Instance.increaseFontSize();
+            PanchangAppOptions.Instance.IncreaseFontSize();
             PanchangAppOptions.NotifyDisplayChange();
         }
 
         private void mDecreaseFontSize_Click(object sender, EventArgs e)
         {
-            PanchangAppOptions.Instance.decreaseFontSize();
+            PanchangAppOptions.Instance.DecreaseFontSize();
             PanchangAppOptions.NotifyDisplayChange();
         }
 

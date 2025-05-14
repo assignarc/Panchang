@@ -352,8 +352,10 @@ namespace org.transliteral.panchang.app
             Moment mCurr = new Moment(((LocalMoments)locals[iStart]).SunriseUT, h);
             HoraInfo hiCurr = new HoraInfo(mCurr, h.Info.lat, h.Info.lon, h.Info.tz);
             Horoscope hCurr = new Horoscope(hiCurr, h.Options);
-            DivisionalChart dc = new DivisionalChart(hCurr);
-            dc.PrintMode = true;
+            DivisionalChart dc = new DivisionalChart(hCurr)
+            {
+                PrintMode = true
+            };
             dc.options.ViewStyle = EViewStyle.Panchanga;
             dc.SetOptions(dc.options);
             dc.DrawChart(g, divisional_chart_size, divisional_chart_size);

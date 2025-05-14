@@ -8,7 +8,7 @@ namespace org.transliteral.panchang.app
     public class AshtakavargaControl : PanchangControl
     {
 
-        private System.ComponentModel.IContainer components = null;
+        private readonly System.ComponentModel.IContainer components = null;
         private ContextMenu contextMenu;
         private MenuItem menuSav;
         private MenuItem menuItem1;
@@ -25,15 +25,15 @@ namespace org.transliteral.panchang.app
 
         Ashtakavarga av = null;
         BodyName[] outerBodies = null;
-        BodyName[] innerBodies = null;
+        readonly BodyName[] innerBodies = null;
         private MenuItem menuOptions;
         Bitmap bmpBuffer = null;
         private MenuItem menuJhoraSav;
-        AshtakavargaOptions userOptions = null;
+        readonly AshtakavargaOptions userOptions = null;
         EDisplayStyle mDisplayStyle = EDisplayStyle.Chancha;
         Font fBig = null;
         Font fBigBold = null;
-        Brush b_black = null;
+        readonly Brush b_black = null;
         Brush b_red = null;
         public AshtakavargaControl(Horoscope _h)
         {
@@ -87,10 +87,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -320,8 +317,7 @@ namespace org.transliteral.panchang.app
 
         private Image DrawToBuffer()
         {
-            if (bmpBuffer != null)
-                bmpBuffer.Dispose();
+            bmpBuffer?.Dispose();
             if (Width == 0 || Height == 0)
                 return bmpBuffer;
             Graphics displayGraphics = CreateGraphics();
@@ -566,7 +562,7 @@ namespace org.transliteral.panchang.app
                     int iOuter = av.BodyToInt(bOuter);
                     int iInner = av.BodyToInt(bInner);
                     ZodiacHouseName[] zhBins = av.GetBindus(bOuter, bInner);
-                    Brush br = new SolidBrush(PanchangAppOptions.Instance.getBinduColor(bInner));
+                    Brush br = new SolidBrush(PanchangAppOptions.Instance.GetBinduColor(bInner));
 
                     foreach (ZodiacHouseName zh in zhBins)
                     {

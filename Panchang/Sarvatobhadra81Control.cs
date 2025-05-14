@@ -45,10 +45,7 @@ namespace org.transliteral.panchang.app
             PanchangAppOptions.DisplayPrefsChanged -= new EvtChanged(OnRedisplay);
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }

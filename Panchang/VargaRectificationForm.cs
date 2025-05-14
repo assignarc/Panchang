@@ -79,8 +79,10 @@ namespace org.transliteral.panchang.app
             }
             public object Clone()
             {
-                UserOptions uo = new UserOptions((Moment)mStart.Clone(), (Moment)mEnd.Clone());
-                uo.Divisions = (Division[])Divisions.Clone();
+                UserOptions uo = new UserOptions((Moment)mStart.Clone(), (Moment)mEnd.Clone())
+                {
+                    Divisions = (Division[])Divisions.Clone()
+                };
                 return uo;
             }
             public object CopyFrom(object _uo)
@@ -270,10 +272,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }

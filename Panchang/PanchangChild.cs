@@ -325,7 +325,7 @@ namespace org.transliteral.panchang.app
             SaveFileDialog ofd = new SaveFileDialog
             {
                 AddExtension = true,
-                Filter = "Jagannatha Hora Files (*.jhd)|*.jhd|Mudgala Hora Files (*.mhd)|*.mhd",
+                Filter = "Jagannatha Hora Files (*.jhd)|*.jhd|Panchang Files (*.phd)|*.phd",
                 FilterIndex = 1
             };
 

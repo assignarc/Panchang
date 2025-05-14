@@ -51,10 +51,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -153,8 +150,10 @@ namespace org.transliteral.panchang.app
         private void evaluateYoga(XmlYogaNode n)
         {
             bool bRet = fy.EvaluateYoga(n);
-            ListViewItem li = new ListViewItem();
-            li.Text = bRet.ToString();
+            ListViewItem li = new ListViewItem
+            {
+                Text = bRet.ToString()
+            };
             li.SubItems.Add(n.yogaCat);
             li.SubItems.Add(n.yogaName);
             li.SubItems.Add(n.result);

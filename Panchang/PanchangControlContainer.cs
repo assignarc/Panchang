@@ -330,8 +330,7 @@ namespace org.transliteral.panchang.app
                     break;
             }
             mc.Dock = DockStyle.Fill;
-            if (null != Control)
-                Control.Dispose();
+            Control?.Dispose();
             Control = mc;
 
             return;
@@ -375,10 +374,7 @@ namespace org.transliteral.panchang.app
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
