@@ -53,7 +53,6 @@ namespace org.transliteral.panchang
             Info = _info;
             this.SwephHouseSystem = 'P';
             this.PopulateCache();
-            //Options Split
             GlobalOptions.CalculationPrefsChanged += new EvtChanged(this.OnGlobalCalcPrefsChanged);
         }
 

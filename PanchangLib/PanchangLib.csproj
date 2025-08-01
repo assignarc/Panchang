@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ashtakavarga.cs" />
-    <Compile Include="DayPanchang.cs" />
+    <Compile Include="PanchangDay.cs" />
     <Compile Include="HinduPanchang.cs" />
     <Compile Include="Options\AshtakavargaOptions.cs" />
     <Compile Include="Balas.cs" />

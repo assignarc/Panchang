@@ -39,10 +39,7 @@ namespace org.transliteral.panchang
         {
             this.offset = _offset;
         }
-
-
-        public Moment AddPraveshYears(double years,
-            ReturnLon returnLonFunc, int numMonths, int numDays)
+        public Moment AddPraveshYears(double years,ReturnLon returnLonFunc, int numMonths, int numDays)
         {
             double jd = 0.0;
             int year = 0, month = 0, day = 0;
@@ -96,7 +93,6 @@ namespace org.transliteral.panchang
             Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
             return new Moment(year, month, day, hour, minute, second);
         }
-
         public Moment AddYears(double years)
         {
             double jd = 0.0;
