@@ -413,7 +413,7 @@ namespace org.transliteral.panchang.app
             int year = 0, month = 0, day = 0;
             double hour = 0;
             found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
             Moment m = new Moment(year, month, day, hour);
             HoraInfo inf = new HoraInfo(m,
                 (HMSInfo)h.Info.lat.Clone(),
@@ -422,7 +422,7 @@ namespace org.transliteral.panchang.app
             Horoscope hTransit = new Horoscope(inf,
                 (HoroscopeOptions)h.Options.Clone());
 
-            Sweph.swe_revjul(found_ut + 5.0, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut + 5.0, ref year, ref month, ref day, ref hour);
             m2 = new Moment(year, month, day, hour);
             return hTransit;
         }
@@ -464,7 +464,7 @@ namespace org.transliteral.panchang.app
             double totalProgression = GetProgressionDegree();
             double totalProgressionOrig = totalProgression;
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Retrogression r = new Retrogression(h, opts.SearchBody);
 
             Longitude start_lon = r.GetLon(h.baseUT);
@@ -491,7 +491,7 @@ namespace org.transliteral.panchang.app
             //	got_lon.value, got_lon.sub(start_lon.add(totalProgressionOrig)).value
             //	);
 
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             Moment m2 = new Moment(0, 0, 0, 0.0);
             Horoscope hTransit = utToHoroscope(curr_julday, ref m2);
@@ -518,7 +518,7 @@ namespace org.transliteral.panchang.app
 
             //Console.WriteLine ("Expected ut_diff is {0}", ut_diff);
             bool bDummy = true;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Transit t = new Transit(h);
             Longitude lon_start = t.LongitudeOfSun(h.baseUT, ref bDummy);
             Longitude lon_prog = t.LongitudeOfSun(julday_ut, ref bDummy);
@@ -527,7 +527,7 @@ namespace org.transliteral.panchang.app
 
             double dExpectedLon = ut_diff * 360.0 / 365.2425;
             Longitude lon_expected = lon_start.Add(dExpectedLon);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
 
             if (Transit.CircLonLessThan(lon_expected, lon_prog))
@@ -555,7 +555,7 @@ namespace org.transliteral.panchang.app
 
             DivisionPosition dp = h.GetPosition(opts.SearchBody).ToDivisionPosition(opts.Division);
             double yearlyProgression = (dp.CuspHigher - dp.CuspLower) / 30.0;
-            double julday_ut = Sweph.swe_julday(
+            double julday_ut = Sweph.SWE_JullianDay(
                 opts.StartDate.Year,
                 opts.StartDate.Month,
                 opts.StartDate.Day,
@@ -574,7 +574,7 @@ namespace org.transliteral.panchang.app
 
             //Console.WriteLine ("Total Progression is {0}", totalProgression);
             bool becomesDirect = false;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Retrogression r = new Retrogression(h, opts.SearchBody);
             double curr_ut = h.baseUT;
             double next_ut = 0;
@@ -610,7 +610,7 @@ namespace org.transliteral.panchang.app
                 }
                 curr_ut = next_ut + 5.0;
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             Moment m2 = new Moment(0, 0, 0, 0.0);
             Horoscope hTransit = utToHoroscope(found_ut, ref m2);
@@ -653,7 +653,7 @@ namespace org.transliteral.panchang.app
                 return;
 
             bool becomesDirect = false;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Retrogression r = new Retrogression(h, opts.SearchBody);
             double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
             double found_ut = julday_ut;
@@ -667,13 +667,13 @@ namespace org.transliteral.panchang.app
 
             bool bForward = false;
             Longitude found_lon = r.GetLon(found_ut, ref bForward);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             // turn into horoscope
             int year = 0, month = 0, day = 0;
             double hour = 0;
             found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
             Moment m = new Moment(year, month, day, hour);
             HoraInfo inf = new HoraInfo(m,
                 (HMSInfo)h.Info.lat.Clone(),
@@ -683,9 +683,9 @@ namespace org.transliteral.panchang.app
                 (HoroscopeOptions)h.Options.Clone());
 
             if (opts.Forward)
-                Sweph.swe_revjul(found_ut + 5.0, ref year, ref month, ref day, ref hour);
+                Sweph.SWE_ReverseJulianDay(found_ut + 5.0, ref year, ref month, ref day, ref hour);
             else
-                Sweph.swe_revjul(found_ut - 5.0, ref year, ref month, ref day, ref hour);
+                Sweph.SWE_ReverseJulianDay(found_ut - 5.0, ref year, ref month, ref day, ref hour);
             Moment m2 = new Moment(year, month, day, hour);
             opts.StartDate = m2;
             // add entry to our list
@@ -722,7 +722,7 @@ namespace org.transliteral.panchang.app
                 ut -= offset;
 
 
-            Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref hour);
             Moment m2 = new Moment(year, month, day, hour);
             opts.StartDate = m2;
             updateOptions();
@@ -942,7 +942,7 @@ namespace org.transliteral.panchang.app
 
             bool becomesDirect = false;
             bool bForward = false;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Retrogression r = new Retrogression(h, opts.SearchBody);
             double julday_ut = opts.StartDate.ToUniversalTime() - h.Info.tz.toDouble() / 24.0;
             double found_ut = julday_ut;
@@ -974,7 +974,7 @@ namespace org.transliteral.panchang.app
                 else
                     found_ut -= 5.0;
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             if (opts.Forward)
                 found_ut += 5.0;
             else
@@ -1034,9 +1034,9 @@ namespace org.transliteral.panchang.app
         {
             double julday_ut = opts.StartDate.ToUniversalTime(h);
             double[] tret = new double[10];
-            Sweph.ObtainLock(h);
-            Sweph.swe_sol_eclipse_when_glob(julday_ut, tret, opts.Forward);
-            Sweph.ReleaseLock(h);
+            Sweph.Lock(h);
+            Sweph.SWE_FindSolarEclipseGlobally(julday_ut, tret, opts.Forward);
+            Sweph.Unlock(h);
             SolarEclipseHelper(tret[2], "Global Solar Eclipse Begins");
             SolarEclipseHelper(tret[3], "   Global Solar Eclipse Ends");
             SolarEclipseHelper(tret[4], tret[2], tret[3], "   Global Solar Eclipse Totality Begins");
@@ -1055,9 +1055,9 @@ namespace org.transliteral.panchang.app
             double julday_ut = opts.StartDate.ToUniversalTime(h);
             double[] tret = new double[10];
             double[] attr = new double[10];
-            Sweph.ObtainLock(h);
-            Sweph.swe_sol_eclipse_when_loc(h.Info, julday_ut, tret, attr, opts.Forward);
-            Sweph.ReleaseLock(h);
+            Sweph.Lock(h);
+            Sweph.SWE_FindSolarEclipseLocally(h.Info, julday_ut, tret, attr, opts.Forward);
+            Sweph.Unlock(h);
             SolarEclipseHelper(tret[0], "Local Solar Eclipse Maximum");
             SolarEclipseHelper(tret[1], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 1st Contact");
             SolarEclipseHelper(tret[2], tret[0] - 1, tret[0] + 1, "   Local Solar Eclipse 2nd Contact");
@@ -1074,9 +1074,9 @@ namespace org.transliteral.panchang.app
         {
             double julday_ut = opts.StartDate.ToUniversalTime(h);
             double[] tret = new double[10];
-            Sweph.ObtainLock(h);
-            Sweph.swe_lun_eclipse_when(julday_ut, tret, opts.Forward);
-            Sweph.ReleaseLock(h);
+            Sweph.Lock(h);
+            Sweph.SWE_FindLunarEclipse(julday_ut, tret, opts.Forward);
+            Sweph.Unlock(h);
             SolarEclipseHelper(tret[0], "Lunar Eclipse Maximum");
             SolarEclipseHelper(tret[2], tret[0] - 1, tret[0] + 1, "   Lunar Eclipse Begins");
             SolarEclipseHelper(tret[3], tret[0] - 1, tret[0] + 1, "   Lunar Eclipse Ends");

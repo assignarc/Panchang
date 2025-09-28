@@ -10,12 +10,12 @@ namespace org.transliteral.panchang
 		private Horoscope h;
 		private RasiDasaUserOptions options;
 		private Division m_dtype = new Division(DivisionType.Rasi);
-
-		public LagnaKendradiRasiDasa (Horoscope _h)
+        public new object Options => this.options.Clone();
+        public LagnaKendradiRasiDasa (Horoscope _h)
 		{
-			FindStronger fs_rasi = new FindStronger (h, m_dtype, FindStronger.RulesNarayanaDasaRasi(h));
+			Strongest fs_rasi = new Strongest (h, m_dtype, Strongest.RulesNarayanaDasaRasi(h));
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNarayanaDasaRasi(h));
 		}
         public void RecalculateOptions() => options.Recalculate();
         private bool IsZodiacal()
@@ -76,7 +76,7 @@ namespace org.transliteral.panchang
 			return "Lagna Kendradi Rasi Dasa seeded from"
 				+ " seeded from " + options.SeedRasi.ToString();
 		}
-        public object Options => this.options.Clone();
+       
         public object SetOptions(object a)
 		{
 			options.CopyFrom(a);

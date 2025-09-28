@@ -2,7 +2,6 @@
 
 namespace org.transliteral.panchang
 {
-
     public class AshtakavargaOptions : ICloneable
     {
         private Division mDtype;

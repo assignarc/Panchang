@@ -6,7 +6,7 @@
         private KaranaName mValue;
         public Karana(KaranaName _mValue)
         {
-            mValue = (KaranaName)Basics.Normalize_inc(1, 60, (int)_mValue);
+            mValue = (KaranaName)Basics.NormalizeInclusive(1, 60, (int)_mValue);
         }
         public KaranaName value
         {
@@ -15,12 +15,12 @@
         }
         public Karana add(int i)
         {
-            int tnum = Basics.Normalize_inc(1, 60, (int)this.value + i - 1);
+            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.value + i - 1);
             return new Karana((KaranaName)tnum);
         }
         public Karana addReverse(int i)
         {
-            int tnum = Basics.Normalize_inc(1, 60, (int)this.value - i + 1);
+            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.value - i + 1);
             return new Karana((KaranaName)tnum);
         }
         public override string ToString()
@@ -37,7 +37,7 @@
                 case KaranaName.Naga: return BodyName.Venus;
                 default:
                     {
-                        int vn = Basics.Normalize_inc(1, 7, (int)this.value - 1);
+                        int vn = Basics.NormalizeInclusive(1, 7, (int)this.value - 1);
                         switch (vn)
                         {
                             case 1: return BodyName.Sun;

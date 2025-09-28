@@ -18,11 +18,11 @@
         }
         public int Normalize()
         {
-            return Basics.Normalize_inc(1, 28, (int)this.Value);
+            return Basics.NormalizeInclusive(1, 28, (int)this.Value);
         }
         public Nakshatra28 Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 28, (int)this.Value + i - 1);
+            int snum = Basics.NormalizeInclusive(1, 28, (int)this.Value + i - 1);
             return new Nakshatra28((Nakshatra28Name)snum);
         }
     }

@@ -27,7 +27,7 @@ namespace org.transliteral.panchang
 			{
 				h = _h;
 				std_div_pos = h.CalculateDivisionPositions(dtype);
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesStrongerCoLord(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesStrongerCoLord(h));
 				mLordSco = fs.StrongerGraha(BodyName.Mars, BodyName.Ketu, true);
 				mLordAqu = fs.StrongerGraha(BodyName.Saturn, BodyName.Rahu, true);
 				this.bExcludeNodes = true;
@@ -39,7 +39,7 @@ namespace org.transliteral.panchang
 			}
             public void Recalculate()
 			{
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesStrongerCoLord(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesStrongerCoLord(h));
 				mLordSco = fs.StrongerGraha(BodyName.Mars, BodyName.Ketu, true);
 				mLordAqu = fs.StrongerGraha(BodyName.Saturn, BodyName.Rahu, true);
 				this.CalculateRasiStrengths();
@@ -77,13 +77,13 @@ namespace org.transliteral.panchang
 
 			public void CalculateRasiStrengths()
 			{
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesNaisargikaDasaRasi(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesNaisargikaDasaRasi(h));
 				this.mZodiacStrengths = fs.ResultsZodiacKendras(h.CalculateDivisionPosition(h.GetPosition(BodyName.Lagna), dtype).ZodiacHouse.Value);
 			}
 			public void CalculateGrahaStrengths()
 			{
 				StrengthByConjunction fs_temp = new StrengthByConjunction (h, dtype);
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesNaisargikaDasaGraha(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesNaisargikaDasaGraha(h));
 				this.mGrahasStrengths = new OrderedGrahas[3];
 				for (int i=0; i<mZodiacStrengths.Length; i++)
 				{
@@ -265,7 +265,7 @@ namespace org.transliteral.panchang
 		{
 			OrderedGrahas orderedAntar = new OrderedGrahas();
 			ZodiacHouse lzh = h.GetPosition(pdi.graha).ToDivisionPosition(options.dtype).ZodiacHouse;
-			int kendra_start = (int)Basics.Normalize_exc_lower(0, 3,((int)lzh.Value % 3));
+			int kendra_start = (int)Basics.NormalizeLower(0, 3,((int)lzh.Value % 3));
 			for (int i=kendra_start; i<=2; i++)
 			{
 				foreach (BodyName b in this.options.GrahaStrengths[i].grahas)
@@ -337,7 +337,7 @@ namespace org.transliteral.panchang
 		{
 			return "Naisargika Graha Dasa (SR)";
 		}
-        public Object Options => this.options.Clone();
+        public new Object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			UserOptions newOpts = (UserOptions)a;

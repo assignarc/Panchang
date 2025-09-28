@@ -4,12 +4,10 @@
     public class CuspTransitSearch
     {
         Horoscope h = null;
-
         public CuspTransitSearch(Horoscope _h)
         {
             h = _h;
         }
-
         private double DirectSpeed(BodyName b)
         {
             switch (b)
@@ -25,11 +23,11 @@
         {
             bool bDiscard = true;
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Transit t = new Transit(h, SearchBody);
             double ut_base = StartDate.ToUniversalTime() - h.Info.TimeZone.toDouble() / 24.0;
             Longitude lon_curr = t.GenericLongitude(ut_base, ref bDiscard);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             double diff = 0;
             diff = TransitPoint.Subtract(lon_curr).Value;
@@ -40,7 +38,7 @@
             }
 
             double ut_diff_approx = diff / 360.0 * this.DirectSpeed(SearchBody);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             double found_ut = 0;
 
             if (SearchBody == BodyName.Lagna)
@@ -49,7 +47,7 @@
                 found_ut = t.LinearSearch(ut_base + ut_diff_approx, TransitPoint, new ReturnLon(t.GenericLongitude));
             FoundLon.Value = t.GenericLongitude(found_ut, ref bForward).Value;
             bForward = true;
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             return found_ut;
         }
         public double TransitSearch(BodyName SearchBody, Moment StartDate,
@@ -66,7 +64,7 @@
                 (int)SearchBody > (int)BodyName.Saturn) &&
                 SearchBody != BodyName.Lagna)
                 return StartDate.ToUniversalTime();
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
 
             Retrogression r = new Retrogression(h, SearchBody);
 
@@ -80,9 +78,8 @@
 
             FoundLon.Value = r.GetLon(found_ut, ref bForward).Value;
 
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             return found_ut;
         }
     }
-
 }

@@ -9,7 +9,7 @@ namespace org.transliteral.panchang
 	{
 		private Horoscope h;
         public KaranaPraveshDasa(Horoscope _h) => h = _h;
-        public object Options => new object();
+        public new object Options => new object();
         public object SetOptions(object a) => new object();
         public void RecalculateOptions ()
 		{

@@ -35,7 +35,7 @@ namespace org.transliteral.panchang
         {
             return Dasa(horoscope.GetPosition(options.start_graha).ExtrapolateLongitude(options.div), options.nakshatra_offset, cycle);
         }
-        public ArrayList AntarDasa(DasaEntry di)
+        public new ArrayList AntarDasa(DasaEntry di)
         {
             return base.AntarDasa(di);
         }
@@ -120,7 +120,7 @@ namespace org.transliteral.panchang
             options = new UserOptions();
             horoscope = h;
 
-            FindStronger fs_graha = new FindStronger(h, new Division(DivisionType.BhavaPada), FindStronger.RulesVimsottariGraha(h));
+            Strongest fs_graha = new Strongest(h, new Division(DivisionType.BhavaPada), Strongest.RulesVimsottariGraha(h));
             BodyName stronger = fs_graha.StrongerGraha(BodyName.Moon, BodyName.Lagna, false);
 
             if (stronger == BodyName.Lagna)

@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
 		public DrigDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNarayanaDasaRasi(h));
 		}
 		public double ParamAyus () 
 		{
@@ -102,7 +102,7 @@ namespace org.transliteral.panchang
 			return "Drig Dasa"
 				+ " seeded from " + options.SeedRasi.ToString();
 		}
-        public Object Options => this.options.Clone();
+        public new Object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			options.CopyFrom (a);

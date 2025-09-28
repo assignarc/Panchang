@@ -83,7 +83,7 @@ namespace org.transliteral.panchang
 			}
 			return TithiDasa(tithi, options.TithiOffset, cycle);
 		}
-		public ArrayList AntarDasa (DasaEntry di)
+        public new ArrayList AntarDasa(DasaEntry di)
 		{
 			return base.AntarDasa (di);
 		}

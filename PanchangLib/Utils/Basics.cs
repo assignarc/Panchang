@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -25,7 +23,7 @@ namespace org.transliteral.panchang
 		/// <param name="upper">The upper bound of normalization</param>
 		/// <param name="x">The value to be normalized</param>
 		/// <returns>The normalized value of x, where lower <= x <= upper </returns>
-		public static int Normalize_inc (int lower, int upper, int x) 
+		public static int NormalizeInclusive (int lower, int upper, int x) 
 		{
 			int size = upper - lower + 1;
 			while (x > upper) x -= size;
@@ -41,7 +39,7 @@ namespace org.transliteral.panchang
 		/// <param name="upper">The upper bound of normalization</param>
 		/// <param name="x">The value to be normalized</param>
 		/// <returns>The normalized value of x, where lower = x <= upper </returns>
-		public static double Normalize_exc (double lower, double upper, double x) 
+		public static double NormalizeUpper (double lower, double upper, double x) 
 		{
 			double size = upper - lower;
 			while (x > upper) x -= size;
@@ -50,7 +48,7 @@ namespace org.transliteral.panchang
 			return x;
 		}
 
-		public static double Normalize_exc_lower (double lower, double upper, double x) 
+		public static double NormalizeLower (double lower, double upper, double x) 
 		{
 			double size = upper - lower;
 			while (x >= upper) x -= size;
@@ -483,12 +481,12 @@ namespace org.transliteral.panchang
 			double[] xx = new Double[6]{0,0,0,0,0,0};
 			try
 			{
-				Sweph.swe_calc_ut(ut, ipl, 0, xx);
+				Sweph.SWE_CalculateUniversalTime(ut, ipl, 0, xx);
 				return new Longitude(xx[0]);
 			}
 			catch (SwephException exc)
 			{
-                Logger.Error( "Sweph: {0} " + exc.Message);
+                Logger.Error("Sweph: {0} " + exc.Message);
 				throw new Exception("");
 			}
 		}
@@ -506,13 +504,13 @@ namespace org.transliteral.panchang
 		{
 			if (body == BodyName.Lagna)
 			{
-				BodyPosition b = new BodyPosition(h, body, type, new Longitude(Sweph.swe_lagna(ut)), 0, 0, 0, 0, 0);
+				BodyPosition b = new BodyPosition(h, body, type, new Longitude(Sweph.SWE_Lagna(ut)), 0, 0, 0, 0, 0);
 				return b;
 			}
 			double[] xx = new Double[6] {0,0,0,0,0,0};
 			try 
 			{
-				Sweph.swe_calc_ut (ut, ipl, 0, xx);
+				Sweph.SWE_CalculateUniversalTime (ut, ipl, 0, xx);
 
 				BodyPosition b = new BodyPosition (h, body, type, new Longitude(xx[0]), xx[1], xx[2],
 					xx[3], xx[4], xx[5]);
@@ -542,8 +540,8 @@ namespace org.transliteral.panchang
 			// The order of the array must reflect the order define in Basics.GrahaIndex
 			ArrayList std_grahas = new ArrayList (20);
 			
-			Sweph.swe_set_ephe_path (ephe_path);
-			double julday_ut = Sweph.swe_julday (hi.tob.Year, hi.tob.Month, hi.tob.Day,
+			Sweph.SWE_SetEphemerisPath (ephe_path);
+			double julday_ut = Sweph.SWE_JullianDay (hi.tob.Year, hi.tob.Month, hi.tob.Day,
 				hi.tob.Time - hi.tz.toDouble());
 			//	h.tob.hour + (((double)h.tob.minute) / 60.0) + (((double)h.tob.second) / 3600.0));
 			//	(h.tob.time / 24.0) + (h.tz.toDouble()/24.0));
@@ -572,10 +570,10 @@ namespace org.transliteral.panchang
 			std_grahas.Add (rahu);
 			std_grahas.Add (ketu);
 
-			double asc = Sweph.swe_lagna(julday_ut);
+			double asc = Sweph.SWE_Lagna(julday_ut);
 			std_grahas.Add (new BodyPosition (h, BodyName.Lagna, BodyType.Name.Lagna, new Longitude (asc), 0, 0, 0, 0, 0));
 
-			double ista_ghati = Normalize_exc( 0.0, 24.0, hi.tob.Time - sunrise) * 2.5;
+			double ista_ghati = NormalizeUpper( 0.0, 24.0, hi.tob.Time - sunrise) * 2.5;
 			Longitude gl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0));
 			Longitude hl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0/ 2.5));
 			Longitude bl_lon = ((BodyPosition)std_grahas[0]).Longitude.Add(new Longitude(ista_ghati * 30.0/ 5.0));

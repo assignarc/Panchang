@@ -10,7 +10,7 @@ namespace org.transliteral.panchang
     /// </summary>
     public abstract class NakshatraDasa: Dasa
 	{
-        public abstract Object Options { get; }
+        public new abstract Object Options { get; }
 
         public abstract Object SetOptions (Object a);
 		protected INakshatraDasa common;

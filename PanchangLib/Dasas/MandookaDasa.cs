@@ -8,10 +8,11 @@ namespace org.transliteral.panchang
 	{
 		private Horoscope h;
 		private RasiDasaUserOptions options;
-		public MandookaDasa (Horoscope _h)
+        public new Object Options => this.options.Clone();
+        public MandookaDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNavamsaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNavamsaDasaRasi(h));
 		}
 		public double ParamAyus () 
 		{
@@ -89,7 +90,7 @@ namespace org.transliteral.panchang
 			return al;
 		}
         public String Description() => "Mandooka Dasa (seeded from) " + Basics.NumPartsInDivisionString(options.Division);
-        public Object Options => this.options.Clone();
+      
         public object SetOptions (Object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;

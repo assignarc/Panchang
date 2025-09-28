@@ -39,11 +39,11 @@ namespace org.transliteral.panchang
         }
         public double ToUniversalTime()
         {
-            return Sweph.swe_julday(m_year, m_month, m_day, Time);
+            return Sweph.SWE_JullianDay(m_year, m_month, m_day, Time);
         }
         public double ToUniversalTime(Horoscope h)
         {
-            double local_ut = Sweph.swe_julday(Year, Month, Day, Time);
+            double local_ut = Sweph.SWE_JullianDay(Year, Month, Day, Time);
             return local_ut - (h.Info.tz.toDouble()) / 24.0;
         }
         public double Time
@@ -92,7 +92,7 @@ namespace org.transliteral.panchang
         {
             double time = 0;
             tjd_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(tjd_ut, ref m_year, ref m_month, ref m_day, ref time);
+            Sweph.SWE_ReverseJulianDay(tjd_ut, ref m_year, ref m_month, ref m_day, ref time);
             Moment.DoubleToHMS(time, ref m_hour, ref m_minute, ref m_second);
         }
         public static int FromStringMonth(string s)

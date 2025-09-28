@@ -217,17 +217,17 @@ namespace org.transliteral.panchang.app
             {
                 case 0:
                     bSimpleLord = true;
-                    return FindStronger.RulesStrongerCoLord(h);
+                    return Strongest.RulesStrongerCoLord(h);
                 case 1:
-                    return FindStronger.RulesNaisargikaDasaGraha(h);
+                    return Strongest.RulesNaisargikaDasaGraha(h);
                 case RVimsottariDasa:
-                    return FindStronger.RulesVimsottariGraha(h);
+                    return Strongest.RulesVimsottariGraha(h);
                 case RKarakaKendradiGrahaDasa:
-                    return FindStronger.RulesKarakaKendradiGrahaDasaGraha(h);
+                    return Strongest.RulesKarakaKendradiGrahaDasaGraha(h);
                 case RCoLordKarakaKendradiGrahaDasa:
-                    return FindStronger.RulesKarakaKendradiGrahaDasaColord(h);
+                    return Strongest.RulesKarakaKendradiGrahaDasaColord(h);
                 default:
-                    return FindStronger.RulesStrongerCoLord(h);
+                    return Strongest.RulesStrongerCoLord(h);
             }
         }
         private void InitializeComboBoxes()
@@ -276,7 +276,7 @@ namespace org.transliteral.panchang.app
                 {
                     al[i]
                 };
-                FindStronger fs = new FindStronger(h, options.Division, rule);
+                Strongest fs = new Strongest(h, options.Division, rule);
                 BodyName bw = fs.StrongerGraha(b1, b2, bSimpleLord, ref winner);
 
                 ListViewItem li = new ListViewItem

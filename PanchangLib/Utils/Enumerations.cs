@@ -127,7 +127,7 @@ namespace org.transliteral.panchang
     [TypeConverter(typeof(EnumDescConverter))]
     public enum BodyName : int
     {
-        // DO NOT CHANGE ORDER WITHOUT CHANING NARAYANA DASA ETC
+        // DO NOT CHANGE ORDER WITHOUT CHANGING NARAYANA DASA ETC
         // RELY ON EXPLICIT EQUAL CONVERSION FOR STRONGER CO_LORD ETC
         Sun = 0,
         Moon = 1,

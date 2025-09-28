@@ -134,7 +134,7 @@ namespace org.transliteral.panchang.app
             min_cycle = max_cycle = 0;
             double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             ArrayList a = id.Dasa(0);
             foreach (DasaEntry de in a)
             {
@@ -142,7 +142,7 @@ namespace org.transliteral.panchang.app
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             LocateChartEvents();
         }
 
@@ -672,10 +672,10 @@ namespace org.transliteral.panchang.app
             Horoscope h2 = (Horoscope)h.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Moment m = td.AddYears(di.entry.startUT);
             h2.Info.tob = m;
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             PanchangChild mchild = (PanchangChild)ParentForm;
             PanchangContainer mcont = (PanchangContainer)ParentForm.ParentForm;
@@ -692,13 +692,13 @@ namespace org.transliteral.panchang.app
             Horoscope h2 = (Horoscope)h.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Moment m = td.AddYears(di.entry.startUT);
             Moment mEnd = td.AddYears(di.entry.startUT + di.entry.dasaLength);
 
             double ut_diff = mEnd.ToUniversalTime() - m.ToUniversalTime();
             h2.Info.tob = m;
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
 
             h2.Info.defaultYearCompression = 1;
@@ -722,9 +722,9 @@ namespace org.transliteral.panchang.app
             Horoscope h2 = (Horoscope)h.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Moment m = td.AddYears(di.entry.startUT);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             h2.Info.tob = m;
 
             h2.OnChanged();
@@ -757,9 +757,9 @@ namespace org.transliteral.panchang.app
                 return;
 
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Moment m = td.AddYears(di.entry.startUT);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             Clipboard.SetDataObject(m.ToString(), true);
         }
 
@@ -802,7 +802,7 @@ namespace org.transliteral.panchang.app
             ArrayList a = id.AntarDasa(di.entry);
             double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             foreach (DasaEntry de in a)
             {
                 DasaItem pdi = new DasaItem(de);
@@ -810,7 +810,7 @@ namespace org.transliteral.panchang.app
                 dasaItemList.Items.Insert(index, pdi);
                 index++;
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             dasaItemList.EndUpdate();
             //this.dasaItemList.Items[index-1].Selected = true;
         }
@@ -847,14 +847,14 @@ namespace org.transliteral.panchang.app
                 ArrayList b = id.Dasa(i);
                 a.AddRange(b);
             }
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             LocateChartEvents();
         }
 
@@ -871,7 +871,7 @@ namespace org.transliteral.panchang.app
             min_cycle--;
             ArrayList a = id.Dasa(min_cycle);
             int i = 0;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
@@ -879,21 +879,21 @@ namespace org.transliteral.panchang.app
                 dasaItemList.Items.Insert(i, di);
                 i++;
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
         }
 
         private void mNextCycle_Click(object sender, EventArgs e)
         {
             max_cycle++;
             ArrayList a = id.Dasa(max_cycle);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
         }
 
         private void mReset_Click(object sender, EventArgs e)
@@ -1118,12 +1118,12 @@ namespace org.transliteral.panchang.app
             mDasaOptions.YearType = DateType.TithiYear;
             ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
             ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
                 mDasaOptions.YearLength = 390;
             else
                 mDasaOptions.YearLength = 360;
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             mDasaOptions.Compression = 1;
             SetDasaYearType();
             Reset();
@@ -1134,7 +1134,7 @@ namespace org.transliteral.panchang.app
             mDasaOptions.YearType = DateType.YogaYear;
             ToDate td_pravesh = new ToDate(h.baseUT, DateType.YogaPraveshYear, 360.0, 0, h);
             ToDate td_yoga = new ToDate(h.baseUT, DateType.YogaYear, 324.0, 0, h);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             double date_to_surpass = td_pravesh.AddYears(1).ToUniversalTime() - 5;
             double date_current = td_yoga.AddYears(0).ToUniversalTime();
             double months = 0;
@@ -1145,7 +1145,7 @@ namespace org.transliteral.panchang.app
                 months++;
                 date_current = td_yoga.AddYears(months / 12.0).ToUniversalTime();
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             mDasaOptions.Compression = 1;
             mDasaOptions.YearLength = (int)months * 27;
             SetDasaYearType();
@@ -1160,7 +1160,7 @@ namespace org.transliteral.panchang.app
         private void mCompressTithiPraveshaSolar_Click(object sender, EventArgs e)
         {
             ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
             double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
             BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
@@ -1173,7 +1173,7 @@ namespace org.transliteral.panchang.app
 
             DasaOptions.YearType = DateType.SolarYear;
             DasaOptions.YearLength = diff;
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             DasaOptions.Compression = 1;
             Reset();
         }
@@ -1181,11 +1181,11 @@ namespace org.transliteral.panchang.app
         private void mCompressedTithiPraveshaFixed_Click(object sender, EventArgs e)
         {
             ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             DasaOptions.YearType = DateType.FixedYear;
             DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() -
                 td_pravesh.AddYears(0).ToUniversalTime();
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             Reset();
         }
 
@@ -1225,14 +1225,14 @@ namespace org.transliteral.panchang.app
         {
             dasaItemList.Items.Clear();
             DasaEntry[] al = ((DasaEntriesWrapper)a).Entries;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             for (int i = 0; i < al.Length; i++)
             {
                 DasaItem di = new DasaItem(al[i]);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             LocateChartEvents();
             return a;
         }
@@ -1281,13 +1281,13 @@ namespace org.transliteral.panchang.app
                 am[i] = new DasaItem(al[i]);
             }
             dasaItemList.Items.Clear();
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             for (int i = 0; i < am.Length; i++)
             {
                 am[i].populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(am[i]);
             }
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
         }
 
         private void mDasaDown_Click(object sender, EventArgs e)
@@ -1364,10 +1364,10 @@ namespace org.transliteral.panchang.app
             {
                 DasaItem di = (DasaItem)dasaItemList.Items[i];
 
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 Moment m_start = td.AddYears(di.entry.startUT);
                 Moment m_end = td.AddYears(di.entry.startUT + di.entry.dasaLength);
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
 
 
                 double ut_start = m_start.ToUniversalTime(h);

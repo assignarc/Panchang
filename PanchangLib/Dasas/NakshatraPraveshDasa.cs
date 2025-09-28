@@ -11,7 +11,7 @@ namespace org.transliteral.panchang
 		{
 			h = _h;
 		}
-        public Object Options => new Object();
+        public new Object Options => new Object();
         public object SetOptions (Object a)
 		{
 			return new Object();

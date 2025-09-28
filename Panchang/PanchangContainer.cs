@@ -695,7 +695,7 @@ namespace org.transliteral.panchang.app
         private object updateDisplayPreferences(object o)
         {
             PanchangAppOptions.NotifyDisplayChange();
-            Sweph.swe_set_ephe_path(PanchangAppOptions.Instance.HOptions.EphemerisPath);
+            Sweph.SWE_SetEphemerisPath(PanchangAppOptions.Instance.HOptions.EphemerisPath);
             return o;
         }
 
@@ -802,7 +802,7 @@ namespace org.transliteral.panchang.app
 
         public object updateCalcPreferences(object o)
         {
-            Sweph.swe_set_ephe_path(PanchangAppOptions.Instance.HOptions.EphemerisPath);
+            Sweph.SWE_SetEphemerisPath(PanchangAppOptions.Instance.HOptions.EphemerisPath);
             PanchangAppOptions.NotifyCalculationChange();
             return o;
         }

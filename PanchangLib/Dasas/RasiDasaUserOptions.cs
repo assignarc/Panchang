@@ -162,7 +162,7 @@ namespace org.transliteral.panchang
 		}
 		public void calculateCoLords ()
 		{
-			FindStronger fs = new FindStronger(h, mDtype, FindStronger.RulesStrongerCoLord(h));
+			Strongest fs = new Strongest(h, mDtype, Strongest.RulesStrongerCoLord(h));
 			this.mCoLordAqu = fs.StrongerGraha(BodyName.Saturn, BodyName.Rahu, true);
 			this.mCoLordSco = fs.StrongerGraha(BodyName.Mars, BodyName.Ketu, true);
 		}
@@ -183,7 +183,7 @@ namespace org.transliteral.panchang
 			{
 				ArrayList rule = new ArrayList();
 				rule.Add (EGrahaStrength.Longitude);
-				FindStronger fs = new FindStronger(h, this.Division, rule);
+				Strongest fs = new Strongest(h, this.Division, rule);
 				BodyName b = fs.StrongerGraha(BodyName.Saturn, BodyName.Ketu, false);
 				if (b == BodyName.Ketu)
 					this.mKetuExceptions.houses.Add (zhKetu);
@@ -224,7 +224,7 @@ namespace org.transliteral.panchang
 		}
 		public void calculateSeventhStrengths ()
 		{	
-			FindStronger fs = new FindStronger(h, mDtype, this.mRules);
+			Strongest fs = new Strongest(h, mDtype, this.mRules);
 			ZodiacHouse zAri = new ZodiacHouse(ZodiacHouseName.Ari);
 			for (int i=0; i<6; i++)
 			{

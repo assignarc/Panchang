@@ -8,7 +8,8 @@ namespace org.transliteral.panchang
     public class SudarshanaChakraDasa : Dasa, IDasa
 	{
 		private Horoscope h;
-		public SudarshanaChakraDasa (Horoscope _h)
+        public new object Options => new Object();
+        public SudarshanaChakraDasa (Horoscope _h)
 		{
 			h = _h;
 		}
@@ -20,7 +21,7 @@ namespace org.transliteral.panchang
 		{
 			return "Sudarshana Chakra Dasa";
 		}
-        public object Options => new Object();
+        
         public object SetOptions (object o)
 		{
 			return o;

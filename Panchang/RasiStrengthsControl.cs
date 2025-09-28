@@ -202,21 +202,21 @@ namespace org.transliteral.panchang.app
             switch (cbStrength.SelectedIndex)
             {
                 case 0:
-                    return FindStronger.RulesNarayanaDasaRasi(h);
+                    return Strongest.RulesNarayanaDasaRasi(h);
                 case 1:
-                    return FindStronger.RulesNaisargikaDasaRasi(h);
+                    return Strongest.RulesNaisargikaDasaRasi(h);
                 case 2:
-                    return FindStronger.RulesMoolaDasaRasi(h);
+                    return Strongest.RulesMoolaDasaRasi(h);
                 case 3:
-                    return FindStronger.RulesKarakaKendradiGrahaDasaRasi(h);
+                    return Strongest.RulesKarakaKendradiGrahaDasaRasi(h);
                 case 4:
-                    return FindStronger.RulesNavamsaDasaRasi(h);
+                    return Strongest.RulesNavamsaDasaRasi(h);
                 case 5:
-                    return FindStronger.RulesJaiminiFirstRasi(h);
+                    return Strongest.RulesJaiminiFirstRasi(h);
                 case 6:
-                    return FindStronger.RulesJaiminiSecondRasi(h);
+                    return Strongest.RulesJaiminiSecondRasi(h);
                 default:
-                    return FindStronger.RulesNarayanaDasaRasi(h);
+                    return Strongest.RulesNarayanaDasaRasi(h);
             }
         }
         private void InitializeComboBoxes()
@@ -268,7 +268,7 @@ namespace org.transliteral.panchang.app
                 {
                     al[i]
                 };
-                FindStronger fs = new FindStronger(h, options.Division, rule);
+                Strongest fs = new Strongest(h, options.Division, rule);
                 ZodiacHouseName zw = fs.StrongerRasi(z1, z2, false, ref winner);
                 ListViewItem li = new ListViewItem
                 {

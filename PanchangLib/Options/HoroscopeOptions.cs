@@ -31,21 +31,6 @@ namespace org.transliteral.panchang
         public HoroscopeOptions()
         {
             //All values are set as default. 
-
-            ////sunrisePosition = SunrisePositionType.TrueDiscEdge;
-            //SunrisePosition = SunrisePositionType.ApparentDiscCenter;
-            //mHoraType = EHoraType.Lmt;
-            //mKalaType = EHoraType.Sunriset;
-            //mBhavaType = EBhavaType.Start;
-            //grahaPositionType = EGrahaPositionType.True;
-            //nodeType = ENodeType.Mean;
-            //Ayanamsa = AyanamsaType.Lahiri;
-            //AyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
-            //this.mUserLongitude = new Longitude(0);
-            //this.MaandiType = EMaandiType.SaturnBegin;
-            //this.GulikaType = EMaandiType.SaturnMid;
-            //this.UpagrahaType = EUpagrahaType.Mid;
-            //mEphemPath = GetExeDir() + "\\eph";
         }
         public object Clone()
         {
@@ -119,7 +104,8 @@ namespace org.transliteral.panchang
         {
             get { return mUpagrahaType; }
             // TODO: Check this again.
-            set { mUpagrahaType = this.mUpagrahaType; }
+            // set { mUpagrahaType = this.mUpagrahaType; }
+            set {}
         }
         [Category(CATEGORY_UPAGRAHA)]
         [PropertyOrder(2), Visible("Maandi")]

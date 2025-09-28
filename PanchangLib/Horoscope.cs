@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
@@ -62,7 +58,7 @@ namespace org.transliteral.panchang
         }
         public BodyName LordOfZodiacHouse(ZodiacHouseName zh, Division dtype)
         {
-            FindStronger fs_colord = new FindStronger(this, dtype, FindStronger.RulesStrongerCoLord(this));
+            Strongest fs_colord = new Strongest(this, dtype, Strongest.RulesStrongerCoLord(this));
 
             switch (zh)
             {
@@ -214,7 +210,7 @@ namespace org.transliteral.panchang
                     BodyName.A9, BodyName.A10, BodyName.A11, BodyName.UL
                 };
 
-            FindStronger fs_colord = new FindStronger(this, d, FindStronger.RulesStrongerCoLord(this));
+            Strongest fs_colord = new Strongest(this, d, Strongest.RulesStrongerCoLord(this));
             ArrayList arudha_div_list = new ArrayList(14);
             DivisionPosition first, second;
             for (int j = 1; j <= 12; j++)
@@ -273,10 +269,10 @@ namespace org.transliteral.panchang
             double[] geopos = new Double[3] { _info.lon.toDouble(), _info.lat.toDouble(), _info.alt };
             double[] tret = new Double[6] { 0, 0, 0, 0, 0, 0 };
             double midnight_ut = _baseUT - _info.tob.Time / 24.0;
-            Sweph.swe_lmt(midnight_ut, Sweph.SE_SUN, Sweph.SE_CALC_MTRANSIT, geopos, 0.0, 0.0, tret);
+            Sweph.SWE_LocalMeanTime(midnight_ut, Sweph.SE_SUN, Sweph.SE_CALC_MTRANSIT, geopos, 0.0, 0.0, tret);
             double lmt_noon_1 = tret[0];
             double lmt_offset_1 = lmt_noon_1 - (midnight_ut + 12.0 / 24.0);
-            Sweph.swe_lmt(midnight_ut, Sweph.SE_SUN, Sweph.SE_CALC_MTRANSIT, geopos, 0.0, 0.0, tret);
+            Sweph.SWE_LocalMeanTime(midnight_ut, Sweph.SE_SUN, Sweph.SE_CALC_MTRANSIT, geopos, 0.0, 0.0, tret);
             double lmt_noon_2 = tret[0];
             double lmt_offset_2 = lmt_noon_2 - (midnight_ut + 12.0 / 24.0);
 
@@ -326,15 +322,15 @@ namespace org.transliteral.panchang
                     double[] geopos = new Double[3] { this.Info.lon.toDouble(), this.Info.lat.toDouble(), this.Info.alt };
                     double[] tret = new Double[6] { 0, 0, 0, 0, 0, 0 };
 
-                    Sweph.swe_rise(ut, Sweph.SE_SUN, srflag, geopos, 0.0, 0.0, tret);
+                    Sweph.SWE_Rise(ut, Sweph.SE_SUN, srflag, geopos, 0.0, 0.0, tret);
                     sr_ut = tret[0];
-                    Sweph.swe_revjul(tret[0], ref year, ref month, ref day, ref hour);
+                    Sweph.SWE_ReverseJulianDay(tret[0], ref year, ref month, ref day, ref hour);
                     sr = hour + this.Info.tz.toDouble();
-                    Sweph.swe_set(tret[0], Sweph.SE_SUN, srflag, geopos, 0.0, 0.0, tret);
-                    Sweph.swe_revjul(tret[0], ref year, ref month, ref day, ref hour);
+                    Sweph.SWE_Set(tret[0], Sweph.SE_SUN, srflag, geopos, 0.0, 0.0, tret);
+                    Sweph.SWE_ReverseJulianDay(tret[0], ref year, ref month, ref day, ref hour);
                     ss = hour + this.Info.tz.toDouble();
-                    sr = Basics.Normalize_exc(0.0, 24.0, sr);
-                    ss = Basics.Normalize_exc(0.0, 24.0, ss);
+                    sr = Basics.NormalizeUpper(0.0, 24.0, sr);
+                    ss = Basics.NormalizeUpper(0.0, 24.0, ss);
                     break;
             }
         }
@@ -350,9 +346,9 @@ namespace org.transliteral.panchang
                     cusps = this.GetSunrisetEqualCuspsUt(12);
                     break;
                 case EHoraType.Lmt:
-                    Sweph.ObtainLock(this);
+                    Sweph.Lock(this);
                     cusps = this.GetLmtCuspsUt(12);
-                    Sweph.ReleaseLock(this);
+                    Sweph.Unlock(this);
                     break;
             }
             return cusps;
@@ -369,9 +365,9 @@ namespace org.transliteral.panchang
                     cusps = this.GetSunrisetEqualCuspsUt(8);
                     break;
                 case EHoraType.Lmt:
-                    Sweph.ObtainLock(this);
+                    Sweph.Lock(this);
                     cusps = this.GetLmtCuspsUt(8);
-                    Sweph.ReleaseLock(this);
+                    Sweph.Unlock(this);
                     break;
             }
             return cusps;
@@ -536,7 +532,7 @@ namespace org.transliteral.panchang
         {
             Longitude lon = new Longitude(0)
             {
-                Value = Sweph.swe_lagna(tjd)
+                Value = Sweph.SWE_Lagna(tjd)
             };
             BodyPosition bp = new BodyPosition(this, b, BodyType.Name.Upagraha,
                 lon, 0, 0, 0, 0, 0);
@@ -572,7 +568,7 @@ namespace org.transliteral.panchang
             double dStart = 0, dEnd = 0;
 
             Moment m = this.Info.tob;
-            dStart = dEnd = Sweph.swe_julday(m.Year, m.Month, m.Day, -this.Info.tz.toDouble());
+            dStart = dEnd = Sweph.SWE_JullianDay(m.Year, m.Month, m.Day, -this.Info.tz.toDouble());
             BodyName bStart = this.CalculateUpagrahasStart();
 
             if (this.IsDayBirth())
@@ -614,7 +610,7 @@ namespace org.transliteral.panchang
                     break;
             }
 
-            Sweph.ObtainLock(this);
+            Sweph.Lock(this);
             this.CalculateUpagrahasSingle(BodyName.Kala, jds[bodyOffsets[(int)BodyName.Sun]]);
             this.CalculateUpagrahasSingle(BodyName.Mrityu, jds[bodyOffsets[(int)BodyName.Mars]]);
             this.CalculateUpagrahasSingle(BodyName.ArthaPraharaka, jds[bodyOffsets[(int)BodyName.Mercury]]);
@@ -623,7 +619,7 @@ namespace org.transliteral.panchang
 
             this.CalculateMaandiHelper(BodyName.Maandi, Options.MaandiType, jds, dOffset, bodyOffsets);
             this.CalculateMaandiHelper(BodyName.Gulika, Options.GulikaType, jds, dOffset, bodyOffsets);
-            Sweph.ReleaseLock(this);
+            Sweph.Unlock(this);
         }
         private void CalculateSunsUpagrahas()
         {
@@ -653,13 +649,13 @@ namespace org.transliteral.panchang
         private void CalculateWeekday()
         {
             Moment m = this.Info.tob;
-            double jd = Sweph.swe_julday(m.Year, m.Month, m.Day, 12.0);
+            double jd = Sweph.SWE_JullianDay(m.Year, m.Month, m.Day, 12.0);
             if (Info.tob.Time < Sunrise) jd -= 1;
-            this.Weekday = (Weekday)Sweph.swe_day_of_week(jd);
+            this.Weekday = (Weekday)Sweph.SWE_DayOfWeek(jd);
 
-            jd = Sweph.swe_julday(m.Year, m.Month, m.Day, 12.0);
+            jd = Sweph.SWE_JullianDay(m.Year, m.Month, m.Day, 12.0);
             if (Info.tob.Time < SunriseLMT) jd -= 1;
-            this.WeekdayLMT = (Weekday)Sweph.swe_day_of_week(jd);
+            this.WeekdayLMT = (Weekday)Sweph.SWE_DayOfWeek(jd);
         }
         private void AddChandraLagna(string desc, Longitude lon)
         {
@@ -680,7 +676,7 @@ namespace org.transliteral.panchang
 
             Logger.Info(String.Format("Starting Chandra Ayur Lagna from {0}", lon_base));
 
-            double ista_ghati = Basics.Normalize_exc(0.0, 24.0, Info.tob.Time - Sunrise) * 2.5;
+            double ista_ghati = Basics.NormalizeUpper(0.0, 24.0, Info.tob.Time - Sunrise) * 2.5;
             Longitude gl_lon = lon_base.Add(new Longitude(ista_ghati * 30.0));
             Longitude hl_lon = lon_base.Add(new Longitude(ista_ghati * 30.0 / 2.5));
             Longitude bl_lon = lon_base.Add(new Longitude(ista_ghati * 30.0 / 5.0));
@@ -789,11 +785,11 @@ namespace org.transliteral.panchang
             double[] dCusps = new double[13];
             double[] ascmc = new double[10];
 
-            Sweph.ObtainLock(this);
-            Sweph.swe_houses_ex(this.baseUT, Sweph.SEFLG_SIDEREAL,
+            Sweph.Lock(this);
+            Sweph.SWE_HousesEx(this.baseUT, Sweph.SEFLG_SIDEREAL,
                 Info.lat.toDouble(), Info.lon.toDouble(), this.SwephHouseSystem,
                 dCusps, ascmc);
-            Sweph.ReleaseLock(this);
+            Sweph.Unlock(this);
             for (int i = 0; i < 12; i++)
                 this.SwephHouseCusps[i] = new Longitude(dCusps[i + 1]);
 
@@ -813,19 +809,19 @@ namespace org.transliteral.panchang
             // The stuff here is largely order sensitive
             // Try to add new definitions to the end
 
-            baseUT = Sweph.swe_julday(Info.tob.Year, Info.tob.Month, Info.tob.Day,
+            baseUT = Sweph.SWE_JullianDay(Info.tob.Year, Info.tob.Month, Info.tob.Day,
                 Info.tob.Time - Info.tz.toDouble());
 
 
-            Sweph.ObtainLock(this);
-            Sweph.swe_set_ephe_path(GlobalOptions.Instance.HOptions.EphemerisPath);
+            Sweph.Lock(this);
+            Sweph.SWE_SetEphemerisPath(GlobalOptions.Instance.HOptions.EphemerisPath);
             // Find LMT offset
             this.PopulateLmt();
             // Sunrise (depends on lmt)
             PopulateSunrisetCache();
             // Basic grahas + Special lagnas (depend on sunrise)
             PositionList = Basics.CalculateBodyPositions(this, this.Sunrise);
-            Sweph.ReleaseLock(this);
+            Sweph.Unlock(this);
             // Srilagna etc
             this.CalculateSL();
             this.CalculatePranapada();
@@ -891,16 +887,16 @@ namespace org.transliteral.panchang
         {
             double diff = this.Info.tob.Time - this.Sunrise;
             if (diff < 0) diff += 24.0;
-            Sweph.ObtainLock(this);
+            Sweph.Lock(this);
             for (int i = 1; i <= 12; i++)
             {
                 double specialDiff = diff * (double)(i - 1);
                 double tjd = this.baseUT + specialDiff / 24.0;
-                double asc = Sweph.swe_lagna(tjd);
+                double asc = Sweph.SWE_Lagna(tjd);
                 string desc = String.Format("Special Lagna ({0:00})", i);
                 this.AddOtherPosition(desc, new Longitude(asc));
             }
-            Sweph.ReleaseLock(this);
+            Sweph.Unlock(this);
         }
 
         public void GetPrashnaMargaPositions()

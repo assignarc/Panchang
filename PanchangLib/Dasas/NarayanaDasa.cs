@@ -10,11 +10,12 @@ namespace org.transliteral.panchang
 		private Horoscope h;
 		public bool bSama;
 		public RasiDasaUserOptions options;
-		public NarayanaDasa (Horoscope _h)
+        public new Object Options => this.options.Clone();
+        public NarayanaDasa (Horoscope _h)
 		{
 			h = _h;
 			this.bSama = false;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNarayanaDasaRasi(h));
 		}
         public void RecalculateOptions() => options.Recalculate();
         public double ParamAyus() => 144;
@@ -142,7 +143,7 @@ namespace org.transliteral.panchang
 				+ options.Division.ToString() 
 				+ " seeded from " + options.SeedRasi.ToString();
 		}
-        public Object Options => this.options.Clone();
+        
         public object SetOptions (Object a)
 		{
 			options.CopyFrom(a);

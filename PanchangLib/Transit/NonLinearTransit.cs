@@ -2,18 +2,15 @@
 
 namespace org.transliteral.panchang
 {
-
     public class NonLinearTransit
     {
         private Horoscope h;
         BodyName b;
-
         public NonLinearTransit(Horoscope _h, BodyName _b)
         {
             h = _h;
             b = _b;
         }
-
         public int BodyNameToSweph(BodyName b)
         {
             switch (b)

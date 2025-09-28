@@ -62,7 +62,7 @@ namespace org.transliteral.panchang
 		{
 			return "Naisargika Graha Dasa (SP)";
 		}
-        public object Options => this.options.Clone();
+        public new object Options => this.options.Clone();
         public object SetOptions (object a)
 		{
 			UserOptions uo = (UserOptions)a;

@@ -405,7 +405,7 @@ namespace org.transliteral.panchang.app
             int year = 0, month = 0, day = 0;
             double hour = 0;
             found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
             Moment m = new Moment(year, month, day, hour);
             return m;
         }
@@ -415,7 +415,7 @@ namespace org.transliteral.panchang.app
             double time = 0;
 
             ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(ut, ref year, ref month, ref day, ref time);
+            Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref time);
             return timeToString(time);
         }
         private string utTimeToString(double ut_event, double ut_sr, double sunrise)
@@ -455,11 +455,11 @@ namespace org.transliteral.panchang.app
 
             int year = 0, month = 0, day = 0;
             double sunset = 0, hour = 0;
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             h.PopulateSunrisetCacheHelper(ut - 0.5, ref sunrise, ref sunset, ref ut_sr);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
-            Sweph.swe_revjul(ut_sr, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(ut_sr, ref year, ref month, ref day, ref hour);
             Moment moment_sr = new Moment(year, month, day, hour);
             Moment moment_ut = new Moment(ut, h);
             HoraInfo infoCurr = new HoraInfo(moment_ut, h.Info.lat, h.Info.lon, h.Info.tz);
@@ -473,8 +473,8 @@ namespace org.transliteral.panchang.app
                 Sunset = sunset,
                 SunriseUT = ut_sr
             };
-            Sweph.swe_revjul(ut, ref year, ref month, ref day, ref hour);
-            local.WeekDay = (Weekday)Sweph.swe_day_of_week(ut);
+            Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref hour);
+            local.WeekDay = (Weekday)Sweph.SWE_DayOfWeek(ut);
 
 
 
@@ -493,7 +493,7 @@ namespace org.transliteral.panchang.app
             if (opts.CalcLagnaCusps)
             {
                 li = new ListViewItem();
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(BodyName.Lagna), BodyName.Lagna, BodyType.Name.Lagna, h);
                 DivisionPosition dp_lagna_sr = bp_lagna_sr.ToDivisionPosition(new Division(DivisionType.Rasi));
                 local.LagnaZodiacHouse = dp_lagna_sr.ZodiacHouse.Value;
@@ -510,13 +510,13 @@ namespace org.transliteral.panchang.app
                     local.LagnasUT.Add(pmi);
                 }
 
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
 
             if (opts.CalcTithiCusps)
             {
                 Transit t = new Transit(h);
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 Tithi tithi_start = t.LongitudeOfTithi(ut_sr).ToTithi();
                 Tithi tithi_end = t.LongitudeOfTithi(ut_sr + 1.0).ToTithi();
 
@@ -535,14 +535,14 @@ namespace org.transliteral.panchang.app
                     globals.TithisUT.Add(new MomentInfo(ut_found, (int)tithi_curr.Value));
                     local.TithiIndexEnd++;
                 }
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
 
 
             if (opts.CalcKaranaCusps)
             {
                 Transit t = new Transit(h);
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 Karana karana_start = t.LongitudeOfTithi(ut_sr).ToKarana();
                 Karana karana_end = t.LongitudeOfTithi(ut_sr + 1.0).ToKarana();
 
@@ -561,13 +561,13 @@ namespace org.transliteral.panchang.app
                     globals.KaranasUT.Add(new MomentInfo(ut_found, (int)karana_curr.value));
                     local.KaranaIndexEnd++;
                 }
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
 
             if (opts.CalcSMYogaCusps)
             {
                 Transit t = new Transit(h);
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 SunMoonYoga sm_start = t.LongitudeOfSunMoonYoga(ut_sr).ToSunMoonYoga();
                 SunMoonYoga sm_end = t.LongitudeOfSunMoonYoga(ut_sr + 1.0).ToSunMoonYoga();
 
@@ -587,7 +587,7 @@ namespace org.transliteral.panchang.app
                     local.SunMoonYogaIndexEnd++;
                 }
 
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
 
 
@@ -595,7 +595,7 @@ namespace org.transliteral.panchang.app
             {
                 bool bDiscard = true;
                 Transit t = new Transit(h, BodyName.Moon);
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 Nakshatra nak_start = t.GenericLongitude(ut_sr, ref bDiscard).ToNakshatra();
                 Nakshatra nak_end = t.GenericLongitude(ut_sr + 1.0, ref bDiscard).ToNakshatra();
 
@@ -616,7 +616,7 @@ namespace org.transliteral.panchang.app
                     Logger.Info($"Found nakshatra {nak_curr.Value}");
                     local.NakshatraIndexEnd++;
                 }
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
 
             if (opts.CalcHoraCusps)
@@ -641,7 +641,7 @@ namespace org.transliteral.panchang.app
             int day = 0, month = 0, year = 0;
             double time = 0;
 
-            Sweph.swe_revjul(local.SunriseUT, ref year, ref month, ref day, ref time);
+            Sweph.SWE_ReverseJulianDay(local.SunriseUT, ref year, ref month, ref day, ref time);
             Moment m = new Moment(year, month, day, time);
             mList.Items.Add(string.Format("{0}, {1}", local.WeekDay, m.ToDateString()));
 
@@ -848,7 +848,7 @@ namespace org.transliteral.panchang.app
                 string sHora = "    ";
                 for (int i = 0; i < 24; i++)
                 {
-                    int ib = (int)Basics.Normalize_exc_lower(0, 7, local.HoraBase + i);
+                    int ib = (int)Basics.NormalizeLower(0, 7, local.HoraBase + i);
                     BodyName bHora = h.HoraOrder[ib];
                     sHora = string.Format("{0}{1} hora until {2}. ", sHora, bHora,
                         utTimeToString(local.HorasUT[i + 1], local.SunriseUT, local.Sunrise));
@@ -865,7 +865,7 @@ namespace org.transliteral.panchang.app
                 string sKala = "    ";
                 for (int i = 0; i < 16; i++)
                 {
-                    int ib = (int)Basics.Normalize_exc_lower(0, 8, local.KalaBase + i);
+                    int ib = (int)Basics.NormalizeLower(0, 8, local.KalaBase + i);
                     BodyName bKala = h.KalaOrder[ib];
                     sKala = string.Format("{0}{1} kala until {2}. ", sKala, bKala,
                         utTimeToString(local.KalasUT[i + 1], local.SunriseUT, local.Sunrise));

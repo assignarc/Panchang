@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
 		public CharaDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNavamsaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNavamsaDasaRasi(h));
 		}
         public double ParamAyus() => 144;
         public void RecalculateOptions() => options.Recalculate();
@@ -74,7 +74,7 @@ namespace org.transliteral.panchang
 			return nd.AntarDasa(pdi);
 		}
         public String Description() => "Chara Dasa seeded from " + options.SeedRasi.ToString();
-        public Object Options => this.options.Clone();
+        public new Object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;

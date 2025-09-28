@@ -50,7 +50,7 @@ namespace org.transliteral.panchang
 		{
 			return "Tattwa Dasa";
 		}
-        public object Options => new Object();
+        public new object Options => new Object();
         public object SetOptions (object o)
 		{
 			return o;

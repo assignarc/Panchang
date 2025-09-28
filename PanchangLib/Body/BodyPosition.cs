@@ -424,7 +424,7 @@ namespace org.transliteral.panchang
             ZodiacHouse dhouse = zhouse.Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0);
             if (n == 12)
-                dp.RulerIndex = Basics.Normalize_inc(1, 4, part);
+                dp.RulerIndex = Basics.NormalizeInclusive(1, 4, part);
             return this.PopulateRegularCusps(n, dp);
         }
         private DivisionPosition ToDivisionPositionShodasamsa()
@@ -436,7 +436,7 @@ namespace org.transliteral.panchang
                 ruler = part;
             else
                 ruler = 17 - part;
-            dp.RulerIndex = Basics.Normalize_inc(1, 4, ruler);
+            dp.RulerIndex = Basics.NormalizeInclusive(1, 4, ruler);
             return dp;
         }
         private DivisionPosition ToDivisionPositionVimsamsa(int n)
@@ -477,7 +477,7 @@ namespace org.transliteral.panchang
                     dp.RulerIndex = part;
                 else
                     dp.RulerIndex = 25 - part;
-                dp.RulerIndex = Basics.Normalize_inc(1, 12, dp.RulerIndex);
+                dp.RulerIndex = Basics.NormalizeInclusive(1, 12, dp.RulerIndex);
             }
             return this.PopulateRegularCusps(n, dp);
         }
@@ -614,7 +614,7 @@ namespace org.transliteral.panchang
             ZodiacHouse dhouse = (new ZodiacHouse(dhousename)).Add(part);
             DivisionPosition dp = new DivisionPosition(name, type, dhouse, 0, 0, 0)
             {
-                RulerIndex = Basics.Normalize_inc(1, 12, part)
+                RulerIndex = Basics.NormalizeInclusive(1, 12, part)
             };
             return this.PopulateRegularCusps(40, dp);
         }
@@ -639,7 +639,7 @@ namespace org.transliteral.panchang
                     case 2: dp.RulerIndex = part + 1; break;
                     case 0: dp.RulerIndex = part + 2; break;
                 }
-                dp.RulerIndex = Basics.Normalize_inc(1, 3, dp.RulerIndex);
+                dp.RulerIndex = Basics.NormalizeInclusive(1, 3, dp.RulerIndex);
             }
             return this.PopulateRegularCusps(n, dp);
         }
@@ -679,7 +679,7 @@ namespace org.transliteral.panchang
             {
                 case 1: dp.RulerIndex = part; break;
                 case 2: dp.RulerIndex = 151 - part; break;
-                case 0: dp.RulerIndex = Basics.Normalize_inc(1, 150, 75 + part); break;
+                case 0: dp.RulerIndex = Basics.NormalizeInclusive(1, 150, 75 + part); break;
             }
             return this.PopulateRegularCusps(150, dp);
         }
@@ -757,7 +757,7 @@ namespace org.transliteral.panchang
             {
                 case 1: dp.RulerIndex = part; break;
                 case 2: dp.RulerIndex = 151 - part; break;
-                case 0: dp.RulerIndex = Basics.Normalize_inc(1, 150, 75 + part); break;
+                case 0: dp.RulerIndex = Basics.NormalizeInclusive(1, 150, 75 + part); break;
             }
             dp.CuspLower = this.Longitude.ToZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part - 1];
             dp.CuspHigher = this.Longitude.ToZodiacHouseBase() + BodyPosition.mNadiamsaCusps[part];

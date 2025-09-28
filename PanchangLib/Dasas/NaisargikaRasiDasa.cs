@@ -7,7 +7,10 @@ namespace org.transliteral.panchang
 {
     public class NaisargikaRasiDasa: Dasa, IDasa
 	{
-		public class UserOptions :ICloneable
+        private Horoscope h;
+        private UserOptions options;
+        public new Object Options => this.options.Clone();
+        public class UserOptions :ICloneable
 		{
 			[Visible("Life Expectancy")]
 			
@@ -30,9 +33,8 @@ namespace org.transliteral.panchang
 			}
 		}
 
-		private Horoscope h;
-		private UserOptions options;
-		public NaisargikaRasiDasa (Horoscope _h)
+		
+        public NaisargikaRasiDasa (Horoscope _h)
 		{
 			h = _h;
 			options = new UserOptions();
@@ -79,7 +81,7 @@ namespace org.transliteral.panchang
 		}
         public ArrayList AntarDasa(DasaEntry pdi) => new ArrayList();
         public String Description() => "Naisargika Rasi Dasa";
-        public Object Options => this.options.Clone();
+       
         public object SetOptions (Object a)
 		{
 			UserOptions uo = (UserOptions)a;

@@ -301,9 +301,9 @@ namespace org.transliteral.panchang.app
                 mList.Items.Add(li);
             }
             {
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 li = new ListViewItem("Ayanamsa");
-                double aya = Sweph.swe_get_ayanamsa_ut(h.baseUT);
+                double aya = Sweph.SWE_GetAyanamsaUniversalTime(h.baseUT);
                 int aya_hour = (int)Math.Floor(aya);
                 aya = (aya - Math.Floor(aya)) * 60.0;
                 int aya_min = (int)Math.Floor(aya);
@@ -311,7 +311,7 @@ namespace org.transliteral.panchang.app
                 string fmt = string.Format("{0:00}-{1:00}-{2:00.00}", aya_hour, aya_min, aya);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
             }
             {
                 li = new ListViewItem("Universal Time");

@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
         public override Object Options => new Object();
         public override object SetOptions(Object a) => new object();
         public ArrayList Dasa(int cycle) => Dasa(h.GetPosition(BodyName.Moon).Longitude, 1, cycle);
-        public ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
+        public new ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
         public String Description() => ("Ashtottari Dasa");
         public AshtottariDasa (Horoscope _h)
 		{

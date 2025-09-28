@@ -10,7 +10,6 @@ namespace org.transliteral.panchang
         {
             return (GetHash(key) == hash);
         }
-
         public static string GetHash(string s)
         {
             UTF8Encoding utf8 = new UTF8Encoding();

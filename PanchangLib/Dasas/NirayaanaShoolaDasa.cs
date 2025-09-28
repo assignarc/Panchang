@@ -11,7 +11,7 @@ namespace org.transliteral.panchang
 		public NirayaanaShoolaDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNarayanaDasaRasi(h));
 		}
         public double ParamAyus() => 96;
         public void RecalculateOptions() => options.Recalculate();
@@ -68,7 +68,7 @@ namespace org.transliteral.panchang
 			return "Niryaana Shoola Dasa"
 				+ " seeded from " + options.SeedRasi.ToString();
 		}
-        public Object Options => this.options.Clone();
+        public new Object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;

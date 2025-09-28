@@ -2,7 +2,9 @@
 
 namespace org.transliteral.panchang
 {
-
+    /// <summary>
+    /// Represents the retrogression of a celestial body in a horoscope.
+    /// </summary>
     public class Retrogression
     {
         private Horoscope h;
@@ -137,7 +139,7 @@ namespace org.transliteral.panchang
 
                 int day = 0, month = 0, year = 0;
                 double hour = 0;
-                Sweph.swe_revjul(ut_start, ref year, ref month, ref day, ref hour);
+                Sweph.SWE_ReverseJulianDay(ut_start, ref year, ref month, ref day, ref hour);
                 Moment m = new Moment(year, month, day, hour);
 
                 Logger.Info(String.Format("F {3} Lagna search for {0} between {1} and {2}", lonToFind, lon_start, lon_end, m));
@@ -163,7 +165,7 @@ namespace org.transliteral.panchang
 
                 int day = 0, month = 0, year = 0;
                 double hour = 0;
-                Sweph.swe_revjul(ut_start, ref year, ref month, ref day, ref hour);
+                Sweph.SWE_ReverseJulianDay(ut_start, ref year, ref month, ref day, ref hour);
                 Moment m = new Moment(year, month, day, hour);
 
                 Logger.Info(String.Format("B {3} Lagna search for {0} between {1} and {2}",lonToFind, lon_start, lon_end, m));
@@ -229,7 +231,7 @@ namespace org.transliteral.panchang
         public Longitude GetLon(double ut, ref bool bForward)
         {
             if (this.b == BodyName.Lagna)
-                return new Longitude(Sweph.swe_lagna(ut));
+                return new Longitude(Sweph.SWE_Lagna(ut));
 
             BodyPosition bp = Basics.CalculateSingleBodyPosition(ut, Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);
             bForward = bp.SpeedLongitude >= 0;

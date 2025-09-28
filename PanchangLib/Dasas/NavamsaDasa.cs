@@ -9,10 +9,13 @@ namespace org.transliteral.panchang
 	{
 		private Horoscope h;
 		private RasiDasaUserOptions options;
-		public NavamsaDasa (Horoscope _h)
+        public new object Options => this.options.Clone();
+        public string Description() => "Navamsa Dasa";
+        
+        public NavamsaDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNavamsaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNavamsaDasaRasi(h));
 		}
         public double ParamAyus() => 108;
         public void RecalculateOptions() => options.Recalculate();
@@ -63,8 +66,7 @@ namespace org.transliteral.panchang
 
 			return al;
 		}
-        public string Description() => "Navamsa Dasa";
-        public object Options => this.options.Clone();
+       
         public object SetOptions (object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;

@@ -67,7 +67,7 @@ namespace org.transliteral.panchang
 				ZodiacHouseName[] zh_p = new ZodiacHouseName[4] { zh.Add(2).Value, zh.Add(5).Value, zh.Add(8).Value, zh.Add(11).Value };
 				ZodiacHouseName[] zh_a = new ZodiacHouseName[4] { zh.Add(3).Value, zh.Add(6).Value, zh.Add(9).Value, zh.Add(12).Value };
 				
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesMoolaDasaRasi(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesMoolaDasaRasi(h));
 				zRet[0] = fs.GetOrderedHouses(zh_k);
 				zRet[1] = fs.GetOrderedHouses(zh_p);
 				zRet[2] = fs.GetOrderedHouses(zh_a);
@@ -84,7 +84,7 @@ namespace org.transliteral.panchang
 				{
 					ArrayList rule = new ArrayList();
 					rule.Add (EGrahaStrength.Longitude);
-					FindStronger fs2 = new FindStronger(h, new Division(DivisionType.Rasi), rule);
+					Strongest fs2 = new Strongest(h, new Division(DivisionType.Rasi), rule);
 					bIsForward = fs2.CompareGraha(BodyName.Saturn, BodyName.Ketu, false);
 				}
 
@@ -105,7 +105,7 @@ namespace org.transliteral.panchang
 			public void CalculateGrahaStrengths()
 			{
 				StrengthByConjunction fs_temp = new StrengthByConjunction (h, dtype);
-				FindStronger fs = new FindStronger(h, dtype, FindStronger.RulesNaisargikaDasaGraha(h));
+				Strongest fs = new Strongest(h, dtype, Strongest.RulesNaisargikaDasaGraha(h));
 				this.mGrahasStrengths = new OrderedGrahas();
 				foreach (OrderedZodiacHouses oz in this.mZodiacStrengths)
 				{
@@ -255,7 +255,7 @@ namespace org.transliteral.panchang
 			return al;
 		}
         public string Description() => String.Format("Moola Dasa seeded from {0}", options.SeedBody);
-        public object Options => this.options.Clone();
+        public new object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			UserOptions newOpts = (UserOptions)a;

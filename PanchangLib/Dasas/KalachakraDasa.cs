@@ -76,7 +76,7 @@ namespace org.transliteral.panchang
 					offset = 12;
 					break;
 			}
-			offset = (int)Basics.Normalize_exc_lower(0, 24, ((pada-1)*9)+offset);
+			offset = (int)Basics.NormalizeLower(0, 24, ((pada-1)*9)+offset);
 		}
 		public KalachakraDasa (Horoscope _h)
 		{
@@ -134,7 +134,7 @@ namespace org.transliteral.panchang
 			double dasa_length_sum = 0;
 			for (int i=0; i<9; i++)
 			{
-				ZodiacHouse zhCurr = zhOrder[(int)Basics.Normalize_exc_lower(0,24,offset+i)];
+				ZodiacHouse zhCurr = zhOrder[(int)Basics.NormalizeLower(0,24,offset+i)];
 				double dasa_length = this.DasaLength(zhCurr);
 				DasaEntry de = new DasaEntry(zhCurr.Value, dasa_length_sum, dasa_length, 1, zhCurr.Value.ToString());
 				al.Add(de);
@@ -158,7 +158,7 @@ namespace org.transliteral.panchang
 		{
 			return "Kalachakra Dasa";
 		}
-        public object Options => new object();
+        public new object Options => new object();
         public object SetOptions (object o)
 		{
 			return o;

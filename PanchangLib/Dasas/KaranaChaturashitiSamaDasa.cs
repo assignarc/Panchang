@@ -23,7 +23,7 @@ namespace org.transliteral.panchang
 			Longitude mSun = h.GetPosition(BodyName.Sun).Longitude;
 			return KaranaDasa (mMoon.Subtract(mSun), 1, cycle);
 		}
-		public ArrayList AntarDasa (DasaEntry di)
+		public new ArrayList AntarDasa (DasaEntry di)
 		{
 			return base.AntarDasa (di);
 		}

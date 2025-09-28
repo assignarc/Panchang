@@ -1,6 +1,12 @@
 ﻿namespace org.transliteral.panchang
 {
-
+    /// <summary>
+    /// Represents a Sun-Moon Yoga, a concept in Vedic astrology, which is associated with a specific name and its
+    /// corresponding properties and behaviors.
+    /// </summary>
+    /// <remarks>A Sun-Moon Yoga is identified by its <see cref="Value"/>, which corresponds to a specific
+    /// enumeration value of <see cref="SunMoonYogaName"/>.  This class provides methods to normalize the yoga value,
+    /// perform arithmetic operations on it, and retrieve its associated lord.</remarks>
     public class SunMoonYoga
     {
        
@@ -16,16 +22,16 @@
         }
         public int Normalize()
         {
-            return Basics.Normalize_inc(1, 27, (int)this.Value);
+            return Basics.NormalizeInclusive(1, 27, (int)this.Value);
         }
         public SunMoonYoga Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.Value + i - 1);
+            int snum = Basics.NormalizeInclusive(1, 27, (int)this.Value + i - 1);
             return new SunMoonYoga((SunMoonYogaName)snum);
         }
         public SunMoonYoga AddReverse(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.Value - i + 1);
+            int snum = Basics.NormalizeInclusive(1, 27, (int)this.Value - i + 1);
             return new SunMoonYoga((SunMoonYogaName)snum);
         }
         public BodyName GetLord()

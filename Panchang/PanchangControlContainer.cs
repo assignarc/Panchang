@@ -166,10 +166,10 @@ namespace org.transliteral.panchang.app
                         dc.DasaOptions.YearType = DateType.TithiYear;
                         ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
                         ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
-                        Sweph.ObtainLock(h);
+                        Sweph.Lock(h);
                         if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
                             dc.DasaOptions.YearLength = 390;
-                        Sweph.ReleaseLock(h);
+                        Sweph.Unlock(h);
                         dc.DasaOptions.Compression = 1;
 
                         TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
@@ -184,11 +184,11 @@ namespace org.transliteral.panchang.app
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-                        Sweph.ObtainLock(h);
+                        Sweph.Lock(h);
                         dc.DasaOptions.YearType = DateType.FixedYear;
                         dc.DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() -
                             td_pravesh.AddYears(0).ToUniversalTime();
-                        Sweph.ReleaseLock(h);
+                        Sweph.Unlock(h);
 
                         TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
                         tuo.UseTithiRemainder = true;
@@ -203,7 +203,7 @@ namespace org.transliteral.panchang.app
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-                        Sweph.ObtainLock(h);
+                        Sweph.Lock(h);
                         double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
                         double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
                         BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
@@ -216,7 +216,7 @@ namespace org.transliteral.panchang.app
 
                         dc.DasaOptions.YearType = DateType.SolarYear;
                         dc.DasaOptions.YearLength = diff;
-                        Sweph.ReleaseLock(h);
+                        Sweph.Unlock(h);
 
                         TithiAshtottariDasa.UserOptions tuo = (TithiAshtottariDasa.UserOptions)dc.DasaSpecificOptions;
                         tuo.UseTithiRemainder = true;

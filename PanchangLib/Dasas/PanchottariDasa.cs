@@ -12,7 +12,7 @@ namespace org.transliteral.panchang
         public override object Options => new object();
         public override object SetOptions(Object a) => new object();
         public ArrayList Dasa(int cycle) => Dasa(h.GetPosition(BodyName.Moon).Longitude, 1, cycle);
-        public ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
+        public new ArrayList AntarDasa(DasaEntry di) => base.AntarDasa(di);
         public String Description() => ("Panchottari Dasa");
         public PanchottariDasa (Horoscope _h)
 		{
@@ -63,7 +63,7 @@ namespace org.transliteral.panchang
 			};				
 			int nak_val = ((int)n.Value);
 			int anu_val = (int)NakshatraName.Anuradha;
-			int diff_val = Basics.Normalize_inc(
+			int diff_val = Basics.NormalizeInclusive(
 				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 
 				nak_val - anu_val);
 			int diff_off = diff_val % 7;

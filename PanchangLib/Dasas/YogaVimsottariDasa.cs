@@ -60,7 +60,7 @@ namespace org.transliteral.panchang
 			Longitude l = t.LongitudeOfSunMoonYoga(h.baseUT);
 			return this.YogaDasa(l, 1, cycle);
 		}
-		public ArrayList AntarDasa (DasaEntry di)
+		public new ArrayList AntarDasa (DasaEntry di)
 		{
 			return base.AntarDasa (di);
 		}

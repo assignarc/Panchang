@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 
 namespace org.transliteral.panchang
 {
-
     [Serializable]
     public class SerializableOptions
     {

@@ -18,7 +18,7 @@ namespace org.transliteral.panchang
 		{
 			return Dasa (h.GetPosition(BodyName.Moon).Longitude, 1, cycle );
 		}
-		public ArrayList AntarDasa (DasaEntry di)
+		public new ArrayList AntarDasa (DasaEntry di)
 		{
 			return base.AntarDasa (di);
 		}

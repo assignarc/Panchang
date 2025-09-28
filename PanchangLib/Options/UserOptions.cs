@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.transliteral.panchang
 {
-   
     public class UserOptions : ICloneable
     {
-      
         private Division varga;
         private Division innerVarga;
         private EChartStyle mChartStyle;
@@ -34,7 +28,6 @@ namespace org.transliteral.panchang
             get { return varga; }
             set { varga = value; }
         }
-
 
         [Visible("Dual Chart View")]
         public bool ShowInner

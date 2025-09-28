@@ -20,7 +20,7 @@ namespace org.transliteral.panchang
 			else if (dp.IsDebilitatedPhalita())
 				length--;
 
-			length = Basics.Normalize_inc(1, 12, length-1);
+			length = Basics.NormalizeInclusive(1, 12, length-1);
 			return length;
 		}
 

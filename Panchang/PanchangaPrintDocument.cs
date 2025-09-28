@@ -146,7 +146,7 @@ namespace org.transliteral.panchang.app
             int year = 0, month = 0, day = 0;
             double hour = 0;
             found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
             Moment m = new Moment(year, month, day, hour);
             return m;
         }

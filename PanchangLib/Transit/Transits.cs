@@ -1,7 +1,6 @@
 
 
 using System;
-using System.Diagnostics;
 
 namespace org.transliteral.panchang
 {
@@ -10,7 +9,6 @@ namespace org.transliteral.panchang
 	/// Summary description for Transits.
 	/// </summary>
 	/// 
-
 	public class Transit
 	{
 		private Horoscope h;
@@ -28,7 +26,7 @@ namespace org.transliteral.panchang
 		{
 
 			if (b == BodyName.Lagna)
-				return new Longitude(Sweph.swe_lagna(ut));
+				return new Longitude(Sweph.SWE_Lagna(ut));
 
 			BodyPosition bp = Basics.CalculateSingleBodyPosition (ut, 
 				Sweph.BodyNameToSweph(b), b, BodyType.Name.Other, this.h);

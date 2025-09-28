@@ -35,10 +35,10 @@ namespace org.transliteral.panchang.app
 
         private void populateDescription()
         {
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             Moment start = td.AddYears(de.startUT);
             Moment end = td.AddYears(de.startUT + de.DasaLength);
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
             ZodiacHouse zh = new ZodiacHouse(de.ZHouse);
             if (de.ZHouse != 0)
                 txtDesc.Text = string.Format("{0} - {1} to {2}", zh, start, end);
@@ -54,7 +54,7 @@ namespace org.transliteral.panchang.app
 
             double partLength = de.DasaLength / 3.0;
 
-            Sweph.ObtainLock(h);
+            Sweph.Lock(h);
             ArrayList alParts = new ArrayList();
             for (int i = 0; i < 4; i++)
             {
@@ -62,7 +62,7 @@ namespace org.transliteral.panchang.app
                 alParts.Add(m);
             }
             Moment[] momentParts = (Moment[])alParts.ToArray(typeof(Moment));
-            Sweph.ReleaseLock(h);
+            Sweph.Unlock(h);
 
             for (int i = 1; i < momentParts.Length; i++)
             {

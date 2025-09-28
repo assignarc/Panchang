@@ -48,33 +48,9 @@ namespace org.transliteral.panchang
 		ZodiacHouse zodiacLagna = null;
 		Division divisionType = null;
 
-		public static void Test (Horoscope h, Division division)
+		public static void Test(Horoscope h, Division division)
 		{
 			FindYogas fy = new FindYogas(h, division);
-			//fy.evaluateYoga ("gr<sun> in hse <1st>");
-			//fy.evaluateYoga ("  gr<sun> in hse <1st>  ");
-			//fy.evaluateYoga ("( gr<sun> in   hse <1st> )");
-			//fy.evaluateYoga ("(gr<sun> in hse <1st>)");
-			//fy.evaluateYoga ("(gr<sun> in hse <1st> )  ");
-
-			//fy.evaluateYoga ("<gr:sun,moon,mars,ketu> in <rasi:1st,2nd,3rd,4th,5th,6th,7th,8th>");
-			//fy.evaluateYoga ("<gr:mer> with <gr:<lordof:ari>>");
-			//fy.evaluateYoga ("&&(<gr:mer> with <gr:<lordof:ari>>)(birth in <time:day>)");
-			//fy.evaluateYoga ("&&(<gr:mer> with <gr:<lordof:ari>>)(birth in <time:night>)");
- 
-			//fy.evaluateYoga ("<gr:mer> in <rasi:leo>");
-			//fy.evaluateYoga ("rasi@(<gr:mer> in <rasi:leo>)");
-			//fy.evaluateYoga ("navamsa@(<gr:mer> in <rasi:leo>)");
-			//fy.evaluateYoga ("rasi@(<gr:mer> in <rasi:can>)");
-			//fy.evaluateYoga ("navamsa@(<gr:mer> in <rasi:can>)");
-			//fy.evaluateYoga ("&&(rasi@(<gr:mer> in <rasi:leo>))(d9@(<gr:mer> in <rasi:can>)))");
-
-			
-			//fy.evaluateYoga ("<gr:<dispof:mer>> is <gr:moon>");
-			//fy.evaluateYoga ("d9@(<gr:<dispof:<dispof:mer>>> is <gr:moon>)");
-			//fy.evaluateYoga ("<gr:<d9@dispof:merc>> with <gr:sun>");
-			//fy.evaluateYoga ("&&(<gr:sun,moon,mars> in <rasi:1st,1st,ari> with <gr:moon> and <gr:jup,pis>)(<gr:moon> in <rasi:2nd>)");
-			//fy.evaluateYoga ("(&& (gr<sun> in hse<1st>) (mid term) (gr<moon> in  hse<2nd> ) )");
 		}
 
 
@@ -204,80 +180,80 @@ namespace org.transliteral.panchang
 			}
 			cats = this.TrimWhitespace(cats);
 
-			BodyName b1, b2, b3;
+			BodyName bodyName1, bodyName2;
 			ZodiacHouseName zh1, zh2;
-			int hse1, hse2;
+			int hse1;
 
 			Division evalDiv = node.dtype;
 			switch (cats)
 			{
 				case "gr: in rasi:":
 				case "gr: in house:":
-					b1 = this.StringToBody(simpleVals[0]);
+					bodyName1 = this.StringToBody(simpleVals[0]);
 					zh1 = this.StringToRasi(simpleVals[2]);
-					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
+					if (horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
 						return true;
 					return false;
 				case "gr: in mt":
 				case "gr: in moolatrikona":
-					b1 = this.StringToBody(simpleVals[0]);
-					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsInMoolaTrikona();
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).IsInMoolaTrikona();
 				case "gr: in exlt":
 				case "gr: in exaltation":
-					b1 = this.StringToBody(simpleVals[0]);
-					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsExaltedPhalita();
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).IsExaltedPhalita();
 				case "gr: in deb":
 				case "gr: in debilitation":
-					b1 = this.StringToBody(simpleVals[0]);
-					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsDebilitatedPhalita();
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).IsDebilitatedPhalita();
 				case "gr: in own":
 				case "gr: in ownhouse":
 				case "gr: in own house":
-					b1 = this.StringToBody(simpleVals[0]);
-					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).IsInOwnHouse();
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					return horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).IsInOwnHouse();
 				case "gr: is gr:":
-					b1 = this.StringToBody(simpleVals[0]);
-					b2 = this.StringToBody(simpleVals[2]);
-					if (b1 == b2)
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					bodyName2 = this.StringToBody(simpleVals[2]);
+					if (bodyName1 == bodyName2)
 						return true;
 					return false;
 				case "gr: with gr:":
-					b1 = this.StringToBody(simpleVals[0]);
-					b2 = this.StringToBody(simpleVals[2]);
-					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
-						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse.Value)
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					bodyName2 = this.StringToBody(simpleVals[2]);
+					if (horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+						horoscope.GetPosition(bodyName2).ToDivisionPosition(evalDiv).ZodiacHouse.Value)
 						return true;
 					return false;
 				case "gr: asp gr:":
-					b1 = this.StringToBody(simpleVals[0]);
-					b2 = this.StringToBody(simpleVals[2]);
-					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).GrahaDristi(
-						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse))
+					bodyName1 = this.StringToBody(simpleVals[0]);
+					bodyName2 = this.StringToBody(simpleVals[2]);
+					if (horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).GrahaDristi(
+						horoscope.GetPosition(bodyName2).ToDivisionPosition(evalDiv).ZodiacHouse))
 						return true;
 					return false;
 				case "gr: in house: from rasi:":
-					b1 = this.StringToBody(simpleVals[0]);
+					bodyName1 = this.StringToBody(simpleVals[0]);
 					hse1 = this.StringToHouse(simpleVals[2]);
 					zh1 = this.StringToRasi(simpleVals[4]);
-					if (horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+					if (horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
 						new ZodiacHouse(zh1).Add(hse1).Value)
 						return true;
 					return false;
 				case "gr: in house: from gr:":
-					b1 = this.StringToBody(simpleVals[0]);
+					bodyName1 = this.StringToBody(simpleVals[0]);
 					hse1 = this.StringToHouse(simpleVals[2]);
-					b2 = this.StringToBody(simpleVals[4]);
-					return horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
-						horoscope.GetPosition(b2).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
+					bodyName2 = this.StringToBody(simpleVals[4]);
+					return horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).ZodiacHouse.Value ==
+						horoscope.GetPosition(bodyName2).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
 				case "graha in house: from gr: except gr:":
 					hse1 = this.StringToHouse(simpleVals[2]);
-					b1 = this.StringToBody(simpleVals[4]);
-					b2 = this.StringToBody(simpleVals[6]);
-					zh1 = horoscope.GetPosition(b1).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
+					bodyName1 = this.StringToBody(simpleVals[4]);
+					bodyName2 = this.StringToBody(simpleVals[6]);
+					zh1 = horoscope.GetPosition(bodyName1).ToDivisionPosition(evalDiv).ZodiacHouse.Add(hse1).Value;
 					for (int i = (int)BodyName.Sun; i<= (int)BodyName.Lagna; i++)
 					{
 						BodyName bExc = (BodyName) i;
-						if (bExc != b2 &&
+						if (bExc != bodyName2 &&
 							horoscope.GetPosition(bExc).ToDivisionPosition(evalDiv).ZodiacHouse.Value == zh1)
 							return true;
 					}

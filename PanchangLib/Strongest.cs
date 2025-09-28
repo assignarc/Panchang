@@ -4,13 +4,13 @@ using System.Collections;
 namespace org.transliteral.panchang
 {
 
-    public class FindStronger
+    public class Strongest
     {
         Horoscope h;
         Division dtype;
         ArrayList rules;
         bool bUseSimpleLords;
-        public FindStronger(Horoscope _h, Division _dtype, ArrayList _rules, bool _UseSimpleLords)
+        public Strongest(Horoscope _h, Division _dtype, ArrayList _rules, bool _UseSimpleLords)
         {
             h = _h;
             dtype = _dtype;
@@ -18,7 +18,7 @@ namespace org.transliteral.panchang
             bUseSimpleLords = _UseSimpleLords;
 
         }
-        public FindStronger(Horoscope _h, Division _dtype, ArrayList _rules)
+        public Strongest(Horoscope _h, Division _dtype, ArrayList _rules)
         {
             h = _h;
             dtype = _dtype;
@@ -33,13 +33,13 @@ namespace org.transliteral.panchang
             else
                 return h.StrengthOptions;
         }
-        public static ArrayList RulesNaisargikaDasaRasi(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).NaisargikaDasaRasi);
-        public static ArrayList RulesNarayanaDasaRasi(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).NarayanaDasaRasi);
-        public static ArrayList RulesKarakaKendradiGrahaDasaRasi(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).KarakaKendradiGrahaDasaRasi);
-        public static ArrayList RulesKarakaKendradiGrahaDasaGraha(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).KarakaKendradiGrahaDasaGraha);
-        public static ArrayList RulesKarakaKendradiGrahaDasaColord(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).KarakaKendradiGrahaDasaColord);
-        public static ArrayList RulesMoolaDasaRasi(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).MoolaDasaRasi);
-        public static ArrayList RulesNavamsaDasaRasi(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).NavamsaDasaRasi);
+        public static ArrayList RulesNaisargikaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NaisargikaDasaRasi);
+        public static ArrayList RulesNarayanaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NarayanaDasaRasi);
+        public static ArrayList RulesKarakaKendradiGrahaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).KarakaKendradiGrahaDasaRasi);
+        public static ArrayList RulesKarakaKendradiGrahaDasaGraha(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).KarakaKendradiGrahaDasaGraha);
+        public static ArrayList RulesKarakaKendradiGrahaDasaColord(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).KarakaKendradiGrahaDasaColord);
+        public static ArrayList RulesMoolaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).MoolaDasaRasi);
+        public static ArrayList RulesNavamsaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NavamsaDasaRasi);
         public static ArrayList RulesJaiminiFirstRasi(Horoscope h) => new ArrayList
             {
                 ERasiStrength.AtmaKaraka,
@@ -57,14 +57,14 @@ namespace org.transliteral.panchang
                 ERasiStrength.AspectsRasi
             };
 
-        public static ArrayList RulesNaisargikaDasaGraha(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).NaisargikaDasaGraha);
+        public static ArrayList RulesNaisargikaDasaGraha(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NaisargikaDasaGraha);
         public static ArrayList RulesVimsottariGraha(Horoscope h) => new ArrayList
             {
                 EGrahaStrength.KendraConjunction,
                 EGrahaStrength.First
             };
 
-        public static ArrayList RulesStrongerCoLord(Horoscope h) => new ArrayList(FindStronger.GetStrengthOptions(h).Colord);
+        public static ArrayList RulesStrongerCoLord(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).Colord);
 
         public OrderedZodiacHouses[] ResultsZodiacKendras(ZodiacHouseName _zh)
         {

@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Diagnostics;
 
@@ -211,7 +209,7 @@ namespace org.transliteral.panchang
 		}
 		public void kalaHelper (ref BodyName yearLord, ref BodyName monthLord)
 		{
-			double ut_arghana = Sweph.swe_julday(1827, 5, 2, - horoscope.Info.tz.toDouble() + 12.0/24.0);
+			double ut_arghana = Sweph.SWE_JullianDay(1827, 5, 2, - horoscope.Info.tz.toDouble() + 12.0/24.0);
 			double ut_noon = horoscope.baseUT - horoscope.Info.tob.Time/24.0 + 12.0/24.0;
 
 			double diff = ut_noon - ut_arghana;
@@ -232,8 +230,8 @@ namespace org.transliteral.panchang
 			double diff_month = diff;
 			while (diff > 7) diff -= 7.0;
 
-			yearLord = Basics.WeekdayRuler((Weekday)Sweph.swe_day_of_week(ut_noon - diff_year));
-			monthLord = Basics.WeekdayRuler((Weekday)Sweph.swe_day_of_week(ut_noon - diff_month));
+			yearLord = Basics.WeekdayRuler((Weekday)Sweph.SWE_DayOfWeek(ut_noon - diff_year));
+			monthLord = Basics.WeekdayRuler((Weekday)Sweph.SWE_DayOfWeek(ut_noon - diff_month));
 		}
 		public double abdaBala (BodyName BodyName)
 		{

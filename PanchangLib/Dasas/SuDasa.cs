@@ -9,7 +9,8 @@ namespace org.transliteral.panchang
 	{
         private Horoscope h;
 		private RasiDasaUserOptions options;
-		public new void DivisionChanged (Division div)
+        public new Object Options => this.options.Clone();
+        public new void DivisionChanged (Division div)
 		{
 			RasiDasaUserOptions newOpts = (RasiDasaUserOptions)options.Clone();
 			newOpts.Division = (Division)div.Clone();
@@ -18,7 +19,7 @@ namespace org.transliteral.panchang
 		public SuDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new RasiDasaUserOptions(h, FindStronger.RulesNarayanaDasaRasi(h));
+			options = new RasiDasaUserOptions(h, Strongest.RulesNarayanaDasaRasi(h));
 		}
 		public double ParamAyus () 
 		{
@@ -115,7 +116,7 @@ namespace org.transliteral.panchang
 		{
 			return "Sudasa";
 		}
-        public Object Options => this.options.Clone();
+      
         public object SetOptions (Object a)
 		{
 			RasiDasaUserOptions uo = (RasiDasaUserOptions)a;

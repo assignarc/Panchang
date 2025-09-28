@@ -28,7 +28,7 @@ namespace org.transliteral.panchang
         }
         public Longitude Add(Longitude b)
         {
-            return new Longitude(Basics.Normalize_exc_lower(0, 360, Value + b.Value));
+            return new Longitude(Basics.NormalizeLower(0, 360, Value + b.Value));
         }
         public Longitude Add(double b)
         {
@@ -36,7 +36,7 @@ namespace org.transliteral.panchang
         }
         public Longitude Subtract(Longitude b)
         {
-            return new Longitude(Basics.Normalize_exc_lower(0, 360, Value - b.Value));
+            return new Longitude(Basics.NormalizeLower(0, 360, Value - b.Value));
         }
         public Longitude Subtract(double b)
         {
@@ -44,7 +44,7 @@ namespace org.transliteral.panchang
         }
         public double Normalize()
         {
-            return Basics.Normalize_exc_lower(0, 360, this.Value);
+            return Basics.NormalizeLower(0, 360, this.Value);
         }
         public bool IsBetween(Longitude cusp_lower, Longitude cusp_higher)
         {
@@ -210,10 +210,7 @@ namespace org.transliteral.panchang
             offset = (offset - subsecs) * 60.0;
             double subsubsecs = Math.Floor(offset);
 
-            return
-                String.Format("{0:00} {1} {2:00}:{3:00}:{4:00}",
-                minutes, rasi, seconds, subsecs, subsubsecs
-                );
+            return String.Format("{0:00} {1} {2:00}:{3:00}:{4:00}", minutes, rasi, seconds, subsecs, subsubsecs);
         }
     }
 

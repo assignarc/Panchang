@@ -1,18 +1,19 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 namespace org.transliteral.panchang
 {
-
-
     /// <summary>
-    /// Summary description for GlobalOptions.
+    /// Represents the global configuration options for the application, including settings for location,  chart styles,
+    /// and various display preferences.
     /// </summary>
+    /// <remarks>This class provides a centralized way to manage and persist user preferences and application
+    /// settings.  It includes options for geographical location, chart appearance, and other customizable features. 
+    /// The settings can be serialized and deserialized to enable saving and loading user preferences.</remarks>
     [XmlRoot("HoraOptions")]
     [Serializable]
     public class GlobalOptions : SerializableOptions, ISerializable
@@ -59,33 +60,6 @@ namespace org.transliteral.panchang
         public GlobalOptions()
         {
             //All options are set to default values
-            
-            //HOptions = new HoroscopeOptions();
-            //SOptions = new StrengthOptions();
-
-            ///*   
-            //mLat = new HMSInfo(47, 40, 27, dir_type.NS);
-            //mLon = new HMSInfo(-122, 7, 13, dir_type.EW);
-            //mTz = new HMSInfo(-7, 0, 0, dir_type.EW);
-            //*/
-            //mLat = new HMSInfo(33, 0, 18, Direction.NorthSouth);
-            //mLon = new HMSInfo(-97,13, 35, Direction.EastWest);
-            //mTz = new HMSInfo(-5, 0, 0, Direction.EastWest);
-
-         
-
-            //this.bDasaHoverSelect = false;
-            //this.bDasaMoveSelect = true;
-            //this.bDasaShowEvents = true;
-            //this.miDasaShowEventsLevel = 2;
-         
-           
-            //this.mChartStyle = EChartStyle.SouthIndian;
-            //this.bVargaSquare = true;
-            //this.bVargaShowDob = true;
-            //this.bVargaShowSAVVarga = true;
-            //this.bVargaShowSAVRasi = false;
-            
            
         }
 

@@ -32,25 +32,25 @@ namespace org.transliteral.panchang
 
         public int Normalize()
         {
-            return Basics.Normalize_inc(1, 12, (int)m_zhouse);
+            return Basics.NormalizeInclusive(1, 12, (int)m_zhouse);
         }
         public ZodiacHouse Add(int i) 
         {
-            int znum = Basics.Normalize_inc(1, 12, (int)(m_zhouse) + i - 1);
+            int znum = Basics.NormalizeInclusive(1, 12, (int)(m_zhouse) + i - 1);
             return new ZodiacHouse((ZodiacHouseName)znum);
         }
         public ZodiacHouse AddReverse(int i)
         {
-            int znum = Basics.Normalize_inc(1, 12, (int)(m_zhouse) - i + 1);
+            int znum = Basics.NormalizeInclusive(1, 12, (int)(m_zhouse) - i + 1);
             return new ZodiacHouse((ZodiacHouseName)znum);
         }
         public int NumHousesBetweenReverse(ZodiacHouse zrel)
         {
-            return Basics.Normalize_inc(1, 12, (14 - this.NumHousesBetween(zrel)));
+            return Basics.NormalizeInclusive(1, 12, (14 - this.NumHousesBetween(zrel)));
         }
         public int NumHousesBetween(ZodiacHouse zrel)
         {
-            int ret = Basics.Normalize_inc(1, 12, (int)zrel.Value - (int)m_zhouse + 1);
+            int ret = Basics.NormalizeInclusive(1, 12, (int)zrel.Value - (int)m_zhouse + 1);
             Trace.Assert(ret >= 1 && ret <= 12, "ZodiacHouse.numHousesBetween failed");
             return ret;
         }

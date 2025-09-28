@@ -12,8 +12,5 @@ namespace org.transliteral.panchang
         public bool Stronger(ZodiacHouseName za, ZodiacHouseName zb) => true;
         public bool Stronger(BodyName m, BodyName n) => true;
     }
-
-
-
 }
 	

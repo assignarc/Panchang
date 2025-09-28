@@ -89,7 +89,7 @@ namespace org.transliteral.panchang
             jd += (horoscope.Info.tz.toDouble() / 24.0);
             jd += offset;
 
-            Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+            Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
             Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
             return new Moment(year, month, day, hour, minute, second);
         }
@@ -111,7 +111,7 @@ namespace org.transliteral.panchang
                     jd = baseUT + (years * yearLength);
                     Logger.Info(String.Format("tz = {0}", (horoscope.Info.tz.toDouble()) / 24.0));
                     jd += offset;
-                    Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+                    Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
                     Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
                     return new Moment(year, month, day, hour, minute, second);
                 case DateType.SolarYear:
@@ -124,7 +124,7 @@ namespace org.transliteral.panchang
                     jd = t.LinearSearch(horoscope.baseUT + years * 365.2425, l, new ReturnLon(t.LongitudeOfSun));
                     jd += (horoscope.Info.tz.toDouble() / 24.0);
                     jd += offset;
-                    Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+                    Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
                     Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
                     return new Moment(year, month, day, hour, minute, second);
                 case DateType.TithiPraveshYear:
@@ -156,7 +156,7 @@ namespace org.transliteral.panchang
                     jd = t.LinearSearch(jd + days * 28.0 / 30.0, tithi_base, new ReturnLon(t.LongitudeOfTithiDir));
                     jd += (horoscope.Info.tz.toDouble() / 24.0);
                     jd += offset;
-                    Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+                    Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
                     Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
                     return new Moment(year, month, day, hour, minute, second);
                 case DateType.YogaYear:
@@ -175,7 +175,7 @@ namespace org.transliteral.panchang
                     jd = t.LinearSearch(jd + yogaDays * 28.0 / 30.0, yoga_base, new ReturnLon(t.LongitudeOfSunMoonYogaDir));
                     jd += (horoscope.Info.tz.toDouble() / 24.0);
                     jd += offset;
-                    Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+                    Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
                     Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
                     return new Moment(year, month, day, hour, minute, second);
                 default:
@@ -193,7 +193,7 @@ namespace org.transliteral.panchang
                     jd = t.LinearSearch(new_baseut + (years * tyear_approx), l, new ReturnLon(t.LongitudeOfTithiDir));
                     jd += offset;
                     //jd += (h.info.tz.toDouble() / 24.0);
-                    Sweph.swe_revjul(jd, ref year, ref month, ref day, ref dhour);
+                    Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
                     Moment.DoubleToHMS(dhour, ref hour, ref minute, ref second);
                     return new Moment(year, month, day, hour, minute, second);
 

@@ -154,13 +154,13 @@ namespace org.transliteral.panchang.app
             int year = 0, month = 0, day = 0;
             double hour = 0;
             found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.swe_revjul(found_ut, ref year, ref month, ref day, ref hour);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
             Moment m = new Moment(year, month, day, hour);
             return m;
         }
         private double momentToUT(Moment m)
         {
-            double local_ut = Sweph.swe_julday(m.Year, m.Month, m.Day, m.Time);
+            double local_ut = Sweph.SWE_JullianDay(m.Year, m.Month, m.Day, m.Time);
             return local_ut - h.Info.tz.toDouble() / 24.0;
         }
         private void PopulateOptions()
@@ -206,10 +206,10 @@ namespace org.transliteral.panchang.app
                 //	dtype, this.utToMoment(ut_lower), this.utToMoment(ut_higher));
                 double ut_curr = ut_lower - 1.0 / (24.0 * 60.0);
 
-                Sweph.ObtainLock(h);
+                Sweph.Lock(h);
                 BodyPosition bp = Basics.CalculateSingleBodyPosition(ut_curr, Sweph.BodyNameToSweph(mBody), mBody,
                     BodyType.Name.Graha, h);
-                Sweph.ReleaseLock(h);
+                Sweph.Unlock(h);
                 //BodyPosition bp = (BodyPosition)h.getPosition(mBody).Clone();
                 //DivisionPosition dp = bp.toDivisionPosition(this.dtypeRasi);
 

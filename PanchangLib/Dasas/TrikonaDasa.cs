@@ -24,7 +24,7 @@ namespace org.transliteral.panchang
 			{
 				ZodiacHouse zh = this.getSeed();
 				ZodiacHouseName[] zh_t = new ZodiacHouseName[3] { zh.Add(1).Value, zh.Add(5).Value, zh.Add(9).Value };
-				FindStronger fs = new FindStronger(h, this.Division, this.mRules);
+				Strongest fs = new Strongest(h, this.Division, this.mRules);
 				mTrikonaStrengths = fs.GetOrderedHouses(zh_t);
 			}
 			public override object Clone()
@@ -50,7 +50,7 @@ namespace org.transliteral.panchang
 				base.CopyFromNoClone(_uo);
 				return this.Clone();
 			}
-			public new void recalculate ()
+			public void recalculate ()
 			{
 				this.calculateTrikonaStrengths();
 				this.calculateSeed();
@@ -64,7 +64,7 @@ namespace org.transliteral.panchang
 		public TrikonaDasa (Horoscope _h)
 		{
 			h = _h;
-			options = new UserOptions(h, FindStronger.RulesNavamsaDasaRasi(h));
+			options = new UserOptions(h, Strongest.RulesNavamsaDasaRasi(h));
 		}
 		public void RecalculateOptions ()
 		{
@@ -139,7 +139,7 @@ namespace org.transliteral.panchang
 		{
 			return "Trikona Dasa seeded from " + options.SeedRasi.ToString();
 		}
-        public Object Options => this.options.Clone();
+        public new Object Options => this.options.Clone();
         public object SetOptions (Object a)
 		{
 			UserOptions uo = (UserOptions)a;

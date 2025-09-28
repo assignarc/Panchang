@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -115,7 +115,7 @@
     <Compile Include="Division\DivisionPosition.cs" />
     <Compile Include="Utils\Converters\EnumDescConverter.cs" />
     <Compile Include="Strength\EqualStrength.cs" />
-    <Compile Include="FindStronger.cs" />
+    <Compile Include="Strongest.cs" />
     <Compile Include="FindYogas.cs" />
     <Compile Include="Ghataka\GhatakaDay.cs" />
     <Compile Include="Ghataka\GhatakaLagnaOpp.cs" />
@@ -202,9 +202,6 @@
     <PackageReference Include="SwissEphNet">
       <Version>2.8.0.2</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Sweph\sweph.cs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -82,20 +82,20 @@
         }
         public Nakshatra(NakshatraName nak)
         {
-            m_nak = (NakshatraName)Basics.Normalize_inc(1, 27, (int)nak);
+            m_nak = (NakshatraName)Basics.NormalizeInclusive(1, 27, (int)nak);
         }
         public int Normalize()
         {
-            return Basics.Normalize_inc(1, 27, (int)this.Value);
+            return Basics.NormalizeInclusive(1, 27, (int)this.Value);
         }
         public Nakshatra Add(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.Value + i - 1);
+            int snum = Basics.NormalizeInclusive(1, 27, (int)this.Value + i - 1);
             return new Nakshatra((NakshatraName)snum);
         }
         public Nakshatra AddReverse(int i)
         {
-            int snum = Basics.Normalize_inc(1, 27, (int)this.Value - i + 1);
+            int snum = Basics.NormalizeInclusive(1, 27, (int)this.Value - i + 1);
             return new Nakshatra((NakshatraName)snum);
         }
     }
