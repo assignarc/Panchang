@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
@@ -172,9 +171,6 @@ namespace org.transliteral.panchang.app
         {
             get { return PanchangAppOptions.GetExeDir() + "\\" + "yogas.mhr"; }
         }
-
-       
-
 
         [Category(CAT_LF_GEN)]
         [Visible("Font")]

@@ -128,16 +128,17 @@ namespace Genghis.Windows.Forms
                 // It could (in theory) be possible to call Close() before the window has been created
                 // on the thread - this flag prevents that happening
                 openWindowAllowed = false;
-                if( window != null )
-                    window.Close( main, milliseconds );
+                window?.Close( main, milliseconds );
             }
         }
 
         // Only call from ctor
         private void CreateSplashScreenThread()
-        {            
-            thread = new System.Threading.Thread( new System.Threading.ThreadStart( ThreadFunction ) );
-            thread.Name = "Splash Screen";
+        {
+            thread = new System.Threading.Thread(new System.Threading.ThreadStart(ThreadFunction))
+            {
+                Name = "Splash Screen"
+            };
             thread.SetApartmentState(System.Threading.ApartmentState.STA);
             
             thread.Start();
@@ -153,8 +154,7 @@ namespace Genghis.Windows.Forms
                     window = new SplashScreenWindow( formType, styles );    
             }
 
-            if( window != null )
-                window.EnterMessagePump();
+            window?.EnterMessagePump();
         }
 
         /// <summary>
@@ -226,10 +226,12 @@ namespace Genghis.Windows.Forms
             {
                 lock( this )
                 {
-                    Timer timer = new Timer();
-                    timer.Interval = milliseconds;
-                    timer.Tick += new EventHandler( ElapsedEventHandler );
-                    timer.Start();
+                    using (Timer timer = new Timer())
+                    {
+                        timer.Interval = milliseconds;
+                        timer.Tick += new EventHandler(ElapsedEventHandler);
+                        timer.Start();
+                    }
                 }
             }
 
@@ -244,10 +246,8 @@ namespace Genghis.Windows.Forms
             {
                 lock( this )
                 {
-                    if( main != null )
-                        main.Activate();
-                    if( form != null )
-                        form.Invoke( new CloseDelegate( form.Close ) );
+                    main?.Activate();
+                    form?.Invoke(new CloseDelegate(form.Close));
                     form = null;
                 }
             }

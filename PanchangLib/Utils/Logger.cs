@@ -29,11 +29,11 @@
                     System.Diagnostics.Debug.WriteLine(message); break;
             }
         }
-        public static void Debug(string message) => Log(message, Level.DEBUG);
-        public static void Info(string message) => Log(message, Level.INFO);
-        public static void Trace(string message) => Log(message, Level.TRACE);
-        public static void Error(string message) => Log(message, Level.ERROR);
-        public static void Fatal(string message) => Log(message, Level.FATAL);
+        public static void Debug(string message) => Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name + " : " +  message, Level.DEBUG);
+        public static void Info(string message) => Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name + " : " +  message, Level.INFO);
+        public static void Trace(string message) => Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name + " : " +  message, Level.TRACE);
+        public static void Error(string message) => Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name + " : " +  message, Level.ERROR);
+        public static void Fatal(string message) => Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name + " : " +  message, Level.FATAL);
 
     }
 }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 
 namespace org.transliteral.panchang.app
@@ -19,8 +15,10 @@ namespace org.transliteral.panchang.app
             string stringInit = "";
             if (value is string)
                 stringInit = (string)value;
-            LongStringEditor le = new LongStringEditor(stringInit);
-            le.TitleText = "Event Description";
+            LongStringEditor le = new LongStringEditor(stringInit)
+            {
+                TitleText = "Event Description"
+            };
             edSvc.ShowDialog(le);
             return le.EditorText;
         }

@@ -350,9 +350,20 @@ namespace org.transliteral.panchang.app
             Logger.Info("Starting threaded computation");
             //fProgress.ShowDialog();
             //this.mutexProgress.Close();
-            bCompute.Enabled = false;
-            bOpts.Enabled = false;
-            ContextMenu = null;
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate {
+                    bCompute.Enabled = false;
+                    bOpts.Enabled = false;
+                    ContextMenu = null;
+                }));
+            }
+            else
+            {
+                bCompute.Enabled = false;
+                bOpts.Enabled = false;
+                ContextMenu = null;
+            }
             ComputeEntries();
             Invoke(m_DelegateComputeFinished);
 
@@ -374,6 +385,13 @@ namespace org.transliteral.panchang.app
 
         private void ComputeEntries()
         {
+            // Marshal all UI updates to the UI thread
+            if (mList.InvokeRequired)
+            {
+                mList.Invoke(new MethodInvoker(ComputeEntries));
+                return;
+            }
+
             mList.Clear();
             mList.Columns.Add("", -2, HorizontalAlignment.Left);
 

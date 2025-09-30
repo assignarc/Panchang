@@ -16,7 +16,7 @@ namespace org.transliteral.panchang.app
         public static void CopyToClipboard(Division div)
         {
             MemoryStream mStr = new MemoryStream();
-            BinaryWriter bStr = new BinaryWriter(mStr);
+            //BinaryWriter bStr = new BinaryWriter(mStr);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(mStr, div);
             Clipboard.SetDataObject(mStr, false);
