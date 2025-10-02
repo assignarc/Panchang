@@ -4,9 +4,6 @@ using System.IO;
 using System.Text;
 namespace org.transliteral.panchang
 {
-
-
-
     /// <summary>
     /// A Simple wrapper around the swiss ephemeris DLL functions
     /// Many function arguments use sane defaults for Jyotish programs
@@ -71,19 +68,16 @@ namespace org.transliteral.panchang
             }
             
         }
-
         private static void SwissEph_OnLoadFile(object sender, LoadFileEventArgs e)
         {
             if (File.Exists(e.FileName))
             {
-                Logger.Debug(String.Format($"{e.FileName} - Loaded"));
+                Logger.Debug("Sweph:" + String.Format($"{e.FileName} - Loaded"));
                 e.File = File.OpenRead(e.FileName);
             }
             else
-                Logger.Debug(String.Format($"{e.FileName} - Does not exist"));
-
+                Logger.Debug("Sweph:" + String.Format($"{e.FileName} - Does not exist"));
         }
-
         public static void CheckLock()
         {
             Sweph.Initialize();
@@ -104,7 +98,7 @@ namespace org.transliteral.panchang
                 if (mCurrentLockHolder != null)
                     throw new Exception("Sweph: obtainLock failed. Sweph Lock still held");
 
-                Logger.Info("Sweph Lock obtained");
+                Logger.Info("Sweph: Lock obtained");
                 mCurrentLockHolder = h;
                 Sweph.SWE_SetSiderealMode((int)h.Options.Ayanamsa, 0.0, 0.0);
             }
@@ -115,10 +109,9 @@ namespace org.transliteral.panchang
                 throw new Exception("Sweph: releaseLock failed. Lock not held");
             else if (mCurrentLockHolder != h)
                 throw new Exception("Sweph: releaseLock failed. Not lock owner");
-            Logger.Info("Sweph Lock released");
+            Logger.Info("Sweph: Lock released");
             mCurrentLockHolder = null;
         }
-
         public static int BodyNameToSweph(BodyName b)
         {
             switch (b)
@@ -135,11 +128,7 @@ namespace org.transliteral.panchang
                     throw new Exception();
             }
         }
-
-      
         public static void SWE_SetEphemerisPath(string path) => swissEphemerides.swe_set_ephe_path(path);
-       
-
         public static void SWE_SetSiderealMode(int sid_mode, double t0, double ayan_t0)
         {
             Sweph.CheckLock();
@@ -163,7 +152,7 @@ namespace org.transliteral.panchang
             int ret = swissEphemerides.swe_calc_ut(tjd_ut, ipl, iflag | addFlags, xx, ref serr);
             if (ret < 0)
             {
-                Logger.Error(String.Format("Sweph Error: {0}", serr));
+                Logger.Error(String.Format("Sweph: Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
             xx[0] += Sweph.mCurrentLockHolder.Options.AyanamsaOffset.toDouble();
@@ -176,7 +165,7 @@ namespace org.transliteral.panchang
             int ret = swissEphemerides.swe_sol_eclipse_when_glob(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
-                Logger.Error(String.Format("Sweph Error: {0}", serr));
+                Logger.Error(String.Format("Sweph: Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
@@ -189,7 +178,7 @@ namespace org.transliteral.panchang
             int ret = swissEphemerides.swe_sol_eclipse_when_loc(tjd_ut, iflag, geopos, tret, attr, !forward, ref serr);
             if (ret < 0)
             {
-                Logger.Error(String.Format("Sweph Error: {0}", serr));
+                Logger.Error(String.Format("Sweph: Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
@@ -200,7 +189,7 @@ namespace org.transliteral.panchang
             int ret = swissEphemerides.swe_lun_eclipse_when(tjd_ut, iflag, 0, tret, !forward, ref serr);
             if (ret < 0)
             {
-                Logger.Error(String.Format("Sweph Error: {0}", serr));
+                Logger.Error(String.Format("Sweph: Error: {0}", serr));
                 throw new SwephException(serr.ToString());
             }
         }
@@ -287,7 +276,6 @@ namespace org.transliteral.panchang
 
         public static double SWE_DeltaTime(double tjd_et)
             => swissEphemerides.swe_deltat(tjd_et);
-
 
         private static void SWE_SetTidalAcceleration(double t_acc)
             => swissEphemerides.swe_set_tid_acc(t_acc);

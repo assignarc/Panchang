@@ -1,6 +1,5 @@
 ﻿namespace org.transliteral.panchang
 {
-
     public class CuspTransitSearch
     {
         Horoscope h = null;
