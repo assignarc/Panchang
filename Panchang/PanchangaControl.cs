@@ -9,7 +9,6 @@ namespace org.transliteral.panchang.app
     public delegate void DelegateComputeFinished();
     public class PanchangaControl : PanchangControl
     {
-
         public class UserOptions : ICloneable
         {
             int mNumDays;
