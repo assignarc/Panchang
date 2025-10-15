@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace org.transliteral.panchang.app
 {
-    public class BalasControl : PanchangControl
+    public class BalasControl : BaseControl
     {
         private ListView mList;
         private ContextMenu contextMenu;
@@ -14,8 +14,8 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
-            h.Changed += new EvtChanged(onRecalculate);
+            horoscope = _h;
+            horoscope.Changed += new EvtChanged(onRecalculate);
             mList.BackColor = Color.AliceBlue;
             Repopulate();
             AddViewsToContextMenu(contextMenu);
@@ -102,7 +102,7 @@ namespace org.transliteral.panchang.app
                 BodyName.Jupiter, BodyName.Venus, BodyName.Saturn
             };
             mList.Clear();
-            ShadBalas sb = new ShadBalas(h);
+            ShadBalas sb = new ShadBalas(horoscope);
 
             mList.Columns.Add("Bala", 120, HorizontalAlignment.Left);
             foreach (BodyName b in grahas)

@@ -115,8 +115,8 @@ namespace org.transliteral.panchang
 
 			if (BodyName == BodyName.Mercury) return 60;
 
-			double lmt_midnight = horoscope.lmt_offset * 24.0;
-			double lmt_noon = 12.0 + horoscope.lmt_offset * 24.0;
+			double lmt_midnight = horoscope.LMT_Offset * 24.0;
+			double lmt_noon = 12.0 + horoscope.LMT_Offset * 24.0;
 			double diff = 0;
 			if (horoscope.Info.tob.Time  > lmt_noon)
 				diff = lmt_midnight - horoscope.Info.tob.Time;
@@ -210,7 +210,7 @@ namespace org.transliteral.panchang
 		public void kalaHelper (ref BodyName yearLord, ref BodyName monthLord)
 		{
 			double ut_arghana = Sweph.SWE_JullianDay(1827, 5, 2, - horoscope.Info.tz.toDouble() + 12.0/24.0);
-			double ut_noon = horoscope.baseUT - horoscope.Info.tob.Time/24.0 + 12.0/24.0;
+			double ut_noon = horoscope.BaseUT - horoscope.Info.tob.Time/24.0 + 12.0/24.0;
 
 			double diff = ut_noon - ut_arghana;
 			if (diff >= 0)

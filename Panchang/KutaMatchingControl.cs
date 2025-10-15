@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace org.transliteral.panchang.app
 {
-    public class KutaMatchingControl : PanchangControl
+    public class KutaMatchingControl : BaseControl
     {
         private TextBox tbHorMale;
         private TextBox tbHorFemale;
@@ -32,7 +32,7 @@ namespace org.transliteral.panchang.app
                 if (f is PanchangChild)
                 {
                     PanchangChild mch = (PanchangChild)f;
-                    if (mch.getHoroscope() == h)
+                    if (mch.getHoroscope() == horoscope)
                         tbHorMale.Text = mch.Text;
                     if (mch.getHoroscope() == h2)
                         tbHorFemale.Text = mch.Text;
@@ -43,13 +43,13 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
+            horoscope = _h;
             h2 = _h2;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             h2.Changed += new EvtChanged(OnRecalculate);
             AddViewsToContextMenu(mContext);
             populateTextBoxes();
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
         }
 
         /// <summary>
@@ -231,9 +231,9 @@ namespace org.transliteral.panchang.app
         {
             Division dtype = new Division(DivisionType.Rasi);
 
-            BodyPosition l1 = h.GetPosition(BodyName.Lagna);
+            BodyPosition l1 = horoscope.GetPosition(BodyName.Lagna);
             BodyPosition l2 = h2.GetPosition(BodyName.Lagna);
-            BodyPosition m1 = h.GetPosition(BodyName.Moon);
+            BodyPosition m1 = horoscope.GetPosition(BodyName.Moon);
             BodyPosition m2 = h2.GetPosition(BodyName.Moon);
             ZodiacHouse z1 = m1.ToDivisionPosition(dtype).ZodiacHouse;
             ZodiacHouse z2 = m2.ToDivisionPosition(dtype).ZodiacHouse;
@@ -323,7 +323,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Moon)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 ZodiacHouse ch = h2.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaMoon.CheckGhataka(ja, ch);
                 li.SubItems.Add(ja.ToString());
@@ -333,7 +333,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Tithi)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 Longitude ltithi = h2.GetPosition(BodyName.Moon).Longitude.Subtract(h2.GetPosition(BodyName.Sun).Longitude);
                 Tithi t = ltithi.ToTithi();
                 bool isGhataka = GhatakaTithi.CheckTithi(ja, t);
@@ -344,7 +344,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Day)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 Weekday wd = h2.Weekday;
                 bool isGhataka = GhatakaDay.CheckDay(ja, wd);
                 li.SubItems.Add(ja.ToString());
@@ -354,7 +354,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka (Star)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 Nakshatra na = h2.GetPosition(BodyName.Moon).Longitude.ToNakshatra();
                 bool isGhataka = GhatakaStar.CheckStar(ja, na);
                 li.SubItems.Add(ja.ToString());
@@ -364,7 +364,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka Lagna(S)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 ZodiacHouse sa = h2.GetPosition(BodyName.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaLagnaSame.CheckLagna(ja, sa);
                 li.SubItems.Add(ja.ToString());
@@ -374,7 +374,7 @@ namespace org.transliteral.panchang.app
             }
             {
                 ListViewItem li = new ListViewItem("Ghataka Lagna(O)");
-                ZodiacHouse ja = h.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
+                ZodiacHouse ja = horoscope.GetPosition(BodyName.Moon).ToDivisionPosition(dtype).ZodiacHouse;
                 ZodiacHouse op = h2.GetPosition(BodyName.Lagna).ToDivisionPosition(dtype).ZodiacHouse;
                 bool isGhataka = GhatakaLagnaOpp.CheckLagna(ja, op);
                 li.SubItems.Add(ja.ToString());
@@ -396,11 +396,11 @@ namespace org.transliteral.panchang.app
             f.ShowDialog();
             if (f.GetHorsocope() != null)
             {
-                h.Changed -= new EvtChanged(OnRecalculate);
-                h = f.GetHorsocope();
+                horoscope.Changed -= new EvtChanged(OnRecalculate);
+                horoscope = f.GetHorsocope();
                 tbHorMale.Text = f.GetHoroscopeName();
-                h.Changed += new EvtChanged(OnRecalculate);
-                OnRecalculate(h);
+                horoscope.Changed += new EvtChanged(OnRecalculate);
+                OnRecalculate(horoscope);
             }
             f.Dispose();
         }

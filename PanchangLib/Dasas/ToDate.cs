@@ -71,9 +71,9 @@ namespace org.transliteral.panchang
             Logger.Info(String.Format("Searching for {0} {1} {2}", tYears, tMonths, tDays));
             lon = spos - soff;
             l = new Longitude(lon);
-            jd = t.LinearSearch(horoscope.baseUT + (tYears * 365.2425), l, new ReturnLon(t.LongitudeOfSun));
+            jd = t.LinearSearch(horoscope.BaseUT + (tYears * 365.2425), l, new ReturnLon(t.LongitudeOfSun));
             double yoga_start = returnLonFunc(jd, ref bDiscard).Value;
-            double yoga_end = returnLonFunc(horoscope.baseUT, ref bDiscard).Value;
+            double yoga_end = returnLonFunc(horoscope.BaseUT, ref bDiscard).Value;
             jd_st = jd + (yoga_end - yoga_start) / 360.0 * 28.0;
             if (yoga_end < yoga_start) jd_st += 28.0;
             l = new Longitude(yoga_end);
@@ -121,7 +121,7 @@ namespace org.transliteral.panchang
                     if (years >= 0) lon = (years - Math.Floor(years)) * 360.0;
                     else lon = (years - Math.Ceiling(years)) * 360.0;
                     l = new Longitude(lon + spos);
-                    jd = t.LinearSearch(horoscope.baseUT + years * 365.2425, l, new ReturnLon(t.LongitudeOfSun));
+                    jd = t.LinearSearch(horoscope.BaseUT + years * 365.2425, l, new ReturnLon(t.LongitudeOfSun));
                     jd += (horoscope.Info.tz.toDouble() / 24.0);
                     jd += offset;
                     Sweph.SWE_ReverseJulianDay(jd, ref year, ref month, ref day, ref dhour);
@@ -142,7 +142,7 @@ namespace org.transliteral.panchang
                 case DateType.TithiYear:
                     jd -= (horoscope.Info.tz.toDouble() / 24.0);
                     t = new Transit(horoscope);
-                    jd = horoscope.baseUT;
+                    jd = horoscope.BaseUT;
                     Longitude tithi_base = new Longitude(mpos - spos);
                     double days = years * yearLength;
                     Logger.Info(String.Format("Find {0} tithi days", days));
@@ -162,7 +162,7 @@ namespace org.transliteral.panchang
                 case DateType.YogaYear:
                     jd -= (horoscope.Info.tz.toDouble() / 24.0);
                     t = new Transit(horoscope);
-                    jd = horoscope.baseUT;
+                    jd = horoscope.BaseUT;
                     Longitude yoga_base = new Longitude(mpos + spos);
                     double yogaDays = years * yearLength;
                     Logger.Info(String.Format("Find {0} yoga days", yogaDays));
@@ -184,7 +184,7 @@ namespace org.transliteral.panchang
                     if (years >= 0) lon = (years - Math.Floor(years)) * 4320;
                     else lon = (years - Math.Ceiling(years)) * 4320;
                     lon *= (yearLength / 360.0);
-                    new_baseut = horoscope.baseUT;
+                    new_baseut = horoscope.BaseUT;
                     Longitude tithi = t.LongitudeOfTithi(new_baseut);
                     l = tithi.Add(new Longitude(lon));
                     Logger.Info(String.Format("{0} {1} {2}", 354.35, 354.35 * yearLength / 360.0, yearLength));

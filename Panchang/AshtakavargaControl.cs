@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace org.transliteral.panchang.app
 {
-    public class AshtakavargaControl : PanchangControl
+    public class AshtakavargaControl : BaseControl
     {
 
         private readonly System.ComponentModel.IContainer components = null;
@@ -40,10 +40,10 @@ namespace org.transliteral.panchang.app
             // This call is required by the Windows Form Designer.
             InitializeComponent();
             userOptions = new AshtakavargaOptions();
-            h = _h;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope = _h;
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
-            av = new Ashtakavarga(h, userOptions.VargaType);
+            av = new Ashtakavarga(horoscope, userOptions.VargaType);
             outerBodies = new BodyName[]
             {
                 BodyName.Sun, BodyName.Moon, BodyName.Mars,
@@ -78,7 +78,7 @@ namespace org.transliteral.panchang.app
         }
         private void OnRecalculate(object _h)
         {
-            av = new Ashtakavarga(h, userOptions.VargaType);
+            av = new Ashtakavarga(horoscope, userOptions.VargaType);
             DrawToBuffer();
             Invalidate();
         }
@@ -297,7 +297,7 @@ namespace org.transliteral.panchang.app
                     for (int z = 0; z < 12; z++)
                     {
                         Font f = fBig;
-                        int zh = (int)h.GetPosition(bin_body[off]).ToDivisionPosition(userOptions.VargaType).ZodiacHouse.Value;
+                        int zh = (int)horoscope.GetPosition(bin_body[off]).ToDivisionPosition(userOptions.VargaType).ZodiacHouse.Value;
                         if (z == zh - 1)
                             f = fBigBold;
                         Point p = dc.GetSingleItemOffset(new ZodiacHouse((ZodiacHouseName)z + 1));
@@ -688,7 +688,7 @@ namespace org.transliteral.panchang.app
         {
             AshtakavargaOptions ao = (AshtakavargaOptions)o;
             if (ao.VargaType != userOptions.VargaType)
-                av = new Ashtakavarga(h, ao.VargaType);
+                av = new Ashtakavarga(horoscope, ao.VargaType);
             userOptions.SetOptions(ao);
             DrawToBuffer();
             Invalidate();
@@ -739,7 +739,7 @@ namespace org.transliteral.panchang.app
                 if (null == div) return;
                 userOptions.VargaType = div;
                 SetOptions(userOptions);
-                OnRecalculate(h);
+                OnRecalculate(horoscope);
             }
         }
     }

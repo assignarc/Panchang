@@ -5,10 +5,6 @@ using System.Diagnostics;
 namespace org.transliteral.panchang
 {
 
-    /// <summary>
-    /// Contains all the information for a horoscope. i.e. All ephemeris lookups
-    /// have been completed, sunrise/sunset has been calculated etc.
-    /// </summary>
     public class Horoscope : ICloneable
     {
         public event EvtChanged Changed;
@@ -20,29 +16,34 @@ namespace org.transliteral.panchang
         public double NextSunrise;
         public double NextSunset;
         public double Ayanamsa;
-        public double lmt_offset;
-        public double baseUT;
+        public double LMT_Offset;
+        public double BaseUT;
         public Weekday Weekday;
         public Weekday WeekdayLMT;
         public ArrayList PositionList;
         public Longitude[] SwephHouseCusps;
         public int SwephHouseSystem;
         public StrengthOptions StrengthOptions;
+
+
         private readonly string[] VarnadaStars = new string[]
-          {
-                "VL", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11", "V12"
-          };
+        {
+            "VL", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11", "V12"
+        };
         public HoroscopeOptions Options;
+
         public BodyName[] KalaOrder = new BodyName[]
-           {
-                BodyName.Sun, BodyName.Mars, BodyName.Jupiter, BodyName.Mercury,
-                BodyName.Venus, BodyName.Saturn, BodyName.Moon, BodyName.Rahu
-           };
+        {
+            BodyName.Sun, BodyName.Mars, BodyName.Jupiter, BodyName.Mercury,
+            BodyName.Venus, BodyName.Saturn, BodyName.Moon, BodyName.Rahu
+        };
+
         public BodyName[] HoraOrder = new BodyName[]
-           {
-                BodyName.Sun, BodyName.Venus, BodyName.Mercury, BodyName.Moon,
-                BodyName.Saturn, BodyName.Jupiter, BodyName.Mars
-           };
+        {
+            BodyName.Sun, BodyName.Venus, BodyName.Mercury, BodyName.Moon,
+            BodyName.Saturn, BodyName.Jupiter, BodyName.Mars
+        };
+
         public Horoscope(HoraInfo _info, HoroscopeOptions _options)
         {
             Options = _options;
@@ -254,14 +255,14 @@ namespace org.transliteral.panchang
         }
         private void PopulateLmt()
         {
-            this.lmt_offset = GetLmtOffset(Info, baseUT);
-            this.SunriseLMT = 6.0 + lmt_offset * 24.0;
-            this.SunsetLMT = 18.0 + lmt_offset * 24.0;
+            this.LMT_Offset = GetLmtOffset(Info, BaseUT);
+            this.SunriseLMT = 6.0 + LMT_Offset * 24.0;
+            this.SunsetLMT = 18.0 + LMT_Offset * 24.0;
         }
         public double GetLmtOffsetDays(HoraInfo info, double _baseUT)
         {
             double ut_lmt_noon = this.GetLmtOffset(info, _baseUT);
-            double ut_noon = this.baseUT - info.tob.Time / 24.0 + 12.0 / 24.0;
+            double ut_noon = this.BaseUT - info.tob.Time / 24.0 + 12.0 / 24.0;
             return ut_lmt_noon - ut_noon;
         }
         public double GetLmtOffset(HoraInfo _info, double _baseUT)
@@ -280,18 +281,18 @@ namespace org.transliteral.panchang
             Logger.Info(String.Format("LMT: {0}, {1}", lmt_offset_1, lmt_offset_2));
 
             return ret_lmt_offset;
-            #if DND
+#if DND
 			// determine offset from ephemeris time
 			lmt_offset = 0;
 			double tjd_et = baseUT + Sweph.swe_deltat(baseUT);
 			System.Text.StringBuilder s = new System.Text.StringBuilder(256);
 			int ret = Sweph.swe_time_equ(tjd_et, ref lmt_offset, s);
-            #endif
+#endif
         }
         private void PopulateSunrisetCache()
         {
             double sunrise_ut = 0.0;
-            this.PopulateSunrisetCacheHelper(this.baseUT, ref this.NextSunrise, ref this.NextSunset, ref sunrise_ut);
+            this.PopulateSunrisetCacheHelper(this.BaseUT, ref this.NextSunrise, ref this.NextSunset, ref sunrise_ut);
             this.PopulateSunrisetCacheHelper(sunrise_ut - 1.0 - (1.0 / 24.0), ref this.Sunrise, ref this.Sunset, ref sunrise_ut);
           
             Logger.Info("Sunrise[t]: " + this.Sunrise.ToString() + " " + this.Sunrise.ToString() + "Basics");
@@ -302,8 +303,8 @@ namespace org.transliteral.panchang
             switch (Options.SunrisePosition)
             {
                 case SunrisePositionType.Lmt:
-                    sr = 6.0 + lmt_offset * 24.0;
-                    ss = 18.0 + lmt_offset * 24.0;
+                    sr = 6.0 + LMT_Offset * 24.0;
+                    ss = 18.0 + LMT_Offset * 24.0;
                     break;
                 case SunrisePositionType.TrueDiscEdge:
                     srflag = Sweph.SE_BIT_NO_REFRACTION; goto default;
@@ -372,11 +373,12 @@ namespace org.transliteral.panchang
             }
             return cusps;
         }
+       
         public double[] GetSunrisetCuspsUt(int dayParts)
         {
             double[] ret = new double[dayParts * 2 + 1];
 
-            double sr_ut = this.baseUT - this.HoursAfterSunrise() / 24.0;
+            double sr_ut = this.BaseUT - this.HoursAfterSunrise() / 24.0;
             double ss_ut = sr_ut - this.Sunrise / 24.0 + this.Sunset / 24.0;
             double sr_next_ut = sr_ut - this.Sunrise / 24.0 + this.NextSunrise / 24.0 + 1.0;
 
@@ -393,7 +395,7 @@ namespace org.transliteral.panchang
         {
             double[] ret = new double[dayParts * 2 + 1];
 
-            double sr_ut = this.baseUT - this.HoursAfterSunrise() / 24.0;
+            double sr_ut = this.BaseUT - this.HoursAfterSunrise() / 24.0;
             double sr_next_ut = sr_ut - this.Sunrise / 24.0 + this.NextSunrise / 24.0 + 1.0;
             double span = (sr_next_ut - sr_ut) / (dayParts * 2);
 
@@ -405,16 +407,16 @@ namespace org.transliteral.panchang
         public double[] GetLmtCuspsUt(int dayParts)
         {
             double[] ret = new double[dayParts * 2 + 1];
-            double sr_lmt_ut = this.baseUT - this.HoursAfterSunrise() / 24.0 - this.Sunrise / 24.0 + 6.0 / 24.0;
+            double sr_lmt_ut = this.BaseUT - this.HoursAfterSunrise() / 24.0 - this.Sunrise / 24.0 + 6.0 / 24.0;
             double sr_lmt_next_ut = sr_lmt_ut + 1.0;
             //double sr_lmt_ut = this.baseUT - this.info.tob.time / 24.0 + 6.0 / 24.0;
             //double sr_lmt_next_ut = sr_lmt_ut + 1.0;
 
-            double lmt_offset = this.GetLmtOffset(this.Info, this.baseUT);
+            double lmt_offset = this.GetLmtOffset(this.Info, this.BaseUT);
             sr_lmt_ut += lmt_offset;
             sr_lmt_next_ut += lmt_offset;
 
-            if (sr_lmt_ut > this.baseUT)
+            if (sr_lmt_ut > this.BaseUT)
             {
                 sr_lmt_ut--;
                 sr_lmt_next_ut--;
@@ -455,7 +457,7 @@ namespace org.transliteral.panchang
             {
                 for (j = 0; j < 8; j++)
                 {
-                    if (this.baseUT >= cusps[j] && this.baseUT < cusps[j + 1])
+                    if (this.BaseUT >= cusps[j] && this.BaseUT < cusps[j + 1])
                         break;
                 }
                 i += j;
@@ -467,7 +469,7 @@ namespace org.transliteral.panchang
                 //i+=4;
                 for (j = 8; j < 16; j++)
                 {
-                    if (this.baseUT >= cusps[j] && this.baseUT < cusps[j + 1])
+                    if (this.BaseUT >= cusps[j] && this.BaseUT < cusps[j + 1])
                         break;
                 }
                 i += j;
@@ -481,7 +483,7 @@ namespace org.transliteral.panchang
         public BodyName CalculateHora()
         {
             int iBody = 0;
-            return this.CalculateHora(this.baseUT, ref iBody);
+            return this.CalculateHora(this.BaseUT, ref iBody);
         }
         public BodyName CalculateHora(double _baseUT, ref int baseBody)
         {
@@ -786,7 +788,7 @@ namespace org.transliteral.panchang
             double[] ascmc = new double[10];
 
             Sweph.Lock(this);
-            Sweph.SWE_HousesEx(this.baseUT, Sweph.SEFLG_SIDEREAL,
+            Sweph.SWE_HousesEx(this.BaseUT, Sweph.SEFLG_SIDEREAL,
                 Info.lat.toDouble(), Info.lon.toDouble(), this.SwephHouseSystem,
                 dCusps, ascmc);
             Sweph.Unlock(this);
@@ -809,7 +811,7 @@ namespace org.transliteral.panchang
             // The stuff here is largely order sensitive
             // Try to add new definitions to the end
 
-            baseUT = Sweph.SWE_JullianDay(Info.tob.Year, Info.tob.Month, Info.tob.Day,
+            BaseUT = Sweph.SWE_JullianDay(Info.tob.Year, Info.tob.Month, Info.tob.Day,
                 Info.tob.Time - Info.tz.toDouble());
 
 
@@ -891,7 +893,7 @@ namespace org.transliteral.panchang
             for (int i = 1; i <= 12; i++)
             {
                 double specialDiff = diff * (double)(i - 1);
-                double tjd = this.baseUT + specialDiff / 24.0;
+                double tjd = this.BaseUT + specialDiff / 24.0;
                 double asc = Sweph.SWE_Lagna(tjd);
                 string desc = String.Format("Special Lagna ({0:00})", i);
                 this.AddOtherPosition(desc, new Longitude(asc));

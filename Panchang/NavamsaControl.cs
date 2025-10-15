@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace org.transliteral.panchang.app
 {
-    public class NavamsaControl : PanchangControl
+    public class NavamsaControl : BaseControl
     {
         private IContainer components = null;
         public Bitmap bmpBuffer = null;
@@ -20,9 +20,9 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
+            horoscope = _h;
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(onRedisplay);
-            h.Changed += new EvtChanged(onRecalculate);
+            horoscope.Changed += new EvtChanged(onRecalculate);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
             pn_lgrey = new Pen(Color.LightGray, (float)0.1);
@@ -42,7 +42,7 @@ namespace org.transliteral.panchang.app
         protected override void Dispose(bool disposing)
         {
             PanchangAppOptions.DisplayPrefsChanged -= new EvtChanged(onRedisplay);
-            h.Changed -= new EvtChanged(onRecalculate);
+            horoscope.Changed -= new EvtChanged(onRecalculate);
             if (disposing)
             {
                 components?.Dispose();
@@ -174,12 +174,12 @@ namespace org.transliteral.panchang.app
 
             }
 
-            double dist_sat = h.GetPosition(BodyName.Saturn).Distance;
+            double dist_sat = horoscope.GetPosition(BodyName.Saturn).Distance;
             foreach (BodyName b in bodies)
             {
                 Pen pn_b = new Pen(PanchangAppOptions.Instance.GetBinduColor(b));
                 Brush br_b = new SolidBrush(PanchangAppOptions.Instance.GetBinduColor(b));
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 ResetChakra(g, bp.Longitude.Value);
                 int chWidth = 2;
                 g.DrawEllipse(pn_black, 110 - chWidth, 0, 1, 1);

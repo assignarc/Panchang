@@ -16,13 +16,13 @@ namespace org.transliteral.panchang.app
         private GlobalMoments globals = null;
         private ArrayList locals = null;
         private Horoscope h = null;
-        private PanchangaControl.UserOptions opts = null;
+        private PanchangOptions opts = null;
 
         public bool bPrintPanchanga = true;
         public bool bPrintLagna = false;
 
         public PanchangaPrintDocument(
-            PanchangaControl.UserOptions _opts,
+            PanchangOptions _opts,
             Horoscope _h, GlobalMoments _globals, ArrayList _locals)
         {
             h = _h;
@@ -259,7 +259,7 @@ namespace org.transliteral.panchang.app
                 int numSMYogas = local.TithiIndexEnd - local.TithiIndexStart;
                 int numKaranas = local.TithiIndexEnd - local.TithiIndexStart;
 
-                if (opts.CalcTithiCusps)
+                if (opts.CalculateTithiCusps)
                 {
                     numLines = Math.Max(numLines, numTithis);
                     for (int j = 0; j < numTithis; j++)
@@ -273,7 +273,7 @@ namespace org.transliteral.panchang.app
                     }
                 }
 
-                if (opts.CalcKaranaCusps)
+                if (opts.CalculateKaranaCusps)
                 {
                     numLines = Math.Max(numLines, (int)Math.Ceiling(numKaranas / 2.0));
                     for (int j = 0; j < numKaranas; j++)
@@ -296,7 +296,7 @@ namespace org.transliteral.panchang.app
                     }
                 }
 
-                if (opts.CalcNakCusps)
+                if (opts.CalculateNakshatraCusps)
                 {
                     numLines = Math.Max(numLines, numNaks);
                     for (int j = 0; j < numNaks; j++)
@@ -310,7 +310,7 @@ namespace org.transliteral.panchang.app
                     }
                 }
 
-                if (opts.CalcSMYogaCusps)
+                if (opts.CalculateSunMoonYogaCusps)
                 {
                     numLines = Math.Max(numLines, numSMYogas);
                     for (int j = 0; j < numSMYogas; j++)

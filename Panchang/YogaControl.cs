@@ -12,7 +12,7 @@ using org.transliteral.panchang;
 
 namespace org.transliteral.panchang.app
 {
-    public class YogaControl : PanchangControl
+    public class YogaControl : BaseControl
     {
         private ListView mList;
         private IContainer components = null;
@@ -27,11 +27,11 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
-            fy = new FindYogas(h, new Division(DivisionType.Rasi));
+            horoscope = _h;
+            fy = new FindYogas(horoscope, new Division(DivisionType.Rasi));
             mList.BackColor = PanchangAppOptions.Instance.ChakraBackgroundColor;
             AddViewsToContextMenu(mContext);
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope.Changed += new EvtChanged(OnRecalculate);
 
             evaluateYogas();
             // TODO: Add any initialization after the InitializeComponent call

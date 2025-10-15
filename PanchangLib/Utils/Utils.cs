@@ -1,9 +1,53 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace org.transliteral.panchang
 {
-  
+    public class TimeUtils
+    {
+        public static string TimeToString(double time)
+        {
+            HMSInfo hms = new HMSInfo(time);
+            return string.Format("{0:00}:{1:00}",
+                hms.degree, hms.minute, hms.second);
+        }
+        public static TimeSpan ToTimeSpan(double time)=> new HMSInfo(time).ToTimeSpan();
+        public static string UtTimeToString(double ut_event, double ut_sr, double sunrise, HMSInfo timezone, bool showLargeHours)
+        {
+            Moment m = TimeUtils.UtToMoment(ut_event, timezone);
+            HMSInfo hms = new HMSInfo(m.Time);
+
+            if (ut_event >= (ut_sr - (sunrise / 24.0) + 1.0))
+            {
+                if (false == showLargeHours)
+                    return string.Format("*{0:00}:{1:00}", hms.degree, hms.minute);
+                else
+                    return string.Format("{0:00}:{1:00}", hms.degree + 24, hms.minute);
+            }
+            return string.Format("{0:00}:{1:00}", hms.degree, hms.minute);
+        }
+        private static Moment UtToMoment(double found_ut, HMSInfo timezone)
+        {
+            // turn into horoscope
+            int year = 0, month = 0, day = 0;
+            double hour = 0;
+            found_ut += (timezone.toDouble() / 24.0);
+            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
+            Moment m = new Moment(year, month, day, hour);
+            return m;
+        }
+        public static string UtToString(double ut, HMSInfo timezone)
+        {
+            int year = 0, month = 0, day = 0;
+            double time = 0;
+
+            ut += timezone.toDouble() / 24.0;
+            Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref time);
+            return TimeUtils.TimeToString(time);
+        }
+    }
     public class HoraVerifier
     {
         public static bool GoodHash(string key, string hash)

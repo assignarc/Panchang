@@ -153,6 +153,11 @@ namespace org.transliteral.panchang
             return string.Format("{0:00} {1} {2}", m_day, ToStringMonth(m_month), m_year);
         }
 
+        public DateTime ToDateTime()
+        {
+            return new DateTime(m_year, m_month, m_day, m_hour, m_minute, m_second, DateTimeKind.Local);
+        }
+
         public string ToTimeString()
         {
             return this.ToTimeString(false);

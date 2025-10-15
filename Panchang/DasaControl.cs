@@ -14,7 +14,7 @@ namespace org.transliteral.panchang.app
     /// <summary>
     /// Summary description for DasaControl.
     /// </summary>
-    public class DasaControl : PanchangControl //System.Windows.Forms.UserControl
+    public class DasaControl : BaseControl //System.Windows.Forms.UserControl
     {
         private ListView dasaItemList;
         private ColumnHeader Dasa;
@@ -134,7 +134,7 @@ namespace org.transliteral.panchang.app
             min_cycle = max_cycle = 0;
             double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             ArrayList a = id.Dasa(0);
             foreach (DasaEntry de in a)
             {
@@ -142,7 +142,7 @@ namespace org.transliteral.panchang.app
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             LocateChartEvents();
         }
 
@@ -163,15 +163,15 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
 
             // TODO: Add any initialization after the InitForm call
-            h = _h;
+            horoscope = _h;
             id = _id;
             mDasaOptions = new Dasa.Options();
 
-            if (h.Info.defaultYearCompression != 0)
+            if (horoscope.Info.defaultYearCompression != 0)
             {
-                mDasaOptions.Compression = h.Info.defaultYearCompression;
-                mDasaOptions.YearLength = h.Info.defaultYearLength;
-                mDasaOptions.YearType = h.Info.defaultYearType;
+                mDasaOptions.Compression = horoscope.Info.defaultYearCompression;
+                mDasaOptions.YearLength = horoscope.Info.defaultYearLength;
+                mDasaOptions.YearType = horoscope.Info.defaultYearType;
             }
 
 
@@ -183,7 +183,7 @@ namespace org.transliteral.panchang.app
             Dasa d = (Dasa)id;
             d.RecalculateEvent += new Recalculate(recalculateEntries);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(ResetDisplayOptions);
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             SetDescriptionLabel();
             d.Changed += new EvtChanged(OnDasaChanged);
             if (dasaItemList.Items.Count >= 1)
@@ -202,12 +202,12 @@ namespace org.transliteral.panchang.app
             {
                 if (value == true)
                 {
-                    h.Changed += new EvtChanged(OnRecalculate);
+                    horoscope.Changed += new EvtChanged(OnRecalculate);
                     ((Dasa)id).Changed += new EvtChanged(OnDasaChanged);
                 }
                 else
                 {
-                    h.Changed -= new EvtChanged(OnRecalculate);
+                    horoscope.Changed -= new EvtChanged(OnRecalculate);
                     ((Dasa)id).Changed += new EvtChanged(OnDasaChanged);
                 }
             }
@@ -669,13 +669,13 @@ namespace org.transliteral.panchang.app
             if (dasaItemList.SelectedItems.Count == 0)
                 return;
 
-            Horoscope h2 = (Horoscope)h.Clone();
+            Horoscope h2 = (Horoscope)horoscope.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             Moment m = td.AddYears(di.entry.startUT);
             h2.Info.tob = m;
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
 
             PanchangChild mchild = (PanchangChild)ParentForm;
             PanchangContainer mcont = (PanchangContainer)ParentForm.ParentForm;
@@ -689,16 +689,16 @@ namespace org.transliteral.panchang.app
             if (dasaItemList.SelectedItems.Count == 0)
                 return;
 
-            Horoscope h2 = (Horoscope)h.Clone();
+            Horoscope h2 = (Horoscope)horoscope.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             Moment m = td.AddYears(di.entry.startUT);
             Moment mEnd = td.AddYears(di.entry.startUT + di.entry.dasaLength);
 
             double ut_diff = mEnd.ToUniversalTime() - m.ToUniversalTime();
             h2.Info.tob = m;
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
 
 
             h2.Info.defaultYearCompression = 1;
@@ -719,12 +719,12 @@ namespace org.transliteral.panchang.app
             if (dasaItemList.SelectedItems.Count == 0)
                 return;
 
-            Horoscope h2 = (Horoscope)h.Clone();
+            Horoscope h2 = (Horoscope)horoscope.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             Moment m = td.AddYears(di.entry.startUT);
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             h2.Info.tob = m;
 
             h2.OnChanged();
@@ -732,13 +732,13 @@ namespace org.transliteral.panchang.app
             // if done once, get something usually 2+ minutes off. 
             // don't know why this is.
             double offsetSunrise = h2.HoursAfterSunrise() / 24.0;
-            m = new Moment(h2.baseUT - offsetSunrise, h2);
+            m = new Moment(h2.BaseUT - offsetSunrise, h2);
             h2.Info.tob = m;
             h2.OnChanged();
 
             // so do it a second time, getting sunrise + 1 second.
             offsetSunrise = h2.HoursAfterSunrise() / 24.0;
-            m = new Moment(h2.baseUT - offsetSunrise + 1.0 / (24.0 * 60.0 * 60.0), h2);
+            m = new Moment(h2.BaseUT - offsetSunrise + 1.0 / (24.0 * 60.0 * 60.0), h2);
             h2.Info.tob = m;
             h2.OnChanged();
 
@@ -757,9 +757,9 @@ namespace org.transliteral.panchang.app
                 return;
 
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             Moment m = td.AddYears(di.entry.startUT);
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             Clipboard.SetDataObject(m.ToString(), true);
         }
 
@@ -802,7 +802,7 @@ namespace org.transliteral.panchang.app
             ArrayList a = id.AntarDasa(di.entry);
             double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
 
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             foreach (DasaEntry de in a)
             {
                 DasaItem pdi = new DasaItem(de);
@@ -810,7 +810,7 @@ namespace org.transliteral.panchang.app
                 dasaItemList.Items.Insert(index, pdi);
                 index++;
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             dasaItemList.EndUpdate();
             //this.dasaItemList.Items[index-1].Selected = true;
         }
@@ -847,14 +847,14 @@ namespace org.transliteral.panchang.app
                 ArrayList b = id.Dasa(i);
                 a.AddRange(b);
             }
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             LocateChartEvents();
         }
 
@@ -871,7 +871,7 @@ namespace org.transliteral.panchang.app
             min_cycle--;
             ArrayList a = id.Dasa(min_cycle);
             int i = 0;
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
@@ -879,21 +879,21 @@ namespace org.transliteral.panchang.app
                 dasaItemList.Items.Insert(i, di);
                 i++;
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
         }
 
         private void mNextCycle_Click(object sender, EventArgs e)
         {
             max_cycle++;
             ArrayList a = id.Dasa(max_cycle);
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             foreach (DasaEntry de in a)
             {
                 DasaItem di = new DasaItem(de);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
         }
 
         private void mReset_Click(object sender, EventArgs e)
@@ -903,13 +903,13 @@ namespace org.transliteral.panchang.app
 
         private void mVimsottari_Click(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
 
         private void mAshtottari_Click(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaAshtottari);
         }
 
@@ -924,9 +924,9 @@ namespace org.transliteral.panchang.app
             double compress = mDasaOptions.Compression == 0.0 ? 0.0 : mDasaOptions.Compression / id.ParamAyus();
             if (mDasaOptions.YearType == DateType.FixedYear)// ||
                                                             //mDasaOptions.YearType == DateType.TithiYear)
-                td = new ToDate(h.baseUT, mDasaOptions.YearLength, compress, h);
+                td = new ToDate(horoscope.BaseUT, mDasaOptions.YearLength, compress, horoscope);
             else
-                td = new ToDate(h.baseUT, mDasaOptions.YearType, mDasaOptions.YearLength, compress, h);
+                td = new ToDate(horoscope.BaseUT, mDasaOptions.YearType, mDasaOptions.YearLength, compress, horoscope);
 
             td.SetOffset(mDasaOptions.OffsetDays + mDasaOptions.OffsetHours / 24.0 + mDasaOptions.OffsetMinutes / (24.0 * 60.0));
         }
@@ -1116,14 +1116,14 @@ namespace org.transliteral.panchang.app
         private void mCompressTithiPraveshaTithi_Click(object sender, EventArgs e)
         {
             mDasaOptions.YearType = DateType.TithiYear;
-            ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-            ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
-            Sweph.Lock(h);
+            ToDate td_pravesh = new ToDate(horoscope.BaseUT, DateType.TithiPraveshYear, 360.0, 0, horoscope);
+            ToDate td_tithi = new ToDate(horoscope.BaseUT, DateType.TithiYear, 360.0, 0, horoscope);
+            Sweph.Lock(horoscope);
             if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
                 mDasaOptions.YearLength = 390;
             else
                 mDasaOptions.YearLength = 360;
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             mDasaOptions.Compression = 1;
             SetDasaYearType();
             Reset();
@@ -1132,20 +1132,20 @@ namespace org.transliteral.panchang.app
         public void compressToYogaPraveshaYearYoga()
         {
             mDasaOptions.YearType = DateType.YogaYear;
-            ToDate td_pravesh = new ToDate(h.baseUT, DateType.YogaPraveshYear, 360.0, 0, h);
-            ToDate td_yoga = new ToDate(h.baseUT, DateType.YogaYear, 324.0, 0, h);
-            Sweph.Lock(h);
+            ToDate td_pravesh = new ToDate(horoscope.BaseUT, DateType.YogaPraveshYear, 360.0, 0, horoscope);
+            ToDate td_yoga = new ToDate(horoscope.BaseUT, DateType.YogaYear, 324.0, 0, horoscope);
+            Sweph.Lock(horoscope);
             double date_to_surpass = td_pravesh.AddYears(1).ToUniversalTime() - 5;
             double date_current = td_yoga.AddYears(0).ToUniversalTime();
             double months = 0;
             while (date_current < date_to_surpass)
             {
-                Logger.Info($"{new Moment(date_current, h)} > {new Moment(date_to_surpass, h)}");
+                Logger.Info($"{new Moment(date_current, horoscope)} > {new Moment(date_to_surpass, horoscope)}");
 
                 months++;
                 date_current = td_yoga.AddYears(months / 12.0).ToUniversalTime();
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             mDasaOptions.Compression = 1;
             mDasaOptions.YearLength = (int)months * 27;
             SetDasaYearType();
@@ -1159,33 +1159,33 @@ namespace org.transliteral.panchang.app
 
         private void mCompressTithiPraveshaSolar_Click(object sender, EventArgs e)
         {
-            ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-            Sweph.Lock(h);
+            ToDate td_pravesh = new ToDate(horoscope.BaseUT, DateType.TithiPraveshYear, 360.0, 0, horoscope);
+            Sweph.Lock(horoscope);
             double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
             double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
             BodyPosition sp_start = Basics.CalculateSingleBodyPosition(
-                ut_start, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
+                ut_start, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, horoscope);
             BodyPosition sp_end = Basics.CalculateSingleBodyPosition(
-                ut_end, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, h);
+                ut_end, Sweph.BodyNameToSweph(BodyName.Sun), BodyName.Sun, BodyType.Name.Graha, horoscope);
             Longitude lDiff = sp_end.Longitude.Subtract(sp_start.Longitude);
             double diff = lDiff.Value;
             if (diff < 120.0) diff += 360.0;
 
             DasaOptions.YearType = DateType.SolarYear;
             DasaOptions.YearLength = diff;
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             DasaOptions.Compression = 1;
             Reset();
         }
 
         private void mCompressedTithiPraveshaFixed_Click(object sender, EventArgs e)
         {
-            ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-            Sweph.Lock(h);
+            ToDate td_pravesh = new ToDate(horoscope.BaseUT, DateType.TithiPraveshYear, 360.0, 0, horoscope);
+            Sweph.Lock(horoscope);
             DasaOptions.YearType = DateType.FixedYear;
             DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() -
                 td_pravesh.AddYears(0).ToUniversalTime();
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             Reset();
         }
 
@@ -1217,7 +1217,7 @@ namespace org.transliteral.panchang.app
 
         private void bRasiStrengths_Click(object sender, EventArgs e)
         {
-            new RasiStrengthsControl(h).ShowDialog();
+            new RasiStrengthsControl(horoscope).ShowDialog();
             //this.mRasiStrengths_Click(sender, e);		
         }
 
@@ -1225,14 +1225,14 @@ namespace org.transliteral.panchang.app
         {
             dasaItemList.Items.Clear();
             DasaEntry[] al = ((DasaEntriesWrapper)a).Entries;
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             for (int i = 0; i < al.Length; i++)
             {
                 DasaItem di = new DasaItem(al[i]);
                 di.populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(di);
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
             LocateChartEvents();
             return a;
         }
@@ -1281,13 +1281,13 @@ namespace org.transliteral.panchang.app
                 am[i] = new DasaItem(al[i]);
             }
             dasaItemList.Items.Clear();
-            Sweph.Lock(h);
+            Sweph.Lock(horoscope);
             for (int i = 0; i < am.Length; i++)
             {
                 am[i].populateListViewItemMembers(td, id);
                 dasaItemList.Items.Add(am[i]);
             }
-            Sweph.Unlock(h);
+            Sweph.Unlock(horoscope);
         }
 
         private void mDasaDown_Click(object sender, EventArgs e)
@@ -1295,7 +1295,7 @@ namespace org.transliteral.panchang.app
             if (dasaItemList.SelectedItems.Count == 0)
                 return;
 
-            Horoscope h2 = (Horoscope)h.Clone();
+            Horoscope h2 = (Horoscope)horoscope.Clone();
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
 
             Moment m = td.AddYears(di.entry.startUT);
@@ -1322,7 +1322,7 @@ namespace org.transliteral.panchang.app
 
         private void bGrahaStrengths_Click(object sender, EventArgs e)
         {
-            GrahaStrengthsControl gc = new GrahaStrengthsControl(h);
+            GrahaStrengthsControl gc = new GrahaStrengthsControl(horoscope);
             gc.ShowDialog();
         }
 
@@ -1359,19 +1359,19 @@ namespace org.transliteral.panchang.app
 
         private void ExpandEvent(Moment m, int levels, string eventDesc)
         {
-            double ut_m = m.ToUniversalTime(h);
+            double ut_m = m.ToUniversalTime(horoscope);
             for (int i = 0; i < dasaItemList.Items.Count; i++)
             {
                 DasaItem di = (DasaItem)dasaItemList.Items[i];
 
-                Sweph.Lock(h);
+                Sweph.Lock(horoscope);
                 Moment m_start = td.AddYears(di.entry.startUT);
                 Moment m_end = td.AddYears(di.entry.startUT + di.entry.dasaLength);
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
 
 
-                double ut_start = m_start.ToUniversalTime(h);
-                double ut_end = m_end.ToUniversalTime(h);
+                double ut_start = m_start.ToUniversalTime(horoscope);
+                double ut_end = m_end.ToUniversalTime(horoscope);
 
 
                 if (ut_m >= ut_start && ut_m < ut_end)
@@ -1421,7 +1421,7 @@ namespace org.transliteral.panchang.app
             if (mShowEvents.Checked == false)
                 return;
 
-            foreach (UserEvent ue in h.Info.Events.Cast<UserEvent>())
+            foreach (UserEvent ue in horoscope.Info.Events.Cast<UserEvent>())
             {
                 if (ue.WorkWithEvent == true)
                     ExpandEvent(ue.EventTime, PanchangAppOptions.Instance.DasaEventsLevel, ue.ToString());
@@ -1480,7 +1480,7 @@ namespace org.transliteral.panchang.app
             DasaItem di = (DasaItem)dasaItemList.SelectedItems[0];
             DasaEntry de = di.entry;
 
-            Dasa3Parts form = new Dasa3Parts(h, de, td);
+            Dasa3Parts form = new Dasa3Parts(horoscope, de, td);
             form.Show();
         }
 

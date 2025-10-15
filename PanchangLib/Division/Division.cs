@@ -85,10 +85,7 @@ namespace org.transliteral.panchang
         }
         public override bool Equals(object obj)
         {
-            if (obj is Division)
-                return (this == (Division)obj);
-            else
-                return base.Equals(obj);
+            return obj is Division ? this == (Division)obj : base.Equals(obj);
         }
 
         public static bool operator !=(Division d1, Division d2)

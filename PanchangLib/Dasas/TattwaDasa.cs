@@ -38,7 +38,7 @@ namespace org.transliteral.panchang
 			ArrayList al = new ArrayList();
 			
 			double day_length = h.NextSunrise + 24.0 - h.Sunrise;
-			double day_sr = Math.Floor(h.baseUT) + (h.Sunrise / 24.0);
+			double day_sr = Math.Floor(h.BaseUT) + (h.Sunrise / 24.0);
 
 			return al;
 		}

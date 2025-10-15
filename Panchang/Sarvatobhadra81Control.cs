@@ -10,7 +10,7 @@ using System.Diagnostics;
 using org.transliteral.panchang;
 namespace org.transliteral.panchang.app
 {
-    public class Sarvatobhadra81Control : PanchangControl
+    public class Sarvatobhadra81Control : BaseControl
     {
         private IContainer components = null;
 
@@ -27,8 +27,8 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope = _h;
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
@@ -148,7 +148,7 @@ namespace org.transliteral.panchang.app
             int[] items = new int[29];
             for (int i = 0; i < 29; i++)
                 items[i] = 0;
-            foreach (BodyPosition bp in h.PositionList)
+            foreach (BodyPosition bp in horoscope.PositionList)
             {
                 if (bp.type != BodyType.Name.Graha &&
                     bp.type != BodyType.Name.Lagna) continue;

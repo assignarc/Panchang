@@ -178,7 +178,7 @@ namespace org.transliteral.panchang.app
 
 
             double ut_span = (ut_higher - ut_lower) / Basics.NumPartsInDivision(dtype) * 5.0;
-            double ut_curr = h.baseUT;
+            double ut_curr = h.BaseUT;
             ut_lower = ut_curr - ut_span / 2.0;
             ut_higher = ut_curr + ut_span / 2.0;
 
@@ -441,10 +441,10 @@ namespace org.transliteral.panchang.app
             g.DrawLine(p_lgray, x_offset, unit_height / 2, x_offset, opts.Divisions.Length * unit_height + unit_height / 2);
 
 
-            x_offset = (float)((h.baseUT - ut_lower) / (ut_higher - ut_lower) * bar_width) + vname_width;
+            x_offset = (float)((h.BaseUT - ut_lower) / (ut_higher - ut_lower) * bar_width) + vname_width;
             float y_max = opts.Divisions.Length * unit_height + unit_height / 2;
             g.DrawLine(p_red, x_offset, unit_height / 2, x_offset, y_max);
-            Moment mNow = utToMoment(h.baseUT);
+            Moment mNow = utToMoment(h.BaseUT);
             s = mNow.ToTimeString(menuDisplaySeconds.Checked);
             sz = g.MeasureString(s, f_time);
             g.DrawString(s, f_time, Brushes.DarkRed, x_offset - sz.Width / 2, y_max);
