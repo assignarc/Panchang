@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using org.transliteral.panchang;
 namespace org.transliteral.panchang.app
 {
-    public class VaraChakra : PanchangControl
+    public class VaraChakra : BaseControl
     {
         private IContainer components = null;
         private ContextMenu contextMenu;
@@ -22,8 +22,8 @@ namespace org.transliteral.panchang.app
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope = _h;
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnResize);
             pn_black = new Pen(Color.Black, (float)0.1);
             pn_grey = new Pen(Color.Gray, (float)0.1);
@@ -122,7 +122,7 @@ namespace org.transliteral.panchang.app
                 g.DrawString(Body.ToString(bodies[i]), f, b_black, -sz.Width / 2, 0);
             }
 
-            if (h.IsDayBirth())
+            if (horoscope.IsDayBirth())
             {
 
             }

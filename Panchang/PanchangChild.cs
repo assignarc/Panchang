@@ -421,7 +421,7 @@ namespace org.transliteral.panchang.app
             if (Contents != null)
                 Controls.Remove(Contents);
 
-            PanchangControl mc = new JhoraMainTab(h);
+            BaseControl mc = new JhoraMainTab(h);
             //DasaControl dc = new DasaControl(h, new VimsottariDasa(h));
             PanchangControlContainer c_dc = new PanchangControlContainer(mc);
 

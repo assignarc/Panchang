@@ -9,7 +9,7 @@ namespace org.transliteral.panchang.app
 
     public class PanchangControlContainer : UserControl
     {
-        private PanchangControl mControl;
+        private BaseControl mControl;
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -43,7 +43,7 @@ namespace org.transliteral.panchang.app
 
         public void SetView(BaseUserOptionsViewType view)
         {
-            PanchangControl mc = null; ;
+            BaseControl mc = null; ;
 
             switch (view)
             {
@@ -164,8 +164,8 @@ namespace org.transliteral.panchang.app
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
                         dc.DasaOptions.YearType = DateType.TithiYear;
-                        ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
-                        ToDate td_tithi = new ToDate(h.baseUT, DateType.TithiYear, 360.0, 0, h);
+                        ToDate td_pravesh = new ToDate(h.BaseUT, DateType.TithiPraveshYear, 360.0, 0, h);
+                        ToDate td_tithi = new ToDate(h.BaseUT, DateType.TithiYear, 360.0, 0, h);
                         Sweph.Lock(h);
                         if (td_tithi.AddYears(1).ToUniversalTime() + 15.0 < td_pravesh.AddYears(1).ToUniversalTime())
                             dc.DasaOptions.YearLength = 390;
@@ -183,7 +183,7 @@ namespace org.transliteral.panchang.app
                 case BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedFixed:
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
-                        ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
+                        ToDate td_pravesh = new ToDate(h.BaseUT, DateType.TithiPraveshYear, 360.0, 0, h);
                         Sweph.Lock(h);
                         dc.DasaOptions.YearType = DateType.FixedYear;
                         dc.DasaOptions.YearLength = td_pravesh.AddYears(1).ToUniversalTime() -
@@ -202,7 +202,7 @@ namespace org.transliteral.panchang.app
                 case BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedSolar:
                     {
                         DasaControl dc = new DasaControl(h, new TithiAshtottariDasa(h));
-                        ToDate td_pravesh = new ToDate(h.baseUT, DateType.TithiPraveshYear, 360.0, 0, h);
+                        ToDate td_pravesh = new ToDate(h.BaseUT, DateType.TithiPraveshYear, 360.0, 0, h);
                         Sweph.Lock(h);
                         double ut_start = td_pravesh.AddYears(0).ToUniversalTime();
                         double ut_end = td_pravesh.AddYears(1).ToUniversalTime();
@@ -344,7 +344,7 @@ namespace org.transliteral.panchang.app
 
         }
 
-        public PanchangControl Control
+        public BaseControl Control
         {
             get { return mControl; }
             set
@@ -358,7 +358,7 @@ namespace org.transliteral.panchang.app
             }
         }
 
-        public PanchangControlContainer(PanchangControl _mControl)
+        public PanchangControlContainer(BaseControl _mControl)
         {
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();

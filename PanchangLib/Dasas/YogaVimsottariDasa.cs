@@ -57,7 +57,7 @@ namespace org.transliteral.panchang
 		public ArrayList Dasa(int cycle)
 		{
 			Transit t = new Transit(h);
-			Longitude l = t.LongitudeOfSunMoonYoga(h.baseUT);
+			Longitude l = t.LongitudeOfSunMoonYoga(h.BaseUT);
 			return this.YogaDasa(l, 1, cycle);
 		}
 		public new ArrayList AntarDasa (DasaEntry di)

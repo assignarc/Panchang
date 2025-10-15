@@ -6,7 +6,7 @@ namespace org.transliteral.panchang.app
     /// <summary>
     /// Summary description for JhoraMainTab.
     /// </summary>
-    public class JhoraMainTab : PanchangControl
+    public class JhoraMainTab : BaseControl
     {
         private TabControl mTab;
         private TabPage tabDasa;
@@ -31,7 +31,7 @@ namespace org.transliteral.panchang.app
         /// </summary>
         private System.ComponentModel.Container components = null;
 
-        private void AddControlToTab(TabPage tab, PanchangControl mcontrol)
+        private void AddControlToTab(TabPage tab, BaseControl mcontrol)
         {
             PanchangControlContainer container = new PanchangControlContainer(mcontrol)
             {
@@ -58,11 +58,11 @@ namespace org.transliteral.panchang.app
             //
             // TODO: Add any constructor code after InitializeComponent call
             //
-            h = _h;
+            horoscope = _h;
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             OnRedisplay(PanchangAppOptions.Instance);
 
-            AddControlToTab(tabBasics, new JhoraBasicsTab(h));
+            AddControlToTab(tabBasics, new JhoraBasicsTab(horoscope));
             //this.bTabBasicsLoaded = true;
         }
 
@@ -211,19 +211,19 @@ namespace org.transliteral.panchang.app
         {
             if (mTab.SelectedTab == tabTransits && bTabTransitsLoaded == false)
             {
-                AddControlToTab(tabTransits, new TransitSearch(h));
+                AddControlToTab(tabTransits, new TransitSearch(horoscope));
                 bTabTransitsLoaded = true;
                 return;
             }
 
             if (mTab.SelectedTab == tabDasa && bTabDasaLoaded == false)
             {
-                PanchangControl mc = new PanchangControl();
+                BaseControl mc = new BaseControl();
                 AddControlToTab(tabDasa, mc);
 
                 //MhoraControlContainer mcc = new MhoraControlContainer(mc);
-                mc.ControlHoroscope = h;
-                switch (h.Info.type)
+                mc.ControlHoroscope = horoscope;
+                switch (horoscope.Info.type)
                 {
                     case HoraType.TithiPravesh:
                         mc.ViewControl(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedTithi);
@@ -238,19 +238,19 @@ namespace org.transliteral.panchang.app
 
             if (mTab.SelectedTab == tabVargas && bTabVargasLoaded == false)
             {
-                AddControlToTab(tabVargas, new DivisionalChart(h));
+                AddControlToTab(tabVargas, new DivisionalChart(horoscope));
                 bTabVargasLoaded = true;
             }
 
             if (mTab.SelectedTab == tabTransits && bTabTransitsLoaded == false)
             {
-                AddControlToTab(tabTransits, new TransitSearch(h));
+                AddControlToTab(tabTransits, new TransitSearch(horoscope));
                 bTabTransitsLoaded = true;
             }
 
             if (mTab.SelectedTab == tabTithiPravesh && bTabTithiPraveshLoaded == false)
             {
-                DasaControl dc = new DasaControl(h, new TithiPraveshDasa(h))
+                DasaControl dc = new DasaControl(horoscope, new TithiPraveshDasa(horoscope))
                 {
                     LinkToHoroscope = false
                 };
@@ -267,7 +267,7 @@ namespace org.transliteral.panchang.app
             //}
             if (mTab.SelectedTab == tabPanchanga && bTabPanchangaLoaded == false)
             {
-                AddControlToTab(tabPanchanga, new PanchangaControl(h));
+                AddControlToTab(tabPanchanga, new PanchangaControl(horoscope));
                 bTabPanchangaLoaded = true;
             }
 

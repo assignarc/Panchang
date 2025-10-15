@@ -13,7 +13,7 @@ namespace org.transliteral.panchang.app
     /// Summary description for DivisionalChart.
     /// </summary>
     [Serializable()]
-    public class DivisionalChart : PanchangControl //System.Windows.Forms.UserControl
+    public class DivisionalChart : BaseControl //System.Windows.Forms.UserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -113,7 +113,7 @@ namespace org.transliteral.panchang.app
 
         public void AddInnerControl()
         {
-            innerControl = new DivisionalChart(h, true);
+            innerControl = new DivisionalChart(horoscope, true);
             Controls.Add(innerControl);
         }
 
@@ -123,12 +123,12 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
 
             // TODO: Add any initialization after the InitForm call
-            h = _h;
+            horoscope = _h;
             options = new UserOptions();
-            calculation_options = h.Options;
-            h.Changed += new EvtChanged(OnRecalculate);
+            calculation_options = horoscope.Options;
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             SetChartStyle(options.ChartStyle);
             //dc = new SouthIndianChart();
             //dc = new EastIndianChart();
@@ -824,7 +824,7 @@ namespace org.transliteral.panchang.app
                 f = fBase;
                 if (dp.Type == BodyType.Name.Graha)
                 {
-                    BodyPosition bp = h.GetPosition(dp.Name);
+                    BodyPosition bp = horoscope.GetPosition(dp.Name);
                     if (bp.SpeedLongitude < 0.0 && bp.name != BodyName.Rahu && bp.name != BodyName.Ketu)
                         f = new Font(fBase.Name, fBase.Size, FontStyle.Underline);
                 }
@@ -883,7 +883,7 @@ namespace org.transliteral.panchang.app
                 (dp.Type == BodyType.Name.Graha ||
                   dp.Type == BodyType.Name.Lagna))
             {
-                Point pLon = dc.GetDegreeOffset(h.GetPosition(dp.Name).Longitude);
+                Point pLon = dc.GetDegreeOffset(horoscope.GetPosition(dp.Name).Longitude);
                 Pen pn = new Pen(PanchangAppOptions.Instance.GetBinduColor(dp.Name), (float)0.01);
                 Brush br = new SolidBrush(PanchangAppOptions.Instance.GetBinduColor(dp.Name));
                 g.FillEllipse(br, pLon.X - 1, pLon.Y - 1, 4, 4);
@@ -934,7 +934,7 @@ namespace org.transliteral.panchang.app
             for (int i = (int)BodyName.Sun; i <= max; i++)
             {
                 BodyName b = (BodyName)i;
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
             }
@@ -975,7 +975,7 @@ namespace org.transliteral.panchang.app
 
             DivisionPosition dpo;
             int i;
-            dpo = h.GetPosition(BodyName.Lagna).ToDivisionPosition(options.Varga);
+            dpo = horoscope.GetPosition(BodyName.Lagna).ToDivisionPosition(options.Varga);
             i = (int)dpo.ZodiacHouse.Value;
             nItems[i]++;
             AddItem(g, dpo.ZodiacHouse, nItems[i], dpo, true);
@@ -1168,16 +1168,16 @@ namespace org.transliteral.panchang.app
                 true == PanchangAppOptions.Instance.VargaShowDob &&
                 false == PrintMode && false == bDrawInner)
             {
-                string tob = h.Info.tob.ToString();
+                string tob = horoscope.Info.tob.ToString();
                 hint = g.MeasureString(tob, f);
                 g.DrawString(tob, f, Brushes.Black, xw * 2 / 4 - hint.Width / 2, (float)(yw * 2 / 4 - hint.Height / 2 + f.Height * 1.5));
 
-                string latlon = h.Info.lat.ToString() + " " + h.Info.lon.ToString();
+                string latlon = horoscope.Info.lat.ToString() + " " + horoscope.Info.lon.ToString();
                 hint = g.MeasureString(latlon, f);
                 g.DrawString(latlon, f, Brushes.Black, xw * 2 / 4 - hint.Width / 2, (float)(yw * 2 / 4 - hint.Height / 2 + f.Height * 2.5));
 
-                hint = g.MeasureString(h.Info.name, f);
-                g.DrawString(h.Info.name, f, Brushes.Black, xw * 2 / 4 - hint.Width / 2, (float)(yw * 2 / 4 - hint.Height / 2 - f.Height * 1.5));
+                hint = g.MeasureString(horoscope.Info.name, f);
+                g.DrawString(horoscope.Info.name, f, Brushes.Black, xw * 2 / 4 - hint.Width / 2, (float)(yw * 2 / 4 - hint.Height / 2 - f.Height * 1.5));
             }
 
 
@@ -1221,7 +1221,7 @@ namespace org.transliteral.panchang.app
             if (uo.ChartStyle != options.ChartStyle)
                 SetChartStyle(uo.ChartStyle);
             options = uo;
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
 
             return options.Clone();
         }
@@ -1234,9 +1234,9 @@ namespace org.transliteral.panchang.app
         private void CalculateBindus()
         {
             if (PanchangAppOptions.Instance.VargaShowSAVVarga)
-                sav_bindus = new Ashtakavarga(h, options.Varga).GetSav();
+                sav_bindus = new Ashtakavarga(horoscope, options.Varga).GetSav();
             else if (PanchangAppOptions.Instance.VargaShowSAVRasi)
-                sav_bindus = new Ashtakavarga(h, new Division(DivisionType.Rasi)).GetSav();
+                sav_bindus = new Ashtakavarga(horoscope, new Division(DivisionType.Rasi)).GetSav();
         }
         private void OnRedisplay(object o)
         {
@@ -1251,10 +1251,10 @@ namespace org.transliteral.panchang.app
 
         private void OnRecalculate(object o)
         {
-            div_pos = h.CalculateDivisionPositions(options.Varga);
-            arudha_pos = h.CalculateArudhaDivisionPositions(options.Varga);
-            varnada_pos = h.CalculateVarnadaDivisionPositions(options.Varga);
-            graha_arudha_pos = h.CalculateGrahaArudhaDivisionPositions(options.Varga);
+            div_pos = horoscope.CalculateDivisionPositions(options.Varga);
+            arudha_pos = horoscope.CalculateArudhaDivisionPositions(options.Varga);
+            varnada_pos = horoscope.CalculateVarnadaDivisionPositions(options.Varga);
+            graha_arudha_pos = horoscope.CalculateGrahaArudhaDivisionPositions(options.Varga);
             CalculateBindus();
             Invalidate();
         }
@@ -1270,7 +1270,7 @@ namespace org.transliteral.panchang.app
                 if (innerControl == null)
                     AddInnerControl();
                 innerControl.options.Varga = div;
-                innerControl.OnRecalculate(innerControl.h);
+                innerControl.OnRecalculate(innerControl.horoscope);
                 Invalidate();
             }
         }
@@ -1286,247 +1286,247 @@ namespace org.transliteral.panchang.app
         private void mRasi_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Rasi);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mNavamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Navamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mBhava_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaPada);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mBhavaEqual_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaEqual);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mBhavaSripati_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaSripati);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mBhavaKoch_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaKoch);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mBhavaPlacidus_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaPlacidus);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void menuBhavaAlcabitus_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaAlcabitus);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void menuBhavaCampanus_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaCampanus);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void menuBhavaRegiomontanus_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaRegiomontanus);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void menuBhavaAxial_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.BhavaAxial);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mDrekkanaParasara_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.DrekkanaParasara);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mChaturamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Chaturthamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mPanchamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Panchamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mShashtamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Shashthamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mSaptamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Saptamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mAshtamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Ashtamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mAshtamsaRaman_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.AshtamsaRaman);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDasamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Dasamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDwadasamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Dwadasamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mShodasamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Shodasamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mVimsamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Vimsamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mChaturvimsamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Chaturvimsamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mNakshatramsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Nakshatramsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mTrimsamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Trimsamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mKhavedamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Khavedamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDrekkanaJagannath_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.DrekkanaJagannath);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDrekkanaSomnath_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.DrekkanaSomnath);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDrekkanaParivrittitraya_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.DrekkanaParivrittitraya);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mHoraKashinath_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.HoraKashinath);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mHoraParivritti_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.HoraParivrittiDwaya);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mHoraParasara_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.HoraParasara);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mHoraJagannath_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.HoraJagannath);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mTrimsamsaParivritti_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.TrimsamsaParivritti);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mTrimsamsaSimple_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.TrimsamsaSimple);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
 
         private void mLagnaChange_Click(object sender, EventArgs e)
         {
-            VargaRectificationForm vf = new VargaRectificationForm(h, this, (Division)options.Varga);
+            VargaRectificationForm vf = new VargaRectificationForm(horoscope, this, (Division)options.Varga);
             vf.Show();
         }
 
         private void mExtrapolate_Click(object sender, EventArgs e)
         {
 
-            foreach (BodyPosition bp in h.PositionList)
+            foreach (BodyPosition bp in horoscope.PositionList)
             {
                 DivisionPosition dp = bp.ToDivisionPosition(options.Varga);
                 Longitude lLower = new Longitude(dp.CuspLower);
@@ -1539,64 +1539,64 @@ namespace org.transliteral.panchang.app
                 bp.Longitude = new Longitude(newOffset + newBase);
             }
 
-            h.OnlySignalChanged();
+            horoscope.OnlySignalChanged();
 
         }
         private void mAkshavedamsa_Click_1(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Akshavedamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mShashtyamsa_Click_1(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Shashtyamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mRudramsaRath_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Rudramsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mRudramsaRaman_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.RudramsaRaman);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mNadiamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Nadiamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mNadiamsaCKN_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.NadiamsaCKN);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void mNavamsaDwadasamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.NavamsaDwadasamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
         private void mDwadasamsaDwadasamsa_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.DwadasamsaDwadasamsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         private void menuItem7_Click(object sender, EventArgs e)
         {
             options.Varga = new Division(DivisionType.Ashtottaramsa);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
 
         }
@@ -1606,7 +1606,7 @@ namespace org.transliteral.panchang.app
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
 
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1616,7 +1616,7 @@ namespace org.transliteral.panchang.app
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
 
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1626,7 +1626,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericDrekkana,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
         protected override void copyToClipboard()
@@ -1690,7 +1690,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericChaturthamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1699,7 +1699,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericSaptamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1708,7 +1708,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericDasamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1717,7 +1717,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericShashthamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1726,7 +1726,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericShodasamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1735,7 +1735,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericVimsamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1744,7 +1744,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericNakshatramsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 
@@ -1753,7 +1753,7 @@ namespace org.transliteral.panchang.app
             panchang.Division.SingleDivision single = new panchang.Division.SingleDivision(DivisionType.GenericChaturvimsamsa,
                 Basics.NumPartsInDivision(options.Varga));
             options.Varga = new Division(single);
-            OnRecalculate(h);
+            OnRecalculate(horoscope);
             Invalidate();
         }
 

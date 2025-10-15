@@ -76,6 +76,10 @@ namespace org.transliteral.panchang
             m_second = (int)sec;
             direction = Direction.NorthSouth;
         }
+        public TimeSpan ToTimeSpan()
+        {
+            return new TimeSpan(m_hour, m_minute, m_second);
+        }
         public override string ToString()
         {
             string dirs;

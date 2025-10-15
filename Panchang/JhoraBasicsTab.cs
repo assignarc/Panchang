@@ -8,7 +8,7 @@ namespace org.transliteral.panchang.app
     /// <summary>
     /// Summary description for JhoraBasicsTab.
     /// </summary>
-    public class JhoraBasicsTab : PanchangControl
+    public class JhoraBasicsTab : BaseControl
     {
         private TabControl tabControl1;
         private TabPage tabKeyInfo;
@@ -21,7 +21,7 @@ namespace org.transliteral.panchang.app
         /// </summary>
         private Container components = null;
 
-        private void AddControlToTab(TabPage tab, PanchangControl mcontrol)
+        private void AddControlToTab(TabPage tab, BaseControl mcontrol)
         {
             PanchangControlContainer container = new PanchangControlContainer(mcontrol)
             {
@@ -45,10 +45,10 @@ namespace org.transliteral.panchang.app
             //
             // TODO: Add any constructor code after InitializeComponent call
             //
-            h = _h;
+            horoscope = _h;
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             OnRedisplay(PanchangAppOptions.Instance);
-            AddControlToTab(tabKeyInfo, new KeyInfoControl(h));
+            AddControlToTab(tabKeyInfo, new KeyInfoControl(horoscope));
             //this.AddControlToTab (tabTest, new BalasControl(h));
             //this.AddControlToTab (tabTest, new Sarvatobhadra81Control(h));
             //this.AddControlToTab (tabTest, new KutaMatchingControl(h, h));
@@ -178,19 +178,19 @@ namespace org.transliteral.panchang.app
             TabPage tp = tabControl1.SelectedTab;
             if (tp == tabCalculations && bTabCalculationsLoaded == false)
             {
-                AddControlToTab(tabCalculations, new BasicCalculationsControl(h));
+                AddControlToTab(tabCalculations, new BasicCalculationsControl(horoscope));
                 bTabCalculationsLoaded = true;
             }
 
             if (tp == tabAshtakavarga && bTabAshtakavargaLoaded == false)
             {
-                AddControlToTab(tabAshtakavarga, new AshtakavargaControl(h));
+                AddControlToTab(tabAshtakavarga, new AshtakavargaControl(horoscope));
                 bTabAshtakavargaLoaded = true;
             }
 
             if (tp == tabNavamsaChakra && bTabNavamsaChakraLoaded == false)
             {
-                AddControlToTab(tabNavamsaChakra, new NavamsaControl(h));
+                AddControlToTab(tabNavamsaChakra, new NavamsaControl(horoscope));
                 bTabNavamsaChakraLoaded = true;
             }
             if (tp == tabYogas && bTabYogasLoaded == false)

@@ -6,7 +6,7 @@ namespace org.transliteral.panchang.app
 {
 
 
-    public class PanchangControl : UserControl
+    public class BaseControl : UserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -14,16 +14,16 @@ namespace org.transliteral.panchang.app
         private System.ComponentModel.Container components = null;
 
 
-        protected Horoscope h;
+        protected Horoscope horoscope;
         protected Splitter sp;
 
         public Horoscope ControlHoroscope
         {
-            get { return h; }
-            set { h = value; }
+            get { return horoscope; }
+            set { horoscope = value; }
         }
        
-        public PanchangControl()
+        public BaseControl()
         {
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
@@ -63,203 +63,203 @@ namespace org.transliteral.panchang.app
 
         public void ViewControl(BaseUserOptionsViewType vt)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(vt);
         }
         protected void ViewVimsottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
         protected void ViewYogaVimsottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaVimsottari);
         }
         protected void ViewKaranaChaturashitiSamaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKaranaChaturashitiSama);
         }
         protected void ViewAshtottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaAshtottari);
         }
         protected void ViewTithiPraveshAshtottariDasaTithi(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedTithi);
         }
         protected void ViewTithiPraveshAshtottariDasaSolar(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedSolar);
         }
         protected void ViewTithiPraveshAshtottariDasaFixed(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPraveshAshtottariCompressedFixed);
         }
         protected void ViewTithiAshtottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiAshtottari);
         }
         protected void ViewYogaPraveshVimsottariDasaYoga(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaPraveshVimsottariCompressedYoga);
         }
         protected void ViewShodashottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShodashottari);
         }
 
         protected void ViewDwadashottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDwadashottari);
         }
 
         protected void ViewPanchottariDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaPanchottari);
         }
 
         protected void ViewShatabdikaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShatabdika);
         }
 
         protected void ViewChaturashitiSamaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaChaturashitiSama);
         }
 
         protected void ViewDwisaptatiSamaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDwisaptatiSama);
         }
 
         protected void ViewShatTrimshaSamaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShatTrimshaSama);
         }
         protected void ViewYoginiDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogini);
         }
         protected void ViewKalachakraDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKalachakra);
         }
         protected void ViewNaisargikaGrahaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NaisargikaGrahaDasa);
         }
         protected void ViewKarakaKendradiGrahaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKarakaKendradiGraha);
         }
         protected void ViewMoolaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMoola);
         }
         protected void ViewNaisargikaRasiDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NaisargikaRasiDasa);
         }
         protected void ViewNarayanaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNarayana);
         }
         protected void ViewNarayanaSamaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNarayanaSama);
         }
         protected void ViewShoolaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaShoola);
         }
         protected void ViewNiryaanaShoolaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNiryaanaShoola);
         }
         protected void ViewSuDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSu);
         }
         protected void ViewNavamsaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNavamsa);
         }
         protected void ViewMandookaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMandooka);
         }
         protected void ViewCharaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaChara);
         }
         protected void ViewTrikonaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTrikona);
         }
         protected void ViewDrigDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaDrig);
         }
         protected void ViewSudarshanaChakraDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSudarshanaChakra);
         }
         protected void ViewLagnaKendradiRasiDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaLagnaKendradiRasi);
         }
         protected void ViewSudarshanaChakraDasaCompressed(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaSudarshanaChakraCompressed);
         }
         protected void ViewMuddaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaMudda);
         }
         protected void ViewTajakaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTajaka);
         }
         protected void ViewTattwaDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTattwa);
         }
         protected void ControlCopyToClipboard(object sender, EventArgs e)
@@ -271,77 +271,77 @@ namespace org.transliteral.panchang.app
         }
         protected void ViewTithiPraveshDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaTithiPravesh);
         }
         protected void ViewYogaPraveshDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaYogaPravesh);
         }
         protected void ViewNakshatraPraveshDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaNakshatraPravesh);
         }
         protected void ViewKaranaPraveshDasa(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaKaranaPravesh);
         }
         protected void ViewKeyInfo(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.KeyInfo);
         }
         protected void ViewBasicCalculations(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.BasicCalculations);
         }
         protected void ViewDivisionalChart(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DivisionalChart);
         }
         protected void ViewBalas(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Balas);
         }
         protected void ViewAshtakavarga(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Ashtakavarga);
         }
         protected void ViewKutaMatching(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.KutaMatching);
         }
         protected void ViewNavamsaCircle(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.NavamsaCircle);
         }
         protected void ViewVaraChakra(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.VaraChakra);
         }
         protected void ViewSarvatobhadraChakra(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.ChakraSarvatobhadra81);
         }
         protected void ViewTransitsSearch(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.TransitSearch);
         }
         protected void ViewPanchanga(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.Panchanga);
         }
         protected void SplitViewHorizontal(object sender, EventArgs e)
@@ -349,10 +349,10 @@ namespace org.transliteral.panchang.app
             PanchangControlContainer c_this = (PanchangControlContainer)Parent;
             SplitContainer c_grand = (SplitContainer)c_this.Parent;
 
-            DivisionalChart dc1 = new DivisionalChart(h);
+            DivisionalChart dc1 = new DivisionalChart(horoscope);
             PanchangControlContainer c_dc1 = new PanchangControlContainer(dc1);
 
-            DivisionalChart dc2 = new DivisionalChart(h);
+            DivisionalChart dc2 = new DivisionalChart(horoscope);
             PanchangControlContainer c_cd2 = new PanchangControlContainer(dc2);
 
             SplitContainer ns = new SplitContainer(c_dc1)
@@ -502,7 +502,7 @@ namespace org.transliteral.panchang.app
 
         private void mDasa_Click(object sender, EventArgs e)
         {
-            ((PanchangControlContainer)Parent).h = h;
+            ((PanchangControlContainer)Parent).h = horoscope;
             ((PanchangControlContainer)Parent).SetView(BaseUserOptionsViewType.DasaVimsottari);
         }
 

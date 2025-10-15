@@ -163,7 +163,7 @@ namespace org.transliteral.panchang.app
         {
             Brush b = Brushes.Black;
             ArrayList alDasa = id.Dasa(0);
-            ToDate td = new ToDate(h.baseUT, 360, 0, h);
+            ToDate td = new ToDate(h.BaseUT, 360, 0, h);
 
             int num_entries_per_line = 6;
             int entry_width = width / 6;
@@ -274,7 +274,7 @@ namespace org.transliteral.panchang.app
         {
             Brush b = Brushes.Black;
             ArrayList al_dasa = vd.Dasa(0);
-            ToDate td = new ToDate(h.baseUT, 360, 0, h);
+            ToDate td = new ToDate(h.BaseUT, 360, 0, h);
             string s = "";
 
             g.ResetTransform();

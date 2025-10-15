@@ -9,7 +9,7 @@ namespace org.transliteral.panchang.app
     /// <summary>
     /// Summary description for BasicCalculationsControl.
     /// </summary>
-    public class BasicCalculationsControl : PanchangControl
+    public class BasicCalculationsControl : BaseControl
     {
         private ListView mList;
         private ColumnHeader Body;
@@ -111,10 +111,10 @@ namespace org.transliteral.panchang.app
             InitializeComponent();
 
             // TODO: Add any initialization after the InitForm call
-            h = _h;
+            horoscope = _h;
             vt = ViewType.ViewBasicGrahas;
             menuBasicGrahas.Checked = true;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
             options = new UserOptions
             {
@@ -417,8 +417,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Nakshatra (27)", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Nakshatra (28)", -1, HorizontalAlignment.Left);
 
-            Nakshatra nmoon = h.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra();
-            Nakshatra28 nmoon28 = h.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra28();
+            Nakshatra nmoon = horoscope.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra();
+            Nakshatra28 nmoon28 = horoscope.GetPosition(panchang.BodyName.Moon).Longitude.ToNakshatra28();
             for (int i = 0; i < specialIndices.Length; i++)
             {
                 Nakshatra sn = nmoon.Add(specialIndices[i]);
@@ -456,7 +456,7 @@ namespace org.transliteral.panchang.app
             for (int i = (int)panchang.BodyName.Sun; i <= max; i++)
             {
                 BodyName b = (BodyName)i;
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
             }
@@ -499,7 +499,7 @@ namespace org.transliteral.panchang.app
             };
             li.SubItems.Add(name);
             li.SubItems.Add(dp.ZodiacHouse.Value.ToString());
-            li.SubItems.Add(panchang.Body.ToString(h.LordOfZodiacHouse(dp.ZodiacHouse, div)));
+            li.SubItems.Add(panchang.Body.ToString(horoscope.LordOfZodiacHouse(dp.ZodiacHouse, div)));
             mList.Items.Add(li);
         }
         private void RepopulateNonLonBodies()
@@ -508,8 +508,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Non Longitudinal Body", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Zodiac House", -2, HorizontalAlignment.Left);
 
-            ArrayList al = h.CalculateArudhaDivisionPositions(options.DivisionType);
-            al.AddRange(h.CalculateVarnadaDivisionPositions(options.DivisionType));
+            ArrayList al = horoscope.CalculateArudhaDivisionPositions(options.DivisionType);
+            al.AddRange(horoscope.CalculateVarnadaDivisionPositions(options.DivisionType));
 
             foreach (DivisionPosition dp in al)
             {
@@ -542,7 +542,7 @@ namespace org.transliteral.panchang.app
 
             foreach (BodyName b in bodyReferences)
             {
-                BodyPosition bp = (BodyPosition)h.GetPosition(b).Clone();
+                BodyPosition bp = (BodyPosition)horoscope.GetPosition(b).Clone();
                 Longitude bpLon = bp.Longitude.Add(0);
 
                 bp.Longitude = bpLon.Add(30.0 / 9.0 * (64 - 1));
@@ -574,7 +574,7 @@ namespace org.transliteral.panchang.app
                 {
                     Text = panchang.Body.ToString(b)
                 };
-                DivisionPosition dp = h.GetPosition(b).ToDivisionPosition(new Division(DivisionType.Panchamsa));
+                DivisionPosition dp = horoscope.GetPosition(b).ToDivisionPosition(new Division(DivisionType.Panchamsa));
                 int avastha_index = -1;
                 switch ((int)dp.ZodiacHouse.Value % 2)
                 {
@@ -602,7 +602,7 @@ namespace org.transliteral.panchang.app
                 bool dirForward = true;
                 if (i % 2 == 1) dirForward = false;
 
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 Nakshatra n = bp.Longitude.ToNakshatra();
                 Nakshatra l = null;
 
@@ -646,7 +646,7 @@ namespace org.transliteral.panchang.app
             for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Saturn; i++)
             {
                 BodyName b = (BodyName)i;
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 ListViewItem li = new ListViewItem(panchang.Body.ToString(b));
                 li.SubItems.Add(bp.Longitude.Value.ToString());
                 li.SubItems.Add(bp.SpeedLongitude.ToString());
@@ -673,8 +673,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Tithi", -1, HorizontalAlignment.Left);
             mList.Columns.Add("% Left", -1, HorizontalAlignment.Left);
 
-            Longitude spos = h.GetPosition(panchang.BodyName.Sun).Longitude;
-            Longitude mpos = h.GetPosition(panchang.BodyName.Moon).Longitude;
+            Longitude spos = horoscope.GetPosition(panchang.BodyName.Sun).Longitude;
+            Longitude mpos = horoscope.GetPosition(panchang.BodyName.Moon).Longitude;
             double baseTithi = mpos.Subtract(spos).Value;
             for (int i = 1; i <= 12; i++)
             {
@@ -702,34 +702,34 @@ namespace org.transliteral.panchang.app
             {
                 default:
                 case ENakshatraLord.Vimsottari:
-                    id = new VimsottariDasa(h);
+                    id = new VimsottariDasa(horoscope);
                     break;
                 case ENakshatraLord.Ashtottari:
-                    id = new AshtottariDasa(h);
+                    id = new AshtottariDasa(horoscope);
                     break;
                 case ENakshatraLord.Yogini:
-                    id = new YoginiDasa(h);
+                    id = new YoginiDasa(horoscope);
                     break;
                 case ENakshatraLord.Shodashottari:
-                    id = new ShodashottariDasa(h);
+                    id = new ShodashottariDasa(horoscope);
                     break;
                 case ENakshatraLord.Dwadashottari:
-                    id = new DwadashottariDasa(h);
+                    id = new DwadashottariDasa(horoscope);
                     break;
                 case ENakshatraLord.Panchottari:
-                    id = new PanchottariDasa(h);
+                    id = new PanchottariDasa(horoscope);
                     break;
                 case ENakshatraLord.Shatabdika:
-                    id = new ShatabdikaDasa(h);
+                    id = new ShatabdikaDasa(horoscope);
                     break;
                 case ENakshatraLord.ChaturashitiSama:
-                    id = new ChaturashitiSamaDasa(h);
+                    id = new ChaturashitiSamaDasa(horoscope);
                     break;
                 case ENakshatraLord.DwisaptatiSama:
-                    id = new DwisaptatiSamaDasa(h);
+                    id = new DwisaptatiSamaDasa(horoscope);
                     break;
                 case ENakshatraLord.ShatTrimshaSama:
-                    id = new ShatTrimshaSamaDasa(h);
+                    id = new ShatTrimshaSamaDasa(horoscope);
                     break;
             }
             BodyName b = id.LordOfNakshatra(l.ToNakshatra());
@@ -747,10 +747,10 @@ namespace org.transliteral.panchang.app
             {
                 ListViewItem li = new ListViewItem
                 {
-                    Text = string.Format("{0}", (char)h.SwephHouseSystem)
+                    Text = string.Format("{0}", (char)horoscope.SwephHouseSystem)
                 };
-                li.SubItems.Add(h.SwephHouseCusps[i].Value.ToString());
-                li.SubItems.Add(h.SwephHouseCusps[i + 1].Value.ToString());
+                li.SubItems.Add(horoscope.SwephHouseCusps[i].Value.ToString());
+                li.SubItems.Add(horoscope.SwephHouseCusps[i + 1].Value.ToString());
                 mList.Items.Add(li);
             }
             ColorAndFontRows(mList);
@@ -780,8 +780,8 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Cusp End", -1, HorizontalAlignment.Left);
             mList.Columns.Add("Rasi", -2, HorizontalAlignment.Left);
 
-            Longitude lpos = h.GetPosition(panchang.BodyName.Lagna).Longitude.Add(0);
-            BodyPosition bp = new BodyPosition(h, panchang.BodyName.Lagna, BodyType.Name.Lagna, lpos, 0, 0, 0, 0, 0);
+            Longitude lpos = horoscope.GetPosition(panchang.BodyName.Lagna).Longitude.Add(0);
+            BodyPosition bp = new BodyPosition(horoscope, panchang.BodyName.Lagna, BodyType.Name.Lagna, lpos, 0, 0, 0, 0, 0);
             for (int i = 0; i < 12; i++)
             {
                 DivisionPosition dp = bp.ToDivisionPosition(options.DivisionType);
@@ -989,7 +989,7 @@ namespace org.transliteral.panchang.app
             for (int i = (int)panchang.BodyName.Sun; i <= (int)panchang.BodyName.Rahu; i++)
             {
                 BodyName b = (BodyName)i;
-                BodyPosition bp = h.GetPosition(b);
+                BodyPosition bp = horoscope.GetPosition(b);
                 BodyKarakaComparer bkc = new BodyKarakaComparer(bp);
                 al.Add(bkc);
             }
@@ -1014,7 +1014,7 @@ namespace org.transliteral.panchang.app
             mList.Columns.Add("Cusp End", -2, HorizontalAlignment.Left);
 
 
-            foreach (BodyPosition bp in h.PositionList)
+            foreach (BodyPosition bp in horoscope.PositionList)
             {
                 if (false == CheckBodyForCurrentView(bp))
                     continue;

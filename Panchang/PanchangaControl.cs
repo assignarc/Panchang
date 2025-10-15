@@ -1,176 +1,44 @@
+using org.transliteral.panchang.data;
 using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 namespace org.transliteral.panchang.app
 {
     public delegate void DelegateComputeFinished();
-    public class PanchangaControl : PanchangControl
+    public class PanchangaControl : BaseControl
     {
-        public class UserOptions : ICloneable
-        {
-            int mNumDays;
-            bool bCalculateLagnaCusps = false;
-            bool bCalculateTithiCusps = true;
-            bool bCalculateKaranaCusps = true;
-            bool bCalculateNakshatraCusps = true;
-            bool bCalculateHoraCusps = true;
-            bool bCalculateSMYogaCusps = true;
-            bool bCalculateKalaCusps = true;
-            bool bShowSpecialKalas = true;
-            bool bShowSunriset = true;
-            bool bLargeHours = false;
-            bool bShowUpdates = true;
-            bool bOneEntryPerLine = false;
-            public UserOptions()
-            {
-                NumDays = 3;
-            }
-            [Description("Number of days to compute information for")]
-            public int NumDays
-            {
-                get { return mNumDays; }
-                set { mNumDays = value; }
-            }
-            [Description("Include sunriset / sunset in the output?")]
-            public bool ShowSunriset
-            {
-                get { return bShowSunriset; }
-                set { bShowSunriset = value; }
-            }
-            [Description("Calculate and include Lagna cusp changes?")]
-            public bool CalcLagnaCusps
-            {
-                get { return bCalculateLagnaCusps; }
-                set { bCalculateLagnaCusps = value; }
-            }
-            [Description("Calculate and include Tithi cusp information?")]
-            public bool CalcTithiCusps
-            {
-                get { return bCalculateTithiCusps; }
-                set { bCalculateTithiCusps = value; }
-            }
-            [Description("Calculate and include Karana cusp information?")]
-            public bool CalcKaranaCusps
-            {
-                get { return bCalculateKaranaCusps; }
-                set { bCalculateKaranaCusps = value; }
-            }
-            [Description("Calculate and include Sun-Moon yoga cusp information?")]
-            public bool CalcSMYogaCusps
-            {
-                get { return bCalculateSMYogaCusps; }
-                set { bCalculateSMYogaCusps = value; }
-            }
-            [Description("Calculate and include Nakshatra cusp information?")]
-            public bool CalcNakCusps
-            {
-                get { return bCalculateNakshatraCusps; }
-                set { bCalculateNakshatraCusps = value; }
-            }
-            [Description("Calculate and include Hora cusp information?")]
-            public bool CalcHoraCusps
-            {
-                get { return bCalculateHoraCusps; }
-                set { bCalculateHoraCusps = value; }
-            }
-            [Description("Calculate and include special Kalas?")]
-            public bool CalcSpecialKalas
-            {
-                get { return bShowSpecialKalas; }
-                set { bShowSpecialKalas = value; }
-            }
-            [Description("Calculate and include Kala cusp information?")]
-            public bool CalcKalaCusps
-            {
-                get { return bCalculateKalaCusps; }
-                set { bCalculateKalaCusps = value; }
-            }
-            [Description("Display 02:00 after midnight as 26:00 or *02:00?")]
-            public bool LargeHours
-            {
-                get { return bLargeHours; }
-                set { bLargeHours = value; }
-            }
-            [Description("Display incremental updates?")]
-            public bool ShowUpdates
-            {
-                get { return bShowUpdates; }
-                set { bShowUpdates = value; }
-            }
-            [Description("Display only one entry / line?")]
-            public bool OneEntryPerLine
-            {
-                get { return bOneEntryPerLine; }
-                set { bOneEntryPerLine = value; }
-            }
-            public object Clone()
-            {
-                UserOptions uo = new UserOptions
-                {
-                    NumDays = NumDays,
-                    CalcLagnaCusps = CalcLagnaCusps,
-                    CalcNakCusps = CalcNakCusps,
-                    CalcTithiCusps = CalcTithiCusps,
-                    CalcKaranaCusps = CalcKaranaCusps,
-                    CalcHoraCusps = CalcHoraCusps,
-                    CalcKalaCusps = CalcKalaCusps,
-                    CalcSpecialKalas = CalcSpecialKalas,
-                    LargeHours = LargeHours,
-                    ShowUpdates = ShowUpdates,
-                    ShowSunriset = ShowSunriset,
-                    OneEntryPerLine = OneEntryPerLine,
-                    CalcSMYogaCusps = CalcSMYogaCusps
-                };
-                return uo;
-            }
-            public object CopyFrom(object _uo)
-            {
-                UserOptions uo = (UserOptions)_uo;
-                NumDays = uo.NumDays;
-                CalcLagnaCusps = uo.CalcLagnaCusps;
-                CalcNakCusps = uo.CalcNakCusps;
-                CalcTithiCusps = uo.CalcTithiCusps;
-                CalcKaranaCusps = uo.CalcKaranaCusps;
-                CalcHoraCusps = uo.CalcHoraCusps;
-                CalcKalaCusps = uo.CalcKalaCusps;
-                CalcSpecialKalas = uo.CalcSpecialKalas;
-                LargeHours = uo.LargeHours;
-                ShowUpdates = uo.ShowUpdates;
-                ShowSunriset = uo.ShowSunriset;
-                CalcSMYogaCusps = uo.CalcSMYogaCusps;
-                OneEntryPerLine = uo.OneEntryPerLine;
-                return Clone();
-            }
-
-
-        }
-
-
-
+     
         private ListView mList;
         private Button bOpts;
         private IContainer components = null;
         private Button bCompute;
-        private UserOptions opts = null;
+        private PanchangOptions opts = null;
         private ContextMenu contextMenu;
         private MenuItem menuItemPrintPanchanga;
         private MenuItem menuItemFilePrintPreview;
         private MenuItem menuItem1;
         private MenuItem menuItem2;
         public DelegateComputeFinished m_DelegateComputeFinished;
+        bool bResultsInvalid = true;
 
+        ArrayList locals = new ArrayList();
+        GlobalMoments globals = new GlobalMoments();
 
         public PanchangaControl(Horoscope _h)
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-            h = _h;
-            h.Changed += new EvtChanged(OnRecalculate);
+            horoscope = _h;
+            horoscope.Changed += new EvtChanged(OnRecalculate);
             PanchangAppOptions.DisplayPrefsChanged += new EvtChanged(OnRedisplay);
-            opts = new UserOptions();
+            opts = new PanchangOptions()
+            {
+                NumberOfDays = 3
+            };
             AddViewsToContextMenu(contextMenu);
             mutexProgress = new Mutex(false);
             OnRedisplay(PanchangAppOptions.Instance.TableBackgroundColor);
@@ -281,9 +149,7 @@ namespace org.transliteral.panchang.app
         {
 
         }
-
-        bool bResultsInvalid = true;
-
+        
         public void OnRedisplay(object o)
         {
             mList.ForeColor = PanchangAppOptions.Instance.TableForegroundColor;
@@ -311,7 +177,6 @@ namespace org.transliteral.panchang.app
         {
             return opts.CopyFrom(o);
         }
-
         private void bOpts_Click(object sender, EventArgs e)
         {
             //this.mutexProgress.WaitOne();
@@ -324,7 +189,6 @@ namespace org.transliteral.panchang.app
             new Options(opts, new ApplyOptions(SetOptions)).ShowDialog();
             //this.mutexProgress.Close();
         }
-
         private void bCompute_Click(object sender, EventArgs e)
         {
 
@@ -338,6 +202,7 @@ namespace org.transliteral.panchang.app
 
         private void ComputeStart()
         {
+            #region PROGRESS DIALOG - Disabled for now.
             //this.mutexProgress.WaitOne();
             //if (fProgress != null)
             //{
@@ -346,9 +211,15 @@ namespace org.transliteral.panchang.app
             //}
             //fProgress = new ProgressDialog(opts.NumDays);
             //fProgress.setProgress(opts.NumDays/2);
-            Logger.Info("Starting threaded computation");
+
+
+
             //fProgress.ShowDialog();
             //this.mutexProgress.Close();
+            #endregion
+
+            Logger.Info("Threaded Execution : Started");
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(delegate {
@@ -369,7 +240,7 @@ namespace org.transliteral.panchang.app
         }
         private void ComputeFinished()
         {
-            Logger.Info("Finished threaded execution");
+            Logger.Info("Threaded Execution : Finished");
             bResultsInvalid = false;
             bCompute.Enabled = true;
             bOpts.Enabled = true;
@@ -380,8 +251,7 @@ namespace org.transliteral.panchang.app
             //fProgress = null;
             //this.mutexProgress.Close();
         }
-
-
+        
         private void ComputeEntries()
         {
             // Marshal all UI updates to the UI thread
@@ -397,90 +267,67 @@ namespace org.transliteral.panchang.app
             if (false == opts.ShowUpdates)
                 mList.BeginUpdate();
 
-            double ut_start = Math.Floor(h.baseUT);
+            double ut_start = Math.Floor(horoscope.BaseUT);
             double[] geopos = new double[]
-            { h.Info.lon.toDouble(), h.Info.lat.toDouble(), h.Info.alt };
+            { 
+                horoscope.Info.lon.toDouble(), 
+                horoscope.Info.lat.toDouble(), 
+                horoscope.Info.alt 
+            };
 
             globals = new GlobalMoments();
             locals = new ArrayList();
 
-            for (int i = 0; i < opts.NumDays; i++)
+            HinduPanchang hinduPanchang = new HinduPanchang(horoscope, opts);
+            hinduPanchang.Compute();
+            foreach (var pDay in hinduPanchang.Calendar.Values)
             {
-                ComputeEntry(ut_start, geopos);
-                ut_start += 1;
+                this.DisplayEntrypDay(pDay);
                 mList.Columns[0].Width = -2;
             }
+
+            #region REFERENCE CODE - To ensure the new one is working exactly the same.
+            //for (int i = 0; i < opts.NumberOfDays; i++)
+            //{
+            //    ComputeEntry(ut_start, geopos);
+
+            //    ut_start += 1;
+            //    mList.Columns[0].Width = -2;
+            //}
+            #endregion
+
             mList.Columns[0].Width = -2;
 
             if (false == opts.ShowUpdates)
                 mList.EndUpdate();
         }
-
-        private Moment utToMoment(double found_ut)
+        private void DisplayEntrypDay(PanchangDay pDay)
         {
-            // turn into horoscope
-            int year = 0, month = 0, day = 0;
-            double hour = 0;
-            found_ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.SWE_ReverseJulianDay(found_ut, ref year, ref month, ref day, ref hour);
-            Moment m = new Moment(year, month, day, hour);
-            return m;
-        }
-        private string utToString(double ut)
-        {
-            int year = 0, month = 0, day = 0;
-            double time = 0;
-
-            ut += h.Info.tz.toDouble() / 24.0;
-            Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref time);
-            return timeToString(time);
-        }
-        private string utTimeToString(double ut_event, double ut_sr, double sunrise)
-        {
-            Moment m = utToMoment(ut_event);
-            HMSInfo hms = new HMSInfo(m.Time);
-
-            if (ut_event >= ut_sr - sunrise / 24.0 + 1.0)
+            foreach (var item in pDay.Texts)
             {
-                if (false == opts.LargeHours)
-                    return string.Format("*{0:00}:{1:00}", hms.degree, hms.minute);
-                else
-                    return string.Format("{0:00}:{1:00}", hms.degree + 24, hms.minute);
+                if(!item.Key.StartsWith("#"))
+                    mList.Items.Add(item.Value);
             }
-            return string.Format("{0:00}:{1:00}", hms.degree, hms.minute);
-        }
-        private string timeToString(double time)
-        {
-            HMSInfo hms = new HMSInfo(time);
-            return string.Format("{0:00}:{1:00}",
-                hms.degree, hms.minute, hms.second);
+            mList.Items.Add("");
         }
 
-        double sunrise = 0;
-        double ut_sr = 0;
 
-        int[] rahu_kalas = new int[] { 7, 1, 6, 4, 5, 3, 2 };
-        int[] gulika_kalas = new int[] { 6, 5, 4, 3, 2, 1, 0 };
-        int[] yama_kalas = new int[] { 4, 3, 2, 1, 0, 6, 5 };
-
-
-        ArrayList locals = new ArrayList();
-        GlobalMoments globals = new GlobalMoments();
-
+        #region REFERENCE CODE - To ensure the new one is working exactly the same.
+        //OLD way to compute panchanga entries. Kept for reference.
         private void ComputeEntry(double ut, double[] geopos)
         {
 
             int year = 0, month = 0, day = 0;
-            double sunset = 0, hour = 0;
-            Sweph.Lock(h);
-            h.PopulateSunrisetCacheHelper(ut - 0.5, ref sunrise, ref sunset, ref ut_sr);
-            Sweph.Unlock(h);
+            double sunset = 0, hour = 0,  sunrise = 0, ut_sr = 0;
+            Sweph.Lock(horoscope);
+            horoscope.PopulateSunrisetCacheHelper(ut - 0.5, ref sunrise, ref sunset, ref ut_sr);
+            Sweph.Unlock(horoscope);
 
             Sweph.SWE_ReverseJulianDay(ut_sr, ref year, ref month, ref day, ref hour);
             Moment moment_sr = new Moment(year, month, day, hour);
-            Moment moment_ut = new Moment(ut, h);
-            HoraInfo infoCurr = new HoraInfo(moment_ut, h.Info.lat, h.Info.lon, h.Info.tz);
-            Horoscope hCurr = new Horoscope(infoCurr, h.Options);
+            Moment moment_ut = new Moment(ut, horoscope);
+            HoraInfo infoCurr = new HoraInfo(moment_ut, horoscope.Info.lat, horoscope.Info.lon, horoscope.Info.tz);
+            Horoscope hCurr = new Horoscope(infoCurr, horoscope.Options);
 
             ListViewItem li = null;
 
@@ -493,25 +340,23 @@ namespace org.transliteral.panchang.app
             Sweph.SWE_ReverseJulianDay(ut, ref year, ref month, ref day, ref hour);
             local.WeekDay = (Weekday)Sweph.SWE_DayOfWeek(ut);
 
-
-
             local.KalasUT = hCurr.GetKalaCuspsUt();
-            if (opts.CalcSpecialKalas)
+            if (opts.CalculateSpecialKalas)
             {
                 BodyName bStart = Basics.WeekdayRuler(hCurr.Weekday);
                 if (hCurr.Options.KalaType == EHoraType.Lmt)
                     bStart = Basics.WeekdayRuler(hCurr.WeekdayLMT);
 
-                local.RahuKalaIndex = rahu_kalas[(int)bStart];
-                local.GulikaKalaIndex = gulika_kalas[(int)bStart];
-                local.YamaKalaIndex = yama_kalas[(int)bStart];
+                local.RahuKalaIndex = opts.RahuKalas[(int)bStart];
+                local.GulikaKalaIndex = opts.GulikaKalas[(int)bStart];
+                local.YamaKalaIndex = opts.YamaKalas[(int)bStart];
             }
 
-            if (opts.CalcLagnaCusps)
+            if (opts.CalculateLagnaCusps)
             {
                 li = new ListViewItem();
-                Sweph.Lock(h);
-                BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(BodyName.Lagna), BodyName.Lagna, BodyType.Name.Lagna, h);
+                Sweph.Lock(horoscope);
+                BodyPosition bp_lagna_sr = Basics.CalculateSingleBodyPosition(ut_sr, Sweph.BodyNameToSweph(BodyName.Lagna), BodyName.Lagna, BodyType.Name.Lagna, horoscope);
                 DivisionPosition dp_lagna_sr = bp_lagna_sr.ToDivisionPosition(new Division(DivisionType.Rasi));
                 local.LagnaZodiacHouse = dp_lagna_sr.ZodiacHouse.Value;
 
@@ -519,7 +364,7 @@ namespace org.transliteral.panchang.app
                 double ut_transit = ut_sr;
                 for (int i = 1; i <= 12; i++)
                 {
-                    Retrogression r = new Retrogression(h, BodyName.Lagna);
+                    Retrogression r = new Retrogression(horoscope, BodyName.Lagna);
                     ut_transit = r.GetLagnaTransitForward(ut_transit, bp_lagna_base.Add(i * 30.0));
 
                     MomentInfo pmi = new MomentInfo(
@@ -527,13 +372,13 @@ namespace org.transliteral.panchang.app
                     local.LagnasUT.Add(pmi);
                 }
 
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
             }
 
-            if (opts.CalcTithiCusps)
+            if (opts.CalculateTithiCusps)
             {
-                Transit t = new Transit(h);
-                Sweph.Lock(h);
+                Transit t = new Transit(horoscope);
+                Sweph.Lock(horoscope);
                 Tithi tithi_start = t.LongitudeOfTithi(ut_sr).ToTithi();
                 Tithi tithi_end = t.LongitudeOfTithi(ut_sr + 1.0).ToTithi();
 
@@ -552,14 +397,13 @@ namespace org.transliteral.panchang.app
                     globals.TithisUT.Add(new MomentInfo(ut_found, (int)tithi_curr.Value));
                     local.TithiIndexEnd++;
                 }
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
             }
 
-
-            if (opts.CalcKaranaCusps)
+            if (opts.CalculateKaranaCusps)
             {
-                Transit t = new Transit(h);
-                Sweph.Lock(h);
+                Transit t = new Transit(horoscope);
+                Sweph.Lock(horoscope);
                 Karana karana_start = t.LongitudeOfTithi(ut_sr).ToKarana();
                 Karana karana_end = t.LongitudeOfTithi(ut_sr + 1.0).ToKarana();
 
@@ -578,13 +422,13 @@ namespace org.transliteral.panchang.app
                     globals.KaranasUT.Add(new MomentInfo(ut_found, (int)karana_curr.value));
                     local.KaranaIndexEnd++;
                 }
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
             }
 
-            if (opts.CalcSMYogaCusps)
+            if (opts.CalculateSunMoonYogaCusps)
             {
-                Transit t = new Transit(h);
-                Sweph.Lock(h);
+                Transit t = new Transit(horoscope);
+                Sweph.Lock(horoscope);
                 SunMoonYoga sm_start = t.LongitudeOfSunMoonYoga(ut_sr).ToSunMoonYoga();
                 SunMoonYoga sm_end = t.LongitudeOfSunMoonYoga(ut_sr + 1.0).ToSunMoonYoga();
 
@@ -604,15 +448,14 @@ namespace org.transliteral.panchang.app
                     local.SunMoonYogaIndexEnd++;
                 }
 
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
             }
 
-
-            if (opts.CalcNakCusps)
+            if (opts.CalculateNakshatraCusps)
             {
                 bool bDiscard = true;
-                Transit t = new Transit(h, BodyName.Moon);
-                Sweph.Lock(h);
+                Transit t = new Transit(horoscope, BodyName.Moon);
+                Sweph.Lock(horoscope);
                 Nakshatra nak_start = t.GenericLongitude(ut_sr, ref bDiscard).ToNakshatra();
                 Nakshatra nak_end = t.GenericLongitude(ut_sr + 1.0, ref bDiscard).ToNakshatra();
 
@@ -633,16 +476,16 @@ namespace org.transliteral.panchang.app
                     Logger.Info($"Found nakshatra {nak_curr.Value}");
                     local.NakshatraIndexEnd++;
                 }
-                Sweph.Unlock(h);
+                Sweph.Unlock(horoscope);
             }
 
-            if (opts.CalcHoraCusps)
+            if (opts.CalculateHoraCusps)
             {
                 local.HorasUT = hCurr.GetHoraCuspsUt();
                 hCurr.CalculateHora(ut_sr + 1.0 / 24.0, ref local.HoraBase);
             }
 
-            if (opts.CalcKalaCusps)
+            if (opts.CalculateKalaCusps)
             {
                 hCurr.CalculateKala(ref local.KalaBase);
             }
@@ -651,7 +494,6 @@ namespace org.transliteral.panchang.app
             locals.Add(local);
             DisplayEntry(local);
         }
-
         private void DisplayEntry(LocalMoments local)
         {
             string s;
@@ -665,23 +507,23 @@ namespace org.transliteral.panchang.app
             if (opts.ShowSunriset)
             {
                 s = string.Format("Sunrise at {0}. Sunset at {1}",
-                    timeToString(local.Sunrise),
-                    timeToString(local.Sunset));
+                    TimeUtils.TimeToString(local.Sunrise),
+                    TimeUtils.TimeToString(local.Sunset));
                 mList.Items.Add(s);
             }
 
-            if (opts.CalcSpecialKalas)
+            if (opts.CalculateSpecialKalas)
             {
 
                 string s_rahu = string.Format("Rahu Kala from {0} to {1}",
-                    new Moment(local.KalasUT[local.RahuKalaIndex], h).ToTimeString(),
-                    new Moment(local.KalasUT[local.RahuKalaIndex + 1], h).ToTimeString());
+                    new Moment(local.KalasUT[local.RahuKalaIndex], horoscope).ToTimeString(),
+                    new Moment(local.KalasUT[local.RahuKalaIndex + 1], horoscope).ToTimeString());
                 string s_gulika = string.Format("Gulika Kala from {0} to {1}",
-                    new Moment(local.KalasUT[local.GulikaKalaIndex], h).ToTimeString(),
-                    new Moment(local.KalasUT[local.GulikaKalaIndex + 1], h).ToTimeString());
+                    new Moment(local.KalasUT[local.GulikaKalaIndex], horoscope).ToTimeString(),
+                    new Moment(local.KalasUT[local.GulikaKalaIndex + 1], horoscope).ToTimeString());
                 string s_yama = string.Format("Yama Kala from {0} to {1}",
-                    new Moment(local.KalasUT[local.YamaKalaIndex], h).ToTimeString(),
-                    new Moment(local.KalasUT[local.YamaKalaIndex + 1], h).ToTimeString());
+                    new Moment(local.KalasUT[local.YamaKalaIndex], horoscope).ToTimeString(),
+                    new Moment(local.KalasUT[local.YamaKalaIndex + 1], horoscope).ToTimeString());
 
                 if (opts.OneEntryPerLine)
                 {
@@ -693,7 +535,7 @@ namespace org.transliteral.panchang.app
                     mList.Items.Add(string.Format("{0}. {1}. {2}.", s_rahu, s_gulika, s_yama));
             }
 
-            if (opts.CalcTithiCusps)
+            if (opts.CalculateTithiCusps)
             {
                 string s_tithi = "";
 
@@ -714,7 +556,7 @@ namespace org.transliteral.panchang.app
                         Tithi t = new Tithi((TithiName)pmi.Info).AddReverse(2);
                         s_tithi += string.Format("{0} until {1}",
                             t.Value,
-                            utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
+                            TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise, horoscope.Info.tz,opts.LargeHours));
 
                         if (opts.OneEntryPerLine)
                         {
@@ -730,7 +572,7 @@ namespace org.transliteral.panchang.app
             }
 
 
-            if (opts.CalcKaranaCusps)
+            if (opts.CalculateKaranaCusps)
             {
                 string s_karana = "";
 
@@ -751,7 +593,7 @@ namespace org.transliteral.panchang.app
                         Karana k = new Karana((KaranaName)pmi.Info).addReverse(2);
                         s_karana += string.Format("{0} karana until {1}",
                             k.value,
-                            utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
+                            TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise,horoscope.Info.tz,opts.LargeHours));
 
                         if (opts.OneEntryPerLine)
                         {
@@ -768,7 +610,7 @@ namespace org.transliteral.panchang.app
 
 
 
-            if (opts.CalcSMYogaCusps)
+            if (opts.CalculateSunMoonYogaCusps)
             {
                 string s_smyoga = "";
 
@@ -789,7 +631,7 @@ namespace org.transliteral.panchang.app
                         SunMoonYoga sm = new SunMoonYoga((SunMoonYogaName)pmi.Info).AddReverse(2);
                         s_smyoga += string.Format("{0} yoga until {1}",
                             sm.Value,
-                            utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
+                            TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise, horoscope.Info.tz, opts.LargeHours));
 
                         if (opts.OneEntryPerLine)
                         {
@@ -806,7 +648,7 @@ namespace org.transliteral.panchang.app
 
 
 
-            if (opts.CalcNakCusps)
+            if (opts.CalculateNakshatraCusps)
             {
                 string s_nak = "";
 
@@ -827,7 +669,7 @@ namespace org.transliteral.panchang.app
                         Nakshatra n = new Nakshatra((NakshatraName)pmi.Info).AddReverse(2);
                         s_nak += string.Format("{0} until {1}",
                             n.Value,
-                            utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
+                            TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise, horoscope.Info.tz, opts.LargeHours));
                         if (opts.OneEntryPerLine)
                         {
                             mList.Items.Add(s_nak);
@@ -841,7 +683,7 @@ namespace org.transliteral.panchang.app
                 }
             }
 
-            if (opts.CalcLagnaCusps)
+            if (opts.CalculateLagnaCusps)
             {
                 string sLagna = "    ";
                 ZodiacHouse zBase = new ZodiacHouse(local.LagnaZodiacHouse);
@@ -851,7 +693,7 @@ namespace org.transliteral.panchang.app
                     ZodiacHouse zCurr = new ZodiacHouse((ZodiacHouseName)pmi.Info);
                     zCurr = zCurr.Add(12);
                     sLagna = string.Format("{0}{1} Lagna until {2}. ", sLagna, zCurr.Value,
-                        utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise));
+                        TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise, horoscope.Info.tz, opts.LargeHours));
                     if (opts.OneEntryPerLine || i % 4 == 3)
                     {
                         mList.Items.Add(sLagna);
@@ -860,15 +702,15 @@ namespace org.transliteral.panchang.app
                 }
             }
 
-            if (opts.CalcHoraCusps)
+            if (opts.CalculateHoraCusps)
             {
                 string sHora = "    ";
                 for (int i = 0; i < 24; i++)
                 {
                     int ib = (int)Basics.NormalizeLower(0, 7, local.HoraBase + i);
-                    BodyName bHora = h.HoraOrder[ib];
+                    BodyName bHora = horoscope.HoraOrder[ib];
                     sHora = string.Format("{0}{1} hora until {2}. ", sHora, bHora,
-                        utTimeToString(local.HorasUT[i + 1], local.SunriseUT, local.Sunrise));
+                        TimeUtils.UtTimeToString(local.HorasUT[i + 1], local.SunriseUT, local.Sunrise, horoscope.Info.tz, opts.LargeHours));
                     if (opts.OneEntryPerLine || i % 4 == 3)
                     {
                         mList.Items.Add(sHora);
@@ -877,15 +719,15 @@ namespace org.transliteral.panchang.app
                 }
             }
 
-            if (opts.CalcKalaCusps)
+            if (opts.CalculateKalaCusps)
             {
                 string sKala = "    ";
                 for (int i = 0; i < 16; i++)
                 {
                     int ib = (int)Basics.NormalizeLower(0, 8, local.KalaBase + i);
-                    BodyName bKala = h.KalaOrder[ib];
+                    BodyName bKala = horoscope.KalaOrder[ib];
                     sKala = string.Format("{0}{1} kala until {2}. ", sKala, bKala,
-                        utTimeToString(local.KalasUT[i + 1], local.SunriseUT, local.Sunrise));
+                        TimeUtils.UtTimeToString(local.KalasUT[i + 1], local.SunriseUT, local.Sunrise, horoscope.Info.tz, opts.LargeHours));
                     if (opts.OneEntryPerLine || i % 4 == 3)
                     {
                         mList.Items.Add(sKala);
@@ -896,7 +738,7 @@ namespace org.transliteral.panchang.app
 
             mList.Items.Add("");
         }
-
+        #endregion
         private void mList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -919,12 +761,12 @@ namespace org.transliteral.panchang.app
 
         private void checkPrintReqs()
         {
-            if (opts.CalcKalaCusps == false ||
-                opts.CalcNakCusps == false ||
-                opts.CalcTithiCusps == false ||
-                opts.CalcSpecialKalas == false ||
-                opts.CalcSMYogaCusps == false ||
-                opts.CalcKaranaCusps == false)
+            if (opts.CalculateKalaCusps == false ||
+                opts.CalculateNakshatraCusps == false ||
+                opts.CalculateTithiCusps == false ||
+                opts.CalculateSpecialKalas == false ||
+                opts.CalculateSunMoonYogaCusps == false ||
+                opts.CalculateKaranaCusps == false)
             {
                 MessageBox.Show("Not enough information calculated to show panchanga");
                 throw new Exception();
@@ -935,7 +777,7 @@ namespace org.transliteral.panchang.app
             try
             {
                 //this.checkPrintReqs();
-                PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, h, globals, locals);
+                PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, horoscope, globals, locals);
                 PrintDialog dlgPrint = new PrintDialog
                 {
                     Document = mdoc
@@ -952,7 +794,7 @@ namespace org.transliteral.panchang.app
             try
             {
                 //this.checkPrintReqs();
-                PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, h, globals, locals);
+                PanchangaPrintDocument mdoc = new PanchangaPrintDocument(opts, horoscope, globals, locals);
                 PrintPreviewDialog dlgPreview = new PrintPreviewDialog
                 {
                     Document = mdoc

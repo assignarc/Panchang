@@ -25,6 +25,7 @@ namespace org.transliteral.panchang
 		public int KaranaIndexEnd;
 		public int SunMoonYogaIndexStart;
 		public int SunMoonYogaIndexEnd;
+		public HoraInfo HoraInfo;
 	}
 
 }
