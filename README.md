@@ -1,21 +1,32 @@
 
 **Project Objectives**
+1. Codebase that can calculate 5 aspects/limbs (Panchang) of Hindu Daily Calendar 
+	1. Vara (Weekday): The day of the week, such as Sunday, Monday, etc., each associated with a ruling planet. 
+	1. Tithi (Lunar Day): A lunar day, determined by the angular relationship between the Moon and the Sun. 
+	1. Nakshatra: A lunar mansion or constellation in which the Moon is located at a specific time. 
+	1. Yoga: A calculation derived from the sum of the Sun's and Moon's longitudes, divided into 27 parts. 
+	1. Karana: Half of a Tithi, calculated by the difference in degrees between the Sun and the Moon. 
+1. Panchang can be used to decide on Auspicious timings called Muhurta and used in Vedic Astrology etc. 
+1. Panchamg is based on Lunisolar calendar, that can change for every geo-position and altitude of a location. 
 1. Create a codebase that can link Hindu events based on Hindu Luni-Solar calendar dates. Ex.
 	1. Ekadashi Names
 	1. Amavasya names
 	1. Prominent Tithis
 	1. Jayanti (birth) and Punyatithi (Death/Nirvana) dates
 	1. Celebrations and festivities (Jatra/Mela/Utsav etc)
-1. Panchang program that can provide accurate Tithis based on location and location altitude.
-1. Reliable compute of Panchang and other Vedic astrology related calculations.
 1. Panchang computed in real time, with faster and more accurate calculations than existing libraries
-1. Integrate with SwissEphNet for accurate planetary positions and cross-platform compatibility.
+1. Integrated with SwissEphNet for accurate planetary positions.
 1. Create test suit to ensure accuracy and reliability of calculations.
-1. User interface available from the start for data validations, but not the main focus of the project.
 
-**Usage guidelines**
+**Usage guidelines and More To-Do**
 1. Feel free to pull and commit.
 1. Please do not push to the master branch.
+1. Add test cases
+1. Need work on adding calendar events, like Birthdays, Deaths, Festivals.
+1. Multi-lingual support
+1. India has several variations of Hindu calendar. The work is needed to incorporate those variations. 
+
+
 ***********************************************************************
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
