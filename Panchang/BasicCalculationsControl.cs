@@ -64,7 +64,7 @@ namespace org.transliteral.panchang.app
         class UserOptions : ICloneable
         {
             private Division dtype;
-            private ENakshatraLord mNakLord;
+            private NakshatraLord mNakLord;
 
             [InVisible]
             public Division DivisionType
@@ -80,7 +80,7 @@ namespace org.transliteral.panchang.app
                 set { dtype = new Division(value); }
             }
 
-            public ENakshatraLord NakshatraLord
+            public NakshatraLord NakshatraLord
             {
                 get { return mNakLord; }
                 set { mNakLord = value; }
@@ -701,34 +701,34 @@ namespace org.transliteral.panchang.app
             switch (options.NakshatraLord)
             {
                 default:
-                case ENakshatraLord.Vimsottari:
+                case NakshatraLord.Vimsottari:
                     id = new VimsottariDasa(horoscope);
                     break;
-                case ENakshatraLord.Ashtottari:
+                case NakshatraLord.Ashtottari:
                     id = new AshtottariDasa(horoscope);
                     break;
-                case ENakshatraLord.Yogini:
+                case NakshatraLord.Yogini:
                     id = new YoginiDasa(horoscope);
                     break;
-                case ENakshatraLord.Shodashottari:
+                case NakshatraLord.Shodashottari:
                     id = new ShodashottariDasa(horoscope);
                     break;
-                case ENakshatraLord.Dwadashottari:
+                case NakshatraLord.Dwadashottari:
                     id = new DwadashottariDasa(horoscope);
                     break;
-                case ENakshatraLord.Panchottari:
+                case NakshatraLord.Panchottari:
                     id = new PanchottariDasa(horoscope);
                     break;
-                case ENakshatraLord.Shatabdika:
+                case NakshatraLord.Shatabdika:
                     id = new ShatabdikaDasa(horoscope);
                     break;
-                case ENakshatraLord.ChaturashitiSama:
+                case NakshatraLord.ChaturashitiSama:
                     id = new ChaturashitiSamaDasa(horoscope);
                     break;
-                case ENakshatraLord.DwisaptatiSama:
+                case NakshatraLord.DwisaptatiSama:
                     id = new DwisaptatiSamaDasa(horoscope);
                     break;
-                case ENakshatraLord.ShatTrimshaSama:
+                case NakshatraLord.ShatTrimshaSama:
                     id = new ShatTrimshaSamaDasa(horoscope);
                     break;
             }

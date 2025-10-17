@@ -26,12 +26,14 @@ namespace org.transliteral.panchang
 
         public object Clone()
         {
-            HoraInfo hi = new HoraInfo((Moment)tob.Clone(), (HMSInfo)lat.Clone(), (HMSInfo)lon.Clone(), (HMSInfo)tz.Clone());
-            hi.events = this.events;
-            hi.name = this.name;
-            hi.defaultYearCompression = this.defaultYearCompression;
-            hi.defaultYearLength = this.defaultYearLength;
-            hi.defaultYearType = this.defaultYearType;
+            HoraInfo hi = new HoraInfo((Moment)tob.Clone(), (HMSInfo)lat.Clone(), (HMSInfo)lon.Clone(), (HMSInfo)tz.Clone())
+            {
+                events = this.events,
+                name = this.name,
+                defaultYearCompression = this.defaultYearCompression,
+                defaultYearLength = this.defaultYearLength,
+                defaultYearType = this.defaultYearType
+            };
             return hi;
         }
        
@@ -41,7 +43,7 @@ namespace org.transliteral.panchang
         public double alt;
         public HMSInfo lon, lat, tz;
         public string name;
-        public EFileType FileType;
+        public FileType FileType;
         public double defaultYearLength = 0;
         public double defaultYearCompression = 0;
         public DateType defaultYearType = DateType.FixedYear;
@@ -108,7 +110,7 @@ namespace org.transliteral.panchang
             tz = atz;
             alt = 0.0;
             this.type = HoraType.Birth;
-            this.FileType = EFileType.PanchangHora;
+            this.FileType = FileType.PanchangHora;
             this.events = new UserEvent[0];
         }
         public HoraInfo()
@@ -120,7 +122,7 @@ namespace org.transliteral.panchang
             tz = (HMSInfo) GlobalOptions.Instance.TimeZone.Clone();
             alt = 0.0;
             this.type = HoraType.Birth;
-            this.FileType = EFileType.PanchangHora;
+            this.FileType = FileType.PanchangHora;
             this.events = new UserEvent[0];
         }
     }

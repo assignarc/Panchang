@@ -83,7 +83,7 @@ namespace org.transliteral.panchang
 				else if (zh_sat == zh_ket && zh_sat == zh.Value)
 				{
 					ArrayList rule = new ArrayList();
-					rule.Add (EGrahaStrength.Longitude);
+					rule.Add (GrahaStrength.Longitude);
 					Strongest fs2 = new Strongest(h, new Division(DivisionType.Rasi), rule);
 					bIsForward = fs2.CompareGraha(BodyName.Saturn, BodyName.Ketu, false);
 				}

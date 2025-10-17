@@ -290,7 +290,7 @@ namespace org.transliteral.panchang.app
                             time_offset = karana_time_2_offset;
                         }
 
-                        g.DrawString(k.value.ToString(), f, b, name_offset, jRow * f.Height);
+                        g.DrawString(k.Value.ToString(), f, b, name_offset, jRow * f.Height);
                         g.DrawString(utTimeToString(pmi.UT, local.SunriseUT, local.Sunrise),
                             f, b, time_offset, jRow * f.Height);
                     }

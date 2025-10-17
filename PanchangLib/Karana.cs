@@ -8,28 +8,28 @@
         {
             mValue = (KaranaName)Basics.NormalizeInclusive(1, 60, (int)_mValue);
         }
-        public KaranaName value
+        public KaranaName Value
         {
             get { return mValue; }
             set { mValue = value; }
         }
-        public Karana add(int i)
+        public Karana Add(int i)
         {
-            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.value + i - 1);
+            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.Value + i - 1);
             return new Karana((KaranaName)tnum);
         }
-        public Karana addReverse(int i)
+        public Karana AddReverse(int i)
         {
-            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.value - i + 1);
+            int tnum = Basics.NormalizeInclusive(1, 60, (int)this.Value - i + 1);
             return new Karana((KaranaName)tnum);
         }
         public override string ToString()
         {
-            return this.value.ToString();
+            return this.Value.ToString();
         }
         public BodyName GetLord()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case KaranaName.Kimstughna: return BodyName.Moon;
                 case KaranaName.Sakuna: return BodyName.Mars;
@@ -37,7 +37,7 @@
                 case KaranaName.Naga: return BodyName.Venus;
                 default:
                     {
-                        int vn = Basics.NormalizeInclusive(1, 7, (int)this.value - 1);
+                        int vn = Basics.NormalizeInclusive(1, 7, (int)this.Value - 1);
                         switch (vn)
                         {
                             case 1: return BodyName.Sun;

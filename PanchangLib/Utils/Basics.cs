@@ -127,39 +127,39 @@ namespace org.transliteral.panchang
 		{
 			switch (m)
 			{
-				case Muhurta.Rudra: return Nakshatra28Name.Aridra;
-				case Muhurta.Ahi: return Nakshatra28Name.Aslesha;
+				case Muhurta.Rudra: return Nakshatra28Name.Ardra;
+				case Muhurta.Ahi: return Nakshatra28Name.Ashlesha;
 				case Muhurta.Mitra: return Nakshatra28Name.Anuradha;
-				case Muhurta.Pitri: return Nakshatra28Name.Makha;
+				case Muhurta.Pitri: return Nakshatra28Name.Magha;
 				case Muhurta.Vasu: return Nakshatra28Name.Dhanishta;
 				case Muhurta.Ambu: return Nakshatra28Name.PoorvaShada;
-				case Muhurta.Visvadeva: return Nakshatra28Name.UttaraShada;
+				case Muhurta.Vishvadeva: return Nakshatra28Name.UttaraShada;
 				case Muhurta.Abhijit: return Nakshatra28Name.Abhijit;
 				case Muhurta.Vidhata: return Nakshatra28Name.Rohini;
 				case Muhurta.Puruhuta: return Nakshatra28Name.Jyestha;
-				case Muhurta.Indragni: return Nakshatra28Name.Vishaka;
+				case Muhurta.Indragni: return Nakshatra28Name.Vishakha;
 				case Muhurta.Nirriti: return Nakshatra28Name.Moola;
-				case Muhurta.Varuna: return Nakshatra28Name.Satabisha;
+				case Muhurta.Varuna: return Nakshatra28Name.Shatabhisha;
 				case Muhurta.Aryaman: return Nakshatra28Name.UttaraPhalguni;
 				case Muhurta.Bhaga: return Nakshatra28Name.PoorvaPhalguni;
-				case Muhurta.Girisa: return Nakshatra28Name.Aridra;
+				case Muhurta.Girisa: return Nakshatra28Name.Ardra;
 				case Muhurta.Ajapada: return Nakshatra28Name.PoorvaBhadra;
 				case Muhurta.Ahirbudhnya: return Nakshatra28Name.UttaraBhadra;
 				case Muhurta.Pushan: return Nakshatra28Name.Revati;
-				case Muhurta.Asvi: return Nakshatra28Name.Aswini;
+				case Muhurta.Asvi: return Nakshatra28Name.Ashwini;
 				case Muhurta.Yama: return Nakshatra28Name.Bharani;
 				case Muhurta.Agni: return Nakshatra28Name.Krittika;
 				case Muhurta.Vidhaatri: return Nakshatra28Name.Rohini;
-				case Muhurta.Chanda: return Nakshatra28Name.Mrigarirsa;
+				case Muhurta.Chanda: return Nakshatra28Name.Mrigashira;
 				case Muhurta.Aditi: return Nakshatra28Name.Punarvasu;
-				case Muhurta.Jiiva: return Nakshatra28Name.Pushya;
-				case Muhurta.Vishnu: return Nakshatra28Name.Sravana;
+				case Muhurta.JivaAmruta: return Nakshatra28Name.Pushya;
+				case Muhurta.Vishnu: return Nakshatra28Name.Shravana;
 				case Muhurta.Arka: return Nakshatra28Name.Hasta;
-				case Muhurta.Tvashtri: return Nakshatra28Name.Chittra;
+				case Muhurta.Tvashtri: return Nakshatra28Name.Chitra;
 				case Muhurta.Maruta: return Nakshatra28Name.Swati;
 			}
 			Debug.Assert (false, string.Format("Basics::NakLordOfMuhurta Unknown Muhurta {0}", m));
-			return Nakshatra28Name.Aswini;
+			return Nakshatra28Name.Ashwini;
 		}
 		public static string VariationNameOfDivision (Division d)
 		{
@@ -549,11 +549,11 @@ namespace org.transliteral.panchang
 			//julday_ut = julday_ut - (h.tz.toDouble() / 24.0);
 			
 			int swephRahuBody = Sweph.SE_MEAN_NODE;
-			if (o.nodeType == ENodeType.True)
+			if (o.nodeType == NodeType.True)
 				swephRahuBody = Sweph.SE_TRUE_NODE;
 
 			int addFlags;
-			if (o.grahaPositionType == EGrahaPositionType.True)
+			if (o.grahaPositionType == GrahaPositionType.True)
 				addFlags = Sweph.SEFLG_TRUEPOS;
 
 			std_grahas.Add (CalculateSingleBodyPosition (julday_ut, Sweph.SE_SUN, BodyName.Sun, BodyType.Name.Graha, h));

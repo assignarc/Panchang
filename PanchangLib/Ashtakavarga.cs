@@ -30,11 +30,11 @@ namespace org.transliteral.panchang
 			};
 		}
 
-		public void setKakshyaType (EKakshya k)
+		public void setKakshyaType (KakshyaType k)
 		{
 			switch (k)
 			{
-			case EKakshya.EKStandard:
+			case KakshyaType.Standard:
 				avBodies = new BodyName[]
 				{
 					BodyName.Sun, 
@@ -47,7 +47,7 @@ namespace org.transliteral.panchang
 					BodyName.Lagna
 				};
 				break;
-			case EKakshya.EKRegular:
+			case KakshyaType.Regular:
 				avBodies = new BodyName[]
 				{
 					BodyName.Saturn, 

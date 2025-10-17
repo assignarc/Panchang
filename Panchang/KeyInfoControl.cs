@@ -227,7 +227,7 @@ namespace org.transliteral.panchang.app
                 double koffset = 360.0 / 60.0 - lkarana.ToKaranaOffset();
                 Karana k = lkarana.ToKarana();
                 BodyName kLord = k.GetLord();
-                string fmt = string.Format("{0} ({1}) {2:N}% left", k.value, kLord, koffset / 6.0 * 100);
+                string fmt = string.Format("{0} ({1}) {2:N}% left", k.Value, kLord, koffset / 6.0 * 100);
                 li.SubItems.Add(fmt);
                 mList.Items.Add(li);
             }

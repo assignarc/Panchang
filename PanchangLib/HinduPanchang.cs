@@ -144,19 +144,19 @@ namespace org.transliteral.panchang
                 Karana karana_start = t.LongitudeOfTithi(ut_sr).ToKarana();
                 Karana karana_end = t.LongitudeOfTithi(ut_sr + 1.0).ToKarana();
 
-                Karana karana_curr = karana_start.add(1);
+                Karana karana_curr = karana_start.Add(1);
                 local.KaranaIndexStart = globals.KaranasUT.Count - 1;
                 local.KaranaIndexEnd = globals.KaranasUT.Count - 1;
 
-                while (karana_start.value != karana_end.value &&
-                    karana_curr.value != karana_end.value)
+                while (karana_start.Value != karana_end.Value &&
+                    karana_curr.Value != karana_end.Value)
                 {
-                    karana_curr = karana_curr.add(2);
-                    double dLonToFind = ((double)(int)karana_curr.value - 1) * (360.0 / 60.0);
+                    karana_curr = karana_curr.Add(2);
+                    double dLonToFind = ((double)(int)karana_curr.Value - 1) * (360.0 / 60.0);
                     double ut_found = t.LinearSearchBinary(ut_sr, ut_sr + 1.0, new Longitude(dLonToFind),
                         new ReturnLon(t.LongitudeOfTithiDir));
 
-                    globals.KaranasUT.Add(new MomentInfo(ut_found, (int)karana_curr.value));
+                    globals.KaranasUT.Add(new MomentInfo(ut_found, (int)karana_curr.Value));
                     local.KaranaIndexEnd++;
                 }
                 Sweph.Unlock(horoscope);
@@ -352,7 +352,7 @@ namespace org.transliteral.panchang
                 {
                     MomentInfo pmi = (MomentInfo)globals.KaranasUT[local.KaranaIndexStart];
                     Karana karana = new Karana((KaranaName)pmi.Info);
-                    pDay.Texts.Add("Karana", string.Format("{0} karana - full.", karana.value));
+                    pDay.Texts.Add("Karana", string.Format("{0} karana - full.", karana.Value));
                     pDay.Karana  = new List<KeyValuePair<Karana, string>>()
                     {
                         new KeyValuePair<Karana, string>(karana, "full")
@@ -366,10 +366,10 @@ namespace org.transliteral.panchang
                         if (i < 0)
                             continue;
                         MomentInfo pmi = (MomentInfo)globals.KaranasUT[i];
-                        Karana karana = new Karana((KaranaName)pmi.Info).addReverse(2);
+                        Karana karana = new Karana((KaranaName)pmi.Info).AddReverse(2);
 
                         s_karana += string.Format("{0} karana until {1}",
-                            karana.value,
+                            karana.Value,
                             TimeUtils.UtTimeToString(pmi.UT, local.SunriseUT, local.Sunrise, horoscope.Info.tz, options.LargeHours));
                         
                         pDay.Karana.Add(new KeyValuePair<Karana, string>(karana,

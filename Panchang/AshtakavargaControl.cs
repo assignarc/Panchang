@@ -30,7 +30,7 @@ namespace org.transliteral.panchang.app
         Bitmap bmpBuffer = null;
         private MenuItem menuJhoraSav;
         readonly AshtakavargaOptions userOptions = null;
-        EDisplayStyle mDisplayStyle = EDisplayStyle.Chancha;
+        DisplayStyle mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
         Font fBig = null;
         Font fBigBold = null;
         readonly Brush b_black = null;
@@ -254,7 +254,7 @@ namespace org.transliteral.panchang.app
                                                 BodyName.Venus, BodyName.Saturn };
             int[][] bins = new int[9][];
 
-            if (userOptions.SavType == ESavType.Normal)
+            if (userOptions.SavType == SarvashtakavargaType.Normal)
                 bins[0] = av.GetSav();
             else
                 bins[0] = av.GetSavRao();
@@ -306,7 +306,7 @@ namespace org.transliteral.panchang.app
                     SizeF sz = g.MeasureString(strs[off], fBig);
                     g.DrawString(strs[off], fBig, b_red, 100 - sz.Width / 2, 100 - sz.Height / 2);
 
-                    if (off == 0 && userOptions.SavType == ESavType.Rao)
+                    if (off == 0 && userOptions.SavType == SarvashtakavargaType.Rao)
                     {
                         sz = g.MeasureString("Rao", fBig);
                         g.DrawString("Rao", fBig, b_red, 100 - sz.Width / 2, 120 - sz.Height / 2);
@@ -326,10 +326,10 @@ namespace org.transliteral.panchang.app
 
             switch (mDisplayStyle)
             {
-                case EDisplayStyle.Chancha:
+                case DisplayStyle.SarvaChanchaChakra:
                     DrawChanchaChakra(imageGraphics);
                     break;
-                case EDisplayStyle.NavaSav:
+                case DisplayStyle.NavaSav:
                     DrawJhoraChakra(imageGraphics);
                     break;
             }
@@ -431,7 +431,7 @@ namespace org.transliteral.panchang.app
 
             if (outerBodies.Length > 1)
             {
-                if (userOptions.SavType == ESavType.Rao)
+                if (userOptions.SavType == SarvashtakavargaType.Rao)
                     inner_bindus = av.GetSavRao();
                 else
                     inner_bindus = av.GetSav();
@@ -458,7 +458,7 @@ namespace org.transliteral.panchang.app
                 g.DrawString(desc, fBig, b_black, 100 - sz.Width / 2, 120 - sz.Height / 2);
             }
 
-            if (userOptions.SavType == ESavType.Rao)
+            if (userOptions.SavType == SarvashtakavargaType.Rao)
             {
                 string desc = "Rao";
                 sz = g.MeasureString(desc, fBig);
@@ -596,7 +596,7 @@ namespace org.transliteral.panchang.app
                 BodyName.Mercury, BodyName.Jupiter, BodyName.Venus,
                 BodyName.Saturn, BodyName.Lagna
             };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuSav);
@@ -605,7 +605,7 @@ namespace org.transliteral.panchang.app
         private void menuPavSun_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Sun };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavSun);
@@ -614,7 +614,7 @@ namespace org.transliteral.panchang.app
         private void menuPavMoon_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Moon };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavMoon);
@@ -623,7 +623,7 @@ namespace org.transliteral.panchang.app
         private void menuPavJupiter_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Jupiter };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavJupiter);
@@ -632,7 +632,7 @@ namespace org.transliteral.panchang.app
         private void menuPavMars_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Mars };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavMars);
@@ -641,7 +641,7 @@ namespace org.transliteral.panchang.app
         private void menuPavMercury_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Mercury };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavMercury);
@@ -650,7 +650,7 @@ namespace org.transliteral.panchang.app
         private void menuPavVenus_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Venus };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavVenus);
@@ -659,7 +659,7 @@ namespace org.transliteral.panchang.app
         private void menuPavSaturn_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Saturn };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavSaturn);
@@ -668,7 +668,7 @@ namespace org.transliteral.panchang.app
         private void menuPavLagna_Click(object sender, EventArgs e)
         {
             outerBodies = new BodyName[] { BodyName.Lagna };
-            mDisplayStyle = EDisplayStyle.Chancha;
+            mDisplayStyle = DisplayStyle.SarvaChanchaChakra;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuPavLagna);
@@ -702,7 +702,7 @@ namespace org.transliteral.panchang.app
 
         private void menuJhoraSav_Click(object sender, EventArgs e)
         {
-            mDisplayStyle = EDisplayStyle.NavaSav;
+            mDisplayStyle = DisplayStyle.NavaSav;
             DrawToBuffer();
             Invalidate();
             resetContextMenuChecks(menuJhoraSav);

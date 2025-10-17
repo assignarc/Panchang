@@ -85,9 +85,9 @@ namespace org.transliteral.panchang
 				BodyName.Venus, BodyName.Rahu
 			};				
 			int nak_val = ((int)n.Value);
-			int shr_val = (int)NakshatraName.Sravana;
+			int shr_val = (int)NakshatraName.Shravana;
 			int diff_val = Basics.NormalizeInclusive(
-				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 
+				(int)NakshatraName.Ashwini, (int)NakshatraName.Revati, 
 				nak_val - shr_val);
 			int diff_off = diff_val % 8;
 			return lords[diff_off];

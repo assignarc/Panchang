@@ -16,10 +16,10 @@ namespace org.transliteral.panchang
 		{
 			switch (n.Value)
 			{
-				case NakshatraName.Aswini:
+				case NakshatraName.Ashwini:
 				case NakshatraName.Krittika:
 				case NakshatraName.Punarvasu:
-				case NakshatraName.Aslesha:
+				case NakshatraName.Ashlesha:
 				case NakshatraName.Hasta:
 				case NakshatraName.Swati:
 				case NakshatraName.Moola:
@@ -28,14 +28,14 @@ namespace org.transliteral.panchang
 					return NakshatraGroupType.Savya;
 				case NakshatraName.Bharani:
 				case NakshatraName.Pushya:
-				case NakshatraName.Chittra:
+				case NakshatraName.Chitra:
 				case NakshatraName.PoorvaShada:
 				case NakshatraName.Revati:
 					return NakshatraGroupType.SavyaMirrored;
 				case NakshatraName.Rohini:
-				case NakshatraName.Makha:
-				case NakshatraName.Vishaka:
-				case NakshatraName.Sravana:
+				case NakshatraName.Magha:
+				case NakshatraName.Vishakha:
+				case NakshatraName.Shravana:
 					return NakshatraGroupType.Apasavya;
 				default:
 					return NakshatraGroupType.ApasavyaMirrored;

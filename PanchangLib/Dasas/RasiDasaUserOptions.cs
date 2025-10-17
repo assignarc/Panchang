@@ -182,7 +182,7 @@ namespace org.transliteral.panchang
 			else
 			{
 				ArrayList rule = new ArrayList();
-				rule.Add (EGrahaStrength.Longitude);
+				rule.Add (GrahaStrength.Longitude);
 				Strongest fs = new Strongest(h, this.Division, rule);
 				BodyName b = fs.StrongerGraha(BodyName.Saturn, BodyName.Ketu, false);
 				if (b == BodyName.Ketu)

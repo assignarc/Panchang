@@ -64,7 +64,7 @@ namespace org.transliteral.panchang
 			int nak_val = ((int)n.Value);
 			int rev_val = (int)NakshatraName.Revati;
 			int diff_val = Basics.NormalizeInclusive(
-				(int)NakshatraName.Aswini, (int)NakshatraName.Revati, 
+				(int)NakshatraName.Ashwini, (int)NakshatraName.Revati, 
 				nak_val - rev_val);
 			int diff_off = diff_val % 7;
 			return lords[diff_off];

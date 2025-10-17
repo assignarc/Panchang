@@ -86,7 +86,7 @@ namespace org.transliteral.panchang
         }
         public double ToKaranaBase()
         {
-            int num = (int)(ToKarana().value);
+            int num = (int)(ToKarana().Value);
             double cusp = ((double)(num - 1)) * (360.0 / 60.0);
             return cusp;
         }
