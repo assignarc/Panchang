@@ -12,15 +12,15 @@ namespace org.transliteral.panchang
         //private SunrisePositionType mSunrisePosition = SunrisePositionType.TrueDiscEdge;
         private EHoraType mHoraType = EHoraType.Lmt;
         private EHoraType mKalaType = EHoraType.Sunriset;
-        public EGrahaPositionType grahaPositionType = EGrahaPositionType.True;
-        public ENodeType nodeType = ENodeType.Mean;
+        public GrahaPositionType grahaPositionType = GrahaPositionType.True;
+        public NodeType nodeType = NodeType.Mean;
         private AyanamsaType mAyanamsa = AyanamsaType.Lahiri;
         private HMSInfo mAyanamsaOffset = new HMSInfo(0, 0, 0, Direction.EastWest);
-        private EBhavaType mBhavaType = EBhavaType.Start;
+        private BhavaType mBhavaType = BhavaType.Start;
         private Longitude mUserLongitude = new Longitude(0);
-        private EMaandiType mMaandiType = EMaandiType.SaturnBegin;
-        private EMaandiType mGulikaType = EMaandiType.SaturnMid;
-        private EUpagrahaType mUpagrahaType = EUpagrahaType.Mid;
+        private MaandiType mMaandiType = MaandiType.SaturnBegin;
+        private MaandiType mGulikaType = MaandiType.SaturnMid;
+        private UpagrahaType mUpagrahaType = UpagrahaType.Mid;
         private string mEphemPath = GetExeDir() + "\\eph";
 
         protected const string CATEGORY_GENERAL = "1: General Settings";
@@ -100,7 +100,7 @@ namespace org.transliteral.panchang
 
         [Category(CATEGORY_UPAGRAHA)]
         [PropertyOrder(1), Visible("Upagraha")]
-        public EUpagrahaType UpagrahaType
+        public UpagrahaType UpagrahaType
         {
             get { return mUpagrahaType; }
             // TODO: Check this again.
@@ -109,14 +109,14 @@ namespace org.transliteral.panchang
         }
         [Category(CATEGORY_UPAGRAHA)]
         [PropertyOrder(2), Visible("Maandi")]
-        public EMaandiType MaandiType
+        public MaandiType MaandiType
         {
             get { return mMaandiType; }
             set { mMaandiType = value; }
         }
         [Category(CATEGORY_UPAGRAHA)]
         [PropertyOrder(3), Visible("Gulika")]
-        public EMaandiType GulikaType
+        public MaandiType GulikaType
         {
             get { return mGulikaType; }
             set { mGulikaType = value; }
@@ -150,7 +150,7 @@ namespace org.transliteral.panchang
         //}
         [Category(CATEGORY_GRAHA)]
         [PropertyOrder(1), Visible("Rahu / Ketu")]
-        public ENodeType NodeType
+        public NodeType NodeType
         {
             get { return nodeType; }
             set { nodeType = value; }
@@ -158,7 +158,7 @@ namespace org.transliteral.panchang
 
         [Category(CATEGORY_GRAHA)]
         [PropertyOrder(2), Visible("Bhava")]
-        public EBhavaType BhavaType
+        public BhavaType BhavaType
         {
             get { return mBhavaType; }
             set { mBhavaType = value; }

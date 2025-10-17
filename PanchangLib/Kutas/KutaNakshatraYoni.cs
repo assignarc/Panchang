@@ -32,16 +32,16 @@ namespace org.transliteral.panchang
 		{
 			switch (n.Value)
 			{
-				case NakshatraName.Aswini:
+				case NakshatraName.Ashwini:
 				case NakshatraName.Bharani:
 				case NakshatraName.Pushya:
 				case NakshatraName.Rohini:
 				case NakshatraName.Moola:
-				case NakshatraName.Aslesha:
-				case NakshatraName.Makha:
+				case NakshatraName.Ashlesha:
+				case NakshatraName.Magha:
 				case NakshatraName.UttaraPhalguni:
 				case NakshatraName.Swati:
-				case NakshatraName.Vishaka:
+				case NakshatraName.Vishakha:
 				case NakshatraName.Jyestha:
 				case NakshatraName.PoorvaShada:
 				case NakshatraName.PoorvaBhadra:
@@ -56,8 +56,8 @@ namespace org.transliteral.panchang
 		{
 			switch (n.Value)
 			{
-				case NakshatraName.Aswini:
-				case NakshatraName.Satabisha:
+				case NakshatraName.Ashwini:
+				case NakshatraName.Shatabhisha:
 					return EType.IHorse;
 				case NakshatraName.Bharani:
 				case NakshatraName.Revati:
@@ -66,15 +66,15 @@ namespace org.transliteral.panchang
 				case NakshatraName.Krittika:
 					return EType.ISheep;
 				case NakshatraName.Rohini:
-				case NakshatraName.Mrigarirsa:
+				case NakshatraName.Mrigashira:
 					return EType.ISerpent;
 				case NakshatraName.Moola:
-				case NakshatraName.Aridra:
+				case NakshatraName.Ardra:
 					return EType.IDog;
-				case NakshatraName.Aslesha:
+				case NakshatraName.Ashlesha:
 				case NakshatraName.Punarvasu:
 					return EType.ICat;
-				case NakshatraName.Makha:
+				case NakshatraName.Magha:
 				case NakshatraName.PoorvaPhalguni:
 					return EType.IRat;
 				case NakshatraName.UttaraPhalguni:
@@ -83,14 +83,14 @@ namespace org.transliteral.panchang
 				case NakshatraName.Swati:
 				case NakshatraName.Hasta:
 					return EType.IBuffalo;
-				case NakshatraName.Vishaka:
-				case NakshatraName.Chittra:
+				case NakshatraName.Vishakha:
+				case NakshatraName.Chitra:
 					return EType.ITiger;
 				case NakshatraName.Jyestha:
 				case NakshatraName.Anuradha:
 					return EType.IHare;
 				case NakshatraName.PoorvaShada:
-				case NakshatraName.Sravana:
+				case NakshatraName.Shravana:
 					return EType.IMonkey;
 				case NakshatraName.PoorvaBhadra:
 				case NakshatraName.Dhanishta:

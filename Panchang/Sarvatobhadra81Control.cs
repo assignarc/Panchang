@@ -190,7 +190,7 @@ namespace org.transliteral.panchang.app
             }
             for (int i = 1; i <= 28; i++)
             {
-                Nakshatra28 na = new Nakshatra28(Nakshatra28Name.Aswini).Add(i);
+                Nakshatra28 na = new Nakshatra28(Nakshatra28Name.Ashwini).Add(i);
                 Point pxBase = GetCellInRectangle(9, 26, i);
                 Point pxOff = GetItemOffsetCenter();
                 Point px = new Point(pxBase.X + pxOff.X, pxBase.Y);

@@ -95,7 +95,7 @@ namespace org.transliteral.panchang
             HMSInfo lon = readHmsLineInfo(sr, true, Direction.EastWest);
             HMSInfo lat = readHmsLineInfo(sr, false, Direction.NorthSouth);
             HoraInfo hi = new HoraInfo(m, lat, lon, tz);
-            hi.FileType = EFileType.JagannathaHora;
+            hi.FileType = FileType.JagannathaHora;
             //hi.name = File.fname;
             return hi;
         }

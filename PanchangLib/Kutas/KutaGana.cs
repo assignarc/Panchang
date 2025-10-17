@@ -29,19 +29,19 @@ namespace org.transliteral.panchang
 		{
 			switch (n.Value)
 			{
-				case NakshatraName.Aswini:
-				case NakshatraName.Mrigarirsa:
+				case NakshatraName.Ashwini:
+				case NakshatraName.Mrigashira:
 				case NakshatraName.Punarvasu:
 				case NakshatraName.Pushya:
 				case NakshatraName.Hasta:
 				case NakshatraName.Swati:
 				case NakshatraName.Anuradha:
-				case NakshatraName.Sravana:
+				case NakshatraName.Shravana:
 				case NakshatraName.Revati:
 					return EType.IDeva;
 				case NakshatraName.Bharani:
 				case NakshatraName.Rohini:
-				case NakshatraName.Aridra:
+				case NakshatraName.Ardra:
 				case NakshatraName.PoorvaPhalguni:
 				case NakshatraName.UttaraPhalguni:
 				case NakshatraName.PoorvaShada:

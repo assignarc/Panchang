@@ -7,11 +7,12 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System;
+namespace org.transliteral.panchang.app
+{
 
-namespace mhora {
-    using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,121 +23,147 @@ namespace mhora {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Localization {
-        
+    internal class Localization
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Localization() {
+        internal Localization()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("mhora.Localization", typeof(Localization).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ju.
         /// </summary>
-        internal static string Ju {
-            get {
+        internal static string Ju
+        {
+            get
+            {
                 return ResourceManager.GetString("Ju", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ke.
         /// </summary>
-        internal static string Ke {
-            get {
+        internal static string Ke
+        {
+            get
+            {
                 return ResourceManager.GetString("Ke", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ma.
         /// </summary>
-        internal static string Ma {
-            get {
+        internal static string Ma
+        {
+            get
+            {
                 return ResourceManager.GetString("Ma", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Me.
         /// </summary>
-        internal static string Me {
-            get {
+        internal static string Me
+        {
+            get
+            {
                 return ResourceManager.GetString("Me", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Mo.
         /// </summary>
-        internal static string Mo {
-            get {
+        internal static string Mo
+        {
+            get
+            {
                 return ResourceManager.GetString("Mo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ra.
         /// </summary>
-        internal static string Ra {
-            get {
+        internal static string Ra
+        {
+            get
+            {
                 return ResourceManager.GetString("Ra", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sa.
         /// </summary>
-        internal static string Sa {
-            get {
+        internal static string Sa
+        {
+            get
+            {
                 return ResourceManager.GetString("Sa", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Su.
         /// </summary>
-        internal static string Su {
-            get {
+        internal static string Su
+        {
+            get
+            {
                 return ResourceManager.GetString("Su", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ve.
         /// </summary>
-        internal static string Ve {
-            get {
+        internal static string Ve
+        {
+            get
+            {
                 return ResourceManager.GetString("Ve", resourceCulture);
             }
         }

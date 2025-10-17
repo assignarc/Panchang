@@ -42,26 +42,26 @@ namespace org.transliteral.panchang
         public static ArrayList RulesNavamsaDasaRasi(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NavamsaDasaRasi);
         public static ArrayList RulesJaiminiFirstRasi(Horoscope h) => new ArrayList
             {
-                ERasiStrength.AtmaKaraka,
-                ERasiStrength.Conjunction,
-                ERasiStrength.Exaltation,
-                ERasiStrength.MoolaTrikona,
-                ERasiStrength.OwnHouse,
-                ERasiStrength.RasisNature,
-                ERasiStrength.LordIsAtmaKaraka,
-                ERasiStrength.LordsLongitude,
-                ERasiStrength.LordInDifferentOddity
+                RasiStrength.AtmaKaraka,
+                RasiStrength.Conjunction,
+                RasiStrength.Exaltation,
+                RasiStrength.MoolaTrikona,
+                RasiStrength.OwnHouse,
+                RasiStrength.RasisNature,
+                RasiStrength.LordIsAtmaKaraka,
+                RasiStrength.LordsLongitude,
+                RasiStrength.LordInDifferentOddity
             };
         public static ArrayList RulesJaiminiSecondRasi(Horoscope h) => new ArrayList
             {
-                ERasiStrength.AspectsRasi
+                RasiStrength.AspectsRasi
             };
 
         public static ArrayList RulesNaisargikaDasaGraha(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).NaisargikaDasaGraha);
         public static ArrayList RulesVimsottariGraha(Horoscope h) => new ArrayList
             {
-                EGrahaStrength.KendraConjunction,
-                EGrahaStrength.First
+                GrahaStrength.KendraConjunction,
+                GrahaStrength.First
             };
 
         public static ArrayList RulesStrongerCoLord(Horoscope h) => new ArrayList(Strongest.GetStrengthOptions(h).Colord);
@@ -194,12 +194,12 @@ namespace org.transliteral.panchang
             winner = 0;
 
             Logger.Info(String.Format("Rasi: {0} {1}", za.ToString(), zb.ToString()));
-            foreach (ERasiStrength s in rules)
+            foreach (RasiStrength s in rules)
             {
                 Logger.Info(String.Format("Rasi::{0}", s));
                 switch (s)
                 {
-                    case ERasiStrength.Conjunction:
+                    case RasiStrength.Conjunction:
                         try
                         {
                             bRet = new StrengthByConjunction(h, dtype).Stronger(za, zb);
@@ -207,7 +207,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.Exaltation:
+                    case RasiStrength.Exaltation:
                         try
                         {
                             bRet = new StrengthByExaltation(h, dtype).Stronger(za, zb);
@@ -215,7 +215,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.Longitude:
+                    case RasiStrength.Longitude:
                         try
                         {
                             bRet = new StrengthByLongitude(h, dtype).Stronger(za, zb);
@@ -223,7 +223,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.AtmaKaraka:
+                    case RasiStrength.AtmaKaraka:
                         try
                         {
                             bRet = new StrengthByAtmaKaraka(h, dtype).Stronger(za, zb);
@@ -231,7 +231,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.LordIsAtmaKaraka:
+                    case RasiStrength.LordIsAtmaKaraka:
                         try
                         {
                             bRet = new StrengthByLordIsAtmaKaraka(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -239,7 +239,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.RasisNature:
+                    case RasiStrength.RasisNature:
                         try
                         {
                             bRet = new StrengthByRasisNature(h, dtype).Stronger(za, zb);
@@ -247,7 +247,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.LordsNature:
+                    case RasiStrength.LordsNature:
                         try
                         {
                             bRet = new StrengthByLordsNature(h, dtype).Stronger(za, zb);
@@ -255,7 +255,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.AspectsRasi:
+                    case RasiStrength.AspectsRasi:
                         try
                         {
                             bRet = new StrengthByAspectsRasi(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -263,7 +263,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.AspectsGraha:
+                    case RasiStrength.AspectsGraha:
                         try
                         {
                             bRet = new StrengthByAspectsGraha(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -271,7 +271,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.LordInDifferentOddity:
+                    case RasiStrength.LordInDifferentOddity:
                         try
                         {
                             bRet = new StrengthByLordInDifferentOddity(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -279,7 +279,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.LordsLongitude:
+                    case RasiStrength.LordsLongitude:
                         try
                         {
                             bRet = new StrengthByLordsLongitude(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -287,7 +287,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.NarayanaDasaLength:
+                    case RasiStrength.NarayanaDasaLength:
                         try
                         {
                             bRet = new StrengthByNarayanaDasaLength(h, dtype, bSimpleLord).Stronger(za, zb);
@@ -295,7 +295,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.VimsottariDasaLength:
+                    case RasiStrength.VimsottariDasaLength:
                         try
                         {
                             bRet = new StrengthByVimsottariDasaLength(h, dtype).Stronger(za, zb);
@@ -303,7 +303,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.MoolaTrikona:
+                    case RasiStrength.MoolaTrikona:
                         try
                         {
                             bRet = new StrengthByMoolaTrikona(h, dtype).Stronger(za, zb);
@@ -311,7 +311,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.OwnHouse:
+                    case RasiStrength.OwnHouse:
                         try
                         {
                             bRet = new StrengthByOwnHouse(h, dtype).Stronger(za, zb);
@@ -319,7 +319,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.KendraConjunction:
+                    case RasiStrength.KendraConjunction:
                         try
                         {
                             bRet = new StrengthByKendraConjunction(h, dtype).Stronger(za, zb);
@@ -327,7 +327,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.KarakaKendradiGrahaDasaLength:
+                    case RasiStrength.KarakaKendradiGrahaDasaLength:
                         try
                         {
                             bRet = new StrengthByKarakaKendradiGrahaDasaLength(h, dtype).Stronger(za, zb);
@@ -335,7 +335,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case ERasiStrength.First:
+                    case RasiStrength.First:
                         try
                         {
                             bRet = new StrengthByFirst(h, dtype).Stronger(za, zb);
@@ -364,12 +364,12 @@ namespace org.transliteral.panchang
             bool bRet = false;
             bool bFound = true;
             winner = 0;
-            foreach (EGrahaStrength s in rules)
+            foreach (GrahaStrength s in rules)
             {
                 Logger.Info(String.Format("Trying {0}. Curr is {1}", s, winner));
                 switch (s)
                 {
-                    case EGrahaStrength.Conjunction:
+                    case GrahaStrength.Conjunction:
                         try
                         {
                             bRet = new StrengthByConjunction(h, dtype).Stronger(m, n);
@@ -377,7 +377,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.Exaltation:
+                    case GrahaStrength.Exaltation:
                         try
                         {
                             bRet = new StrengthByExaltation(h, dtype).Stronger(m, n);
@@ -385,7 +385,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.Longitude:
+                    case GrahaStrength.Longitude:
                         try
                         {
                             bRet = new StrengthByLongitude(h, dtype).Stronger(m, n);
@@ -393,7 +393,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.AtmaKaraka:
+                    case GrahaStrength.AtmaKaraka:
                         try
                         {
                             bRet = new StrengthByAtmaKaraka(h, dtype).Stronger(m, n);
@@ -401,7 +401,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.RasisNature:
+                    case GrahaStrength.RasisNature:
                         try
                         {
                             bRet = new StrengthByRasisNature(h, dtype).Stronger(m, n);
@@ -409,7 +409,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.LordsNature:
+                    case GrahaStrength.LordsNature:
                         try
                         {
                             bRet = new StrengthByLordsNature(h, dtype).Stronger(m, n);
@@ -417,7 +417,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.AspectsRasi:
+                    case GrahaStrength.AspectsRasi:
                         try
                         {
                             bRet = new StrengthByAspectsRasi(h, dtype, bSimpleLord).Stronger(m, n);
@@ -425,7 +425,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.AspectsGraha:
+                    case GrahaStrength.AspectsGraha:
                         try
                         {
                             bRet = new StrengthByAspectsGraha(h, dtype, bSimpleLord).Stronger(m, n);
@@ -433,7 +433,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.NarayanaDasaLength:
+                    case GrahaStrength.NarayanaDasaLength:
                         try
                         {
                             bRet = new StrengthByNarayanaDasaLength(h, dtype, bSimpleLord).Stronger(m, n);
@@ -441,7 +441,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.VimsottariDasaLength:
+                    case GrahaStrength.VimsottariDasaLength:
                         try
                         {
                             bRet = new StrengthByVimsottariDasaLength(h, dtype).Stronger(m, n);
@@ -449,7 +449,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.MoolaTrikona:
+                    case GrahaStrength.MoolaTrikona:
                         try
                         {
                             bRet = new StrengthByMoolaTrikona(h, dtype).Stronger(m, n);
@@ -457,7 +457,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.OwnHouse:
+                    case GrahaStrength.OwnHouse:
                         try
                         {
                             bRet = new StrengthByOwnHouse(h, dtype).Stronger(m, n);
@@ -465,7 +465,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.NotInOwnHouse:
+                    case GrahaStrength.NotInOwnHouse:
                         try
                         {
                             bRet = !(new StrengthByOwnHouse(h, dtype).Stronger(m, n));
@@ -473,7 +473,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.LordInOwnHouse:
+                    case GrahaStrength.LordInOwnHouse:
                         try
                         {
                             bRet = new StrengthByLordInOwnHouse(h, dtype, bSimpleLord).Stronger(m, n);
@@ -481,7 +481,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.LordInDifferentOddity:
+                    case GrahaStrength.LordInDifferentOddity:
                         try
                         {
                             bRet = new StrengthByLordInDifferentOddity(h, dtype, bSimpleLord).Stronger(m, n);
@@ -489,7 +489,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.KendraConjunction:
+                    case GrahaStrength.KendraConjunction:
                         try
                         {
                             bRet = new StrengthByKendraConjunction(h, dtype).Stronger(m, n);
@@ -497,7 +497,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.KarakaKendradiGrahaDasaLength:
+                    case GrahaStrength.KarakaKendradiGrahaDasaLength:
                         try
                         {
                             bRet = new StrengthByKarakaKendradiGrahaDasaLength(h, dtype).Stronger(m, n);
@@ -505,7 +505,7 @@ namespace org.transliteral.panchang
                         }
                         catch { winner++; }
                         break;
-                    case EGrahaStrength.First:
+                    case GrahaStrength.First:
                         try
                         {
                             bRet = new StrengthByFirst(h, dtype).Stronger(m, n);

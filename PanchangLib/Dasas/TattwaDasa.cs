@@ -11,10 +11,10 @@ namespace org.transliteral.panchang
 		{
 			
 
-			public Tattwa _startTattwa;
+			public TattwaType _startTattwa;
 
 			[Visible("Seed Tattwa")]
-			public Tattwa StartTattwa 
+			public TattwaType StartTattwa 
 			{
 				get { return _startTattwa; }
 				set { _startTattwa = value; }

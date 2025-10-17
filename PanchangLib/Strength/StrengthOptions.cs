@@ -17,44 +17,44 @@ namespace org.transliteral.panchang
             this.GetObjectData(this.GetType(), info, context);
         }
 
-        EGrahaStrength[] mColord = null;
-        EGrahaStrength[] mNaisargikaDasaGraha = null;
-        EGrahaStrength[] mKarakaKendradiGrahaDasaGraha = null;
-        EGrahaStrength[] mKarakaKendradiGrahaDasaColord = null;
-        ERasiStrength[] mNavamsaDasaRasi = null;
-        ERasiStrength[] mMoolaDasaRasi = null;
-        ERasiStrength[] mNarayanaDasaRasi = null;
-        ERasiStrength[] mNaisargikaDasaRasi = null;
-        ERasiStrength[] mKarakaKendradiGrahaDasaRasi = null;
+        GrahaStrength[] mColord = null;
+        GrahaStrength[] mNaisargikaDasaGraha = null;
+        GrahaStrength[] mKarakaKendradiGrahaDasaGraha = null;
+        GrahaStrength[] mKarakaKendradiGrahaDasaColord = null;
+        RasiStrength[] mNavamsaDasaRasi = null;
+        RasiStrength[] mMoolaDasaRasi = null;
+        RasiStrength[] mNarayanaDasaRasi = null;
+        RasiStrength[] mNaisargikaDasaRasi = null;
+        RasiStrength[] mKarakaKendradiGrahaDasaRasi = null;
 
         public object Clone()
         {
             return new StrengthOptions
             {
-                Colord = (EGrahaStrength[])this.Colord.Clone(),
-                NaisargikaDasaGraha = (EGrahaStrength[])this.NaisargikaDasaGraha.Clone(),
-                NavamsaDasaRasi = (ERasiStrength[])this.NavamsaDasaRasi.Clone(),
-                MoolaDasaRasi = (ERasiStrength[])this.MoolaDasaRasi.Clone(),
-                NarayanaDasaRasi = (ERasiStrength[])this.NarayanaDasaRasi.Clone(),
-                NaisargikaDasaRasi = (ERasiStrength[])this.NaisargikaDasaRasi.Clone()
+                Colord = (GrahaStrength[])this.Colord.Clone(),
+                NaisargikaDasaGraha = (GrahaStrength[])this.NaisargikaDasaGraha.Clone(),
+                NavamsaDasaRasi = (RasiStrength[])this.NavamsaDasaRasi.Clone(),
+                MoolaDasaRasi = (RasiStrength[])this.MoolaDasaRasi.Clone(),
+                NarayanaDasaRasi = (RasiStrength[])this.NarayanaDasaRasi.Clone(),
+                NaisargikaDasaRasi = (RasiStrength[])this.NaisargikaDasaRasi.Clone()
             };
         }
 
         public object Copy(object o)
         {
             StrengthOptions so = (StrengthOptions)o;
-            this.Colord = (EGrahaStrength[])so.Colord.Clone();
-            this.NaisargikaDasaGraha = (EGrahaStrength[])so.NaisargikaDasaGraha.Clone();
-            this.NavamsaDasaRasi = (ERasiStrength[])so.NavamsaDasaRasi.Clone();
-            this.MoolaDasaRasi = (ERasiStrength[])so.MoolaDasaRasi.Clone();
-            this.NarayanaDasaRasi = (ERasiStrength[])so.NarayanaDasaRasi.Clone();
-            this.NaisargikaDasaRasi = (ERasiStrength[])so.NaisargikaDasaRasi.Clone();
+            this.Colord = (GrahaStrength[])so.Colord.Clone();
+            this.NaisargikaDasaGraha = (GrahaStrength[])so.NaisargikaDasaGraha.Clone();
+            this.NavamsaDasaRasi = (RasiStrength[])so.NavamsaDasaRasi.Clone();
+            this.MoolaDasaRasi = (RasiStrength[])so.MoolaDasaRasi.Clone();
+            this.NarayanaDasaRasi = (RasiStrength[])so.NarayanaDasaRasi.Clone();
+            this.NaisargikaDasaRasi = (RasiStrength[])so.NaisargikaDasaRasi.Clone();
             return this.Clone();
         }
 
         [Category("Co-Lord Strengths")]
         [Visible("Graha Strength")]
-        public EGrahaStrength[] Colord
+        public GrahaStrength[] Colord
         {
             get { return mColord; }
             set { mColord = value; }
@@ -62,7 +62,7 @@ namespace org.transliteral.panchang
 
         [Category("Naisargika Dasa Strengths")]
         [Visible("Graha Strengths")]
-        public EGrahaStrength[] NaisargikaDasaGraha
+        public GrahaStrength[] NaisargikaDasaGraha
         {
             get { return mNaisargikaDasaGraha; }
             set { mNaisargikaDasaGraha = value; }
@@ -70,7 +70,7 @@ namespace org.transliteral.panchang
 
         [Category("Naisargika Dasa Strengths")]
         [Visible("Rasi Strengths")]
-        public ERasiStrength[] NaisargikaDasaRasi
+        public RasiStrength[] NaisargikaDasaRasi
         {
             get { return mNaisargikaDasaRasi; }
             set { mNaisargikaDasaRasi = value; }
@@ -78,7 +78,7 @@ namespace org.transliteral.panchang
 
         [Category("Navamsa Dasa Strengths")]
         [Visible("Rasi Strengths")]
-        public ERasiStrength[] NavamsaDasaRasi
+        public RasiStrength[] NavamsaDasaRasi
         {
             get { return mNavamsaDasaRasi; }
             set { mNavamsaDasaRasi = value; }
@@ -86,7 +86,7 @@ namespace org.transliteral.panchang
 
         [Category("Moola Dasa Strengths")]
         [Visible("Rasi Strengths")]
-        public ERasiStrength[] MoolaDasaRasi
+        public RasiStrength[] MoolaDasaRasi
         {
             get { return mMoolaDasaRasi; }
             set { mMoolaDasaRasi = value; }
@@ -94,7 +94,7 @@ namespace org.transliteral.panchang
 
         [Category("Narayana Dasa Strengths")]
         [Visible("Rasi Strengths")]
-        public ERasiStrength[] NarayanaDasaRasi
+        public RasiStrength[] NarayanaDasaRasi
         {
             get { return mNarayanaDasaRasi; }
             set { mNarayanaDasaRasi = value; }
@@ -102,7 +102,7 @@ namespace org.transliteral.panchang
 
         [Category("Karaka Kendradi Graha Dasa")]
         [Visible("Rasi Strengths")]
-        public ERasiStrength[] KarakaKendradiGrahaDasaRasi
+        public RasiStrength[] KarakaKendradiGrahaDasaRasi
         {
             get { return mKarakaKendradiGrahaDasaRasi; }
             set { mKarakaKendradiGrahaDasaRasi = value; }
@@ -110,7 +110,7 @@ namespace org.transliteral.panchang
 
         [Category("Karaka Kendradi Graha Dasa")]
         [Visible("Graha Strengths")]
-        public EGrahaStrength[] KarakaKendradiGrahaDasaGraha
+        public GrahaStrength[] KarakaKendradiGrahaDasaGraha
         {
             get { return mKarakaKendradiGrahaDasaGraha; }
             set { mKarakaKendradiGrahaDasaGraha = value; }
@@ -120,7 +120,7 @@ namespace org.transliteral.panchang
         [Category("Karaka Kendradi Graha Dasa")]
         [Visible("CoLord Strengths")]
         [TypeConverter(typeof(HoraArrayConverter))]
-        public EGrahaStrength[] KarakaKendradiGrahaDasaColord
+        public GrahaStrength[] KarakaKendradiGrahaDasaColord
         {
             get { return mKarakaKendradiGrahaDasaColord; }
             set { mKarakaKendradiGrahaDasaColord = value; }
@@ -128,99 +128,99 @@ namespace org.transliteral.panchang
 
         public StrengthOptions()
         {
-            Colord = new EGrahaStrength[]
+            Colord = new GrahaStrength[]
             {
-                EGrahaStrength.NotInOwnHouse,
-                EGrahaStrength.AspectsRasi,
-                EGrahaStrength.Exaltation,
-                EGrahaStrength.RasisNature,
-                EGrahaStrength.NarayanaDasaLength,
-                EGrahaStrength.Longitude
+                GrahaStrength.NotInOwnHouse,
+                GrahaStrength.AspectsRasi,
+                GrahaStrength.Exaltation,
+                GrahaStrength.RasisNature,
+                GrahaStrength.NarayanaDasaLength,
+                GrahaStrength.Longitude
             };
 
-            NaisargikaDasaGraha = new EGrahaStrength[]
+            NaisargikaDasaGraha = new GrahaStrength[]
             {
-                EGrahaStrength.Exaltation,
-                EGrahaStrength.LordInOwnHouse,
-                EGrahaStrength.MoolaTrikona,
-                EGrahaStrength.Longitude
+                GrahaStrength.Exaltation,
+                GrahaStrength.LordInOwnHouse,
+                GrahaStrength.MoolaTrikona,
+                GrahaStrength.Longitude
             };
 
-            KarakaKendradiGrahaDasaGraha = new EGrahaStrength[]
+            KarakaKendradiGrahaDasaGraha = new GrahaStrength[]
             {
-                EGrahaStrength.Exaltation,
-                EGrahaStrength.MoolaTrikona,
-                EGrahaStrength.OwnHouse,
-                EGrahaStrength.Longitude
+                GrahaStrength.Exaltation,
+                GrahaStrength.MoolaTrikona,
+                GrahaStrength.OwnHouse,
+                GrahaStrength.Longitude
             };
 
-            KarakaKendradiGrahaDasaRasi = new ERasiStrength[]
+            KarakaKendradiGrahaDasaRasi = new RasiStrength[]
             {
-                ERasiStrength.Conjunction,
-                ERasiStrength.AspectsRasi,
-                ERasiStrength.Exaltation,
-                ERasiStrength.MoolaTrikona,
-                ERasiStrength.OwnHouse,
-                ERasiStrength.LordsNature,
-                ERasiStrength.AtmaKaraka,
-                ERasiStrength.Longitude,
-                ERasiStrength.LordInDifferentOddity,
-                ERasiStrength.KarakaKendradiGrahaDasaLength
+                RasiStrength.Conjunction,
+                RasiStrength.AspectsRasi,
+                RasiStrength.Exaltation,
+                RasiStrength.MoolaTrikona,
+                RasiStrength.OwnHouse,
+                RasiStrength.LordsNature,
+                RasiStrength.AtmaKaraka,
+                RasiStrength.Longitude,
+                RasiStrength.LordInDifferentOddity,
+                RasiStrength.KarakaKendradiGrahaDasaLength
             };
-            KarakaKendradiGrahaDasaColord = new EGrahaStrength[]
+            KarakaKendradiGrahaDasaColord = new GrahaStrength[]
             {
-                EGrahaStrength.NotInOwnHouse,
-                EGrahaStrength.Conjunction,
-                EGrahaStrength.AspectsRasi,
-                EGrahaStrength.Exaltation,
-                EGrahaStrength.MoolaTrikona,
-                EGrahaStrength.OwnHouse,
-                EGrahaStrength.LordsNature,
-                EGrahaStrength.AtmaKaraka,
-                EGrahaStrength.Longitude,
-                EGrahaStrength.LordInDifferentOddity,
-                EGrahaStrength.KarakaKendradiGrahaDasaLength
-            };
-
-            NavamsaDasaRasi = new ERasiStrength[]
-            {
-                ERasiStrength.AspectsRasi,
-                ERasiStrength.Conjunction,
-                ERasiStrength.Exaltation,
-                ERasiStrength.LordInDifferentOddity,
-                ERasiStrength.RasisNature,
-                ERasiStrength.LordsLongitude
+                GrahaStrength.NotInOwnHouse,
+                GrahaStrength.Conjunction,
+                GrahaStrength.AspectsRasi,
+                GrahaStrength.Exaltation,
+                GrahaStrength.MoolaTrikona,
+                GrahaStrength.OwnHouse,
+                GrahaStrength.LordsNature,
+                GrahaStrength.AtmaKaraka,
+                GrahaStrength.Longitude,
+                GrahaStrength.LordInDifferentOddity,
+                GrahaStrength.KarakaKendradiGrahaDasaLength
             };
 
-            MoolaDasaRasi = new ERasiStrength[]
+            NavamsaDasaRasi = new RasiStrength[]
             {
-                ERasiStrength.Conjunction,
-                ERasiStrength.Exaltation,
-                ERasiStrength.MoolaTrikona,
-                ERasiStrength.OwnHouse,
-                ERasiStrength.RasisNature,
-                ERasiStrength.LordsLongitude
+                RasiStrength.AspectsRasi,
+                RasiStrength.Conjunction,
+                RasiStrength.Exaltation,
+                RasiStrength.LordInDifferentOddity,
+                RasiStrength.RasisNature,
+                RasiStrength.LordsLongitude
             };
 
-            NarayanaDasaRasi = new ERasiStrength[]
+            MoolaDasaRasi = new RasiStrength[]
             {
-                ERasiStrength.Conjunction,
-                ERasiStrength.AspectsRasi,
-                ERasiStrength.Exaltation,
-                ERasiStrength.LordInDifferentOddity,
-                ERasiStrength.RasisNature,
-                ERasiStrength.LordsLongitude
+                RasiStrength.Conjunction,
+                RasiStrength.Exaltation,
+                RasiStrength.MoolaTrikona,
+                RasiStrength.OwnHouse,
+                RasiStrength.RasisNature,
+                RasiStrength.LordsLongitude
             };
 
-            NaisargikaDasaRasi = new ERasiStrength[]
+            NarayanaDasaRasi = new RasiStrength[]
             {
-                ERasiStrength.Conjunction,
-                ERasiStrength.AspectsRasi,
-                ERasiStrength.Exaltation,
-                ERasiStrength.RasisNature,
-                ERasiStrength.LordIsAtmaKaraka,
-                ERasiStrength.LordInDifferentOddity,
-                ERasiStrength.Longitude
+                RasiStrength.Conjunction,
+                RasiStrength.AspectsRasi,
+                RasiStrength.Exaltation,
+                RasiStrength.LordInDifferentOddity,
+                RasiStrength.RasisNature,
+                RasiStrength.LordsLongitude
+            };
+
+            NaisargikaDasaRasi = new RasiStrength[]
+            {
+                RasiStrength.Conjunction,
+                RasiStrength.AspectsRasi,
+                RasiStrength.Exaltation,
+                RasiStrength.RasisNature,
+                RasiStrength.LordIsAtmaKaraka,
+                RasiStrength.LordInDifferentOddity,
+                RasiStrength.Longitude
             };
         }
 

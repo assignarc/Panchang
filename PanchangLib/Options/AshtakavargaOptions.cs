@@ -6,7 +6,7 @@ namespace org.transliteral.panchang
     {
         private Division mDtype;
         private EChartStyle mChartStyle;
-        private ESavType mSavType;
+        private SarvashtakavargaType mSavType;
 
         public AshtakavargaOptions()
         {
@@ -29,7 +29,7 @@ namespace org.transliteral.panchang
         }
 
         [Visible("SAV Type")]
-        public ESavType SavType
+        public SarvashtakavargaType SavType
         {
             get { return this.mSavType; }
             set { this.mSavType = value; }
@@ -42,10 +42,12 @@ namespace org.transliteral.panchang
         }
         public object Clone()
         {
-            AshtakavargaOptions ao = new AshtakavargaOptions();
-            ao.mDtype = this.mDtype;
-            ao.mChartStyle = this.mChartStyle;
-            ao.mSavType = this.mSavType;
+            AshtakavargaOptions ao = new AshtakavargaOptions
+            {
+                mDtype = this.mDtype,
+                mChartStyle = this.mChartStyle,
+                mSavType = this.mSavType
+            };
             return ao;
         }
         public void SetOptions(AshtakavargaOptions ao)

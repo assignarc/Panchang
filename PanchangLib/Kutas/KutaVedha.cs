@@ -33,20 +33,20 @@ namespace org.transliteral.panchang
 		{
 			switch (n.Value)
 			{
-				case NakshatraName.Aswini:
+				case NakshatraName.Ashwini:
 				case NakshatraName.Jyestha:
 					return EType.IAswJye;
 				case NakshatraName.Bharani:
 				case NakshatraName.Anuradha:
 					return EType.IBhaAnu;
 				case NakshatraName.Krittika:
-				case NakshatraName.Vishaka:
+				case NakshatraName.Vishakha:
 					return EType.IKriVis;
 				case NakshatraName.Rohini:
 				case NakshatraName.Swati:
 					return EType.IRohSwa;
-				case NakshatraName.Aridra:
-				case NakshatraName.Sravana:
+				case NakshatraName.Ardra:
+				case NakshatraName.Shravana:
 					return EType.IAriSra;
 				case NakshatraName.Punarvasu:
 				case NakshatraName.UttaraShada:
@@ -54,10 +54,10 @@ namespace org.transliteral.panchang
 				case NakshatraName.Pushya:
 				case NakshatraName.PoorvaShada:
 					return EType.IPusPsh;
-				case NakshatraName.Aslesha:
+				case NakshatraName.Ashlesha:
 				case NakshatraName.Moola:
 					return EType.IAslMoo;
-				case NakshatraName.Makha:
+				case NakshatraName.Magha:
 				case NakshatraName.Revati:
 					return EType.IMakRev;
 				case NakshatraName.PoorvaPhalguni:
@@ -67,12 +67,12 @@ namespace org.transliteral.panchang
 				case NakshatraName.PoorvaBhadra:
 					return EType.IUphPbh;
 				case NakshatraName.Hasta:
-				case NakshatraName.Satabisha:
+				case NakshatraName.Shatabhisha:
 					return EType.IHasSat;
-				case NakshatraName.Mrigarirsa:
+				case NakshatraName.Mrigashira:
 				case NakshatraName.Dhanishta:
 					return EType.IMriDha;
-				case NakshatraName.Chittra:
+				case NakshatraName.Chitra:
 					return EType.IChi;
 			}
 			Debug.Assert(false, "KutaVedha::getType");

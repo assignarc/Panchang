@@ -305,7 +305,7 @@ namespace org.transliteral.panchang.app
                 saveAsJhdFile();
             try
             {
-                if (h.Info.FileType == EFileType.JagannathaHora)
+                if (h.Info.FileType == FileType.JagannathaHora)
                     new JagannathaHoraDescriptor(mJhdFileName).ToFile(h.Info);
                 else
                     new HoroscopeDescriptor(mJhdFileName).ToFile(h.Info);
@@ -339,12 +339,12 @@ namespace org.transliteral.panchang.app
             {
                 if (sparts[sparts.Length - 1] == "jhd")
                 {
-                    h.Info.FileType = EFileType.JagannathaHora;
+                    h.Info.FileType = FileType.JagannathaHora;
                     new JagannathaHoraDescriptor(ofd.FileName).ToFile(h.Info);
                 }
                 else
                 {
-                    h.Info.FileType = EFileType.PanchangHora;
+                    h.Info.FileType = FileType.PanchangHora;
                     new HoroscopeDescriptor(ofd.FileName).ToFile(h.Info);
                 }
 

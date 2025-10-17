@@ -541,25 +541,25 @@ namespace org.transliteral.panchang
             PositionList.Add(bp);
         }
 
-        private void CalculateMaandiHelper(BodyName b, EMaandiType mty, double[] jds, double dOffset, int[] bodyOffsets)
+        private void CalculateMaandiHelper(BodyName b, MaandiType mty, double[] jds, double dOffset, int[] bodyOffsets)
         {
             switch (mty)
             {
-                case EMaandiType.SaturnBegin:
+                case MaandiType.SaturnBegin:
                     this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]]);
                     break;
-                case EMaandiType.SaturnMid:
+                case MaandiType.SaturnMid:
                     this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + dOffset);
                     break;
-                case EMaandiType.SaturnEnd:
-                case EMaandiType.LordlessBegin:
+                case MaandiType.SaturnEnd:
+                case MaandiType.LordlessBegin:
                     int _off1 = bodyOffsets[(int)BodyName.Saturn] + 1;
                     this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 2.0));
                     break;
-                case EMaandiType.LordlessMid:
+                case MaandiType.LordlessMid:
                     this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 3.0));
                     break;
-                case EMaandiType.LordlessEnd:
+                case MaandiType.LordlessEnd:
                     this.CalculateUpagrahasSingle(b, jds[bodyOffsets[(int)BodyName.Saturn]] + (dOffset * 4.0));
                     break;
             }
@@ -601,13 +601,13 @@ namespace org.transliteral.panchang
             double dUpagrahaOffset = 0;
             switch (Options.UpagrahaType)
             {
-                case EUpagrahaType.Begin:
+                case UpagrahaType.Begin:
                     dUpagrahaOffset = 0; 
                     break;
-                case EUpagrahaType.Mid:
+                case UpagrahaType.Mid:
                     dUpagrahaOffset = dOffset; 
                     break;
-                case EUpagrahaType.End:
+                case UpagrahaType.End:
                     dUpagrahaOffset = dPeriod; 
                     break;
             }
@@ -795,7 +795,7 @@ namespace org.transliteral.panchang
             for (int i = 0; i < 12; i++)
                 this.SwephHouseCusps[i] = new Longitude(dCusps[i + 1]);
 
-            if (this.Options.BhavaType == EBhavaType.Middle)
+            if (this.Options.BhavaType == BhavaType.Middle)
             {
                 Longitude middle = new Longitude((dCusps[1] + dCusps[2]) / 2.0);
                 double offset = middle.Subtract(SwephHouseCusps[0]).Value;
