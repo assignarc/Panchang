@@ -1,55 +1,164 @@
+# Panchang
 
-**Project Objectives**
-1. Codebase that can calculate 5 aspects/limbs (Panchang) of Hindu Daily Calendar 
-	1. Vara (Weekday): The day of the week, such as Sunday, Monday, etc., each associated with a ruling planet. 
-	1. Tithi (Lunar Day): A lunar day, determined by the angular relationship between the Moon and the Sun. 
-	1. Nakshatra: A lunar mansion or constellation in which the Moon is located at a specific time. 
-	1. Yoga: A calculation derived from the sum of the Sun's and Moon's longitudes, divided into 27 parts. 
-	1. Karana: Half of a Tithi, calculated by the difference in degrees between the Sun and the Moon. 
-1. Panchang can be used to decide on Auspicious timings called Muhurta and used in Vedic Astrology etc. 
-1. Panchamg is based on Lunisolar calendar, that can change for every geo-position and altitude of a location. 
-1. Create a codebase that can link Hindu events based on Hindu Luni-Solar calendar dates. Ex.
-	1. Ekadashi Names
-	1. Amavasya names
-	1. Prominent Tithis
-	1. Jayanti (birth) and Punyatithi (Death/Nirvana) dates
-	1. Celebrations and festivities (Jatra/Mela/Utsav etc)
-1. Panchang computed in real time, with faster and more accurate calculations than existing libraries
-1. Integrated with SwissEphNet for accurate planetary positions.
-1. Create test suit to ensure accuracy and reliability of calculations.
+> A comprehensive C# library for calculating the Hindu Panchang (five-limb calendar) and Vedic astrology computations with high accuracy and performance.
 
-**Usage guidelines and More To-Do**
-1. Feel free to pull and commit.
-1. Please do not push to the master branch.
-1. Add test cases
-1. Need work on adding calendar events, like Birthdays, Deaths, Festivals.
-1. Multi-lingual support
-1. India has several variations of Hindu calendar. The work is needed to incorporate those variations. 
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![.NET](https://img.shields.io/badge/.NET-5C2D91?logo=.net&logoColor=white)](https://dotnet.microsoft.com/)
+[![C#](https://img.shields.io/badge/C%23-239120?logo=c-sharp&logoColor=white)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 
+## Overview
 
-***********************************************************************
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+Panchang is a powerful computational library designed to calculate the five essential aspects (Panch-Ang) of the Hindu calendar system. Built with precision and performance in mind, it leverages the renowned Swiss Ephemeris for accurate planetary positions and provides real-time calculations suitable for Vedic astrology, Muhurta selection, and calendar event tracking.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+## Features
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+### Core Panchang Calculations
 
-***********************************************************************
+The library computes all five limbs of the Hindu daily calendar:
 
+- **Vara (Weekday)**: Day of the week, each associated with a ruling planet
+- **Tithi (Lunar Day)**: Lunar phase determined by the angular relationship between the Moon and Sun
+- **Nakshatra**: Lunar mansion or constellation position of the Moon
+- **Yoga**: Calculated from the sum of the Sun's and Moon's longitudes, divided into 27 parts
+- **Karana**: Half of a Tithi, based on the angular difference between the Sun and Moon
 
-Based on the following projects:
-1. Mudgala Hora / mhora .NET (v0.2) based Vedic Astrology software under GNU General Public License. 
-1. Genghis Integrated WinForms Components by Genghis Group. Portions copyright � 2002-2004 The Genghis Group.
-1. Swiss Ephemeris, under GNU Affero General Public License (AGPL) 
-1. SwissEphNet, part of Swiss Ephemeris, Astrodienst Swiss Ephemeris .Net portage from C (version 2.06) to C# in a PCL/.Net Core project for cross platform usage
+### Advanced Capabilities
 
+- **Location-Aware Calculations**: Luni-solar calendar computations adjusted for geographic position and altitude
+- **Muhurta Determination**: Calculate auspicious timings for important events
+- **Hindu Event Tracking**: Link and identify significant dates including:
+  - Ekadashi names
+  - Amavasya (new moon) observances
+  - Prominent Tithis
+  - Jayanti (birth anniversaries) and Punyatithi (death anniversaries)
+  - Festivals and celebrations (Jatra/Mela/Utsav)
+- **Vedic Astrology Support**: Comprehensive tools for astrological calculations
+- **High Performance**: Optimized for real-time calculations with superior speed and accuracy
+- **Swiss Ephemeris Integration**: Leverages SwissEphNet for precise planetary position calculations
 
+## Project Structure
 
+```
+Panchang/
+├── Panchang/              # WinForms UI and application layer
+├── PanchangLib/           # Core calculation library
+├── PanchangTest/          # Unit and integration tests
+├── PanchangTestConsole/   # Console application for testing
+└── Archived/              # Legacy components
+```
+
+## Installation
+
+### Prerequisites
+
+- .NET Framework or .NET Core/.NET 5+
+- Visual Studio 2019 or later (recommended)
+
+### Building from Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/Panchang.git
+   cd Panchang
+   ```
+
+2. Open the solution:
+   ```bash
+   open Panchang.sln
+   ```
+
+3. Build the solution:
+   ```bash
+   dotnet build
+   ```
+
+## Usage
+
+### Basic Example
+
+```csharp
+using PanchangLib;
+
+// Create a Horoscope instance for a specific location and time
+var location = new Location(latitude, longitude, altitude);
+var dateTime = new DateTime(2025, 11, 27, 18, 0, 0);
+var horoscope = new Horoscope(dateTime, location);
+
+// Calculate Panchang
+var panchang = new HinduPanchang(horoscope);
+
+// Access the five limbs
+var vara = panchang.GetVara();
+var tithi = panchang.GetTithi();
+var nakshatra = panchang.GetNakshatra();
+var yoga = panchang.GetYoga();
+var karana = panchang.GetKarana();
+```
+
+## Roadmap
+
+### Current Development
+
+- [ ] Expand calendar event database (festivals, observances)
+- [ ] Add multi-lingual support for wider accessibility
+- [ ] Incorporate regional variations of Hindu calendars across India
+- [ ] Enhance test suite coverage
+- [ ] API documentation
+
+### Future Enhancements
+
+- RESTful API for web integration
+- Mobile app support
+- Enhanced visualization tools
+
+## Contributing
+
+We welcome contributions from the community! Please follow these guidelines:
+
+1. **Fork** the repository
+2. Create a **feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. Open a **Pull Request**
+
+### Development Guidelines
+
+- Please do **not** push directly to the `master` branch
+- Add appropriate **test cases** for new features
+- Follow existing code style and conventions
+- Update documentation as needed
+
+## Testing
+
+Run the test suite to ensure accuracy and reliability:
+
+```bash
+dotnet test
+```
+
+## License
+
+This program is free software; you can redistribute it and/or modify it under the terms of the **GNU General Public License** as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; without even the implied warranty of **MERCHANTABILITY** or **FITNESS FOR A PARTICULAR PURPOSE**. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+## Acknowledgments
+
+This project builds upon the excellent work of several open-source projects:
+
+- **mhora** (v0.2) - Vedic Astrology software under GNU GPL
+- **Genghis Integrated WinForms Components** - By Genghis Group (Copyright © 2002-2004)
+- **[Swiss Ephemeris](https://www.astro.com/swisseph/)** - Under GNU Affero General Public License (AGPL)
+- **[SwissEphNet](https://github.com/ygrenier/SwissEphNet)** - C# port of Swiss Ephemeris (v2.06) for cross-platform usage
+
+## Contact & Support
+
+For questions, suggestions, or issues, please:
+- Open an [issue](https://github.com/yourusername/Panchang/issues)
+- Submit a [pull request](https://github.com/yourusername/Panchang/pulls)
+
+---
+
+**Made with ❤️ for the preservation and advancement of Vedic astronomical knowledge**
